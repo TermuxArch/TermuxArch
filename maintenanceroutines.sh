@@ -50,7 +50,6 @@ loadimage() {
 	set -Eeuo pipefail
 	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
-	printf "\\n"
 	exit
 }
 
@@ -107,7 +106,6 @@ refreshsys() { # Refreshes
 	set -Eeuo pipefail
 	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
-	printf "\\n"
 	exit
 }
 
