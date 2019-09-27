@@ -40,9 +40,12 @@ _GSA_() {
 }
 
 _GSA_ docs docsTermuxArch ""
+cd docs
 _GSA_ docs/imgs imgsTermuxArch "-f"
+cd ..
 _GSA_ gen genTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
+cd scripts 
 _GSA_ scripts/frags/dfa dfa "-f"
 
-#EOF
+# gsa.bash EOF
