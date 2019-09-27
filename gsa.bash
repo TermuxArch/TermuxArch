@@ -40,7 +40,7 @@ _GSA_() {
 }
 
 _GSA_ docs docsTermuxArch ""
-_gSA_ docs/imgs imgsTermuxArch "-f"
+_GSA_ docs/imgs imgsTermuxArch "-f"
 _GSA_ gen genTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
 _GSA_ scripts/frags/dfa dfa "-f"
