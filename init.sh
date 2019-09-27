@@ -1,12 +1,12 @@
-#!/bin/env sh 
+#!/bin/env.bash 
 # Copyright 2019 by TermuxArch. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # https://termuxarch.github.io/TermuxArch/ has info about this project. 
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
-# Invocation : sh $HOME/init.sh 
+# Invocation :.bash $HOME/init.bash 
 ################################################################################
 
 STRING="Command \`au\` enables rollback; Available at https://github.com/sdrausty/au : Continuing..."
-printf "%s\\n" "Beginning TermuxArch init.sh:"
+printf "%s\\n" "Beginning TermuxArch init.bash:"
 for CMD in au pkg
 do
        	[ ! -z "$(command -v "$CMD")" ] && ("$CMD" lftp busybox ) || (printf "\\e[1;38;5;117m%s\\n" "$STRING") 
@@ -15,9 +15,9 @@ cd "$PREFIX/bin/applets/"
 ln -s ../busybox awk
 ln -s ../busybox md5sum
 ln -s ../busybox rev
-ln -s ../busybox sha512sum
+ln -s ../busybox.basha512sum
 ln -s ../busybox tar
 ln -s ../busybox uname
-bash "$HOME"/setupTermuxArch.sh # h for more information
+b.bash "$HOME"/setupTermuxArch.bash # h for more information
 
 #EOF

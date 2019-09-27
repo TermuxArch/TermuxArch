@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/env b.bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -9,7 +9,7 @@
 addREADME() {
 	_CFLHDR_ root/bin/README.md 
 	cat > root/bin/README.md <<- EOM
-	This directory contains shortcut commands that automate and ease using the command line.
+	This directory contains.bashortcut commands that automate and ease using the command line.
 	
 	* Comments welcome at https://github.com/sdrausty/TermuxArch/issues ✍ 
 	* Pull requests welcome at https://github.com/sdrausty/TermuxArch/pulls ✍ 
@@ -39,37 +39,37 @@ addauser() {
 	chmod 700 root/bin/addauser 
 }
 
-addbash_logout() {
-	cat > root/.bash_logout <<- EOM
-	if [ ! -e "\$HOME"/.hushlogout ] && [ ! -e "\$HOME"/.chushlogout ] ; then
+addb.bash_logout() {
+	cat > root/.b.bash_logout <<- EOM
+	if [ ! -e "\$HOME"/.h.bashlogout ] && [ ! -e "\$HOME"/.ch.bashlogout ] ; then
 		. /etc/moto
 	fi
 	EOM
 }
 
-addbash_profile() {
-	cat > root/.bash_profile <<- EOM
-	. "\$HOME"/.bashrc
-	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
+addb.bash_profile() {
+	cat > root/.b.bash_profile <<- EOM
+	. "\$HOME"/.b.bashrc
+	if [ ! -e "\$HOME"/.h.bashlogin ] && [ ! -e "\$HOME"/.ch.bashlogin ] ; then
 		. /etc/motd
 	fi
-	if [ -e "\$HOME"/.chushlogin ] ; then
-		rm "\$HOME"/.chushlogin 
+	if [ -e "\$HOME"/.ch.bashlogin ] ; then
+		rm "\$HOME"/.ch.bashlogin 
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
 	for i in "${!LC_TYPE[@]}"; do
-	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
+	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.b.bash_profile 
 	done
-	if [ -e "$HOME"/.bash_profile ] ; then
-		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
+	if [ -e "$HOME"/.b.bash_profile ] ; then
+		grep proxy "$HOME"/.b.bash_profile |grep "export" >>  root/.b.bash_profile 2>/dev/null ||:
 	fi
 }
 
-addbashrc() {
-	cat > root/.bashrc <<- EOM
+addb.bashrc() {
+	cat > root/.b.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
@@ -82,7 +82,7 @@ addbashrc() {
 	alias g='ga; gcm; gp'
 	alias gca='git commit -a'
 	alias gcam='git commit -am'
-	#alias gp='git push https://username:password@github.com/username/repository.git master'
+	#alias gp='git p.bash https://username:password@github.com/username/repository.git master'
 	alias grep='grep --color=always'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
@@ -97,40 +97,40 @@ addbashrc() {
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
-	if [ -e "$HOME"/.bashrc ] ; then
-		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
+	if [ -e "$HOME"/.b.bashrc ] ; then
+		grep proxy "$HOME"/.b.bashrc | grep "export" >>  root/.b.bashrc 2>/dev/null ||:
 	fi
 }
 
 addcdtd() { 
-	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this.bashortcut script work."
 	cat > root/bin/cdtd <<- EOM
-	#!/bin/env bash
+	#!/bin/env b.bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
 	chmod 700 root/bin/cdtd 
 }
 
 addcdth() { 
-	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this.bashortcut script work."
 	cat > root/bin/cdth <<- EOM
-	#!/bin/env bash
+	#!/bin/env b.bash
 	cd "$HOME" && pwd
 	EOM
 	chmod 700 root/bin/cdth 
 }
 
 addcdtmp() { 
-	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
+	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this.bashortcut script work."
 	cat > root/bin/cdtmp <<- EOM
-	#!/bin/env bash
+	#!/bin/env b.bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
 	chmod 700 root/bin/cdtmp 
 }
 
 addch() { 
-	_CFLHDR_ root/bin/ch "# This script creates .hushlogin and .hushlogout files."
+	_CFLHDR_ root/bin/ch "# This script creates .h.bashlogin and .h.bashlogout files."
 	cat >> root/bin/ch <<- EOM
 	declare -a ARGS
 
@@ -155,22 +155,22 @@ addch() {
 
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s\\\e[0m%s…\\\\n\\\\n" "Running" "TermuxArch \$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 
-	if [[ -f "\$HOME"/.hushlogin ]] && [[ -f "\$HOME"/.hushlogout ]] ; then
-		rm "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-		echo "Hushed login and logout: OFF"
-	elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]] ; then
-		touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-		echo "Hushed login and logout: ON"
+	if [[ -f "\$HOME"/.h.bashlogin ]] && [[ -f "\$HOME"/.h.bashlogout ]] ; then
+		rm "\$HOME"/.h.bashlogin "\$HOME"/.h.bashlogout
+		echo "H.bashed login and logout: OFF"
+	elif [[ -f "\$HOME"/.h.bashlogin ]] || [[ -f "\$HOME"/.h.bashlogout ]] ; then
+		touch "\$HOME"/.h.bashlogin "\$HOME"/.h.bashlogout
+		echo "H.bashed login and logout: ON"
 	else
-		touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
-		echo "Hushed login and logout: ON"
+		touch "\$HOME"/.h.bashlogin "\$HOME"/.h.bashlogout
+		echo "H.bashed login and logout: ON"
 	fi
 	EOM
 	chmod 700 root/bin/ch 
 }
 
 addexd() {
-	_CFLHDR_ root/bin/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
+	_CFLHDR_ root/bin/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this.bashortcut script work."
 	cat >> root/bin/exd <<- EOM
 	export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 	EOM
@@ -187,17 +187,17 @@ adddfa() {
 	chmod 700 root/bin/dfa 
 }
 
-addfbindprocshmem() {
-	_CFLHDRS_ var/binds/fbindprocshmem.prs  
-	cat > var/binds/fbindprocshmem.prs  <<- EOM
-	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem " 
+addfbindpro.bashmem() {
+	_CFLHDRS_ var/binds/fbindpro.bashmem.prs  
+	cat > var/binds/fbindpro.bashmem.prs  <<- EOM
+	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindpro.bashmem:/proc.bashmem " 
 	EOM
-	cat > var/binds/fbindprocshmem <<- EOM
+	cat > var/binds/fbindpro.bashmem <<- EOM
 	------ Message Queues --------
 	key        msqid      owner      perms      used-bytes   messages
 	
 	------ Shared Memory Segments --------
-	key        shmid      owner      perms      bytes      nattch     status
+	key       .bashmid      owner      perms      bytes      nattch     status
 	
 	------ Semaphore Arrays --------
 	key        semid      owner      perms      nsems
@@ -273,11 +273,11 @@ _ADDfbindprocstat8_() {
 }
 
 addfbindexample() {
-	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.sh re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
+	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.bash re[fr.bash]\`.  Add as many proot statements as you want; The init script will parse this file at refr.bash.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
-	# if [[ ! -r /dev/shm ]] ; then 
-	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
+	# if [[ ! -r /dev.bashm ]] ; then 
+	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev.bashm " 
 	# fi
 	EOM
 }
@@ -349,13 +349,13 @@ addgpl() {
 }
 
 addgp() {
-	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
+	_CFLHDR_ root/bin/gp "# git p.bash https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
 	if [ ! -e /usr/bin/git ] ; then
 		pacman --noconfirm --color=always -S git 
-		git push
+		git p.bash
 	else
-		git push
+		git p.bash
 	fi
 	EOM
 	chmod 700 root/bin/gp 
@@ -374,7 +374,7 @@ addkeys() {
 	
 	_GENEN_() { # This for loop generates entropy on device for \$t seconds.
 		N=2 # Number of loop generations for generating entropy.
-		T0=256 # Maximum number of seconds loop shall run unless keys completes earlier.
+		T0=256 # Maximum number of seconds loop.bashall run unless keys completes earlier.
 		T1=0.4
 		for I in "\$(seq 1 "\$N")"; do
 			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
@@ -412,14 +412,14 @@ addkeys() {
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
-	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mb.bash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
 	_GENEN_
 	pacman-key --init ||: 
 	chmod 700 /etc/pacman.d/gnupg
 	pacman-key --populate ||: 
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m…\n"
 	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
-	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mb.bash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
 	_GENEN_
 	pacman-key --populate ||: 
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
@@ -513,7 +513,7 @@ addpci() {
 
 addprofile() {
 	cat > root/.profile <<- EOM
-	. "\$HOME"/.bash_profile
+	. "\$HOME"/.b.bash_profile
 	EOM
 	if [ -e "$HOME"/.profile ] ; then
 		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
@@ -563,24 +563,24 @@ addthstartarch() {
 }
 
 addtour() {
-	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new files in ths system." 
+	_CFLHDR_ root/bin/tour "# A.bashort tour that.bashows a few of the new files in ths system." 
 	cat >> root/bin/tour <<- EOM
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mls -R --color=always \$HOME \e[1;37m\n\n"
 	sleep 1
 	ls -R --color=always "\$HOME"
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bash_profile\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.b.bash_profile\e[1;37m\n\n"
 	sleep 1
-	cat "\$HOME"/.bash_profile
+	cat "\$HOME"/.b.bash_profile
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bashrc\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.b.bashrc\e[1;37m\n\n"
 	sleep 1
-	cat "\$HOME"/.bashrc
+	cat "\$HOME"/.b.bashrc
 	sleep 4
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/bin/pci\e[1;37m\n\n"
 	sleep 1
 	cat "\$HOME"/bin/pci
-	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
+	printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you w.bash to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://wiki.archlinux.org/index.php/IRC_channel"
 	EOM
 	chmod 700 root/bin/tour 
 }
