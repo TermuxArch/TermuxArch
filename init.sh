@@ -18,6 +18,6 @@ ln -s ../busybox rev
 ln -s ../busybox.basha512sum
 ln -s ../busybox tar
 ln -s ../busybox uname
-b.bash "$HOME"/setupTermuxArch.bash # h for more information
+bash "$HOME"/setupTermuxArch.bash # h for more information
 
 #EOF

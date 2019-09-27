@@ -1,4 +1,4 @@
-#!/bin/env b.bash
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -37,7 +37,7 @@ bloom() { # Bloom = `setupTermuxArch.bash manual verbose`
 	printf "\\e[1;34mTermuxArch Bloom option via \\e[1;32msetupTermuxArch.bash bloom\\e[0m 📲\\n\\n\\e[0m"'\033]2; TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
 	printf "\\n"
 	ls -agl
-	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mb.bash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
+	printf "\\n\\e[1;34mUse \\e[1;32mcd ~/TermuxArchBloom\\e[1;34m to continue.  Edit any of these files; Then use \\e[1;32mbash $0 [options] \\e[1;34mto run the files in \\e[1;32m~/TermuxArchBloom\\e[1;34m.\\n\\e[0m"'\033]2;  TermuxArch Bloom option via `setupTermuxArch.bash bloom` 📲 \007'
 	exit
 }
 
@@ -221,7 +221,7 @@ spinner() {
 	:
 }
 
-spinnerdepreciated() { # Based on https://github.com/ringohub.bash-spinner
+spinnerdepreciated() { # Based on https://github.com/ringohubash-spinner
  	printf "\\e[?25l\\e[1;32m"
 #  	SPINNER="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 #  	SPINNER="🌑🌒🌓🌔🌕🌖🌗🌘"

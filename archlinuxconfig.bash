@@ -1,4 +1,4 @@
-#!/bin/env b.bash
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -39,17 +39,17 @@ addauser() {
 	chmod 700 root/bin/addauser 
 }
 
-addb.bash_logout() {
-	cat > root/.b.bash_logout <<- EOM
+addbash_logout() {
+	cat > root/.bash_logout <<- EOM
 	if [ ! -e "\$HOME"/.h.bashlogout ] && [ ! -e "\$HOME"/.ch.bashlogout ] ; then
 		. /etc/moto
 	fi
 	EOM
 }
 
-addb.bash_profile() {
-	cat > root/.b.bash_profile <<- EOM
-	. "\$HOME"/.b.bashrc
+addbash_profile() {
+	cat > root/.bash_profile <<- EOM
+	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.h.bashlogin ] && [ ! -e "\$HOME"/.ch.bashlogin ] ; then
 		. /etc/motd
 	fi
@@ -61,15 +61,15 @@ addb.bash_profile() {
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
 	for i in "${!LC_TYPE[@]}"; do
-	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.b.bash_profile 
+	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
 	done
-	if [ -e "$HOME"/.b.bash_profile ] ; then
-		grep proxy "$HOME"/.b.bash_profile |grep "export" >>  root/.b.bash_profile 2>/dev/null ||:
+	if [ -e "$HOME"/.bash_profile ] ; then
+		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
 	fi
 }
 
-addb.bashrc() {
-	cat > root/.b.bashrc <<- EOM
+addbashrc() {
+	cat > root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
@@ -97,15 +97,15 @@ addb.bashrc() {
 	alias q='logout'
 	alias rf='rm -rf'
 	EOM
-	if [ -e "$HOME"/.b.bashrc ] ; then
-		grep proxy "$HOME"/.b.bashrc | grep "export" >>  root/.b.bashrc 2>/dev/null ||:
+	if [ -e "$HOME"/.bashrc ] ; then
+		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
 	fi
 }
 
 addcdtd() { 
 	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this.bashortcut script work."
 	cat > root/bin/cdtd <<- EOM
-	#!/bin/env b.bash
+	#!/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
 	chmod 700 root/bin/cdtd 
@@ -114,7 +114,7 @@ addcdtd() {
 addcdth() { 
 	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this.bashortcut script work."
 	cat > root/bin/cdth <<- EOM
-	#!/bin/env b.bash
+	#!/bin/env bash
 	cd "$HOME" && pwd
 	EOM
 	chmod 700 root/bin/cdth 
@@ -123,7 +123,7 @@ addcdth() {
 addcdtmp() { 
 	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this.bashortcut script work."
 	cat > root/bin/cdtmp <<- EOM
-	#!/bin/env b.bash
+	#!/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
 	chmod 700 root/bin/cdtmp 
@@ -412,14 +412,14 @@ addkeys() {
 	printf '\033]2;  🔑🗝 TermuxArch '"\$(basename "\$0") \$ARGS"' 📲 \007'
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s…\\\\n" "Running" "TermuxArch" "\$(basename "\$0")" "\$ARGS" "\$VERSIONID"  
 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null ||: 
-	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mb.bash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[0;37mgpg: Generating pacman keyring master key\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to and watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --init\e[0;32m…\n"
 	_GENEN_
 	pacman-key --init ||: 
 	chmod 700 /etc/pacman.d/gnupg
 	pacman-key --populate ||: 
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -S \$ARGS --noconfirm --color=always\e[0;32m…\n"
 	pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always ||: 
-	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mb.bash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
+	printf "\n\e[0;34mWhen \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \n\nThe program \e[1;32mpacman-key\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with.bashort and long taps.  When \e[1;37mAppending keys from archlinux.gpg\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \e[1;32mbash ~${DARCH}/bin/we \e[0;34min a new Termux session to watch entropy on device.\n\n\e[1;32m==>\e[0m Running \e[1mpacman-key --populate\e[0;32m…\n"
 	_GENEN_
 	pacman-key --populate ||: 
 	printf "\n\e[1;32m==>\e[0m Running \e[1mpacman -Ss keyring --color=always\e[0m…\n"
@@ -513,7 +513,7 @@ addpci() {
 
 addprofile() {
 	cat > root/.profile <<- EOM
-	. "\$HOME"/.b.bash_profile
+	. "\$HOME"/.bash_profile
 	EOM
 	if [ -e "$HOME"/.profile ] ; then
 		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null||:
@@ -569,13 +569,13 @@ addtour() {
 	sleep 1
 	ls -R --color=always "\$HOME"
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.b.bash_profile\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bash_profile\e[1;37m\n\n"
 	sleep 1
-	cat "\$HOME"/.b.bash_profile
+	cat "\$HOME"/.bash_profile
 	sleep 4
-	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.b.bashrc\e[1;37m\n\n"
+	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/.bashrc\e[1;37m\n\n"
 	sleep 1
-	cat "\$HOME"/.b.bashrc
+	cat "\$HOME"/.bashrc
 	sleep 4
 	printf "\n\e[1;32m==> \e[1;37mRunning \e[1;32mcat \$HOME/bin/pci\e[1;37m\n\n"
 	sleep 1

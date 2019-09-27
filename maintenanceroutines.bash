@@ -1,4 +1,4 @@
-#!/bin/env b.bash
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -73,8 +73,8 @@ refr.bashsys() { # Refr.bashes
 	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.b.bashrc |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.b.bash_profile |cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bash_profile |cut -f7- -d /
 	ls "$INSTALLDIR"/root/.profile |cut -f7- -d /
 	ls "$INSTALLDIR"/root/bin/* |cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]] 
@@ -84,12 +84,12 @@ refr.bashsys() { # Refr.bashes
 		do
 			if [[ "$USER" != alarm ]] 
 			then
-				cp "$INSTALLDIR"/root/.b.bashrc "$INSTALLDIR"/home/$USER
-				cp "$INSTALLDIR"/root/.b.bash_profile "$INSTALLDIR"/home/$USER
+				cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR"/home/$USER
+				cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR"/home/$USER
 				cp "$INSTALLDIR"/root/.profile "$INSTALLDIR"/home/$USER
 				cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR"/home/$USER/bin
-			       	ls "$INSTALLDIR"/home/$USER/.b.bashrc |cut -f7- -d /
-			       	ls "$INSTALLDIR"/home/$USER/.b.bash_profile |cut -f7- -d /
+			       	ls "$INSTALLDIR"/home/$USER/.bashrc |cut -f7- -d /
+			       	ls "$INSTALLDIR"/home/$USER/.bash_profile |cut -f7- -d /
 			       	ls "$INSTALLDIR"/home/$USER/.profile |cut -f7- -d /
 			       	ls "$INSTALLDIR"/home/$USER/bin/* |cut -f7- -d /
 			fi

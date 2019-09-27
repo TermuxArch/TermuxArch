@@ -1,4 +1,4 @@
-#!/bin/env b.bash
+#!/bin/env bash
 # Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -12,9 +12,9 @@ _ADDADDS_() {
 	addREADME
 	addae
 	addauser
-	addb.bash_logout 
-	addb.bash_profile 
-	addb.bashrc 
+	addbash_logout 
+	addbash_profile 
+	addbashrc 
 	addcdtd
 	addcdth
 	addcdtmp
@@ -168,11 +168,11 @@ _MAKEFINISHSETUP_() {
 	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
-	if [[ -e "$HOME"/.b.bash_profile ]];then
-		grep "proxy" "$HOME"/.b.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	if [[ -e "$HOME"/.bash_profile ]];then
+		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.b.bashrc ]];then
-		grep "proxy" "$HOME"/.b.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	if [[ -e "$HOME"/.bashrc ]];then
+		grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
 	if [[ -e "$HOME"/.profile ]];then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
@@ -220,7 +220,7 @@ _MAKESTARTBIN_() {
 	if [[ -z "\${1:-}" ]];then
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/b.bash -l ||: " >> "$STARTBIN"
+		echo "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
@@ -233,7 +233,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.ch.bashlogin
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/b.bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
+		echo "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command ARGS 📲  \007'
