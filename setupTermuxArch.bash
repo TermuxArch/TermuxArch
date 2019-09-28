@@ -809,4 +809,4 @@ else
 	_PRINTUSAGE_
 fi
 
-# EOF
+# setupTermuxArch.bash EOF

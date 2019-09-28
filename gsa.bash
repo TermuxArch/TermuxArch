@@ -45,4 +45,4 @@ _GSA_ gens gensTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
 _GSA_ scripts/frags/dfa dfa "-f"
 
-#EOF
+# gsa.bash EOF

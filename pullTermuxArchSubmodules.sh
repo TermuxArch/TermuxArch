@@ -8,3 +8,5 @@ set  -e
 git pull 
 git submodule update --init 
 git submodule update --init --recursive --remote
+
+# pullTermuxArchSubmodules.sh EOF
