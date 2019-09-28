@@ -41,11 +41,11 @@ _GSA_() {
 
 _GSA_ docs docsTermuxArch ""
 cd docs
-_GSA_ docs/imgs imgsTermuxArch "-f"
+_GSA_ imgs imgsTermuxArch "-f"
 cd ..
 _GSA_ gen genTermuxArch ""
-_GSA_ scripts scriptsTermuxArch ""
-cd scripts/frags 
-_GSA_ scripts/frags/dfa dfa "-f"
+_GSA_ scrIPts scriptsTermuxArch ""
+cd scripts
+_GSA_ frags/dfa dfa "-f"
 
 # gsa.bash EOF
