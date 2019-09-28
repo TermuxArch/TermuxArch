@@ -16,7 +16,7 @@ _FTCHIT_() {
 	elif [[ "$dm" = lftp ]] ; then
 		lftpget -c http://"$CMIRROR$path$file".md5 http://"$CMIRROR$path$file"
 	elif [[ "$dm" = wget ]];then 
-		wget "$DMVERBOSE" -c -.bashow-progress -N http://"$CMIRROR$path$file".md5 http://"$CMIRROR$path$file" 
+		wget "$DMVERBOSE" -c --show-progress -N http://"$CMIRROR$path$file".md5 http://"$CMIRROR$path$file" 
 	else
 		curl "$DMVERBOSE" -C - --fail --retry 4 -OL http://"$CMIRROR$path$file".md5 -O http://"$CMIRROR$path$file" 
 	fi
@@ -52,7 +52,7 @@ _FTCHSTND_() {
 		NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $2'})" 
 		_PRINTDONE_ 
 		_PRINTDOWNLOADINGFTCH_ 
-		wget "$DMVERBOSE" -c -.bashow-progress "$NLCMIRROR$path$file".md5 "$NLCMIRROR$path$file" 
+		wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR$path$file".md5 "$NLCMIRROR$path$file" 
 	else
 		curl -v "$CMIRROR" 2>"$TAMPDIR/global2localmirror"
 		_FMIRROR_
@@ -81,9 +81,9 @@ _GETIMAGE_() {
 		_ISX86_
 		lftpget -c http://"$CMIRROR$path$file"
 	elif [[ "$dm" = wget ]];then 
-		wget "$DMVERBOSE" -N -.bashow-progress http://"$CMIRROR$path"md5sums.txt
+		wget "$DMVERBOSE" -N --show-progress http://"$CMIRROR$path"md5sums.txt
 		_ISX86_
-		wget "$DMVERBOSE" -c -.bashow-progress http://"$CMIRROR$path$file" 
+		wget "$DMVERBOSE" -c --show-progress http://"$CMIRROR$path$file" 
 	else
 		curl "$DMVERBOSE" --fail --retry 4 -OL http://"$CMIRROR$path"md5sums.txt
 		_ISX86_

@@ -6,7 +6,7 @@
 # _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
-copyimage() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`
+copyimage() { # A systemimage.tar.gz file can be used: `setupTermuxArch.sh ./[path/]systemimage.tar.gz` and `setupTermuxArch.sh /absolutepath/systemimage.tar.gz`
  	cfile="${1##/*/}" 
 	file="$(basename "$cfile")" 
 # 	echo $file
@@ -53,8 +53,8 @@ loadimage() {
 	exit
 }
 
-refr.bashsys() { # Refr.bashes
-	printf '\033]2; setupTermuxArch.bash refr.bash 📲 \007'
+refreshsys() { # Refreshes
+	printf '\033]2; setupTermuxArch.sh refresh 📲 \007'
  	_NAMESTARTARCH_  
  	_SPACEINFO_
 	cd "$INSTALLDIR"
@@ -67,9 +67,9 @@ refr.bashsys() { # Refr.bashes
 	printf "\\n" 
 	_WAKELOCK_
 	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s 📲 \\a\\n" "Running" "$(basename "$0")" "$ARGS" 
-	"$INSTALLDIR"/root/bin/setupbin.bash ||: 
- 	rm -f root/bin/fin.bashsetup.bash
- 	rm -f root/bin/setupbin.bash 
+	"$INSTALLDIR"/root/bin/setupbin.sh ||: 
+ 	rm -f root/bin/finishsetup.sh
+ 	rm -f root/bin/setupbin.sh 
 	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
@@ -160,13 +160,13 @@ _SPACEINFOQ_() {
 		if [[ -n "$SPACEMESSAGE" ]] ; then
 			while true; do
 				printf "\\n\\e[1;30m"
-				read -n 1 -p "Continue with setupTermuxArch.bash? [Y|n] " suanswer
+				read -n 1 -p "Continue with setupTermuxArch.sh? [Y|n] " suanswer
 				if [[ "$suanswer" = [Ee]* ]] || [[ "$suanswer" = [Nn]* ]] || [[ "$suanswer" = [Qq]* ]] ; then
 					printf "\\n" 
 					exit $?
 				elif [[ "$suanswer" = [Yy]* ]] || [[ "$suanswer" = "" ]] ; then
 					suanswer=yes
-					printf "Continuing with setupTermuxArch.bash.\\n"
+					printf "Continuing with setupTermuxArch.sh.\\n"
 					break
 				else
 					printf "\\nYou answered \\e[33;1m$suanswer\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n"
@@ -206,7 +206,7 @@ _SYSINFO_() {
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information…" 
 	printf "\\e[38;5;76m"
 	cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-	printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch.bash\`;  Include input and output, along with scree.bashot(s) relavent to X, and similar.\\n\\n"
+	printf "\\n\\e[1mThis information may be quite important when planning issue(s) at https://github.com/sdrausty/TermuxArch/issues with the hope of improving \`setupTermuxArch.sh\`;  Include input and output, along with screenshot(s) relavent to X, and similar.\\n\\n"
 	exit
 }
 
@@ -229,10 +229,10 @@ _SYSTEMINFO_ () {
 	if [[ -d "$HOME"/downloads ]]; then echo "$HOME/downloads exists"; else echo "~/downloads not found"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -d "$HOME"/storage/downloads ]]; then echo "$HOME/storage/downloads exists"; else echo "$HOME/storage/downloads not found"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	printf "\\nDevice information results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-	if [[ -e /dev/.bashmem ]]; then echo "/dev/.bashmem exists"; else echo "/dev/.bashmem does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
-	if [[ -r /dev/.bashmem ]]; then echo "/dev/.bashmem is readable"; else echo "/dev/.bashmem is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
-	if [[ -e /dev.bashm ]]; then echo "/dev.bashm exists"; else echo "/dev.bashm does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
-	if [[ -r /dev.bashm ]]; then echo "/dev.bashm is readable"; else echo "/dev.bashm is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	if [[ -e /dev/ashmem ]]; then echo "/dev/ashmem exists"; else echo "/dev/ashmem does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	if [[ -r /dev/ashmem ]]; then echo "/dev/ashmem is readable"; else echo "/dev/ashmem is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	if [[ -e /dev/shm ]]; then echo "/dev/shm exists"; else echo "/dev/shm does not exist"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
+	if [[ -r /dev/shm ]]; then echo "/dev/shm is readable"; else echo "/dev/shm is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -e /proc/stat ]]; then echo "/proc/stat exits"; else echo "/proc/stat does not exit"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
 	if [[ -r /proc/stat ]]; then echo "/proc/stat is readable"; else echo "/proc/stat is not readable"; fi >> "${WDIR}setupTermuxArchSysInfo$STIME".log 
  	printf "\\ngetprop results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
@@ -266,7 +266,7 @@ _SYSTEMINFO_ () {
 	printf "\\nls -al $INSTALLDIR results:\\n\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 	ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 	printf "\\nEnd \`setupTermuxArchSysInfo$STIME.log\` $VERSIONID system information.\\n\\e[0m" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-	printf "\\nShare this information along with your issue at https://github.com/sdrausty/TermuxArch/issues; include input and output.  This file is found in \`""${WDIR}setupTermuxArchSysInfo$STIME.log\`.  If you think scree.bashots will help in a quicker resolution, include them in the post as well.  \\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+	printf "\\nShare this information along with your issue at https://github.com/sdrausty/TermuxArch/issues; include input and output.  This file is found in \`""${WDIR}setupTermuxArchSysInfo$STIME.log\`.  If you think screenshots will help in a quicker resolution, include them in the post as well.  \\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
 USERSPACE() {
