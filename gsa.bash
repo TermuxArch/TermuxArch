@@ -41,7 +41,7 @@ _GSA_() {
 
 _GSA_ docs docsTermuxArch ""
 _GSA_ docs/imgs imgsTermuxArch "-f"
-_GSA_ gens gensTermuxArch ""
+_GSA_ gen genTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
 _GSA_ scripts/frags/dfa dfa "-f"
 
