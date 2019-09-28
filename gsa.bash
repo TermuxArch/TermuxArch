@@ -45,7 +45,7 @@ _GSA_ docs/imgs imgsTermuxArch "-f"
 cd ..
 _GSA_ gen genTermuxArch ""
 _GSA_ scripts scriptsTermuxArch ""
-cd scripts 
+cd scripts/frags 
 _GSA_ scripts/frags/dfa dfa "-f"
 
 # gsa.bash EOF
