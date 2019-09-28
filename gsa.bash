@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT 
 
 _GSA_() {
-	(git submodule add $3 https://github.com/termuxarch/$2 $1) || (echo ; echo "Cannot update $2: continuing...") 
+	(git submodule add $3 https://github.com/termuxarch/$2 $1) || ./pullTermuxArchSubmodules.sh || (echo ; echo "Cannot update $2: continuing...") 
 }
 
 _GSA_ docs docsTermuxArch ""
@@ -44,7 +44,7 @@ cd docs
 _GSA_ imgs imgsTermuxArch "-f"
 cd ..
 _GSA_ gen genTermuxArch ""
-_GSA_ scrIPts scriptsTermuxArch ""
+_GSA_ scripts scriptsTermuxArch ""
 cd scripts
 _GSA_ frags/dfa dfa "-f"
 
