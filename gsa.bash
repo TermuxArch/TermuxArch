@@ -1,6 +1,6 @@
 #!/bin/env bash
 # Copyright 2019 (c) all rights reserved 
-# by S D Rausty https://sdrausty.github.io
+# by S D Rausty https://termuxarch.github.io/TermuxArch/
 #####################################################################
 set -Eeuo pipefail
 shopt -s nullglob globstar
@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT 
 
 _GSA_() {
-	(git submodule add $3 https://github.com/sdrausty/$2 $1) || (echo ; echo "Cannot update $2: continuing...") 
+	(git submodule add $3 https://github.com/termuxarch/$2 $1) || (echo ; echo "Cannot update $2: continuing...") 
 }
 
 _GSA_ docs docsTermuxArch ""
