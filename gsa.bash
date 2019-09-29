@@ -7,7 +7,7 @@ shopt -s nullglob globstar
 
 _SGSATRPERROR_() { # Run on script error.
 	local RV="$?"
-	echo "$RV"
+	printf "\\n%s\\n" "$RV"
 	printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "gsa.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 	exit 179
 }
@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT 
 
 _GSA_() {
-	(git submodule add $3 https://github.com/termuxarch/$2 $1) || ./pullTermuxArchSubmodules.sh || (echo ; echo "Cannot update $2: continuing...") 
+	(git submodule add $3 https://github.com/termuxarch/$2 $1) || ./pullTermuxArchSubmodules.sh || (printf "\\n\\n%s\\n" "Cannot update $2 : Continuing...") 
 }
 
 _GSA_ docs docsTermuxArch ""
