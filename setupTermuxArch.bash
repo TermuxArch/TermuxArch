@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v2.0.id0400"
+VERSIONID="v2.0.id0401"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -129,7 +129,7 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available.
 depends() { # Checks for missing commands.  
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
-	ATM=([busybox]=applets/tar [tar]=tar [bsdtar]=bsdtar)
+	ATM=([tar]=tar [bsdtar]=bsdtar)
 	if [[ "$dm" != "" ]] 
 	then
 		_DEPENDIFDM_
