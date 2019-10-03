@@ -66,7 +66,7 @@ refreshsys() { # Refreshes
 	_SETLOCALE_
 	printf "\\n" 
 	_WAKELOCK_
-	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s ðŸ“² \\a\\n" "Running" "$(basename "$0")" "$ARGS" 
+	printf "\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s ðŸ“\\n" "Running" "$(basename "$0")" "$ARGS" 
 	"$INSTALLDIR"/root/bin/setupbin.bash ||: 
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash 
@@ -98,9 +98,6 @@ refreshsys() { # Refreshes
 	printf "\\n" 
 	_WAKEUNLOCK_ 
 	_PRINTFOOTER_ 
-	printf "\\a"
-	sleep 0.015
-	printf "\\a"
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail

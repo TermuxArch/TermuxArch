@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v2.0.id0402"
+VERSIONID="v2.0.id0403"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -550,10 +550,10 @@ _STRPEXIT_() { # Run on exit.
  	rm -rf "$TAMPDIR"
 	sleep 0.04
 	if [[ "$RV" = 0 ]] ; then
-		printf "\\a\\e[0;32m%s %s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
+		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
 		printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
 	else
-		printf "\\a\\e[0;32m%s %s \\a\\e[0m$VERSIONID\\e[1;34m: \\a\\e[1;32m%s %s\\e[0m\\n\\n\\a\\e[0m" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
+		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s %s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
 		printf "\033]2; %s: %s %s \\007" "${0##*/} $ARGS" "[Exit Signal $RV]" "DONE 🏁 "
 	fi
 	printf "\\e[?25h\\e[0m"
