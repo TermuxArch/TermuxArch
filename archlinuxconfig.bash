@@ -589,7 +589,7 @@ addtour() {
 addtrim() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 … \\\\e[0m\\\\n\\\\n" 
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning \$0 $@\\\\e[0m\\\\n\\\\n" 
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
