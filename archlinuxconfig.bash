@@ -507,6 +507,7 @@ addpci() {
 	else
 	pacman --noconfirm --color=always -Syu "\$@" 
 	fi
+	# pci EOF
 	EOM
 	chmod 700 root/bin/pci 
 }
