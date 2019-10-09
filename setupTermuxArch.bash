@@ -9,7 +9,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v2.0.id0406"
+VERSIONID="v2.0.1"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -24,7 +24,7 @@ _ARG2DIR_() {  # Argument as ROOTDIR.
 }
 
 _BSDTARIF_() {
-	if [[ ! -x "$(command -v bsdtar)" ]] || [[ ! -x "$PREFIX"/bin/bsdtar ]] 
+	if [[ ! -x "$(command -v bsdtar)" ]] 
 	then
 		APTIN+="bsdtar "
 		APTON+=(bsdtar)
@@ -90,7 +90,7 @@ _DEPENDBP_() {
 _DEPENDDM_() { # Checks and sets dm. 
 	for pkg in "${!ADM[@]}" 
 	do
-		if [[ -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+		if [[ -x $(command -v "${ADM[$pkg]}") ]] 
 		then
  			dm="$pkg" 
  			echo 
@@ -103,7 +103,7 @@ _DEPENDDM_() { # Checks and sets dm.
 _DEPENDTM_() { # Checks and sets tm. 
 	for pkg in "${!ATM[@]}" 
 	do
-		if [[ -x "$PREFIX"/bin/"${ATM[$pkg]}" ]] 
+		if [[ -x $(command -v "${ATM[$pkg]}") ]] 
 		then
  			tm="$pkg" 
  			echo 
@@ -116,7 +116,7 @@ _DEPENDTM_() { # Checks and sets tm.
 _DEPENDIFDM_() { # checks if download tool is set and sets install if available. 
  	for pkg in "${!ADM[@]}" # check from available toolset and set one for install if available on device. 
 	do #	check for both set dm and if tool exists on device. 
- 		if [[ "$dm" = "$pkg" ]] && [[ ! -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] 
+ 		if [[ "$dm" = "$pkg" ]] && if [[ ! -x $(command -v "${ADM[$pkg]}") ]] 
 		then #	sets both download tool for install and exception check. 
  			APTIN+="$pkg "
 			APTON+=("${ADM[$pkg]}")
@@ -383,7 +383,8 @@ _PECHK_() {
 		pe @APTON
 	fi
 	for pkg in "${!ADM[@]}" ; do
-		if [[ -x "$PREFIX"/bin/"${ADM[$pkg]}" ]] ; then
+		if [[ -x $(command -v "${ADM[$pkg]}") ]] 
+		then
 			:
 		fi
 	done
@@ -438,7 +439,8 @@ _PRINTUSAGE_() {
 }
 
 _PROOTIF_() {
-	if [[ ! -x "$(command -v proot)" ]] ||  [[ ! -x "$PREFIX"/bin/proot ]] ; then
+	if [[ ! -x "$(command -v proot)" ]]
+	then
 		APTIN+="proot "
 		APTON+=(proot)
 	fi
@@ -527,7 +529,8 @@ standardid() {
 }
 
 _STANDARDIF_() {
-	if [[ -x "$(command -v proot)" ]] &&  [[ -x "$PREFIX"/bin/proot ]] ; then
+	if [[ -x "$(command -v proot)" ]]
+	then
 		:
 	else
 		APTIN+="proot "
