@@ -12,13 +12,13 @@ f6ef970b0a94351c85e62901d9a08b55  ./getimagefunctions.bash
 98cce778a8b9a8d3b42aaef42675e51b  ./init.sh
 9aa532c61e54d489d077b4a60817f713  ./knownconfigurations.bash
 8657e44666177af29af9f779ad141607  ./maintenanceroutines.bash
-542f5b3747d3142fa8cb8a6d6870c20e  ./necessaryfunctions.bash
+fc678021f41eae0e29683b424b5e6827  ./necessaryfunctions.bash
 f4b45c333fe61d31d48e42b087e6ae3b  ./printoutstatements.bash
 5f5c60cbd6adb86de4cfab7f4f5d4e70  ./pullTermuxArchSubmodules.sh
 f1515b0970e9947fa60051f388cf5ac5  ./robots.txt
 dfb62edbf1b51685dd75f91e148271b1  ./setupTermuxArch.bash
 dfb62edbf1b51685dd75f91e148271b1  ./setupTermuxArch.sh
-fbad87ed3bbc1ee5acfb40e25cb49fc3  ./setupTermuxArch.sha512
-e16a23169a1587eb0545392bac6ba54e  ./setupTermuxArch.tar.gz
+c81c6f79c742b35bb8e8ddd2e5a42385  ./setupTermuxArch.sha512
+6aa7840423333cc112fd14109ea48a91  ./setupTermuxArch.tar.gz
 7bc1168b08feec2807dae6298a12922e  ./sitemap.txt
 9124f3649523d1de6472c67c884a5038  ./tgen.bash
