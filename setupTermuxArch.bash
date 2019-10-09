@@ -1,15 +1,13 @@
 #!/bin/env bash
 # Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
-# https://termuxarch.github.io/TermuxArch/README has info about this project. 
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v2.0.1.1"
+VERSIONID="v2.0.1.2"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -59,7 +57,7 @@ _CHKDWN_() {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null 
 	then
 		printf "\\e[0;34m%s\\e[1;34m%s%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK"
-		proot --link2symlink -0 bsdtar xf setupTermuxArch.tar.gz 
+		proot --link2symlink -0 bsdtar -xpf setupTermuxArch.tar.gz 
 	else
 		_PRINTSHA512SYSCHKER_
 	fi
