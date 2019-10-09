@@ -16,9 +16,9 @@ e96afd14713c2cd6ed95c33990773a3f35eb0d19  ./init.sh
 16224d703772d133be752dd8a463a2ef60238ec2  ./printoutstatements.bash
 6e2b2af43eea00dfb2afbccd8ec0faa51bde852f  ./pullTermuxArchSubmodules.sh
 96ddd23c1e177a891d15f5cf9eb2470ceecdf0b7  ./robots.txt
-812b89e523bcfaa40784c49eab0b590aab1d3c3a  ./setupTermuxArch.bash
-812b89e523bcfaa40784c49eab0b590aab1d3c3a  ./setupTermuxArch.sh
-9ec81f8619bd2b0d9a78bccd297530a60ab15802  ./setupTermuxArch.sha512
-b8670c6c4826b265067e687a34e32e51803740a4  ./setupTermuxArch.tar.gz
+901f825b91bf5b03448a17de2b9716d4e501ade2  ./setupTermuxArch.bash
+901f825b91bf5b03448a17de2b9716d4e501ade2  ./setupTermuxArch.sh
+9991bf7b6a78e60281715a6ff120850d0653cf1f  ./setupTermuxArch.sha512
+21e4a1a3424753c6e4e2e0a01dd5e8b822fa42d1  ./setupTermuxArch.tar.gz
 52f00c7bb116c6c35a98dfeb1f8a317e83706f4a  ./sitemap.txt
-f43f7b2e9557df43323e564f8316f2210c30f1a0  ./tgen.bash
+031e5567623aec1702cde67253e9224fad7ed689  ./tgen.bash

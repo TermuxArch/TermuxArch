@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="v2.0.1.2"
+VERSIONID="v2.0.1.3"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -57,7 +57,7 @@ _CHKDWN_() {
 	if sha512sum -c setupTermuxArch.sha512 1>/dev/null 
 	then
 		printf "\\e[0;34m%s\\e[1;34m%s%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK"
-		proot --link2symlink -0 bsdtar -xpf setupTermuxArch.tar.gz 
+		bsdtar -xpf setupTermuxArch.tar.gz 
 	else
 		_PRINTSHA512SYSCHKER_
 	fi
