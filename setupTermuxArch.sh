@@ -116,7 +116,7 @@ _DEPENDTM_() { # Checks and sets tm.
 _DEPENDIFDM_() { # checks if download tool is set and sets install if available. 
  	for pkg in "${!ADM[@]}" # check from available toolset and set one for install if available on device. 
 	do #	check for both set dm and if tool exists on device. 
- 		if [[ "$dm" = "$pkg" ]] && if [[ ! -x $(command -v "${ADM[$pkg]}") ]] 
+ 		if [[ "$dm" = "$pkg" ]] && [[ ! -x $(command -v "${ADM[$pkg]}") ]] 
 		then #	sets both download tool for install and exception check. 
  			APTIN+="$pkg "
 			APTON+=("${ADM[$pkg]}")

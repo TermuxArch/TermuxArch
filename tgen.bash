@@ -48,10 +48,10 @@ cp setupTermuxArch.bash gen/
 cd gen/
 sha512sum *.bash > termuxarchchecksum.sha512
 sha512sum -c termuxarchchecksum.sha512
-tar zcf ../setupTermuxArch.tar.gz *
+bsdtar zcf ../setupTermuxArch.tar.gz *
 cd ..
 rm -f gen/*
 sha512sum setupTermuxArch.tar.gz > setupTermuxArch.sha512
 sha512sum -c setupTermuxArch.sha512
-
+./do.trees.bash
 # tgen.bash EOF
