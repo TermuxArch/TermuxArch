@@ -1,20 +1,20 @@
-##### -r--r--r-- [archsystemconfigs.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/archlinuxconfig.sh)
+##### -r--r--r-- [archsystemconfigs.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/archlinuxconfig.bash)
 
-##### -r--r--r-- [espritfunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/espritfunctions.sh)
+##### -r--r--r-- [espritfunctions.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/espritfunctions.bash)
 
-##### -r--r--r-- [getimagefunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/getimagefunctions.sh)
+##### -r--r--r-- [getimagefunctions.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/getimagefunctions.bash)
 
-##### -r--r--r-- [knownconfigurations.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/knownconfigurations.sh)
+##### -r--r--r-- [knownconfigurations.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/knownconfigurations.bash)
 
-##### -r--r--r-- [necessaryfunctions.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/necessaryfunctions.sh)
+##### -r--r--r-- [necessaryfunctions.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/necessaryfunctions.bash)
 
-##### -r--r--r-- [printoutstatements.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/printoutstatements.sh)
+##### -r--r--r-- [printoutstatements.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/printoutstatements.bash)
 
-##### -r--r--r-- [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.sh)
+##### -r--r--r-- [setupTermuxArch.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.bssh)
 
-##### -rw-rw-rw- [setupTermuxArch.tar.gz](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz)
+##### -rwxrwxrwx [setupTermuxArch.tar.gz](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz)
 
-##### -r--r--r-- [systemmaintenance.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/maintenanceroutines.sh)
+##### -r--r--r-- [systemmaintenance.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/maintenanceroutines.bash)
 
 ## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
 
