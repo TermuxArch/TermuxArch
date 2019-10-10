@@ -16,7 +16,7 @@
 
 ##### -r--r--r-- [systemmaintenance.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/maintenanceroutines.bash)
 
-## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.sh](https://raw.githubusercontent.com/sdrausty/TermuxArch/master/setupTermuxArch.tar.gz) 📲 __Thank you for contributing and collaborating!__  
+## Contributions have helped in the successful development of this script and project immensely.  The following contributors have helped to refine [setupTermuxArch.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.bash) 📲 __Thank you for contributing and collaborating!__  
 
 [![Join the chat at https://gitter.im/termux](https://badges.gitter.im/termux/termux.svg)](https://gitter.im/termux)  Termux developers welcome.   
 

@@ -1,25 +1,25 @@
 #!/bin/env bash
 # Copyright 2019 (c) all rights reserved
 # by S D Rausty https://sdrausty.github.io
-# Checks sha512sum files: sha512sum -c ztrees.ha512sum.sum
-# Creates ztree.*.sum files: ./do.trees.bash
+# Checks sha512sum file: sha512sum -c ztree.sha512.sum
+# Creates ztree.*.sum files and commits: ./do.trees.bash
 #####################################################################
 set -eu
 rm -f *.sum
 FILELIST=( $(find . -type f | grep -v .git | sort) )
 CHECKLIST=(md5sum sha1sum sha224sum sha256sum sha384sum sha512sum)
-for SCHECK in "${CHECKLIST[@]}"
+for SCHECK in ${CHECKLIST[@]}
 do
 	for FILE in "${FILELIST[@]}"
 	do
  		printf "%s\\n" "Creating $SCHECK for $FILE..."
-		"$SCHECK" "$FILE" >> ztree."$SCHECK".sum
+		$SCHECK "$FILE" >> ztree.${SCHECK::-3}.sum
 	done
 done
-for SRCHECK in  "${CHECKLIST[@]}"
+for SCHECK in  ${CHECKLIST[@]}
 do
-	printf "\\nChecking $SRCHECK...\\n"
-	"$SRCHECK" -c ztree."$SRCHECK".sum
+	printf  "\\n%s\\n" "Checking $SCHECK..."
+	$SCHECK -c ztree.${SCHECK::-3}.sum
 done
 git add .
 git commit
