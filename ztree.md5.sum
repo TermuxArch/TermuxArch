@@ -6,7 +6,6 @@ c340b9f11b778854d46726cdfe43508c  ./NOTICE.md
 e9926452969c60dee7c4a311d43cb105  ./README.md
 91121fe4a376ac1d5b3d765c0141e164  ./archlinuxconfig.bash
 a9cf1031b26270bf67082092e11e7874  ./do.sums.bash
-79e88a44580e742116cd042bf6b28d5a  ./do.trees.bash
 69c8cce52956092ca34d68043810ddd2  ./espritfunctions.bash
 f6ef970b0a94351c85e62901d9a08b55  ./getimagefunctions.bash
 25b44dcf227d64ebfdf8c18a39c548b6  ./gsa.bash
@@ -22,4 +21,4 @@ f1515b0970e9947fa60051f388cf5ac5  ./robots.txt
 d14d3792b3576ba01912043358020d06  ./setupTermuxArch.sha512
 33235ee618a03e0d5e63d3a9ef18b423  ./setupTermuxArch.tar.gz
 7bc1168b08feec2807dae6298a12922e  ./sitemap.txt
-f0f393741e023bbed2465be346932800  ./tgen.bash
+8da92bc07543a2babdf95f67be7174b0  ./tgen.bash
