@@ -1,13 +1,14 @@
 #!/bin/env bash
 # Copyright 2019 (c) all rights reserved by S D Rausty; see LICENSE  
-# https://sdrausty.github.io courtesy https://pages.github.com
-# To check sha512sum file use; sha512sum -c ztree.sha512.sum
+# https://sdrausty.github.io hosted courtesy https://pages.github.com
 # To create checksum files and commit use; ./do.sums.bash
+# To see file tree use; awk '{print $2}' ztree.sha512.sum
+# To check the files use; sha512sum -c ztree.sha512.sum
 #####################################################################
 set -eu
 rm -f *.sum
 FILELIST=( $(find . -type f | grep -v .git | sort) )
-CHECKLIST=(md5sum sha1sum sha224sum sha256sum sha384sum sha512sum)
+CHECKLIST=(sha512sum)
 for SCHECK in ${CHECKLIST[@]}
 do
  	printf "%s\\n" "Creating $SCHECK file: Please wait a moment..."
@@ -25,4 +26,5 @@ git add .
 git commit
 git push
 ls -og
+printf "%s\\n" "$PWD"
 # do.sums.sh EOF
