@@ -229,14 +229,14 @@ _MAKESTARTBIN_() {
 		_PRINTUSAGE_
 	# [command ARGS] Execute a command in BASH as root.
 	elif [[ "\${1//-}" = [Cc]* ]] ; then
-		printf '\033]2; $STARTBIN command $ARGS 📲  \007'
+		printf '\033]2; $STARTBIN command 📲  \007'
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
 		echo "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
-		printf '\033]2; $STARTBIN command $ARGS 📲  \007'
+		printf '\033]2; $STARTBIN command 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
 	# [login user|login user [options]] Login as user [plus options].  Use \`addauser user\` first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]] ; then
