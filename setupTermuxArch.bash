@@ -94,7 +94,7 @@ _DEPENDDM_() { # Checks and sets dm.
 		if [[ -x $(command -v "${ADM[$pkg]}") ]] 
 		then
  			dm="$pkg" 
-			printf "\\nFound download tool \`%s\`; Continuing…\\n" "$pkg"
+			printf "\\nFound download tool \`%s\`: Continuing…\\n" "$pkg"
 			break
 		fi
 	done
@@ -106,7 +106,7 @@ _DEPENDTM_() { # Checks and sets tm.
 		if [[ -x $(command -v "${ATM[$pkg]}") ]] 
 		then
  			tm="$pkg" 
-			printf "\\nFound tar tool \`%s\`; Continuing…\\n" "$pkg"
+			printf "\\nFound tar tool \`%s\`: Continuing…\\n" "$pkg"
 			break
 		fi
 	done
@@ -119,7 +119,7 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available.
 		then #	sets both download tool for install and exception check. 
  			APTIN+="$pkg "
 			APTON+=("${ADM[$pkg]}")
-			printf "\\nSetting download tool \`%s\` for install; Continuing…\\n" "$pkg"
+			printf "\\nSetting download tool \`%s\` for install: Continuing…\\n" "$pkg"
  		fi
  	done
 }
@@ -142,7 +142,7 @@ _DEPENDS_() { # Checks for missing commands.
 		dm=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
-		printf "Setting download tool \`lftp\` for install; Continuing…\\n"
+		printf "Setting download tool \`lftp\` for install: Continuing…\\n"
 	fi
 	_DEPENDBP_ 
 #	# Installs missing commands.  
