@@ -61,9 +61,9 @@ _FTCHSTND_() {
 		_PRINTDOWNLOADINGFTCH_ 
 		wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR$RPATH$IFILE".md5 "$NLCMIRROR$RPATH$IFILE" 
 	else
-		curl -v "$CMIRROR" 2>"$TAMPDIR/global2localmirror"
+		curl -v "$CMIRROR" &> "$TAMPDIR/global2localmirror"
 		_FMIRROR_
-		curl "$DMVERBOSE" -C - --fail --retry 4 -OL "$NLCMIRROR$RPATH$IFILE".md5 -O "$NLCMIRROR$RPATH$IFILE"
+		curl "$DMVERBOSE" -C - --fail --retry 4 -O "${NLCMIRROR::-2}$RPATH$IFILE".md5 -O "${NLCMIRROR::-2}$RPATH$IFILE"
 	fi
 }
 
