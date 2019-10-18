@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="2.0.1.9"
+VERSIONID="2.0.2"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -809,5 +809,4 @@ elif [[ "${1//-}" = [Ww]* ]] ; then
 else
 	_PRINTUSAGE_
 fi
-
-# setupTermuxArch.bash EOF
+# setupTermuxArch.sh EOF
