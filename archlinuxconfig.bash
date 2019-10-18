@@ -1,9 +1,8 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
 addREADME() {
@@ -780,5 +779,4 @@ addyt() {
 	EOM
 	chmod 700 root/bin/yt 
 }
-
-# EOF
+# archlinuxconfig.bash EOF

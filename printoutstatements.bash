@@ -1,9 +1,8 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 # Printout statement subroutines for `setupTermuxArch.bash`.
 ################################################################################
 FLHDR0[0]="#!/bin/env bash"
@@ -16,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.2"
+FLHDR1[5]="VERSIONID=2.0.3"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -143,16 +142,16 @@ _PRINTDOWNLOADINGX86_() {
 }
 
 _PRINTDOWNLOADINGX86TWO_() {
-	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$file \033[0;34mfrom \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading \033[0;32m$IFILE \033[0;34mfrom \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the Arch Linux system image file…  \007'
 }
 
 _PRINTDOWNLOADINGFTCH_() {
-	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading the checksum file and \033[1;34m$file \033[1;34mfrom the geographically local mirror \033[1;32m$NLCMIRROR\033[1;34m.  If contact with the local mirror is not successful, run \033[1;32mbash \033[0;32msetupTermuxArch.bash\033[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \033[1;32mbash \033[0;32msetupTermuxArch.bash manual \033[1;34mafter locating a local mirror from the Internet; See \033[1;32mbash \033[0;32msetupTermuxArch.bash help \033[1;34mfor additional options.  \033[1;37mDownload of $file pending Internet connection:\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033[0;34m 🕛 > 🕓 \033[1;34mDownloading the checksum file and \033[1;34m$IFILE \033[1;34mfrom the geographically local mirror \033[1;32m$NLCMIRROR\033[1;34m.  If contact with the local mirror is not successful, run \033[1;32mbash \033[0;32msetupTermuxArch.bash\033[1;34m again.  Should the worldwide mirror not provide another geographically nearby server after a couple of attempts, use \033[1;32mbash \033[0;32msetupTermuxArch.bash manual \033[1;34mafter locating a local mirror from the Internet; See \033[1;32mbash \033[0;32msetupTermuxArch.bash help \033[1;34mfor additional options.  \033[1;37mDownload of $IFILE pending Internet connection:\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
 }
 
 _PRINT_DOWNLOADING_FTCHIT_() {
-	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading the checksum file and \033[0;32m$file \033[0;34m from \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
-	printf "\033]2;%s\007" " 🕛 > 🕓 Downloading $file…"
+	printf "\033[0;34m 🕛 > 🕓 \033[0;34mDownloading the checksum file and \033[0;32m$IFILE \033[0;34m from \033[0;32mhttp://$CMIRROR\033[0;34m…  \033[1;37mThis may take a long time pending connection.\n\n\033[0;32m"'\033]2; 🕛 > 🕓 Downloading the checksum and Arch Linux system image file…  \007'
+	printf "\033]2;%s\007" " 🕛 > 🕓 Downloading $IFILE…"
 }
 
 _PRINTCONFIGUP_() {
@@ -173,8 +172,8 @@ _PRINTMD5ERROR_() {
 }
 
 _PRINTMD5SUCCESS_() {
- 	printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $file…"
-	printf "\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUnpacking $file into $INSTALLDIR.  The option to create Arch Linux system users is available through \033[1;32maddauser.  Arch Linux user login from Termux with \033[1;32m$STARTBIN \033[1;34mis now implemented.  See \033[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\033[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \n\nWhile waiting, you can use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mhtop\033[1;34m, \033[0;36mps\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session to watch the unpacking while the session completes.  Use \033[0;36minfo query \033[1;34mand \033[0;36mman query \033[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \033[1;37mUnpacking \033[37m$file\033[1;37m will take a long time; Be patient…\n\n\033[0m"
+ 	printf "\\e]2;%s\\007" " 🕛 > 🕡 Unpacking $IFILE…"
+	printf "\033[0;34m 🕛 > 🕕 \033[1;34mSystem image file download integrity: \033[1;32mOK\n\n\033[0;34m 🕛 > 🕡 \033[1;34mUnpacking $IFILE into $INSTALLDIR.  The option to create Arch Linux system users is available through \033[1;32maddauser.  Arch Linux user login from Termux with \033[1;32m$STARTBIN \033[1;34mis now implemented.  See \033[0;36mAbility for Scripts to Launch Commands for Arch Linux in Termux PRoot on Device\033[1;34m https://github.com/sdrausty/TermuxArch/issues/54 for more information about these brand new options.  \n\nWhile waiting, you can use \033[0;36mdf\033[1;34m, \033[0;36mdu -hs\033[1;34m, \033[0;36mhtop\033[1;34m, \033[0;36mps\033[1;34m, \033[0;36mtop\033[1;34m and \033[0;36mwatch\033[1;34m in a new Termux session to watch the unpacking while the session completes.  Use \033[0;36minfo query \033[1;34mand \033[0;36mman query \033[1;34mto learn more about your Linux system in the palm of your hand.  See The Linux Documentation Project http://tldp.org to learn more about Linux and CLI commands.  \033[1;37mUnpacking \033[37m$IFILE\033[1;37m will take a long time; Be patient…\n\n\033[0m"
 }
 
 _PRINTMISMATCH_() {
@@ -199,5 +198,4 @@ _PRINTROOTDIRFUNCTION_() {
 	PRINTROOTDIR="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 _PRINTROOTDIRFUNCTION_ 
-
-# EOF
+# printoutstatements.bash EOF

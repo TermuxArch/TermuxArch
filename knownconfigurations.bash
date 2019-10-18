@@ -1,9 +1,8 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 # Running `setupTermuxArch.bash manual` shall create `setupTermuxArchConfigs.bash` from this file in the working directory.  Run `setupTermuxArch.bash` and `setupTermuxArchConfigs.bash` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.bash help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.bash` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:   
 # DMVERBOSE="-v" 	# Uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.bash` also.
@@ -15,44 +14,44 @@
 KOE=1
 
 _AARCH64_() {
-	file=ArchLinuxARM-aarch64-latest.tar.gz
+	IFILE=ArchLinuxARM-aarch64-latest.tar.gz
 	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	RPATH=/os/
 	_MAKESYSTEM_ 
 }
 
 _ARMV5L_() {
-	file=ArchLinuxARM-armv5-latest.tar.gz
+	IFILE=ArchLinuxARM-armv5-latest.tar.gz
 	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	RPATH=/os/
 	_MAKESYSTEM_ 
 }
 
 armv7lAndroid () {
-	file=ArchLinuxARM-armv7-latest.tar.gz 
+	IFILE=ArchLinuxARM-armv7-latest.tar.gz 
 	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	RPATH=/os/
 	_MAKESYSTEM_ 
 }
 
 armv7lChrome() {
-	file=ArchLinuxARM-armv7-chromebook-latest.tar.gz
+	IFILE=ArchLinuxARM-armv7-chromebook-latest.tar.gz
 	CMIRROR=os.archlinuxarm.org
-	path=/os/
+	RPATH=/os/
 	_MAKESYSTEM_ 
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $file is read from md5sums.txt
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $IFILE is read from md5sums.txt
 
 _I686_() { 
 	CMIRROR=archive.archlinux.org
-	path=/iso/2017.03.01/
+	RPATH=/iso/2017.03.01/
 	_MAKESYSTEM_ 
 }
 
-_X86_64_() { # $file is read from md5sums.txt
+_X86_64_() { # $IFILE is read from md5sums.txt
 	CMIRROR=mirror.rackspace.com
-	path=/archlinux/iso/latest/
+	RPATH=/archlinux/iso/latest/
 	_MAKESYSTEM_ 
 }
 
@@ -89,5 +88,4 @@ _PR00TSTRING_() {
        	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
-
-# EOF
+# knownconfigurations.bash EOF

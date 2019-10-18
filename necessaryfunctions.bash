@@ -1,9 +1,8 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
@@ -295,10 +294,10 @@ _MAKESYSTEM_() {
 }
 
 _MD5CHECK_() {
-	if md5sum -c "$file".md5 1>/dev/null ; then
+	if md5sum -c "$IFILE".md5 1>/dev/null ; then
 		_PRINTMD5SUCCESS_
 		printf "\\e[0;32m"
-		_PREPROOT_ ## & spinner "Unpacking" "$file…" 
+		_PREPROOT_ ## & spinner "Unpacking" "$IFILE…" 
 	else
 		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 		_PRINTMD5ERROR_
@@ -324,9 +323,9 @@ _PREPINSTALLDIR_() {
 
 _PREPROOT_() {
 	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
- 		proot --link2symlink -0 bsdtar -xpf "$file" --strip-components 1  
+ 		proot --link2symlink -0 bsdtar -xpf "$IFILE" --strip-components 1  
 	else
- 		proot --link2symlink -0 bsdtar -xpf "$file" 
+ 		proot --link2symlink -0 bsdtar -xpf "$IFILE" 
 	fi
 }
 
@@ -416,5 +415,4 @@ _WAKEUNLOCK_() {
 	am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null
 	_PRINTDONE_ 
 }
-
-# EOF
+# necessaryfunctions.bash EOF

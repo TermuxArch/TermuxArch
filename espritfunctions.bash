@@ -1,9 +1,8 @@
 #!/bin/env bash
-# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
-# _STANDARD_="function name" && STANDARD="variable name" are under construction.
 ################################################################################
 
 addlangq() {
@@ -27,7 +26,7 @@ addlangq() {
 
 bloom() { # Bloom = `setupTermuxArch.bash manual verbose` 
 	if [[ -d "$HOME"/TermuxArchBloom ]];then 
-		rmbloomq 
+		_RMBLOOMQ_ 
 	fi
 	if [[ ! -d "$HOME"/TermuxArchBloom ]];then 
 		mkdir "$HOME"/TermuxArchBloom
@@ -148,7 +147,7 @@ edq2() {
 		fi
 		if [[ "$nv" = [Nn]* ]];then
 			ed=nano
-			nanoif
+			_NANOIF_
 			ind=1
 			break
 		elif [[ "$nv" = [Vv]* ]] || [[ "$nv" = "" ]];then
@@ -162,7 +161,7 @@ edq2() {
 	printf "\\n"
 }
 
-nanoif() {
+_NANOIF_() {
 	if [[ ! -x "$PREFIX"/bin/nano ]] ; then
 		apt -o APT::Keep-Downloaded-Packages="true" install "nano" -y
 		if [[ ! -x "$PREFIX"/bin/nano ]] ; then
@@ -173,7 +172,7 @@ nanoif() {
 	fi
 }
 
-rmbloomq() {
+_RMBLOOMQ_() {
 	if [[ -d "$HOME"/TermuxArchBloom ]];then
 		printf "\\n\\n\\e[0;33mTermuxArch: \\e[1;33mDIRECTORY WARNING!  $HOME/TermuxArchBloom/ \\e[0;33mdirectory detected.  \\e[1;30msetupTermuxArch.bash bloom will continue.\\n"
 		while true; do
@@ -242,5 +241,4 @@ spinnerdepreciated() { # Based on https://github.com/ringohub/sh-spinner
 		done
 	done
 }
-
-# EOF
+# espritfunctions.bash EOF
