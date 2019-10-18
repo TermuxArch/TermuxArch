@@ -208,7 +208,7 @@ dwnl() { # Downloads TermuxArch from Github.
 	printf "\\n\\e[1;32m"
 }
 
-intro() {
+_INTRO_() {
 	printf "\033]2;%s\007" "bash setupTermuxArch.bash $ARGS 📲" 
 	_SETROOT_EXCEPTION_ 
 	if [[ -d "$INSTALLDIR" ]] && [[ -f "$INSTALLDIR"/bin/env ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/bin/pacman ]]
@@ -361,13 +361,13 @@ _OPT2_() {
 	then
 		shift
 		_ARG2DIR_ "$@" 
-		intro "$@"  
+		_INTRO_ "$@"  
 	elif [[ "$3" = [Ii]* ]]
 	then
 		printf "Setting mode to install.\\n"
 		shift 2 
 		_ARG2DIR_ "$@" 
-		intro "$@"  
+		_INTRO_ "$@"  
 	elif [[ "$3" = [Rr][Ee]* ]]
 	then
 		printf "\\nSetting mode to refresh.\\n"
@@ -384,7 +384,7 @@ _OPT2_() {
 	else
 		shift 
 		_ARG2DIR_ "$@" 
-		intro "$@"  
+		_INTRO_ "$@"  
 	fi
 }
 
@@ -681,7 +681,7 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ -z "${1:-}" ]]
 then
 	_PREPTERMUXARCH_ 
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [./path/systemimage.tar.gz [customdir]]  Use path to system image file; install directory argument is optional. A systemimage.tar.gz file can be substituted for network install: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`. 
 elif [[ "${ARGS:0:1}" = . ]]
 then
@@ -689,7 +689,7 @@ then
  	LCC="1"
  	LCP="1"
  	_ARG2DIR_ "$@"  
- 	intro "$@" 
+ 	_INTRO_ "$@" 
 ## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can substituted for network install.  
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
@@ -697,7 +697,7 @@ then
 	LCC="1"
 	LCP="0"
 	_ARG2DIR_ "$@"  
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [axd|axs]  Get device system information with `axel`.
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]]
 then
@@ -712,7 +712,7 @@ then
 	printf "\\nSetting \`axel\` as download manager.\\n"
 	dm=axel
 	_OPT1_ "$@" 
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]]
 then
@@ -727,7 +727,7 @@ then
 	printf "\\nSetting \`aria2c\` as download manager.\\n"
 	dm=aria2
 	_OPT1_ "$@" 
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.bash locally, for developing and hacking TermuxArch.  
 elif [[ "${1//-}" = [Bb]* ]]
 then
@@ -747,7 +747,7 @@ then
 	printf "\\nSetting \`curl\` as download manager.\\n"
 	dm=curl
 	_OPT1_ "$@" 
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [d[ebug]|s[ysinfo]]  Generate system information.
 elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]]
 then
@@ -771,7 +771,7 @@ elif [[ "${1//-}" = [Ii]* ]]
 then
 	printf "\\nSetting mode to install.\\n"
 	_OPT1_ "$@" 
-	intro "$@"  
+	_INTRO_ "$@"  
 ## [ld|ls]  Get device system information with `lftp`.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]]
 then
@@ -786,14 +786,14 @@ then
 	printf "\\nSetting \`lftp\` as download manager.\\n"
 	dm=lftp
 	_OPT1_ "$@" 
-	intro "$@" 
+	_INTRO_ "$@" 
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]]
 then
 	printf "\\nSetting mode to manual.\\n"
 	OPT=manual
 	_OPT1_ "$@" 
-	intro "$@"  
+	_INTRO_ "$@"  
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
@@ -840,7 +840,7 @@ then
 	printf "\\nSetting \`wget\` as download manager.\\n"
 	dm=wget
 	_OPT1_ "$@" 
-	intro "$@"  
+	_INTRO_ "$@"  
 else
 	_PRINTUSAGE_
 fi
