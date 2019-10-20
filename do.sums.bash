@@ -7,21 +7,21 @@
 #####################################################################
 set -eu
 rm -f *.sum
-FILELIST=( $(find . -type f | grep -vw .git | sort) )
+FILELIST=( $(find . -type f | grep -v .git | sort) )
 CHECKLIST=(sha512sum)
 for SCHECK in ${CHECKLIST[@]}
 do
  	printf "%s\\n" "Creating $SCHECK file: Please wait a moment..."
 	for FILE in "${FILELIST[@]}"
 	do
-		$SCHECK "$FILE" >> ztree.${SCHECK::-3}.sum
+		$SCHECK "$FILE" >> ${SCHECK::-3}.sum
 	done
-	chmod 444 ztree.${SCHECK::-3}.sum
+	chmod 444 ${SCHECK::-3}.sum
 done
 for SCHECK in  ${CHECKLIST[@]}
 do
 	printf  "\\n%s\\n" "Checking $SCHECK..."
-	$SCHECK -c ztree.${SCHECK::-3}.sum
+	$SCHECK -c ${SCHECK::-3}.sum
 done
 git pull
 git add .
