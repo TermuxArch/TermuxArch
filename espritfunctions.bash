@@ -87,7 +87,7 @@ _EDITFILES_() {
 }
 
 _EDITORS_() {
-	aeds=("emacs" "joe" "jupp" "nano" "ne" "nvim" "micro"  "vi""vim" "zile")
+	aeds=("emacs" "joe" "jupp" "nano" "ne" "nvim" "micro" "vi" "vim" "zile")
 	for i in "${!aeds[@]}"
 	do
 		if [[ -e "$PREFIX/bin/${aeds[$i]}" ]]
