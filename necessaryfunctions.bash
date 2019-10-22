@@ -8,39 +8,39 @@
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
 
 _ADDADDS_() {
-	addREADME
-	addae
-	addauser
-	addbash_logout 
-	addbash_profile 
-	addbashrc 
-	addcdtd
-	addcdth
-	addcdtmp
-	addch 
-	adddfa
-	addfbindexample
-	addbinds
-	addexd
-	addfibs
-	addga
-	addgcl
-	addgcm
-	addgp
-	addgpl
-	addkeys
+	_ADDREADME_
+	_ADDae_
+	_ADDAUSER_
+	_ADDbash_logout_ 
+	_ADDbash_profile_ 
+	_ADDbashrc_ 
+	_ADDcdtd_
+	_ADDcdth_
+	_ADDcdtmp_
+	_ADDch_ 
+	_ADDdfa_
+	_ADDfbindexample_
+	_ADDfbinds_
+	_ADDexd_
+	_ADDfibs_
+	_ADDga_
+	_ADDgcl_
+	_ADDgcm_
+	_ADDgp_
+	_ADDgpl_
+	_ADDkeys_
 	_ADDMOTD_
 	_ADDMOTO_
-	addpc
-	addpci
-	addprofile 
-	addresolvconf 
-	addt 
-	addtour
-	addtrim 
-	addyt
-	addwe  
-	addv 
+	_ADDpc_
+	_ADDpci_
+	_ADDprofile_ 
+	_ADDaddresolvconf_ 
+	_ADDt_ 
+	_ADDtour_
+	_ADDtrim_ 
+	_ADDyt_
+	_ADDwe_  
+	_ADDv_ 
 }
 	
 _CALLSYSTEM_() {
