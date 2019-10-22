@@ -29,8 +29,8 @@ _ADDADDS_() {
 	addgp
 	addgpl
 	addkeys
-	addmotd
-	addmoto
+	_ADDMOTD_
+	_ADDMOTO_
 	addpc
 	addpci
 	addprofile 
@@ -397,7 +397,7 @@ _SETLOCALE_() { # This function uses device system settings to set locale.  To g
 }
 
 _TOUCHUPSYS_() {
-	addmotd
+	_ADDMOTD_
 	_SETLOCALE_
 	_RUNFINISHSETUP_
 	rm -f root/bin/finishsetup.bash

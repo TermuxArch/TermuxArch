@@ -27,7 +27,7 @@ addlangq() {
 	done
 }
 
-bloom() { # Bloom = `setupTermuxArch.bash manual verbose` 
+_BLOOM_() { # Bloom = `setupTermuxArch.bash manual verbose` 
 	if [[ -d "$HOME"/TermuxArchBloom ]]
 	then 
 		_RMBLOOMQ_ 
@@ -136,7 +136,7 @@ _EDQAQUESTION_() {
 	while true
 	do
 		printf "\\n"
-		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]]
+		if [[ "$OPT" = BLOOM ]] || [[ "$OPT" = MANUAL ]]
 		then
 			printf "The following editor(s) $cedst\\b\\b are present.  Would you like to use \`\\e[1;32m${ceds[$i]}\\e[0;32m\` to edit \`\\e[1;32msetupTermuxArchConfigs.bash\\e[0;32m\`?  "
 			read -n 1 -p "Answer yes or no [Y|n]. "  yn
@@ -162,7 +162,7 @@ _EDQAQUESTION_() {
 _EDQ2_() {
 	while true
 	do
-		if [[ "$OPT" = bloom ]] || [[ "$OPT" = manual ]]
+		if [[ "$OPT" = BLOOM ]] || [[ "$OPT" = MANUAL ]]
 		then
 			printf "\\n\\e[1;34m  Would you like to use \\e[1;32mnano\\e[1;34m or \\e[1;32mvi\\e[1;34m to edit \\e[1;32msetupTermuxArchConfigs.bash\\e[1;34m?  "
 			read -n 1 -p "Answer nano or vi [n|V]? "  nv

@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="2.0.9"
+VERSIONID="2.0.10"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -42,11 +42,11 @@ _CHK_() {
 		. maintenanceroutines.bash
 		. necessaryfunctions.bash
 		. printoutstatements.bash
-		if [[ "$OPT" = bloom ]]
+		if [[ "$OPT" = BLOOM ]]
 		then
 			rm -f termuxarchchecksum.sha512 
 		fi
-		if [[ "$OPT" = manual ]]
+		if [[ "$OPT" = MANUAL ]]
 		then
 			_MANUAL_
 		fi
@@ -88,58 +88,58 @@ _DEPENDBP_() {
 	fi
 }
 
-_DEPENDDM_() { # Checks and sets dm. 
-	for pkg in "${!ADM[@]}" 
+_DEPENDDM_() { # checks and sets download manager 
+	for PKG in "${!ADM[@]}" 
 	do
-		if [[ -x $(command -v "${ADM[$pkg]}") ]] 
+		if [[ -x $(command -v "${ADM[$PKG]}") ]] 
 		then
- 			dm="$pkg" 
-			printf "\\nFound download tool \`%s\`: Continuing…\\n" "$pkg"
+ 			DM="$PKG" 
+			printf "\\nFound download tool \`%s\`: Continuing…\\n" "$PKG"
 			break
 		fi
 	done
 }
 
-_DEPENDTM_() { # Checks and sets tm. 
-	for pkg in "${!ATM[@]}" 
+_DEPENDTM_() { # checks and sets tar manager: depreciated
+	for PKG in "${!ATM[@]}" 
 	do
-		if [[ -x $(command -v "${ATM[$pkg]}") ]] 
+		if [[ -x $(command -v "${ATM[$PKG]}") ]] 
 		then
- 			tm="$pkg" 
-			printf "\\nFound tar tool \`%s\`: Continuing…\\n" "$pkg"
+ 			tm="$PKG" 
+			printf "\\nFound tar tool \`%s\`: Continuing…\\n" "$PKG"
 			break
 		fi
 	done
 }
 
-_DEPENDIFDM_() { # checks if download tool is set and sets install if available. 
- 	for pkg in "${!ADM[@]}" # check from available toolset and set one for install if available on device. 
-	do #	check for both set dm and if tool exists on device. 
- 		if [[ "$dm" = "$pkg" ]] && [[ ! -x $(command -v "${ADM[$pkg]}") ]] 
+_DEPENDIFDM_() { # checks if download tool is set and sets install if available 
+ 	for PKG in "${!ADM[@]}" # checks from available toolset and sets one for install if available 
+	do #	checks for both set DM and if tool exists on device. 
+ 		if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]] 
 		then #	sets both download tool for install and exception check. 
- 			APTIN+="$pkg "
-			APTON+=("${ADM[$pkg]}")
-			printf "\\nSetting download tool \`%s\` for install: Continuing…\\n" "$pkg"
+ 			APTIN+="$PKG "
+			APTON+=("${ADM[$PKG]}")
+			printf "\\nSetting download tool \`%s\` for install: Continuing…\\n" "$PKG"
  		fi
  	done
 }
 
-_DEPENDS_() { # Checks for missing commands.  
+_DEPENDS_() { # checks for missing commands
 	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
 	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 	ATM=([tar]=tar [bsdtar]=bsdtar)
-	if [[ "$dm" != "" ]] 
+	if [[ "$DM" != "" ]] 
 	then
 		_DEPENDIFDM_
 	fi
-	if [[ "$dm" = "" ]] 
+	if [[ "$DM" = "" ]] 
 	then
 		_DEPENDDM_
 	fi
 	# Sets and installs lftp if nothing else was found, installed and set. 
-	if [[ "$dm" = "" ]] 
+	if [[ "$DM" = "" ]] 
 	then
-		dm=lftp
+		DM=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
 		printf "Setting download tool \`lftp\` for install: Continuing…\\n"
@@ -149,7 +149,7 @@ _DEPENDS_() { # Checks for missing commands.
 	_TAPIN_ "$APTIN"
 #	# Checks whether install missing commands was successful.  
 # 	_PECHK_ "$APTON"
-	printf "\\nUsing %s to manage downloads.\\n" "${dm:-lftp}"
+	printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
 }
 
@@ -164,13 +164,13 @@ _DEPENDSBLOCK_() {
 		. maintenanceroutines.bash
 		. necessaryfunctions.bash
 		. printoutstatements.bash
-		if [[ "$OPT" = manual ]]
+		if [[ "$OPT" = MANUAL ]]
 		then
 			_MANUAL_
 		fi 
 	else
 		cd "$TAMPDIR" 
-		dwnl
+		_DWNL_
 		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
 		then
 			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
@@ -180,7 +180,7 @@ _DEPENDSBLOCK_() {
 	fi
 }
 
-dwnl() { # Downloads TermuxArch from Github.
+_DWNL_() { # downloads TermuxArch from Github
 	if [[ "$DFL" = "/gen" ]] 
 	then # get development version from:
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
@@ -189,17 +189,17 @@ dwnl() { # Downloads TermuxArch from Github.
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz" 
 	fi
-	if [[ "$dm" = aria2 ]] 
+	if [[ "$DM" = aria2 ]] 
 	then # use https://github.com/aria2/aria2
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
-	elif [[ "$dm" = axel ]] 
+	elif [[ "$DM" = axel ]] 
 	then # use https://github.com/mopp/Axel
 		"${ADM[axel]}" "${FILE[sha]}" 
 		"${ADM[axel]}" "${FILE[tar]}"
-	elif [[ "$dm" = curl ]] 
+	elif [[ "$DM" = curl ]] 
 	then # use https://github.com/curl/curl	
 		"${ADM[curl]}" "$DMVERBOSE" -OL "${FILE[sha]}" -OL "${FILE[tar]}"
-	elif [[ "$dm" = wget ]] 
+	elif [[ "$DM" = wget ]] 
 	then # use https://github.com/mirror/wget
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
 	else # use https://github.com/lavv17/lftp
@@ -226,13 +226,13 @@ _INTRO_() {
 	fi
 }
 
-_INTROBLOOM_() { # Bloom = `setupTermuxArch.bash manual verbose` 
-	OPT=bloom 
+_INTROBLOOM_() { # BLOOM = `setupTermuxArch.bash manual verbose` 
+	OPT=BLOOM 
 	printf "\033]2;%s\007" "bash setupTermuxArch.bash bloom 📲" 
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID bloom option.  Run \\e[1;32mbash setupTermuxArch.bash help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_PREPTERMUXARCH_
 	_DEPENDSBLOCK_ "$@" 
-	bloom 
+	_BLOOM_
 }
 
 _INTROSYSINFO_() {
@@ -254,16 +254,6 @@ _INTROREFRESH_() {
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID shall refresh your TermuxArch files in \\e[0;32m~/${INSTALLDIR##*/}\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.bash help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
 	_DEPENDSBLOCK_ "$@" 
 	_REFRESHSYS_ "$@"
-}
-
-introstnd() {
-	printf '\033]2; %s\007' " bash setupTermuxArch.bash $ARGS 📲 "
-	_SETROOT_EXCEPTION_ 
-	printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;34m%s \\e[0;32m%s \\e[1;34m%s" " 🕛 > 🕛" "TermuxArch $VERSIONID shall $introstndidstmt your TermuxArch files in" "$INSTALLDIR" ".  Ensure background data is not restricted.  Run " "bash setupTermuxArch.bash help" "for additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
-}
-
-introstndidstmt() { # depends $introstndid
-	printf "the TermuxArch files in \\e[0;32m%s\\e[1;34m.  " "$INSTALLDIR"
 }
 
 _LOADCONF_() {
@@ -336,7 +326,7 @@ _OPT1_() {
 	elif [[ "$2" = [Mm]* ]]
 	then
 		printf "Setting mode to manual.\\n"
-		OPT=manual
+		OPT=MANUAL
  		_OPT2_ "$@"  
 	elif [[ "$2" = [Rr][Ee]* ]]
 	then
@@ -388,7 +378,7 @@ _OPT2_() {
 	fi
 }
 
-pe() {
+_PE_() {
 	printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN…"
 	printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN…"
 	exit
@@ -399,8 +389,8 @@ _PECHK_() {
 	then
 		pe @APTON
 	fi
-	for pkg in "${!ADM[@]}" ; do
-		if [[ -x $(command -v "${ADM[$pkg]}") ]] 
+	for PKG in "${!ADM[@]}" ; do
+		if [[ -x $(command -v "${ADM[$PKG]}") ]] 
 		then
 			:
 		fi
@@ -549,12 +539,6 @@ _SETROOT_() {
 	fi
 }
 
-standardid() {
-	introstndid="$1" 
-	introstndidstmt="$(printf "%s \\e[0;32m%s" "$1 the TermuxArch files in" "$INSTALLDIR")" 
-	introstnd
-}
-
 _STANDARDIF_() {
 	if [[ ! -x "$(command -v proot)" ]]
 	then
@@ -563,7 +547,7 @@ _STANDARDIF_() {
 	fi
 }
 
-_STRPERROR_() { # Run on script error.
+_STRPERROR_() { # run on script error
 	local RV="$?"
 	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by \`${2:-command}\`!"
 	if [[ "$RV" = 4 ]]
@@ -574,7 +558,7 @@ _STRPERROR_() { # Run on script error.
 	exit 201
 }
 
-_STRPEXIT_() { # Run on exit.
+_STRPEXIT_() { # run on exit
 	local RV="$?"
  	rm -rf "$TAMPDIR"
 	sleep 0.04
@@ -591,13 +575,13 @@ _STRPEXIT_() { # Run on exit.
 	exit
 }
 
-_STRPSIGNAL_() { # Run on signal.
+_STRPSIGNAL_() { # run on signal
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal $? received!\\e[0m\\n"
  	rm -rf "$TAMPDIR"
  	exit 211 
 }
 
-_STRPQUIT_() { # Run on quit.
+_STRPQUIT_() { # run on quit
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal $? received!\\e[0m\\n"
  	exit 221 
 }
@@ -617,7 +601,7 @@ declare CPUABIX86_64="x86_64"	## Used for development.
 declare DFL=""		## Used for development.  
 declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in `setupTermuxArchConfigs.bash` when using `setupTermuxArch.bash m[anual]`. 
 declare ed=""
-declare dm=""
+declare DM=""
 declare FSTND=""
 declare -A FILE
 declare INSTALLDIR=""
@@ -702,7 +686,7 @@ then
 elif [[ "${1//-}" = [Aa][Xx][Dd]* ]] || [[ "${1//-}" = [Aa][Xx][Ss]* ]]
 then
 	printf "\\nGetting device system information with \`axel\`.\\n"
-	dm=axel
+	DM=axel
 	shift
 	_ARG2DIR_ "$@" 
 	_INTROSYSINFO_ "$@" 
@@ -710,14 +694,14 @@ then
 elif [[ "${1//-}" = [Aa][Xx]* ]] || [[ "${1//-}" = [Aa][Xx][Ii]* ]]
 then
 	printf "\\nSetting \`axel\` as download manager.\\n"
-	dm=axel
+	DM=axel
 	_OPT1_ "$@" 
 	_INTRO_ "$@" 
 ## [ad|as]  Get device system information with `aria2c`.
 elif [[ "${1//-}" = [Aa][Dd]* ]] || [[ "${1//-}" = [Aa][Ss]* ]]
 then
 	printf "\\nGetting device system information with \`aria2c\`.\\n"
-	dm=aria2
+	DM=aria2
 	shift
 	_ARG2DIR_ "$@" 
 	_INTROSYSINFO_ "$@" 
@@ -725,7 +709,7 @@ then
 elif [[ "${1//-}" = [Aa]* ]]
 then
 	printf "\\nSetting \`aria2c\` as download manager.\\n"
-	dm=aria2
+	DM=aria2
 	_OPT1_ "$@" 
 	_INTRO_ "$@" 
 ## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch.bash locally, for developing and hacking TermuxArch.  
@@ -737,7 +721,7 @@ then
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]]
 then
 	printf "\\nGetting device system information with \`curl\`.\\n"
-	dm=curl
+	DM=curl
 	shift
 	_ARG2DIR_ "$@" 
 	_INTROSYSINFO_ "$@" 
@@ -745,7 +729,7 @@ then
 elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]]
 then
 	printf "\\nSetting \`curl\` as download manager.\\n"
-	dm=curl
+	DM=curl
 	_OPT1_ "$@" 
 	_INTRO_ "$@" 
 ## [d[ebug]|s[ysinfo]]  Generate system information.
@@ -776,7 +760,7 @@ then
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]]
 then
 	printf "\\nGetting device system information with \`lftp\`.\\n"
-	dm=lftp
+	DM=lftp
 	shift
 	_ARG2DIR_ "$@" 
 	_INTROSYSINFO_ "$@" 
@@ -784,14 +768,14 @@ then
 elif [[ "${1//-}" = [Ll]* ]]
 then
 	printf "\\nSetting \`lftp\` as download manager.\\n"
-	dm=lftp
+	DM=lftp
 	_OPT1_ "$@" 
 	_INTRO_ "$@" 
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]]
 then
 	printf "\\nSetting mode to manual.\\n"
-	OPT=manual
+	OPT=MANUAL
 	_OPT1_ "$@" 
 	_INTRO_ "$@"  
 ## [o[ption]]  Option under development.
@@ -830,7 +814,7 @@ then
 elif [[ "${1//-}" = [Ww][Dd]* ]] || [[ "${1//-}" = [Ww][Ss]* ]]
 then
 	printf "\\nGetting device system information with \`wget\`.\\n"
-	dm=wget
+	DM=wget
 	shift
 	_ARG2DIR_ "$@" 
 	_INTROSYSINFO_ "$@" 
@@ -838,7 +822,7 @@ then
 elif [[ "${1//-}" = [Ww]* ]]
 then
 	printf "\\nSetting \`wget\` as download manager.\\n"
-	dm=wget
+	DM=wget
 	_OPT1_ "$@" 
 	_INTRO_ "$@"  
 else
