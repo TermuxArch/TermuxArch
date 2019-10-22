@@ -6,7 +6,7 @@
 # Printout statement subroutines for `setupTermuxArch.bash`.
 ################################################################################
 FLHDR0[0]="#!/bin/env bash"
-FLHDR0[1]="# Copyright 2017-2018 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺 "
+FLHDR0[1]="# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺 "
 FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github.com." 
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
 FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help." 
@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.11"
+FLHDR1[5]="VERSIONID=2.0.12"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -57,7 +57,7 @@ TRAPS[2]="trap _TRPSIG_ HUP INT TERM"
 TRAPS[3]="trap _TRPQ_ QUIT"
 TRAPS[4]=" "
 
-_CFLHD_() { #	Creates file header and interests comments.  
+_CFLHD_() { #	creates file header and inserts comments
   	if [[ -z "${2:-}" ]] ; then
 		printf "%s\\n" "${FLHDR0[1]}" > "$1"
 		printf "%s\\n" "${FLHDR0[2]}" >> "$1"
@@ -74,7 +74,7 @@ _CFLHD_() { #	Creates file header and interests comments.
   	fi
 }
 
-_CFLHDR_() { #	Creates BASH script boilerplate, file header and interests comments.  
+_CFLHDR_() { #	creates BASH script boilerplate, file header and inserts comments
   	if [[ -z "${2:-}" ]] ; then
 		printf "%s\\n" "${FLHDR0[@]}" > "$1"
 		printf "%s\\n" "${FLHDR1[@]}" >> "$1"
@@ -90,7 +90,7 @@ _CFLHDR_() { #	Creates BASH script boilerplate, file header and interests commen
  	printf "%s\\n" "${TRAPS[@]}" >> "$1"
 }
 
-_CFLHDRS_() { #	Creates file header and interests comments.  
+_CFLHDRS_() { #	creates file header and inserts comments
   	if [[ -z "${2:-}" ]] ; then
 		printf "%s\\n" "${FLHDR0[1]}" > "$1"
 		printf "%s\\n" "${FLHDR0[2]}" >> "$1"
@@ -191,7 +191,7 @@ _PRINTFOOTER_() {
 }
 
 _PRINTFOOTER2_() {
-	printf "\033[1;34mArch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.\n\nUse \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34mand \033[1;32m$STARTBIN \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.  \\e[0;34mIf you get a '/usr/bin/env' not found error, please comment at https://github.com/termux/proot/issues/76\n\n\033[0m"
+	printf "\033[1;34mArch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.\n\nUse \033[1;32m~$PRINTROOTDIR/$STARTBIN \033[1;34mand \033[1;32m$STARTBIN \033[1;34min a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.  \\e[0;34mIf you get a '/usr/bin/env' not found error, please comment at issues https://github.com/termux/proot/issues/72 and 76\n\n\033[0m"
 }
 
 _PRINTROOTDIRFUNCTION_() {
