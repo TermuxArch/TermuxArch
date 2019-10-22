@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID="2.0.6"
+VERSIONID="2.0.7"
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -410,7 +410,7 @@ _PECHK_() {
 _PREPTMPDIR_() { 
 	mkdir -p "$INSTALLDIR/tmp"
 	chmod 777 "$INSTALLDIR/tmp"
-	chmod +t "$INSTALLDIR/tmp"
+	chmod +t "$INSTALLDIR/tmp" || printf "Could not chmod +t: Continuing...\\n"
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
 	mkdir -p "$TAMPDIR" 
 }
