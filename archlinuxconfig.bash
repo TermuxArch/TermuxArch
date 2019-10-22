@@ -290,7 +290,7 @@ addbinds() { # Checks if /proc/stat is usable.
 addfibs() {
 	_CFLHDR_ root/bin/fibs 
 	cat >> root/bin/fibs  <<- EOM
-	find /proc/ -name maps 2>/dev/null |xARGS awk '{print i\$6}' 2>/dev/null| grep '\.so' | sort | uniq
+	find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq
 	EOM
 	chmod 700 root/bin/fibs 
 }
