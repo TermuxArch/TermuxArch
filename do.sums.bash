@@ -2,10 +2,11 @@
 # Copyright 2019 (c) all rights reserved by S D Rausty; see LICENSE  
 # https://sdrausty.github.io hosted courtesy https://pages.github.com
 # To create checksum files and commit use; ./do.sums.bash
-# To see file tree use; awk '{print $2}' ztree.sha512.sum
-# To check the files use; sha512sum -c ztree.sha512.sum
+# To see file tree use; awk '{print $2}' sha512.sum
+# To check the files use; sha512sum -c sha512.sum
 #####################################################################
 set -eu
+git pull
 rm -f *.sum
 FILELIST=( $(find . -type f | grep -v .git | sort) )
 CHECKLIST=(sha512sum)
@@ -23,7 +24,6 @@ do
 	printf  "\\n%s\\n" "Checking $SCHECK..."
 	$SCHECK -c ${SCHECK::-3}.sum
 done
-git pull
 git add .
 git commit
 git push
