@@ -334,7 +334,7 @@ _RUNFINISHSETUP_() {
 	if [[ "$FSTND" ]]; then
 		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # https://unix.stackexchange.com/questions/155331/sed-replace-a-character-in-a-matched-line-in-place
 	else
 	if [[ "$ed" = "" ]];then
 		_EDITORS_ 
