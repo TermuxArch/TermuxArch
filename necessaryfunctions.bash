@@ -334,7 +334,7 @@ _RUNFINISHSETUP_() {
 	if [[ "$FSTND" ]]; then
 		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i '/$NMIR/ s/^# *//' "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	else
 	if [[ "$ed" = "" ]];then
 		_EDITORS_ 
