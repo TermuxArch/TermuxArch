@@ -9,19 +9,19 @@ set -eu
 git pull
 rm -f *.sum
 FILELIST=( $(find . -type f | grep -v .git | sort) )
-CHECKLIST=(sha512sum)
+CHECKLIST=(sha512sum) # md5sum sha1sum sha224sum sha256sum sha384sum
 for SCHECK in ${CHECKLIST[@]}
 do
- 	printf "%s\\n" "Creating $SCHECK file: Please wait a moment..."
+	printf "\\e[1;38;5;110m%s\\e[0m\\n" "Creating $SCHECK file: Please wait a moment..."
 	for FILE in "${FILELIST[@]}"
 	do
 		$SCHECK "$FILE" >> ${SCHECK::-3}.sum
 	done
-	chmod 444 ${SCHECK::-3}.sum
+	chmod 400 ${SCHECK::-3}.sum
 done
 for SCHECK in  ${CHECKLIST[@]}
 do
-	printf  "\\n%s\\n" "Checking $SCHECK..."
+	printf "\\e[1;38;5;111m%s\\e[0m\\n" "Checking $SCHECK..."
 	$SCHECK -c ${SCHECK::-3}.sum
 done
 git add .
