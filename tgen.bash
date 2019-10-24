@@ -34,7 +34,7 @@ trap '_STGNTRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap _STGNTRPEXIT_ EXIT
 trap _STGNTRPSIGNAL_ HUP INT TERM 
 trap _STGNTRPQUIT_ QUIT 
-
+#
 cp LICENSE gen/
 cp README.md gen/
 cp archlinuxconfig.bash gen/
