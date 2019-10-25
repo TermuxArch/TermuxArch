@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.14
+VERSIONID=2.0.15
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # Argument as ROOTDIR.
 	ARG2="${@:2:1}"
@@ -666,7 +666,7 @@ if [[ -z "${1:-}" ]]
 then
 	_PREPTERMUXARCH_ 
 	_INTRO_ "$@" 
-## [./path/systemimage.tar.gz [customdir]]  Use path to system image file; install directory argument is optional. A systemimage.tar.gz file can be substituted for network install: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`. 
+## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional. A systemimage.tar.gz file can be substituted for network install: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`. 
 elif [[ "${ARGS:0:1}" = . ]]
 then
  	printf "\\nSetting mode to copy system image.\\n"
@@ -674,7 +674,7 @@ then
  	LCP="1"
  	_ARG2DIR_ "$@"  
  	_INTRO_ "$@" 
-## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can substituted for network install.  
+## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can be substituted for network install.  
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
 	printf "\\nSetting mode to copy system image.\\n"
