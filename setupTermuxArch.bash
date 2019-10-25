@@ -7,9 +7,9 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.15
+VERSIONID=2.0.16
 ## INIT FUNCTIONS ##############################################################
-_ARG2DIR_() {  # Argument as ROOTDIR.
+_ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
 	if [[ -z "${ARG2:-}" ]] 
 	then
@@ -291,8 +291,8 @@ _NAMEINSTALLDIR_() {
 	INSTALLDIR="$(echo "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 
-_NAMESTARTARCH_() { # ${@%/} removes trailing slash
- 	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
+_NAMESTARTARCH_() {
+ 	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')" # ${@%/} removes trailing slash
 	if [[ "$DARCH" = "/arch" ]]
 	then
 		AARCH=""
