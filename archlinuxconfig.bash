@@ -298,7 +298,8 @@ _ADDfibs_() {
 _ADDga_() {
 	_CFLHDR_ root/bin/ga 
 	cat >> root/bin/ga  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git
 		git add .
 	else
@@ -311,7 +312,8 @@ _ADDga_() {
 _ADDgcl_() {
 	_CFLHDR_ root/bin/gcl 
 	cat >> root/bin/gcl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git clone "\$@"
 	else
@@ -324,7 +326,8 @@ _ADDgcl_() {
 _ADDgcm_() {
 	_CFLHDR_ root/bin/gcm 
 	cat >> root/bin/gcm  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git commit
 	else
@@ -337,7 +340,8 @@ _ADDgcm_() {
 _ADDgpl_() {
 	_CFLHDR_ root/bin/gpl 
 	cat >> root/bin/gpl  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git pull
 	else
@@ -350,7 +354,8 @@ _ADDgpl_() {
 _ADDgp_() {
 	_CFLHDR_ root/bin/gp "# git push https://username:password@github.com/username/repository.git master"
 	cat >> root/bin/gp  <<- EOM
-	if [ ! -e /usr/bin/git ] ; then
+	if [[ ! -x "\$(command -v git)" ]] 
+	then
 		pacman --noconfirm --color=always -S git 
 		git push
 	else
@@ -531,7 +536,8 @@ _ADDaddresolvconf_() {
 _ADDt_() {
 	_CFLHDR_ root/bin/t
 	cat >> root/bin/t  <<- EOM
-	if [ ! -e /usr/bin/tree ] ; then
+	if [[ ! -x "\$(command -v tree)" ]] 
+	then
 		pacman --noconfirm --color=always -S tree 
 		tree "\$@"
 	else
@@ -612,11 +618,13 @@ _ADDv_() {
 	else
 		ARGS="\$@"
 	fi
-	if [ ! -e /usr/bin/vim ] ; then
+	if [[ ! -x "\$(command -v vim)" ]] 
+	then
 		pacman --noconfirm --color=always -S vim 
-		vim "\$@"
+		vim "\$ARGS"
 	else
-		vim "\$@"
+		vim "\$ARGS"
+	else
 	fi
 	EOM
 	chmod 700 root/bin/v 
@@ -770,7 +778,8 @@ _ADDwe_() {
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
 	cat >> root/bin/yt  <<- EOM
-	if [ ! -e /usr/bin/youtube-dl ] ; then
+	if [[ ! -x "\$(command -v youtube-dl)" ]] 
+	then
 		pacman --noconfirm --color=always -S youtube-dl
 		youtube-dl "\$@"
 	else
