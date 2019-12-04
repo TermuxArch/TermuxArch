@@ -14,28 +14,28 @@
 KOE=1
 
 _AARCH64_() {
-	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
+	IFILE=ArchLinuxARM-aarch64-latest.tar.gz
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="/os/"
 	_MAKESYSTEM_ 
 }
 
 _ARMV5L_() {
-	IFILE="ArchLinuxARM-armv5-latest.tar.gz"
+	IFILE=ArchLinuxARM-armv5-latest.tar.gz
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="/os/"
 	_MAKESYSTEM_ 
 }
 
 armv7lAndroid () {
-	IFILE="ArchLinuxARM-armv7-latest.tar.gz" 
+	IFILE=ArchLinuxARM-armv7-latest.tar.gz 
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="/os/"
 	_MAKESYSTEM_ 
 }
 
 armv7lChrome() {
-	IFILE="ArchLinuxARM-armv7-chromebook-latest.tar.gz"
+	IFILE=ArchLinuxARM-armv7-chromebook-latest.tar.gz
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="/os/"
 	_MAKESYSTEM_ 
