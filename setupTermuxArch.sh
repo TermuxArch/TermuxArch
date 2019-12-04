@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.22
+VERSIONID=2.0.23
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -253,7 +253,7 @@ _INTROREFRESH_() {
 		then	# check for superfluous tmp directory
 			DIRCHECK=0
 			DIRNAME=(dev etc home opt proc root sys usr var)
-			for IDIRNAME in ${DIRNAME [@]}
+			for IDIRNAME in ${DIRNAME[@]}
 			do
 				if [[ ! -d "$INSTALLDIR/$IDIRNAME" ]] 
 				then
