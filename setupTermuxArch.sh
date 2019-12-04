@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.19
+VERSIONID=2.0.20
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -249,6 +249,22 @@ _INTROREFRESH_() {
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]]
 	then
 		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is incorrect; Cannot continue setupTermuxArch.bash refresh!  See \`setupTermuxArch.bash help\` and \`$STARTBIN help\` for more information"
+		if [[ -d "$INSTALLDIR"/tmp ]]
+		then	# check for superfluous tmp directory
+			DIRCHECK=0
+			DIRNAME=(dev etc home opt proc root sys usr var)
+			for IDIRNAME in ${DIRNAME [@]}
+			do
+				if [[ ! -d "$INSTALLDIR/$IDIRNAME" ]] 
+				then
+					DIRCHECK=1
+				fi
+			done
+		fi
+		if [[ "$DIRCHECK" -eq 1 ]]
+		then	# delete superfluous tmp dir
+			rmdir "$INSTALLDIR"/tmp
+			rmdir "$INSTALLDIR"
 		exit 204
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID shall refresh your TermuxArch files in \\e[0;32m~/${INSTALLDIR##*/}\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.bash help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
