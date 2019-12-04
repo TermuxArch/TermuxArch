@@ -624,7 +624,6 @@ _ADDv_() {
 		vim "\$ARGS"
 	else
 		vim "\$ARGS"
-	else
 	fi
 	EOM
 	chmod 700 root/bin/v 
