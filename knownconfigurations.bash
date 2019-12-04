@@ -15,14 +15,14 @@ KOE=1
 
 _AARCH64_() {
 	IFILE=ArchLinuxARM-aarch64-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
+	CMIRROR="os.archlinuxarm.org"
 	RPATH=/os/
 	_MAKESYSTEM_ 
 }
 
 _ARMV5L_() {
 	IFILE=ArchLinuxARM-armv5-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
+	CMIRROR="os.archlinuxarm.org"
 	RPATH=/os/
 	_MAKESYSTEM_ 
 }
@@ -36,7 +36,7 @@ armv7lAndroid () {
 
 armv7lChrome() {
 	IFILE=ArchLinuxARM-armv7-chromebook-latest.tar.gz
-	CMIRROR=os.archlinuxarm.org
+	CMIRROR="os.archlinuxarm.org"
 	RPATH=/os/
 	_MAKESYSTEM_ 
 }
@@ -44,13 +44,13 @@ armv7lChrome() {
 # Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $IFILE is read from md5sums.txt
 
 _I686_() { 
-	CMIRROR=archive.archlinux.org
+	CMIRROR="archive.archlinux.org"
 	RPATH=/iso/2017.03.01/
 	_MAKESYSTEM_ 
 }
 
 _X86_64_() { # $IFILE is read from md5sums.txt
-	CMIRROR=mirror.rackspace.com
+	CMIRROR="mirror.rackspace.com"
 	RPATH=/archlinux/iso/latest/
 	_MAKESYSTEM_ 
 }
