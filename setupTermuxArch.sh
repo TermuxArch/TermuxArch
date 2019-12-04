@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.20
+VERSIONID=2.0.21
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -265,6 +265,7 @@ _INTROREFRESH_() {
 		then	# delete superfluous tmp dir
 			rmdir "$INSTALLDIR"/tmp
 			rmdir "$INSTALLDIR"
+		fi
 		exit 204
 	fi
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID shall refresh your TermuxArch files in \\e[0;32m~/${INSTALLDIR##*/}\\e[1;34m.  Ensure background data is not restricted.  Run \\e[0;32mbash setupTermuxArch.bash help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
