@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.24
+VERSIONID=2.0.25
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -154,7 +154,7 @@ _DEPENDS_() { # checks for missing commands
 }
 
 _DEPENDSBLOCK_() {
-	_DEPENDS_ 
+	_DEPENDS_ || printf "%s\\n" "signal received _DEPENDS_ _DEPENDSBLOCK_ ${0##*/}" 
 	if [[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
 	then
 		. archlinuxconfig.bash
