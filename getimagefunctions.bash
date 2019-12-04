@@ -63,7 +63,7 @@ _FTCHSTND_() {
 	else
 		curl -v "$CMIRROR" &> "$TAMPDIR/global2localmirror"
 		_FMIRROR_
-		curl "$DMVERBOSE" -C - --fail --retry 4 -O "${NLCMIRROR::-2}/$RPATH/$IFILE".md5 -O "${NLCMIRROR::-2}/$RPATH/$IFILE"
+		curl "$DMVERBOSE" -C - --fail --retry 4 -O "${NLCMIRROR}/$RPATH/$IFILE".md5 -O "${NLCMIRROR}/$RPATH/$IFILE"
 	fi
 }
 
