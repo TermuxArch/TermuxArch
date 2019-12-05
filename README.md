@@ -1,6 +1,6 @@
 <link rel="prerender" href="https://termuxarch.github.io/TermuxArch/">
 
-## TermuxArch
+## [TermuxArch](https://github.com/TermuxArch/TermuxArch)
 
 ##### -r--r--r-- [setupTermuxArch.bash](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.bash)
 ##### -rwxrwxrwx [setupTermuxArch.bash](https://TermuxArch.github.io/TermuxArch/setupTermuxArch.bash) 
