@@ -198,7 +198,7 @@ _DWNL_() { # downloads TermuxArch from Github
 		"${ADM[axel]}" "${FILE[tar]}"
 	elif [[ "$DM" = curl ]] 
 	then # use https://github.com/curl/curl	
-		"${ADM[curl]}" "$DMVERBOSE" -O "${FILE[{sha|tar}]}"
+		"${ADM[curl]}" "$DMVERBOSE" -O "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$DM" = wget ]] 
 	then # use https://github.com/mirror/wget
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
