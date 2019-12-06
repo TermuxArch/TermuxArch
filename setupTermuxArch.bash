@@ -186,8 +186,8 @@ _DWNL_() { # downloads TermuxArch from Github
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.tar.gz" 
 	else # get stable version from:
-		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/p1/setupTermuxArch.sha512"
-		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/p1/setupTermuxArch.tar.gz" 
+		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
+		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz" 
 	fi
 	if [[ "$DM" = aria2 ]] 
 	then # use https://github.com/aria2/aria2
@@ -198,7 +198,7 @@ _DWNL_() { # downloads TermuxArch from Github
 		"${ADM[axel]}" "${FILE[tar]}"
 	elif [[ "$DM" = curl ]] 
 	then # use https://github.com/curl/curl	
-		"${ADM[curl]}" "$DMVERBOSE" -O "${FILE[sha]}" "${FILE[tar]}"
+		"${ADM[curl]}" "$DMVERBOSE" -O {"${FILE[sha]},${FILE[tar]}"}
 	elif [[ "$DM" = wget ]] 
 	then # use https://github.com/mirror/wget
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
