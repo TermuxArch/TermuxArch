@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.37
+VERSIONID=2.0.38
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -345,7 +345,7 @@ _OPT1_() {
 		printf "Setting mode to manual.\\n"
 		OPT=MANUAL
  		_OPT2_ "$@"  
-	elif [[ "${2//-}" = [Rr][Ee][Ff]* ]]
+	elif [[ "$2" = [Rr][Ee][Ff]* ]]
 	then
 		printf "\\nSetting mode to refresh.\\n"
 		shift 
@@ -382,7 +382,7 @@ _OPT2_() {
 		shift 2 
 		_ARG2DIR_ "$@" 
 		_INTRO_ "$@"  
-	elif [[ "${3//-}" = [Rr][Ee][Ff]* ]]
+	elif [[ "$3" = [Rr][Ee][Ff]* ]]
 	then
 		printf "\\nSetting mode to refresh.\\n"
 		_ARG2DIR_ "$@" 
