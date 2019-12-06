@@ -194,8 +194,8 @@ _DWNL_() { # downloads TermuxArch from Github
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$DM" = axel ]] 
 	then # use https://github.com/mopp/Axel
-		"${ADM[axel]}" "${FILE[sha]}" 
-		"${ADM[axel]}" "${FILE[tar]}"
+		"${ADM[axel]}" -a "${FILE[sha]}" 
+		"${ADM[axel]}" -a "${FILE[tar]}"
 	elif [[ "$DM" = curl ]] 
 	then # use https://github.com/curl/curl	
 		"${ADM[curl]}" "$DMVERBOSE" -O {"${FILE[sha]},${FILE[tar]}"}
