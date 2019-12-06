@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.33
+VERSIONID=2.0.34
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -194,8 +194,8 @@ _DWNL_() { # downloads TermuxArch from Github
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$DM" = axel ]] 
 	then # use https://github.com/mopp/Axel
-		"${ADM[axel]}" "${FILE[sha]}" 
-		"${ADM[axel]}" "${FILE[tar]}"
+		"${ADM[axel]}" -a "${FILE[sha]}" 
+		"${ADM[axel]}" -a "${FILE[tar]}"
 	elif [[ "$DM" = curl ]] 
 	then # use https://github.com/curl/curl	
 		"${ADM[curl]}" "$DMVERBOSE" -O {"${FILE[sha]},${FILE[tar]}"}
