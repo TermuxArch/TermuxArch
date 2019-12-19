@@ -691,7 +691,7 @@ _ADDwe_() {
 			tbcif=\$(command -v bc) ||:
 			if [[ \$tbcif = "" ]] ; then
 				printf "\e[1;34mInstalling \e[0;32mbc\e[1;34m…\n\n\e[1;32m"
-				pkg install bc --yes
+				apt install bc --yes
 				printf "\n\e[1;34mInstalling \e[0;32mbc\e[1;34m: \e[1;32mDONE\n\e[0m"
 			fi
 		fi

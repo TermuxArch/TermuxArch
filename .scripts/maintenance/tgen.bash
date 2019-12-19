@@ -35,7 +35,7 @@ trap _STGNTRPEXIT_ EXIT
 trap _STGNTRPSIGNAL_ HUP INT TERM 
 trap _STGNTRPQUIT_ QUIT 
 
-./scripts/maintenance/vgen.sh
+.scripts/maintenance/vgen.sh
 sed -i "s/^VERSIONID=.*/VERSIONID=$(head -n 1 .conf/VERSIONID )/g" setupTermuxArch.bash
 sed -i "s/^FLHDR1\[5\]=.*/FLHDR1\[5\]=\"VERSIONID=$(head -n 1 .conf/VERSIONID)\"/g" printoutstatements.bash 
 cp setupTermuxArch.bash setupTermuxArch.sh 
@@ -55,5 +55,5 @@ cd ..
 rm -f gen/*
 sha512sum setupTermuxArch.tar.gz > setupTermuxArch.sha512
 sha512sum -c setupTermuxArch.sha512
-./scripts/maintenance/do.sums.bash
+.scripts/maintenance/do.sums.bash
 # tgen.bash EOF

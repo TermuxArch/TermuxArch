@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.39
+VERSIONID=2.0.40
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -543,7 +543,7 @@ _TAPIN_() {
 	if [[ "$APTIN" != "" ]]
 	then
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m…\\n\\n\\e[1;32m" "$APTIN"
-		pkg install "$APTIN" -o APT::Keep-Downloaded-Packages="true" --yes 
+		apt install "$APTIN" -o APT::Keep-Downloaded-Packages="true" --yes 
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$APTIN"
 	fi
 }
