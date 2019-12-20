@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.40
+VERSIONID=2.0.41
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
