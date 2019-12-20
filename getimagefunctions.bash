@@ -21,7 +21,7 @@ _FTCHIT_() {
 	then 
 		wget "$DMVERBOSE" -c --show-progress -N http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE" 
 	else
-		curl "$DMVERBOSE" -C - --fail --retry 4 -OL http://"$CMIRROR/$RPATH/$IFILE".md5 -OL http://"$CMIRROR/$RPATH/$IFILE" 
+		curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"http://$CMIRROR/$RPATH/$IFILE.md5,http://$CMIRROR/$RPATH/$IFILE"}
 	fi
 }
 
@@ -62,15 +62,12 @@ _FTCHSTND_() {
 		wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE" 
 	else
 		curl -v "$CMIRROR" &> "$TAMPDIR/global2localmirror"
-		_FMIRROR_
-		curl "$DMVERBOSE" -C - --fail --retry 4 -OL "$NLCMIRROR/$RPATH/$IFILE".md5 -OL "$NLCMIRROR/$RPATH/$IFILE"
+		NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $3'})" 
+		NLCMIRROR="${NLCMIRROR%$'\r'}" # remove trailing carrage return
+		_PRINTDONE_ 
+		_PRINTDOWNLOADINGFTCH_ 
+		curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"$NLCMIRROR/$RPATH/$IFILE.md5,$NLCMIRROR/$RPATH/$IFILE"}
 	fi
-}
-
-_FMIRROR_() {
-	NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $3'})" 
-	_PRINTDONE_ 
-	_PRINTDOWNLOADINGFTCH_ 
 }
 
 _GETIMAGE_() {
