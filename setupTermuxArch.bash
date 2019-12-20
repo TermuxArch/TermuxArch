@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.42
+VERSIONID=2.0.43
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -642,7 +642,7 @@ declare ROOTDIR=""
 declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
-trap "_STRPERROR_ $LINENO $BASH_COMMAND $?" ERR 
+trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
 trap _STRPEXIT_ EXIT
 trap _STRPSIGNAL_ HUP INT TERM 
 trap _STRPQUIT_ QUIT 
