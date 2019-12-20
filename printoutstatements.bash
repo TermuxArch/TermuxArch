@@ -5,7 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 # Printout statement subroutines for `setupTermuxArch.bash`.
 ################################################################################
-FLHDR0[0]="#!/bin/env bash"
+FLHDR0[0]="#!/usr/bin/env bash"
 FLHDR0[1]="# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺 "
 FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github.com." 
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
