@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.41
+VERSIONID=2.0.42
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -246,7 +246,7 @@ _INTROSYSINFO_() {
 _INTROREFRESH_() {
 	printf '\033]2;  bash setupTermuxArch.bash refresh 📲 \007'
 	_SETROOT_EXCEPTION_ 
-	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]]
+	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -f "$INSTALLDIR"/usr/bin/env ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -d "$INSTALLDIR"/root/bin ]]
 	then
 		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is incorrect; Cannot continue setupTermuxArch.bash refresh!  See \`setupTermuxArch.bash help\` and \`$STARTBIN help\` for more information"
 		if [[ -d "$INSTALLDIR"/tmp ]]
