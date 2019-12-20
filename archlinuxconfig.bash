@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
@@ -100,7 +100,7 @@ _ADDbashrc_() {
 _ADDcdtd_() { 
 	_CFLHD_ root/bin/cdtd "# Usage: \`. cdtd\` the dot sources \`cdtd\` which makes this shortcut script work."
 	cat > root/bin/cdtd <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$HOME/storage/downloads" && pwd
 	EOM
 	chmod 700 root/bin/cdtd 
@@ -109,7 +109,7 @@ _ADDcdtd_() {
 _ADDcdth_() { 
 	_CFLHD_ root/bin/cdth "# Usage: \`. cdth\` the dot sources \`cdth\` which makes this shortcut script work."
 	cat > root/bin/cdth <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$HOME" && pwd
 	EOM
 	chmod 700 root/bin/cdth 
@@ -118,7 +118,7 @@ _ADDcdth_() {
 _ADDcdtmp_() { 
 	_CFLHD_ root/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 	cat > root/bin/cdtmp <<- EOM
-	#!/bin/env bash
+	#!/usr/bin/env bash
 	cd "$PREFIX/tmp" && pwd
 	EOM
 	chmod 700 root/bin/cdtmp 

@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted sdrausty.github.io/TermuxArch courtesy https://pages.github.com
 # https://sdrausty.github.io/TermuxArch/README has info about this project. 
