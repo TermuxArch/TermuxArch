@@ -45,16 +45,20 @@ _ADDADDS_() {
 	
 _CALLSYSTEM_() {
 	declare COUNTER=""
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_GETIMAGE_
 	else
-		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]; then
-			until _FTCHSTND_;do
+		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
+		then
+			until _FTCHSTND_
+			do
 				_FTCHSTND_ ||: 
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 4 ]];then 
+				if [[ "$COUNTER" = 4 ]]
+				then 
 					_PRINTMAX_ 
 					exit
 				fi
@@ -66,7 +70,8 @@ _CALLSYSTEM_() {
 }
 
 _COPYSTARTBIN2PATH_() {
-	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]; then
+	if [[ ":$PATH:" == *":$HOME/bin:"* ]] && [[ -d "$HOME"/bin ]]
+	then
 		BPATH="$HOME"/bin
 	else
 		BPATH="$PREFIX"/bin
@@ -77,15 +82,20 @@ _COPYSTARTBIN2PATH_() {
 
 _DETECTSYSTEM_() {
 	_PRINTDETECTEDSYSTEM_
-	if [[ "$CPUABI" = "$CPUABI5" ]];then
+	if [[ "$CPUABI" = "$CPUABI5" ]]
+	then
 		_ARMV5L_
-	elif [[ "$CPUABI" = "$CPUABI7" ]];then
+	elif [[ "$CPUABI" = "$CPUABI7" ]]
+	then
 		_DETECTSYSTEM2_ 
-	elif [[ "$CPUABI" = "$CPUABI8" ]];then
+	elif [[ "$CPUABI" = "$CPUABI8" ]]
+	then
 		_AARCH64_
-	elif [[ "$CPUABI" = "$CPUABIX86" ]];then
+	elif [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
 		_I686_ 
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
 		_X86_64_
 	else
 		_PRINTMISMATCH_ 
@@ -93,7 +103,8 @@ _DETECTSYSTEM_() {
 }
 
 _DETECTSYSTEM2_() {
-	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
+	if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
 		armv7lChrome 
 	else
 		armv7lAndroid  
@@ -107,14 +118,18 @@ _KERNID_() {
 	declare -i MAJOR_REVISION="$(echo "$ur" |awk -F'.' '{print $2}')"
 	declare -- TMP="$(echo "$ur" |awk -F'.' '{print $3}')"
 	declare -- MINOR_REVISION="$(echo "${TMP:0:3}" |sed 's/[^0-9]*//g')"
-	if [[ "$KERNEL_VERSION" -le 2 ]]; then
+	if [[ "$KERNEL_VERSION" -le 2 ]]
+	then
 		KID=1
 	else
-		if [[ "$KERNEL_VERSION" -eq 3 ]]; then
-			if [[ "$MAJOR_REVISION" -lt 2 ]]; then
+		if [[ "$KERNEL_VERSION" -eq 3 ]]
+		then
+			if [[ "$MAJOR_REVISION" -lt 2 ]]
+			then
 				KID=1
 			else
-				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]; then
+				if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]
+				then
 					KID=1
 				fi
 			fi
@@ -146,34 +161,44 @@ _MAKEFINISHSETUP_() {
    	locale-gen ||:
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
-	if [[ -z "${LCR:-}" ]] ; then
-	 	if [[ "$CPUABI" = "$CPUABI5" ]];then
+	if [[ -z "${LCR:-}" ]]
+	then
+	 	if [[ "$CPUABI" = "$CPUABI5" ]]
+		then
 	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI7" ]];then
+	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
+		then
 	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI8" ]];then
+	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
+		then
 	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 	 	fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]];then
+		if [[ "$CPUABI" = "$CPUABIX86" ]]
+		then
 			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
 			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
 		else
 	 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
 		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
 			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
 		else
 	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
-	if [[ -e "$HOME"/.bash_profile ]];then
+	if [[ -e "$HOME"/.bash_profile ]]
+	then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.bashrc ]];then
+	if [[ -e "$HOME"/.bashrc ]]
+	then
 		grep "proxy" "$HOME"/.bashrc  | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
-	if [[ -e "$HOME"/.profile ]];then
+	if [[ -e "$HOME"/.profile ]]
+	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -294,7 +319,8 @@ _MAKESYSTEM_() {
 }
 
 _MD5CHECK_() {
-	if md5sum -c "$IFILE".md5 1>/dev/null ; then
+	if md5sum -c "$IFILE".md5 1>/dev/null 
+	then
 		_PRINTMD5SUCCESS_
 		printf "\\e[0;32m"
 		_PREPROOT_ ## & spinner "Unpacking" "$IFILE…" 
@@ -322,7 +348,8 @@ _PREPINSTALLDIR_() {
 }
 
 _PREPROOT_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]];then
+	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
  		proot --link2symlink -0 bsdtar -xpf "$IFILE" --strip-components 1  
 	else
  		proot --link2symlink -0 bsdtar -xpf "$IFILE" 
@@ -331,15 +358,18 @@ _PREPROOT_() {
 
 _RUNFINISHSETUP_() {
 	printf "\\e[0m"
-	if [[ "$FSTND" ]]; then
+	if [[ "$FSTND" ]]
+	then
 		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # https://unix.stackexchange.com/questions/155331/sed-replace-a-character-in-a-matched-line-in-place
+		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
 	else
-	if [[ "$ed" = "" ]];then
+	if [[ "$ed" = "" ]]
+	then
 		_EDITORS_ 
 	fi
-	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]];then
+	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+	then
 		_EDITFILES_
 	fi
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
@@ -360,28 +390,34 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 	LANGIN+=([7]="$(getprop ro.product.locale.region)")
 	touch "$INSTALLDIR"/etc/locale.gen 
 	ULANGUAGE="${LANGIN[0]:-unknown}_${LANGIN[1]:-unknown}"
-       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null 
+	then 
 		ULANGUAGE="unknown"
        	fi 
  	if [[ "$ULANGUAGE" != *_* ]];then
  		ULANGUAGE="${LANGIN[3]:-unknown}_${LANGIN[2]:-unknown}"
- 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
+ 	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null 
+		then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
-	for i in "${!LANGIN[@]}"; do
-		if [[ "${LANGIN[i]}" = *-* ]];then
+	for i in "${!LANGIN[@]}"
+	do
+		if [[ "${LANGIN[i]}" = *-* ]]
+		then
  	 		ULANGUAGE="${LANGIN[i]//-/_}"
 			break
 		fi
 	done
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
  		ULANGUAGE="${LANGIN[6]:-unknown}_${LANGIN[7]:-unknown}"
  	       	if ! grep "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen 1>/dev/null ; then 
  			ULANGUAGE="unknown"
  	       	fi 
  	fi 
- 	if [[ "$ULANGUAGE" != *_* ]];then
+ 	if [[ "$ULANGUAGE" != *_* ]]
+	then
    		ULANGUAGE="en_US"
  	fi 
 	printf "\\n\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region"
@@ -390,7 +426,8 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
 	echo "##  File locale.conf generated by setupTermuxArch.bash at" ${FTIME//-}. > etc/locale.conf 
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf 
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
