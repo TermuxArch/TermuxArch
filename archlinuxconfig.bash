@@ -30,7 +30,7 @@ _ADDAUSER_() {
 		echo "Use: addauser username"
 		exit 201
 	else
-		useradd "\$1"
+		useradd -s /bin/bash "\$1"
 		cp -r /root /home/"\$1"
 		su - "\$1"
 	fi
