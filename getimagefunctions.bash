@@ -63,7 +63,7 @@ _FTCHSTND_() {
 	else
 		curl -v "$CMIRROR" &> "$TAMPDIR/global2localmirror"
 		NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $3'})" 
-		NLCMIRROR="${NLCMIRROR%$'\r'}" # remove trailing carrage return
+		NLCMIRROR="${NLCMIRROR%$'\r'}" # remove trailing carrage return.  Search string: strip bash variable non printing characters
 		_PRINTDONE_ 
 		_PRINTDOWNLOADINGFTCH_ 
 		curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"$NLCMIRROR/$RPATH/$IFILE.md5,$NLCMIRROR/$RPATH/$IFILE"}
