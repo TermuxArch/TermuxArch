@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.50
+VERSIONID=2.0.51
 ## INIT FUNCTIONS ##############################################################
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
@@ -615,6 +615,11 @@ _STRPQUIT_() { # run on quit
 	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal $? received!\\e[0m\\n"
  	exit 221 
 }
+
+trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
+trap _STRPEXIT_ EXIT
+trap _STRPSIGNAL_ HUP INT TERM 
+trap _STRPQUIT_ QUIT 
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.bash`.  Working with `kownconfigurations.bash` in the working directory is simple.  `bash setupTermuxArch.bash manual` shall create `setupTermuxArchConfigs.bash` in the working directory for editing; See `setupTermuxArch.bash help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
@@ -642,10 +647,6 @@ declare ROOTDIR=""
 declare WDIR="$PWD/"
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
-trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
-trap _STRPEXIT_ EXIT
-trap _STRPSIGNAL_ HUP INT TERM 
-trap _STRPQUIT_ QUIT 
 if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
