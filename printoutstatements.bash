@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.53"
+FLHDR1[5]="VERSIONID=2.0.54"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -191,7 +191,8 @@ _PRINTFOOTER_() {
 }
 
 _PRINTFOOTER2_() {
-	printf "\033[1;34m%s\\n\\n%s\033[1;32m%s\033[1;34m%s\033[1;32m%s\033[1;34m%s\033[0;34m%s\\n\\n\033[0m" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.i" "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels.  " "If there is a /usr/bin/env not found error, ensure that your software is up to date.  Search https://github.com/termux/proot/issues?q=\"/usr/bin/env\"+\"not+found\" and https://github.com/termux/termux-packages/issues?q=\"/usr/bin/env\"+\"not+found\" in order to find a resolution if updating Termux app and the software do not resolve thus error."
+	printf "\033[1;34m%s\\n\\n%s\033[1;32m%s\033[1;34m%s\033[1;32m%s\033[1;34m%s\033[0m\\n\\n" "Arch Linux in Termux PRoot is installed in $INSTALLDIR.  This project is in active development.  Contributions to this project are welcome; See https://sdrausty.github.io/TermuxArch/CONTRIBUTORS for information.  The documentation repository for TermuxArch https://sdrausty.github.io/TermuxArch/docs/ is a Termux Arch submodule that is located at https://github.com/sdrausty/docsTermuxArch.  Pull requests and contributions through the issues pages are open to improve the ux (user experience) and this Termux PRoot installation script.i" "Use " "~$PRINTROOTDIR/$STARTBIN " "and " "$STARTBIN " "in a BASH shell to launch Arch Linux in Termux PRoot for future sessions.  If you are new to *nix, http://tldp.org has *nix documentation.  See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels."
+	printf "\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m\\n" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\"" 
 }
 
 _PRINTROOTDIRFUNCTION_() {
