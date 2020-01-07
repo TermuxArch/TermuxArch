@@ -610,16 +610,16 @@ _ADDv_() {
 	_CFLHDR_ root/bin/v
 	cat >> root/bin/v  <<- EOM
 	if [[ -z "\${1:-}" ]] ; then
-		ARGS="."
+		ARGS=(".")
 	else
-		ARGS="\$@"
+		ARGS=("\$@")
 	fi
 	if [[ ! -x "\$(command -v vim)" ]] 
 	then
 		pacman --noconfirm --color=always -S vim 
-		vim "\$ARGS"
+		vim "\${ARGS[@]}"
 	else
-		vim "\$ARGS"
+		vim "\${ARGS[@]}"
 	fi
 	EOM
 	chmod 700 root/bin/v 

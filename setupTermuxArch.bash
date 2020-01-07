@@ -7,8 +7,52 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.51
+VERSIONID=2.0.52
 ## INIT FUNCTIONS ##############################################################
+_STRPERROR_() { # run on script error
+	local RV="$?"
+	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by \`${2:-command}\`!"
+	if [[ "$RV" = 4 ]]
+	then
+		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
+	fi
+	printf "\\n"
+	exit 201
+}
+
+_STRPEXIT_() { # run on exit
+	local RV="$?"
+ 	rm -rf "$TAMPDIR"
+	sleep 0.04
+	if [[ "$RV" = 0 ]]
+	then
+		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
+		printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
+	else
+		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s %s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
+		printf "\033]2; %s: %s %s \\007" "${0##*/} $ARGS" "[Exit Signal $RV]" "DONE 🏁 "
+	fi
+	printf "\\e[?25h\\e[0m"
+	set +Eeuo pipefail 
+	exit
+}
+
+_STRPSIGNAL_() { # run on signal
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal $? received!\\e[0m\\n"
+ 	rm -rf "$TAMPDIR"
+ 	exit 211 
+}
+
+_STRPQUIT_() { # run on quit
+	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal $? received!\\e[0m\\n"
+ 	exit 221 
+}
+
+trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
+trap _STRPEXIT_ EXIT
+trap _STRPSIGNAL_ HUP INT TERM 
+trap _STRPQUIT_ QUIT 
+
 _ARG2DIR_() {  # argument as ROOTDIR
 	ARG2="${@:2:1}"
 	if [[ -z "${ARG2:-}" ]] 
@@ -576,50 +620,6 @@ _STANDARDIF_() {
 		APTON+=(proot)
 	fi
 }
-
-_STRPERROR_() { # run on script error
-	local RV="$?"
-	printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by \`${2:-command}\`!"
-	if [[ "$RV" = 4 ]]
-	then
-		printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Ensure background data is not restricted.  Check the wireless connection."
-	fi
-	printf "\\n"
-	exit 201
-}
-
-_STRPEXIT_() { # run on exit
-	local RV="$?"
- 	rm -rf "$TAMPDIR"
-	sleep 0.04
-	if [[ "$RV" = 0 ]]
-	then
-		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
-		printf "\\e]2; %s: %s \\007" "${0##*/} $ARGS" "DONE 🏁 "
-	else
-		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s %s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "[Exit Signal $RV]" "DONE 🏁 "
-		printf "\033]2; %s: %s %s \\007" "${0##*/} $ARGS" "[Exit Signal $RV]" "DONE 🏁 "
-	fi
-	printf "\\e[?25h\\e[0m"
-	set +Eeuo pipefail 
-	exit
-}
-
-_STRPSIGNAL_() { # run on signal
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal $? received!\\e[0m\\n"
- 	rm -rf "$TAMPDIR"
- 	exit 211 
-}
-
-_STRPQUIT_() { # run on quit
-	printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Quit signal $? received!\\e[0m\\n"
- 	exit 221 
-}
-
-trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR 
-trap _STRPEXIT_ EXIT
-trap _STRPSIGNAL_ HUP INT TERM 
-trap _STRPQUIT_ QUIT 
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.bash`.  Working with `kownconfigurations.bash` in the working directory is simple.  `bash setupTermuxArch.bash manual` shall create `setupTermuxArchConfigs.bash` in the working directory for editing; See `setupTermuxArch.bash help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
