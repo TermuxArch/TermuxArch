@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2017-2019 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.  
 ################################################################################
@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.55
+VERSIONID=2.0.56
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
