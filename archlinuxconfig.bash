@@ -85,7 +85,7 @@ _ADDbashrc_() {
 	alias i='whoami'
 	alias l='ls -al --color=always'
 	alias lr='ls -alR --color=always'
-	alias n2='nice -n 20'
+	alias n2='nice -n -20'
 	alias p='pwd'
 	alias pacman='pacman --color=always'
 	alias pcs='pacman -S --color=always'
