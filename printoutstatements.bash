@@ -117,11 +117,12 @@ _PRINTCU_() {
 }
 
 _PRINTDETECTEDSYSTEM_() {
-	printf "\n\033[0;34m 🕛 > 🕝 \033[1;34mDetected $(uname -m) " 
-	if [[ "$(getprop ro.product.device)" == *_cheets ]];then
-		printf "Chromebook.\n\n\033[0m"
+	printf "\\n\\e[1;34m%s" " 🕛 > 🕝 Detected $(uname -m) " 
+	if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
+		printf "%s\\n\\n\\e[0m" "Chromebook."
 	else
-		printf "$(uname -o) operating system.\n\n\033[0m"
+		printf "%s\\n\\n\\e[0m" "$(uname -o) operating system."
 	fi
 }
 
