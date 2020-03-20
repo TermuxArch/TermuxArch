@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.62
+VERSIONID=2.0.63
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -122,14 +122,8 @@ _CHKSELF_() {
 }
 
 _DEPENDBP_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] 
-	then
-		_BSDTARIF_
-		_PROOTIF_
-	else
-		_BSDTARIF_
-		_PROOTIF_
-	fi
+	_BSDTARIF_
+	_PROOTIF_
 }
 
 _DEPENDDM_() { # checks and sets download manager 
@@ -190,7 +184,16 @@ _DEPENDS_() { # checks for missing commands
 	fi
 	_DEPENDBP_ 
 #	# Installs missing commands.  
-	_TAPIN_ "$APTIN"
+for PKG in "${PKGS[@]}"
+do
+	COMMANDP="$(command -v "$PKG")" || printf "Command %s not found: Continuing...\\n" "$PKG" # test if command exists
+	COMMANDPF="${COMMANDP##*/}"
+	if [[ "$COMMANDPF" != "$PKG" ]] 
+	then 
+		_INPKGS_
+	fi
+done
+# 	_TAPIN_ "$APTIN"
 #	# Checks whether install missing commands was successful.  
 # 	_PECHK_ "$APTON"
 	printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
@@ -277,6 +280,15 @@ _INTROBLOOM_() { # BLOOM = `setupTermuxArch.bash manual verbose`
 	_PREPTERMUXARCH_
 	_DEPENDSBLOCK_ "$@" 
 	_BLOOM_
+}
+
+_INPKGS_() {
+	if [[ "$COMMANDIF" = au ]] 
+	then 
+		au "${PKGS[@]}" || printf "\\e[1;38;5;117m%s\\e[0m\\n" "$STRING2"
+	else
+		apt install "${PKGS[@]}" || printf "\\e[1;37;5;116m%s\\e[0m\\n" "$STRING2"
+	fi
 }
 
 _INTROSYSINFO_() {
@@ -587,8 +599,14 @@ _TAPIN_() {
 	if [[ "$APTIN" != "" ]]
 	then
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m…\\n\\n\\e[1;32m" "$APTIN"
-		apt install "$APTIN" -o APT::Keep-Downloaded-Packages="true" --yes 
+		apt install $APTIN -o APT::Keep-Downloaded-Packages="true" --yes 
+		echo $APTIN
 		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$APTIN"
+		printf 0
+		printf 0
+		printf 0
+		printf 0
+		exit
 	fi
 }
 
@@ -627,6 +645,10 @@ declare -a ARGS="$@"	## Declare arguments as string.
 declare APTIN=""	## apt install string
 declare APTON=""	## exception string
 declare COMMANDIF=""
+declare COMMANDR
+declare COMMANDG=""
+declare STRING1
+declare STRING2
 declare CPUABI=""
 declare CPUABI5="armeabi"	## Used for development.
 declare CPUABI7="armeabi-v7a"	## Used for development.
@@ -655,8 +677,8 @@ _SETROOT_
 ## TERMUXARCH FEATURES INCLUDE: 
 ## 1) Sets timezone and locales from device,
 ## 2) Tests for correct OS,
-COMMANDIF="$(command -v getprop)" ||:
-if [[ "$COMMANDIF" = "" ]]
+COMMANDG="$(command -v getprop)" ||:
+if [[ "$COMMANDG" = "" ]]
 then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
@@ -673,7 +695,10 @@ else
 fi
 ONES="$(date +%s)" 
 ONESA="${ONES: -1}" 
+PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
+STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
 ## 4) Gets device information via `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
 ## 5) And all options are optional for install.  

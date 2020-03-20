@@ -225,8 +225,8 @@ _MAKESTARTBIN_() {
 	_CFLHDR_ "$STARTBIN" 
 	printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
-	COMMANDIF="\$(command -v getprop)" ||:
-	if [[ "\$COMMANDIF" = "" ]] ; then
+	COMMANDG="\$(command -v getprop)" ||:
+	if [[ "\$COMMANDG" = "" ]] ; then
  		printf "\\n\\e[1;48;5;138m  %s\\e[0m\\n\\n" "\${0##*/} WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 		exit 202
 	fi
