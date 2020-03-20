@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.63
+VERSIONID=2.0.64
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -619,25 +619,6 @@ _SETROOT_EXCEPTION_() {
 	fi
 }
 
-_SETROOT_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]]
-	then
-		ROOTDIR=/arch
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-	then
-		ROOTDIR=/arch
-	else
-		ROOTDIR=/arch
-	fi
-}
-
-_STANDARDIF_() {
-	if [[ ! -x "$(command -v proot)" ]]
-	then
-		APTIN+="proot "
-		APTON+=(proot)
-	fi
-}
 ## User Information:  Configurable variables such as mirrors and download manager options are in `setupTermuxArchConfigs.bash`.  Working with `kownconfigurations.bash` in the working directory is simple.  `bash setupTermuxArch.bash manual` shall create `setupTermuxArchConfigs.bash` in the working directory for editing; See `setupTermuxArch.bash help` for more information.  
 declare -A ADM		## Declare associative array for all available download tools. 
 declare -A ATM		## Declare associative array for all available tar tools. 
@@ -673,7 +654,7 @@ if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
 fi
-_SETROOT_
+ROOTDIR=/arch
 ## TERMUXARCH FEATURES INCLUDE: 
 ## 1) Sets timezone and locales from device,
 ## 2) Tests for correct OS,
@@ -683,6 +664,8 @@ then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
 fi
+COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || (printf "%s\\n\\n" "$STRING1") 
+COMMANDIF="${COMMANDR##*/}"
 ## 3) Generates pseudo random number to create uniq strings,
 if [[ -r  /proc/sys/kernel/random/uuid ]]
 then
