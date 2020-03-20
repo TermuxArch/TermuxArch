@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.66
+VERSIONID=2.0.67
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -617,16 +617,18 @@ then
 	TAMPDIR=""
 fi
 ROOTDIR=/arch
+STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE: 
 ## 1) Sets timezone and locales from device,
 ## 2) Tests for correct OS,
-COMMANDG="$(command -v getprop)" || (printf "%s\\n\\n" "$STRING1")
+COMMANDG="$(command -v getprop)" ||:
 if [[ "$COMMANDG" = "" ]]
 then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
 	exit
 fi
-COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || (printf "%s\\n\\n" "$STRING1") 
+COMMANDR="$(command -v au)" || COMMANDR="$(command -v apt)" 
 COMMANDIF="${COMMANDR##*/}"
 ## 3) Generates pseudo random number to create uniq strings,
 if [[ -r  /proc/sys/kernel/random/uuid ]]
@@ -642,8 +644,6 @@ ONES="$(date +%s)"
 ONESA="${ONES: -1}" 
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
-STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
 ## 4) Gets device information via `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)" 
 ## 5) And all options are optional for install.  

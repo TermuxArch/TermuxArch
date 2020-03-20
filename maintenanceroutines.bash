@@ -43,8 +43,8 @@ _LOADIMAGE_() {
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 	exit
 }
 
@@ -96,8 +96,8 @@ _REFRESHSYS_() { # refreshes installation
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" ||:
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 	exit
 }
 

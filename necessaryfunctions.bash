@@ -150,8 +150,8 @@ _MAINBLOCK_() {
 	set +Eeuo pipefail
 	"$INSTALLDIR/$STARTBIN" || printf "\033[1;31m%s\\n\\n\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "Signal generated in INSTALLDIR/STARTBIN _MAINBLOCK_" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 	set -Eeuo pipefail
-	_PRINTSTARTBIN_USAGE_
 	_PRINTFOOTER2_
+	_PRINTSTARTBIN_USAGE_
 }
 
 _MAKEFINISHSETUP_() {
