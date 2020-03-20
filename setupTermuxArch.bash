@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.64
+VERSIONID=2.0.65
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -65,14 +65,6 @@ _ARG2DIR_() {  # argument as ROOTDIR
 	fi
 }
 
-_BSDTARIF_() {
-	if [[ ! -x "$(command -v bsdtar)" ]] 
-	then
-		APTIN+="bsdtar "
-		APTON+=(bsdtar)
-	fi
-}
-
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null 
 	then
@@ -119,11 +111,6 @@ _CHKSELF_() {
  			.  "${WDIR}setupTermuxArch.bash" "$@"
 		fi
 	fi
-}
-
-_DEPENDBP_() {
-	_BSDTARIF_
-	_PROOTIF_
 }
 
 _DEPENDDM_() { # checks and sets download manager 
@@ -182,18 +169,16 @@ _DEPENDS_() { # checks for missing commands
 		APTON+=(lftp)
 		printf "Setting download tool \`lftp\` for install: Continuing…\\n"
 	fi
-	_DEPENDBP_ 
 #	# Installs missing commands.  
-for PKG in "${PKGS[@]}"
-do
-	COMMANDP="$(command -v "$PKG")" || printf "Command %s not found: Continuing...\\n" "$PKG" # test if command exists
-	COMMANDPF="${COMMANDP##*/}"
-	if [[ "$COMMANDPF" != "$PKG" ]] 
-	then 
-		_INPKGS_
-	fi
-done
-# 	_TAPIN_ "$APTIN"
+	for PKG in "${PKGS[@]}"
+	do
+		COMMANDP="$(command -v "$PKG")" || printf "Command %s not found: Continuing...\\n" "$PKG" # test if command exists
+		COMMANDPF="${COMMANDP##*/}"
+		if [[ "$COMMANDPF" != "$PKG" ]] 
+		then 
+			_INPKGS_
+		fi
+	done
 #	# Checks whether install missing commands was successful.  
 # 	_PECHK_ "$APTON"
 	printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
@@ -287,7 +272,7 @@ _INPKGS_() {
 	then 
 		au "${PKGS[@]}" || printf "\\e[1;38;5;117m%s\\e[0m\\n" "$STRING2"
 	else
-		apt install "${PKGS[@]}" || printf "\\e[1;37;5;116m%s\\e[0m\\n" "$STRING2"
+		apt install "${PKGS[@]}" --yes || printf "\\e[1;37;5;116m%s\\e[0m\\n" "$STRING2"
 	fi
 }
 
@@ -533,14 +518,6 @@ _PRINTUSAGE_() {
 	_PRINTSTARTBIN_USAGE_
 }
 
-_PROOTIF_() {
-	if [[ ! -x "$(command -v proot)" ]]
-	then
-		APTIN+="proot "
-		APTON+=(proot)
-	fi
-}
-
 _RMARCH_() {
 	_NAMESTARTARCH_ 
 	_NAMEINSTALLDIR_
@@ -595,21 +572,6 @@ _RMARCHQ_() {
 	fi
 }
 
-_TAPIN_() {
-	if [[ "$APTIN" != "" ]]
-	then
-		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m…\\n\\n\\e[1;32m" "$APTIN"
-		apt install $APTIN -o APT::Keep-Downloaded-Packages="true" --yes 
-		echo $APTIN
-		printf "\\n\\e[1;34mInstalling \\e[0;32m%s\\b\\e[1;34m: \\e[1;32mDONE\\n\\e[0m" "$APTIN"
-		printf 0
-		printf 0
-		printf 0
-		printf 0
-		exit
-	fi
-}
-
 _SETROOT_EXCEPTION_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 	then
@@ -658,7 +620,7 @@ ROOTDIR=/arch
 ## TERMUXARCH FEATURES INCLUDE: 
 ## 1) Sets timezone and locales from device,
 ## 2) Tests for correct OS,
-COMMANDG="$(command -v getprop)" ||:
+COMMANDG="$(command -v getprop)" || (printf "%s\\n\\n" "$STRING1")
 if [[ "$COMMANDG" = "" ]]
 then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
