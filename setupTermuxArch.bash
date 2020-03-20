@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.65
+VERSIONID=2.0.66
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -493,7 +493,7 @@ _PRINTSHA512SYSCHKER_() {
 }
 
 _PRINTSTARTBIN_USAGE_() {
-	printf "\\n\\e[1;38;5;155m" 
+	printf "\\e[1;38;5;155m" 
  	_NAMESTARTARCH_ 
 	if [[ -x "$(command -v "$STARTBIN")" ]]
 	then
