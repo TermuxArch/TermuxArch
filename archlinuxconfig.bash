@@ -362,6 +362,12 @@ _ADDgp_() {
 	chmod 700 root/bin/gp 
 }
 
+_ADDinputrc() {
+	cat > root/.inputrc <<- EOM
+	set bell-style none
+	EOM
+}
+
 _ADDkeys_() {
 	_CFLHDR_ root/bin/keys 
 	cat >> root/bin/keys <<- EOM
