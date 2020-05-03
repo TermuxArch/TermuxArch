@@ -75,11 +75,11 @@ _ADDbashrc_() {
 	alias ....='cd ../../../.. && pwd'
 	alias .....='cd ../../../../.. && pwd'
 	alias d='du -hs'
-	alias e='logout'
+	alias e='exit'
 	alias f='grep --color=always'
 	alias g='ga ; gcm ; gp'
-	alias gca='git commit -a'
-	alias gcam='git commit -am'
+	alias gca='git commit -a -S'
+	alias gcam='git commit -a -S -m'
 	alias h='history >> \$HOME/.historyfile'
 	alias j='jobs'
 	alias i='whoami'
@@ -90,8 +90,7 @@ _ADDbashrc_() {
 	alias pacman='pacman --color=always'
 	alias pcs='pacman -S --color=always'
 	alias pcss='pacman -Ss --color=always'
-	alias q='logout'
-	alias rf='rm -rf'
+	alias q='exit'
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:
