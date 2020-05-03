@@ -57,12 +57,15 @@ _ADDbash_profile_() {
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
+	export GPG_TTY=$(tty)
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
-	for i in "${!LC_TYPE[@]}"; do
+	for i in "${!LC_TYPE[@]}"
+	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile 
 	done
-	if [ -e "$HOME"/.bash_profile ] ; then
+	if [ -e "$HOME"/.bash_profile ]
+	then
 		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
 	fi
 }
