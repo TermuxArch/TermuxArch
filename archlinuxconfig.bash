@@ -57,7 +57,7 @@ _ADDbash_profile_() {
 	fi
 	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
-	export GPG_TTY=$(tty)
+	export GPG_TTY="\$(tty)"
 	export TZ="$(getprop persist.sys.timezone)"
 	EOM
 	for i in "${!LC_TYPE[@]}"
