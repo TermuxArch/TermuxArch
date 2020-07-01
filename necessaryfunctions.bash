@@ -88,10 +88,10 @@ _DETECTSYSTEM_() {
 		_ARMV5L_
 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 	then
-		_DETECTSYSTEM2_ 
+		_DETECTSYSTEM7_ 
 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 	then
-		_AARCH64_
+		_DETECTSYSTEM64_
 	elif [[ "$CPUABI" = "$CPUABIX86" ]]
 	then
 		_I686_ 
@@ -103,12 +103,21 @@ _DETECTSYSTEM_() {
 	fi
 }
 
-_DETECTSYSTEM2_() {
+_DETECTSYSTEM7_() {
 	if [[ "$(getprop ro.product.device)" == *_cheets ]]
 	then
-		armv7lChrome 
+		_ARMV7CHROME_
 	else
-		armv7lAndroid  
+		_ARMV7ANDROID_
+	fi
+}
+
+_DETECTSYSTEM64_() {
+	if [[ "$(getprop ro.product.device)" == *_cheets ]]
+	then
+		_AARCH64CHROME_
+	else
+		_AARCH64ANDROID_
 	fi
 }
 

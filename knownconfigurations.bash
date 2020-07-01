@@ -13,8 +13,15 @@
 # DM=wget		# Uncomment to use the wget download tool.
 KOE=1
 
-_AARCH64_() {
+_AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
+	CMIRROR="os.archlinuxarm.org"
+	RPATH="os"
+	_MAKESYSTEM_ 
+}
+
+_AARCH64CHROME_() {
+	IFILE="ArchLinuxARM-aarch64-chromebook-latest.tar.gz"
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="os"
 	_MAKESYSTEM_ 
@@ -27,14 +34,14 @@ _ARMV5L_() {
 	_MAKESYSTEM_ 
 }
 
-armv7lAndroid () {
+_ARMV7ANDROID_() {
 	IFILE="ArchLinuxARM-armv7-latest.tar.gz" 
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="os"
 	_MAKESYSTEM_ 
 }
 
-armv7lChrome() {
+_ARMV7CHROME_() {
 	IFILE="ArchLinuxARM-armv7-chromebook-latest.tar.gz"
 	CMIRROR="os.archlinuxarm.org"
 	RPATH="os"
