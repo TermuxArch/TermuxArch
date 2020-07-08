@@ -78,12 +78,8 @@ _PR00TSTRING_() {
        	if [[ ! -r /dev/ashmem ]] ; then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 	fi
-	# Add termux:api commands to the proot if installed ($PREFIX/libexec/termux-api must exist)
-	# see https://github.com/termux/termux-api/issues/140#issuecomment-605500089
-	# The user can then call it with e.g. /data/data/com.termux/files/usr/bin/termux-toast 'hello' 
-	if [ -x "$PREFIX/libexec/termux-api" ] ; then 
-		PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/  "
-	fi
+	# Add termux:api commands to the proot
+	PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/ "
        	if [[ ! -r /dev/shm ]] ; then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 	fi
