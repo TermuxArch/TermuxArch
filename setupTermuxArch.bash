@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.76
+VERSIONID=2.0.75
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -648,14 +648,14 @@ STIME="$ONESA$STIME"
 CPUABI="$(getprop ro.product.cpu.abi)" 
 ## 5) And all options are optional for install.  
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE: 
-## OPTIONS[a]: `setupTermuxArch.bash [HOW] [DO] [WHERE]`
-## GRAMMAR[a]: `setupTermuxArch.bash [HOW] [DO] [WHERE]`
-## OPTIONS[b]: `setupTermuxArch.bash [~/|./|/absolute/path/]image.tar.gz [WHERE]` 
-## GRAMMAR[b]: `setupTermuxArch.bash [WHAT] [WHERE]`
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.  
+## GRAMMAR[a]: `setupTermuxArch.bash [HOW] [DO] [WHERE]`
+## OPTIONS[a]: `setupTermuxArch.bash [HOW] [DO] [WHERE]`
 ## SYNTAX[1]: [HOW (aria2|axel|curl|lftp|wget (default1: present on system (default2: lftp)))]
 ## SYNTAX[2]: [DO (help|install|manual|purge|refresh|sysinfo (default: install))] 
 ## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage. 
+## GRAMMAR[b]: `setupTermuxArch.bash [WHAT] [WHERE]`
+## OPTIONS[b]: `setupTermuxArch.bash [~/|./|/absolute/path/]image.tar.gz [WHERE]` 
 ## USAGE[1]: `setupTermuxArch.bash wget sysinfo` shall use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to `setupTermuxArch.bash ws` and `setupTermuxArch.bash w s`. 
 ## USAGE[2]: `setupTermuxArch.bash wget manual customdir` shall install the installation in customdir with wget and use manual mode during instalation. 
 ## USAGE[3]: `setupTermuxArch.bash wget refresh customdir` shall refresh this installation using wget as the download manager. 
