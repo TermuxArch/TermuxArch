@@ -66,34 +66,42 @@ _X86_64_() { # $IFILE is read from md5sums.txt
 
 _PR00TSTRING_() { 
 	PROOTSTMNT="exec proot " # The space before the last double quote is necessary.
-       	if [[ -z "${KID:-}" ]] ; then
+       	if [[ -z "${KID:-}" ]]
+	then
 	       	PROOTSTMNT+=""
-       	elif [[ "$KID" ]] ; then
+       	elif [[ "$KID" ]]
+	then
 	       	PROOTSTMNT+="--kernel-release=4.14.15 "
        	fi
-       	if [[ "${KOE:-}" ]] ; then
+       	if [[ "${KOE:-}" ]]
+	then
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
        	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-       	if [[ ! -r /dev/ashmem ]] ; then
+       	if [[ ! -r /dev/ashmem ]]
+	then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 	fi
 	# Add termux:api commands to the proot
-	PROOTSTMNT+="-b $PREFIX -b /property_contexts -b /system/ "
-       	if [[ ! -r /dev/shm ]] ; then
+	PROOTSTMNT+="-b $PREFIX -b /system/ "
+       	if [[ ! -r /dev/shm ]]
+	then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
 	fi
-       	if [[ ! -r /proc/stat ]] ; then
+       	if [[ ! -r /proc/stat ]]
+	then
 	       	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	fi
-       	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]] ; then
-	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs ; do
+       	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
+	then
+	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
+		do
 		       	. "$PRSFILES"
 	       	done
        	fi
        	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
        	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM ANDROID_DATA=/data PATH=$PATH:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
+	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b /proc/ -b /storage/ -b /sys/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM ANDROID_DATA=/data "
        	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_

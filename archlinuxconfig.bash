@@ -72,6 +72,8 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	cat > root/.bashrc <<- EOM
+	# Use executables in Termux's PATH as a last resort
+	PATH=\$PATH:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
