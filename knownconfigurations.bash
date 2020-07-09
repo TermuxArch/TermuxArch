@@ -97,8 +97,9 @@ _PR00TSTRING_() {
 	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
 	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
 	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b \"\$PREFIX\" -b /proc/ -b /storage/ -b /system/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
+	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b \"\$PREFIX\" -b /proc/ -b /storage/ -b /system/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" "
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
+	echo $PROOTSTMNTU
 }
 _PR00TSTRING_
 # knownconfigurations.bash EOF
