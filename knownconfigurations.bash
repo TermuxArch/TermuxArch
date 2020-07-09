@@ -91,14 +91,23 @@ _PR00TSTRING_() {
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$ISRD" ]]	# not readble
-		then	# add proot binds
+		then	# add proot bind
 		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD " 
+		fi
+	done
+	declare -A PRSTRARR
+	PRSTRARR=(["$ANDROID_DATA"]="$ANDROID_DATA" ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" ["/proc/"]="/proc/" ["/storage/"]="/storage/" ["/sys/"]="/sys/" ["/system/"]="/system/" )
+	for ISRD in ${!PRSTRARR[@]}
+	do
+	       	if [[ -r "$ISRD" ]]	# readble
+		then	# add proot bind
+		       	PROOTSTMNT+="-b ${PRSTRARR[$ISRD]}:$ISRD " 
 		fi
 	done
 	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
 	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
 	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b \"\$PREFIX\" -b /proc/ -b /storage/ -b /system/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" "
+	PROOTSTMNT+="-b /dev/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" "
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
