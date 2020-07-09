@@ -72,7 +72,6 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	cat > root/.bashrc <<- EOM
-	# Use executables in Termux's PATH
 	PATH=\$PATH:$PREFIX/bin:$PREFIX/bin/applets
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
