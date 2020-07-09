@@ -82,7 +82,6 @@ _PR00TSTRING_() {
 	then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
 	fi
-	# Add termux:api commands to the proot
        	if [[ ! -r /dev/shm ]]
 	then
 	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
