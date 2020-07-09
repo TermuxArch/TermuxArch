@@ -78,6 +78,7 @@ _PR00TSTRING_() {
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
        	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
+	# file var/binds/fbindexample.prs has examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
@@ -89,8 +90,8 @@ _PR00TSTRING_() {
 	PRSTARR=([/dev/ashmem]=$INSTALLDIR/tmp [/dev/shm]=$INSTALLDIR/tmp [/proc/stat]=$INSTALLDIR/var/binds/fbindprocstat )
 	for ISRD in ${!PRSTARR[@]}
 	do
-	       	if [[ ! -r "$ISRD" ]]
-		then
+	       	if [[ ! -r "$ISRD" ]]	# not readble
+		then	# add proot binds
 		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD " 
 		fi
 	done
