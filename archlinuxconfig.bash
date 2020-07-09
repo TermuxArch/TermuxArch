@@ -275,6 +275,7 @@ _ADDfbindprocstat8_() {
 _ADDfbindexample_() {
 	_CFLHDRS_ var/binds/fbindexample.prs "# To regenerate the start script use \`setupTermuxArch.bash re[fresh]\`.  Add as many proot statements as you want; The init script will parse this file at refresh.  Examples are included for convenience.  Usage: PROOTSTMNT+=\"-b host_path:guest_path \" The space before the last double quote is necessary." 
 	cat >> var/binds/fbindexample.prs <<- EOM
+	# PROOTSTMNT+=" -q $PREFIX/bin/qemu-x86_64 " 
 	# PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
 	# if [[ ! -r /dev/shm ]] ; then 
 	# 		PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
