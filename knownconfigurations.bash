@@ -78,18 +78,6 @@ _PR00TSTRING_() {
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
        	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-       	if [[ ! -r /dev/ashmem ]]
-	then
-	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/ashmem " 
-	fi
-       	if [[ ! -r /dev/shm ]]
-	then
-	       	PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm " 
-	fi
-       	if [[ ! -r /proc/stat ]]
-	then
-	       	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocstat:/proc/stat " 
-	fi
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
@@ -97,6 +85,15 @@ _PR00TSTRING_() {
 		       	. "$PRSFILES"
 	       	done
 	fi
+	declare -A PRSTARR
+	PRSTARR=([/dev/ashmem]=$INSTALLDIR/tmp [/dev/shm]=$INSTALLDIR/tmp [/proc/stat]=$INSTALLDIR/var/binds/fbindprocstat )
+	for ISRD in ${!PRSTARR[@]}
+	do
+	       	if [[ ! -r "$ISRD" ]]
+		then
+		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD " 
+		fi
+	done
 	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
 	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
 	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
