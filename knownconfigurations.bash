@@ -96,12 +96,12 @@ _PR00TSTRING_() {
 		do
 		       	. "$PRSFILES"
 	       	done
-       	fi
-       	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
-       	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
-       	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b \"$PREFIX\" -b /proc/ -b /storage/ -b /sys/ -b /system/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM ANDROID_DATA=/data "
-       	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
+	fi
+	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
+	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
+	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
+	PROOTSTMNT+="-b \"\$ANDROID_DATA\" -b /dev/ -b \"\$EXTERNAL_STORAGE\" -b \"\$HOME\" -b \"\$PREFIX\" -b /proc/ -b /storage/ -b /system/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=$TERM ANDROID_DATA=/data "
+	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
 # knownconfigurations.bash EOF
