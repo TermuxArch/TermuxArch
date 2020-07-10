@@ -107,7 +107,7 @@ _PR00TSTRING_() {
 	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
 	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
 	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b /dev/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" "
+	PROOTSTMNT+="-b /dev/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
