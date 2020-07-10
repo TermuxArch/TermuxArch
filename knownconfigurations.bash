@@ -96,7 +96,7 @@ _PR00TSTRING_() {
 		fi
 	done
 	declare -A PRSTRARR
-	PRSTRARR=(["$ANDROID_DATA"]="$ANDROID_DATA" ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ )
+	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ )
 	for ISRD in ${!PRSTRARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
