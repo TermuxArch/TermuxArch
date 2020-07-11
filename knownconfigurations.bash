@@ -66,8 +66,8 @@ _X86_64_() { # $IFILE is read from md5sums.txt
 # To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary. 
 # Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  
 
-_PR00TSTRING_() { 
-	PROOTSTMNT="exec proot " # The space before the last double quote is necessary.
+_PR00TSTRING_() { # construct proot init statements
+	PROOTSTMNT="exec proot "
        	if [[ -z "${KID:-}" ]]
 	then
 	       	PROOTSTMNT+=""
@@ -90,7 +90,7 @@ _PR00TSTRING_() {
 	fi
 	declare -A PRSTRARR # associative array
 	# populate writable binds
- 	PRSTRARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
+ 	PRSTRARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
 	for ISRD in ${!PRSTRARR[@]}
 	do
 	       	if [[ -w "$ISRD" ]]	# writable 
@@ -100,7 +100,7 @@ _PR00TSTRING_() {
 	done
 	declare -A PRSTRARR # associative array
 	# populate readable binds
- 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
+ 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/)
 	for ISRD in ${!PRSTRARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
