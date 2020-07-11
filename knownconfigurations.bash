@@ -11,7 +11,7 @@
 # DM=curl		# Uncomment to use the curl download tool.
 # DM=lftp 		# Uncomment to use this download tool.
 # DM=wget		# Uncomment to use the wget download tool.
-KOE=1
+KOE=0
 
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
@@ -64,7 +64,7 @@ _X86_64_() { # $IFILE is read from md5sums.txt
 
 ## To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary. 
 ## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.bash manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  
-## Function _PR00TSTRING_ now also uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available https://www.gnu.org/software/bash/manual/ here. 
+## Function _PR00TSTRING_ associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available https://www.gnu.org/software/bash/manual/ here. 
 
 _PR00TSTRING_() { 
 	PROOTSTMNT="exec proot " # The space before the last double quote is necessary.
@@ -89,7 +89,8 @@ _PR00TSTRING_() {
 	       	done
 	fi
 	declare -A PRSTARR
-	PRSTARR=([/dev/ashmem]=$INSTALLDIR/tmp [/dev/shm]=$INSTALLDIR/tmp [/proc/stat]=$INSTALLDIR/var/binds/fbindprocstat )
+	# populate not readable binds
+	PRSTARR=([/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/dev/]=/dev/)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$ISRD" ]]	# not readble
@@ -98,22 +99,20 @@ _PR00TSTRING_() {
 		fi
 	done
 	declare -A PRSTRARR
-	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ )
+	# populate readable binds
+ 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
 	for ISRD in ${!PRSTRARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
 		then	# add proot bind
-		       	PROOTSTMNT+="-b ${PRSTRARR[$ISRD]}:$ISRD " 
+		       	PROOTSTMNT+="-b $ISRD:${PRSTRARR[$ISRD]} " 
 		fi
 	done
-	PROOTSTMNT+="-b /proc/self/fd/0:/dev/stdin "
-	PROOTSTMNT+="-b /proc/self/fd/1:/dev/stdout "
-	PROOTSTMNT+="-b /proc/self/fd/2:/dev/stderr "
-	PROOTSTMNT+="-b /dev/ -w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
-## uncomment to test
+## uncomment the next two lines to test function _PR00TSTRING_
 # echo $PROOTSTMNT
 # exit
 # knownconfigurations.bash EOF
