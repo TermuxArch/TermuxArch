@@ -62,9 +62,9 @@ _X86_64_() { # $IFILE is read from md5sums.txt
 	_MAKESYSTEM_ 
 }
 
-## To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary. 
-## Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  `info proot` and `man proot` have more information about what can be configured in a proot init statement.  `setupTermuxArch.bash manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  
-## Function _PR00TSTRING_ associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available https://www.gnu.org/software/bash/manual/ here. 
+# Function _PR00TSTRING_ uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link. 
+# To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary. 
+# Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  
 
 _PR00TSTRING_() { 
 	PROOTSTMNT="exec proot " # The space before the last double quote is necessary.
@@ -88,24 +88,34 @@ _PR00TSTRING_() {
 		       	. "$PRSFILES"
 	       	done
 	fi
-	declare -A PRSTARR
-	# populate not readable binds
+	declare -A PRSTRARR # associative array
+	# populate writable binds
+ 	PRSTRARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
+	for ISRD in ${!PRSTRARR[@]}
+	do
+	       	if [[ -r "$ISRD" ]]	# writable 
+		then	# add proot bind
+		       	PROOTSTMNT+="-b $ISRD:$ISRD " 
+		fi
+	done
+	declare -A PRSTRARR # associative array
+	# populate readable binds
+ 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
+	for ISRD in ${!PRSTRARR[@]}
+	do
+	       	if [[ -r "$ISRD" ]]	# readble
+		then	# add proot bind
+		       	PROOTSTMNT+="-b $ISRD:${PRSTRARR[$ISRD]} " 
+		fi
+	done
+	declare -A PRSTARR # associative array
+	# populate NOT readable binds
 	PRSTARR=([/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/dev/]=/dev/)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$ISRD" ]]	# not readble
 		then	# add proot bind
 		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD " 
-		fi
-	done
-	declare -A PRSTRARR
-	# populate readable binds
- 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
-	for ISRD in ${!PRSTRARR[@]}
-	do
-	       	if [[ -r "$ISRD" ]]	# readble
-		then	# add proot bind
-		       	PROOTSTMNT+="-b $ISRD:${PRSTRARR[$ISRD]} " 
 		fi
 	done
 	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
