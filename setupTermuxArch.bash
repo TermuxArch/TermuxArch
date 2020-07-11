@@ -791,7 +791,7 @@ then
 	printf "\\nSetting mode to purge.\\n"
 	_ARG2DIR_ "$@" 
 	_RMARCHQ_
-## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, kets, locales and the TermuxArch generated scripts to their newest versions.  
+## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, locales and the TermuxArch generated scripts to their newest versions.  
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
 	printf "\\nSetting mode to refresh.\\n"
