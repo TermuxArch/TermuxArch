@@ -93,7 +93,7 @@ _PR00TSTRING_() {
  	PRSTRARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
 	for ISRD in ${!PRSTRARR[@]}
 	do
-	       	if [[ -r "$ISRD" ]]	# writable 
+	       	if [[ -w "$ISRD" ]]	# writable 
 		then	# add proot bind
 		       	PROOTSTMNT+="-b $ISRD:$ISRD " 
 		fi
