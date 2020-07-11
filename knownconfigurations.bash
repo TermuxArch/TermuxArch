@@ -75,7 +75,7 @@ _PR00TSTRING_() {
 	then
 	       	PROOTSTMNT+="--kernel-release=4.14.15 "
        	fi
-       	if [[ "${KOE:-}" ]]
+       	if [[ "$KOE" = 0 ]]
 	then
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
@@ -112,7 +112,7 @@ _PR00TSTRING_() {
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
 }
 _PR00TSTRING_
-## uncomment the next two lines to test function _PR00TSTRING_
-# echo $PROOTSTMNT
+# uncomment the next two lines to test function _PR00TSTRING_
+# printf "%s\\n" "$PROOTSTMNT"
 # exit
 # knownconfigurations.bash EOF
