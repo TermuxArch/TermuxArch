@@ -88,27 +88,25 @@ _PR00TSTRING_() { # construct proot init statements
 		       	. "$PRSFILES"
 	       	done
 	fi
-	declare -A PRSTRARR # associative array
+	declare -A PRSTARR # associative array
 	# populate writable binds
- 	PRSTRARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
-	for ISRD in ${!PRSTRARR[@]}
+ 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
+	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -w "$ISRD" ]]	# writable 
 		then	# add proot bind
-		       	PROOTSTMNT+="-b $ISRD:${PRSTRARR[$ISRD]} " 
+		       	PROOTSTMNT+="-b $ISRD:${PRSTARR[$ISRD]} " 
 		fi
 	done
-	declare -A PRSTRARR # associative array
 	# populate readable binds
- 	PRSTRARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/)
-	for ISRD in ${!PRSTRARR[@]}
+ 	PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/)
+	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
 		then	# add proot bind
 		       	PROOTSTMNT+="-b $ISRD:$ISRD " 
 		fi
 	done
-	declare -A PRSTARR # associative array
 	# populate NOT readable binds
 	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat")
 	for ISRD in ${!PRSTARR[@]}
@@ -119,7 +117,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
-	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }"
+	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # create user string
 }
 _PR00TSTRING_
 # uncomment the next two lines to test function _PR00TSTRING_
