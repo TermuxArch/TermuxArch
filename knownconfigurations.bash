@@ -90,7 +90,7 @@ _PR00TSTRING_() { # construct proot init statements
 	fi
 	declare -A PRSTARR # associative array
 	# populate writable binds
- 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
+ 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm [/dev/shmget]=/dev/shmget [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -w "$ISRD" ]]	# writable 
@@ -108,7 +108,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate NOT readable binds
-	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat")
+	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/dev/shmget]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat")
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$ISRD" ]]	# not readble
