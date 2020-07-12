@@ -116,8 +116,8 @@ _PR00TSTRING_() { # construct proot init statements
 		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD " 
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data "
-	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # create user string
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data " # create PRoot root user string
+	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # create PRoot user string
 }
 _PR00TSTRING_
 # uncomment the next two lines to test function _PR00TSTRING_
