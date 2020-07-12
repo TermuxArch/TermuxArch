@@ -80,7 +80,7 @@ _PR00TSTRING_() { # construct proot init statements
 	       	PROOTSTMNT+="--kill-on-exit "
        	fi
        	PROOTSTMNT+="--link2symlink -0 -r $INSTALLDIR "
-	# file var/binds/fbindexample.prs has examples
+	# file INSTALLDIR/var/binds/fbindexample.prs has examples
        	if [[ -n "$(ls -A "$INSTALLDIR"/var/binds/*.prs)" ]]
 	then
 	       	for PRSFILES in "$INSTALLDIR"/var/binds/*.prs
@@ -99,7 +99,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate readable binds
- 	PRSTARR=(["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/)
+ 	PRSTARR=([/dev/]=/dev/ ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
