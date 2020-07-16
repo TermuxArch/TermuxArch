@@ -146,7 +146,6 @@ _KERNID_() {
 		fi
 	fi
 }
-
 _KERNID_ 
 
 _MAINBLOCK_() { 
@@ -168,7 +167,7 @@ _MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
-   	locale-gen ||:
+    	locale-gen ||:
 	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 	EOM
 	if [[ -z "${LCR:-}" ]]
@@ -374,14 +373,14 @@ _RUNFINISHSETUP_() {
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
 	else
-	if [[ "$ed" = "" ]]
-	then
-		_EDITORS_ 
-	fi
-	if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
-	then
-		_EDITFILES_
-	fi
+		if [[ "$ed" = "" ]]
+		then
+			_EDITORS_ 
+		fi
+		if [[ ! "$(sed 1q  "$INSTALLDIR"/etc/pacman.d/mirrorlist)" = "# # # # # # # # # # # # # # # # # # # # # # # # # # #" ]]
+		then
+			_EDITFILES_
+		fi
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	fi
 	printf "\\n"
@@ -441,6 +440,7 @@ _SETLOCALE_() { # This function uses device system settings to set locale.  To g
 	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf 
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen 
+	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
 }
 
 _TOUCHUPSYS_() {
