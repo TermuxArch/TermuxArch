@@ -21,6 +21,7 @@ _ADDADDS_() {
 	_ADDcdth_
 	_ADDcdtmp_
 	_ADDch_ 
+	_ADDcsystemctl_
 	_ADDdfa_
 	_ADDexd_
 	_ADDfbindexample_
