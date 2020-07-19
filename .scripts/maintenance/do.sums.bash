@@ -28,7 +28,7 @@ do
 done
 git add .
 SN="$(sn.sh)" # sn.sh is found in https://github.com/BuildAPKs/maintenance.BuildAPKs/blob/master/sn.sh
-([[ -z "${1:-}" ]] && git commit -m "$SN") || ([[ "${1//-}" = [Ss]* ]] && git commit -a -S -m "$SN" && pkill gpg-agent) || git commit -m "$SN"
+( [[ -z "${1:-}" ]] && git commit -m "$SN" ) || ( [[ "${1//-}" = [Ss]* ]] && git commit -a -S -m "$SN" && pkill gpg-agent ) || git commit -m "$SN"
 git push
 ls
 printf "%s\\n" "$PWD"
