@@ -90,7 +90,7 @@ _PR00TSTRING_() { # construct proot init statements
 	       	done
 	fi
 	PROOTSTMNT+="-b /dev/ashmem:/dev/shm " 
-	PROOTSTMNT+="-b /apex:/apex "
+	[[ "$(getprop ro.build.version.release)" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
 	declare -A PRSTARR # associative array
 	# populate writable binds
 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
