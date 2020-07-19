@@ -89,7 +89,6 @@ _PR00TSTRING_() { # construct proot init statements
 		       	. "$PRSFILES"
 	       	done
 	fi
-	PROOTSTMNT+="-b /dev/ashmem:/dev/shm "
 	[[ "$(getprop ro.build.version.release)" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
 	declare -A PRSTARR # associative array
 	# populate writable binds
@@ -111,7 +110,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate NOT readable binds
-	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat")
+	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat")
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$ISRD" ]]	# not readble
