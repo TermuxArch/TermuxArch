@@ -90,6 +90,7 @@ _PR00TSTRING_() { # construct proot init statements
 	       	done
 	fi
 	PROOTSTMNT+="-b /dev/ashmem:/dev/shm " 
+	PROOTSTMNT+="-b /apex:/apex "
 	declare -A PRSTARR # associative array
 	# populate writable binds
 	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
@@ -101,7 +102,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate readable binds
- 	PRSTARR=([/apex/]=/apex/ [/dev/]=/dev/ ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+ 	PRSTARR=([/dev/]=/dev/ ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
