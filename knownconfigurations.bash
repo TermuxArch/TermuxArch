@@ -51,13 +51,13 @@ _ARMV7CHROME_() {
 
 # Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $IFILE is read from md5sums.txt
 
-_I686_() {
+_I686_() { # IFILE is read from md5sums.txt
 	CMIRROR="archive.archlinux.org"
 	RPATH="iso/2017.03.01"
 	_MAKESYSTEM_
 }
 
-_X86_64_() { # $IFILE is read from md5sums.txt
+_X86_64_() { # IFILE is read from md5sums.txt
 	CMIRROR="mirror.rackspace.com"
 	RPATH="archlinux/iso/latest"
 	_MAKESYSTEM_
