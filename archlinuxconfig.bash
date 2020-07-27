@@ -55,7 +55,6 @@ _ADDbash_profile_() {
 	if [ -e "\$HOME"/.chushlogin ] ; then
 		rm "\$HOME"/.chushlogin
 	fi
-	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 	export GPG_TTY="\$(tty)"
 	export TZ="$(getprop persist.sys.timezone)"
@@ -72,7 +71,7 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	cat > root/.bashrc <<- EOM
-	PATH=\$PATH:$PREFIX/bin:$PREFIX/bin/applets
+	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$HOME/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets"
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
