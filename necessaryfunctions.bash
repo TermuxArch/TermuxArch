@@ -332,10 +332,8 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	if [[ "$KOE" = 0 ]] # Set KOE to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5.
+       	if [[ "$KEEP" -ne 0 ]] # Set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5
 	then
-	       	: # do nothing
-	else
 		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
        	fi
 	_PRINTDONE_
