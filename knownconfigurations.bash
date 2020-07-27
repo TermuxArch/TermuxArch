@@ -97,16 +97,16 @@ _PR00TSTRING_() { # construct proot init statements
 	do
 	       	if [[ -w "$ISRD" ]]	# writable
 		then	# add proot bind
-		       	PROOTSTMNT+="-b $ISRD:${PRSTARR[$ISRD]} "
+		       	PROOTSTMNT+="-b $ISRD:$ISRD "
 		fi
 	done
 	# populate readable binds
- 	PRSTARR=([/dev/]=/dev/ ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+ 	PRSTARR=([/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 	for ISRD in ${!PRSTARR[@]}
 	do
 	       	if [[ -r "$ISRD" ]]	# readble
 		then	# add proot bind
-		       	PROOTSTMNT+="-b $ISRD:$ISRD "
+		       	PROOTSTMNT+="-b $ISRD:${PRSTARR[$ISRD]} "
 		fi
 	done
 	# populate NOT readable binds
@@ -118,7 +118,7 @@ _PR00TSTRING_() { # construct proot init statements
 		       	PROOTSTMNT+="-b ${PRSTARR[$ISRD]}:$ISRD "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" ANDROID_DATA=/data " # create PRoot root user string
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot root user string
 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # create PRoot user string
 }
 _PR00TSTRING_
