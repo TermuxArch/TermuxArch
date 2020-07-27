@@ -78,7 +78,7 @@ _ADDbashrc_() {
 	alias ...='cd ../../.. && pwd'
 	alias ....='cd ../../../.. && pwd'
 	alias .....='cd ../../../../.. && pwd'
-	alias d='du -hs'
+	alias d='nice -n 20 du -hs'
 	alias e='exit'
 	alias f='grep --color=always'
 	alias g='ga ; gcm ; gp'
