@@ -63,15 +63,12 @@ _ADDbash_profile_() {
 	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
-	if [ -e "$HOME"/.bash_profile ]
-	then
-		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
-	fi
+	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep "export" >> root/.bash_profile ||:
 }
 
 _ADDbashrc_() {
-	cat > root/.bashrc <<- EOM
-	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$HOME/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets"
+	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc 
+	cat >> root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
