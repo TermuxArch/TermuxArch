@@ -66,6 +66,20 @@ _LOADIMAGE_() {
 	exit
 }
 
+_FIXOWNER_() { # fix owner of home/USER
+		VAR=($(ls home))
+	for USER in ${VAR[@]}
+	do
+		if [[ "$USER" != alarm ]]
+		then
+			GID=$(id -g)
+			startarch c "usermod -u $UID $USER 2>/dev/null"
+    			startarch c "groupmod -g $GID $USER 2>/dev/null"
+			startarch c "chown -R $USER:$USER /home/$USER"
+		fi
+	done
+}
+
 _REFRESHSYS_() { # refreshes installation
 	printf '\033]2; setupTermuxArch.bash refresh 📲 \007'
  	_NAMESTARTARCH_
@@ -93,6 +107,7 @@ _REFRESHSYS_() { # refreshes installation
 	if [[ "${LCR:-}" = 2 ]]
 	then
 	_FUNLCR2_
+	_FIXOWNER_
 	fi
 	printf "\\n"
 	_WAKEUNLOCK_
