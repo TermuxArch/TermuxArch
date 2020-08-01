@@ -55,7 +55,6 @@ _ADDbash_profile_() {
 	if [ -e "\$HOME"/.chushlogin ] ; then
 		rm "\$HOME"/.chushlogin
 	fi
-	PATH="\$HOME/bin:\$PATH"
 	PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
 	export GPG_TTY="\$(tty)"
 	export TZ="$(getprop persist.sys.timezone)"
@@ -64,21 +63,18 @@ _ADDbash_profile_() {
 	do
 	 	printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 	done
-	if [ -e "$HOME"/.bash_profile ]
-	then
-		grep proxy "$HOME"/.bash_profile |grep "export" >>  root/.bash_profile 2>/dev/null ||:
-	fi
+	[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep "export" >> root/.bash_profile ||:
 }
 
 _ADDbashrc_() {
-	cat > root/.bashrc <<- EOM
-	PATH=\$PATH:$PREFIX/bin:$PREFIX/bin/applets
+	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc 
+	cat >> root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
 	alias ....='cd ../../../.. && pwd'
 	alias .....='cd ../../../../.. && pwd'
-	alias d='du -hs'
+	alias d='nice -n 20 du -hs'
 	alias e='exit'
 	alias f='grep --color=always'
 	alias g='ga ; gcm ; gp'

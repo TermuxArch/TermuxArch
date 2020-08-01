@@ -165,45 +165,18 @@ _MAINBLOCK_() {
 
 _MAKEFINISHSETUP_() {
 	BINFNSTP=finishsetup.bash
-	_CFLHDR_ root/bin/"$BINFNSTP"
-	if [[ "${LCR:-}" = 1 ]]
+_DOKEYS_() {
+	if [[ "$CPUABI" = "$CPUABIX86" ]]
 	then
-		: # do nothing
+		printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
+		printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
 	else
-		cat >> root/bin/"$BINFNSTP" <<- EOM
-		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
-	    	locale-gen ||:
-		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
-		EOM
+ 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
 	fi
-	if [[ -z "${LCR:-}" ]]
-	then
-	 	if [[ "$CPUABI" = "$CPUABI5" ]]
-		then
-	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
-		then
-	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
-		then
-	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
-	 	fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]]
-		then
-			printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-		elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-		then
-			printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-		fi
-		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
-		then
-			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
-		else
-	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
-		fi
-	fi
+	}
+_DOPROXY_() {
 	if [[ -e "$HOME"/.bash_profile ]]
 	then
 		grep "proxy" "$HOME"/.bash_profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
@@ -215,6 +188,38 @@ _MAKEFINISHSETUP_() {
 	if [[ -e "$HOME"/.profile ]]
 	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
+	fi
+	}
+	_CFLHDR_ root/bin/"$BINFNSTP"
+	if [[ "${LCR:-}" -ne 1 ]] # is not equal to 1
+	then
+		cat >> root/bin/"$BINFNSTP" <<- EOM
+		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
+	    	locale-gen ||:
+		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
+		EOM
+	fi
+	_DOPROXY_
+	if [[ -z "${LCR:-}" ]] # is undefined
+	then
+	 	if [[ "$CPUABI" = "$CPUABI5" ]]
+		then
+	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
+		then
+	 		printf "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
+		then
+	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+	 	fi
+		_DOKEYS_
+		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
+		then
+			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
+		else
+	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
+		fi
+		_DOKEYS_
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
@@ -327,10 +332,8 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	if [[ "$KOE" = 0 ]] # Set KOE to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5.
+       	if [[ "$KEEP" -ne 0 ]] # Set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5
 	then
-	       	: # do nothing
-	else
 		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
        	fi
 	_PRINTDONE_
