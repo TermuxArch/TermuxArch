@@ -636,7 +636,7 @@ _ADDtour_() {
 _ADDtrim_() {
 	_CFLHDR_ root/bin/trim
 	cat >> root/bin/trim <<- EOM
-	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0mRunning %s\\\\e[0m\\\\n\\\\n" "${0##*/} $@"
+	printf "\\\\n\\\\e[1;32m==> \\\\e[1;0m%s\\\\e[0m\\\\n\\\\n" "Running ${0##*/} $@"
 	echo [1/5] rm -rf /boot/
 	rm -rf /boot/
 	echo [2/5] rm -rf /usr/lib/firmware
