@@ -66,8 +66,7 @@ _COPYSTARTBIN2PATHQ_() {
 }
 
 _DOTIF_() {
-	printf "%s\\n" "==> Running mv -f $1 $1.org"
-	mv -f "$1" "$1.org"
+	[[ -f $1 ]] && printf "%s\\n" "==> Running mv -f $1 $1.org" && mv -f "$1" "$1.org" || printf "%s" ""
 }
 
 _EDITFILES_() {
