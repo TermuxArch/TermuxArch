@@ -71,12 +71,12 @@ _FIXOWNER_() { # fix owner of home/USER
 	VAR=($(ls home))
 	for USER in ${VAR[@]}
 	do
-		if [[ "$USER" != alarm ]]
+		if [[ "$USER" != alarm ]] || [[ "$UID" != 0 ]]
 		then
 			GID=$(id -g)
-			startarch c "usermod -u $UID $USER 2>/dev/null"
-    			startarch c "groupmod -g $GID $USER 2>/dev/null"
-			startarch c "chown -R $USER:$USER /home/$USER"
+			$STARTBIN c "usermod -u $UID $USER 2>/dev/null"
+    			$STARTBIN c "groupmod -g $GID $USER 2>/dev/null"
+			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
 		fi
 	done
 	}
