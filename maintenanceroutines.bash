@@ -23,18 +23,25 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
  	fi
 }
 
-_FUNLCR2_() { # copy from root to INSTALLDIRhome/USER
-	VAR=($(ls home))
+_FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
+	echo echo 
+	echo echo 
+	echo echo 
+	echo echo 
+	VAR=($(ls $INSTALLDIR/home))
 	for USER in ${VAR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
-			cp "$INSTALLDIR/root/.bashrc" "$INSTALLDIR/home/$USER"
+			_DOTIF_ "$INSTALLDIR/home/$USER"/.bash_profile
+			_DOTIF_ "$INSTALLDIR/home/$USER"/.bashrc
+			_DOTIF_ "$INSTALLDIR/home/$USER"/.profile
 			cp "$INSTALLDIR/root/.bash_profile" "$INSTALLDIR/home/$USER"
+			cp "$INSTALLDIR/root/.bashrc" "$INSTALLDIR/home/$USER"
 			cp "$INSTALLDIR/root/.profile" "$INSTALLDIR/home/$USER"
 			cp "$INSTALLDIR/root/bin/*" "$INSTALLDIR/home/$USER/bin"
-		       	ls "$INSTALLDIR/home/$USER/.bashrc" |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER/.bash_profile" |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER/.bashrc" |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER/.profile" |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER/bin/*" |cut -f7- -d /
 		fi
@@ -66,9 +73,9 @@ _LOADIMAGE_() {
 	exit
 }
 
-_FIXOWNER_() { # fix owner of home/USER
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	_DOFIXOWNER_() {
-	VAR=($(ls home))
+	VAR=($(ls $INSTALLDIR/home))
 	for USER in ${VAR[@]}
 	do
 		if [[ "$USER" != alarm ]]

@@ -31,6 +31,8 @@ _ADDAUSER_() {
 		exit 201
 	else
 		useradd -s /bin/bash "\$1"
+		printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers
+		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
 		su - "\$1"
 	fi
