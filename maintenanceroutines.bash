@@ -81,9 +81,11 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 		if [[ "$USER" != alarm ]]
 		then
 			GID=$(id -g)
-			$STARTBIN c "usermod -u $UID $USER 2>/dev/null"
-    			$STARTBIN c "groupmod -g $GID $USER 2>/dev/null"
+			# This can have some ugly yet useful consequences. Will open a seperate issue to discuss
+			# $STARTBIN c "usermod -u $UID $USER &>/dev/null"
+    			# $STARTBIN c "groupmod -g $GID $USER &>/dev/null"
 			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
+			$STARTBIN c "chmod u+rwX $INSTALLDIR/home/$USER &>/dev/null"
 		fi
 	done
 	}
