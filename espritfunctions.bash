@@ -65,9 +65,10 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
+# copy dot files if found
 _DOTIF_() {
-	[[ -f $1 ]] && printf "%s\\n" "==> Running mv -f $1 $1.org" && mv -f "$1" "$1.org" || printf "%s" ""
-}
+	[[ -f $1 ]] && printf "%s\\n" "==> Running mv -f $1 $1.org" && mv -f "$1" "$1.org" ||:
+} 
 
 _EDITFILES_() {
 	if [[ "${ceds[$i]}" = "vi" ]]
