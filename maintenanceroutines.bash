@@ -71,7 +71,7 @@ _FIXOWNER_() { # fix owner of home/USER
 	VAR=($(ls home))
 	for USER in ${VAR[@]}
 	do
-		if [[ "$USER" != alarm ]] || [[ "$UID" != 0 ]]
+		if [[ "$USER" != alarm ]] || [[ "$($STARTBIN c 'echo $UID')" != 0 ]]
 		then
 			GID=$(id -g)
 			$STARTBIN c "usermod -u $UID $USER 2>/dev/null"
