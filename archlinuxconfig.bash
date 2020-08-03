@@ -554,12 +554,20 @@ _ADDcsystemctl_() {
 	COMMANDL="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
 	[ "\${COMMANDL:-}" = "/usr/bin/python3" ] || pacman --noconfirm --color=always -S python3
 	SDATE="\$(date +%s)"
+	#path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete.
+	#Backup original binary
+	if [ ! -f /usr/bin/systemctl.old ]; then
+		cp /usr/bin/systemctl /usr/bin/systemctl.old
+	fi
 	mv /usr/bin/systemctl ~/systemctl.\$SDATE.old
 	printf "%s\\n" "Moved /usr/bin/systemctl ~/systemctl.\$SDATE.old"
 	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py"
-	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py > /usr/bin/systemctl
+	#Copy to both /usr/local/bin and /usr/bin
+	#Updates won't halt functioning since /usr/local/bin precedes /usr/bin in PATH
+	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
-	printf "%s\\n" "Installing /usr/bin/systemctl replacement: DONE"
+	chmod 700 /usr/local/bin/systemctl
+	printf "%s\\n" "Installing systemctl Replacement at /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
 }
