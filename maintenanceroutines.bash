@@ -85,7 +85,7 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 			# $STARTBIN c "usermod -u $UID $USER &>/dev/null"
     			# $STARTBIN c "groupmod -g $GID $USER &>/dev/null"
 			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
-			$STARTBIN c "chmod u+rwX $INSTALLDIR/home/$USER &>/dev/null"
+			$STARTBIN c "chmod u+rwX $INSTALLDIR/home/$USER"
 		fi
 	done
 	}
