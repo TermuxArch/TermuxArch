@@ -93,6 +93,7 @@ _ADDbashrc_() {
 	alias pcs='pacman -S --color=always'
 	alias pcss='pacman -Ss --color=always'
 	alias q='exit'
+	# alias rf='rm -rf'
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
 		grep proxy "$HOME"/.bashrc | grep "export" >>  root/.bashrc 2>/dev/null ||:

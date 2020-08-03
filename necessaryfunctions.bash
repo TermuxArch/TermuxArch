@@ -200,6 +200,7 @@ _DOPROXY_() {
 		EOM
 	fi
 	_DOPROXY_
+	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]

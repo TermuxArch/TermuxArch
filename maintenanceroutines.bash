@@ -24,7 +24,7 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
 }
 
 _FUNLCR2_() { # copy from root to home/USER
-		VAR=($(ls home))
+	VAR=($(ls home))
 	for USER in ${VAR[@]}
 	do
 		if [[ "$USER" != alarm ]]
@@ -67,7 +67,10 @@ _LOADIMAGE_() {
 }
 
 _FIXOWNER_() { # fix owner of home/USER
-		VAR=($(ls home))
+	echo echo
+	echo echo
+	_DOFIXOWNER_() {
+	VAR=($(ls home))
 	for USER in ${VAR[@]}
 	do
 		if [[ "$USER" != alarm ]]
@@ -78,6 +81,8 @@ _FIXOWNER_() { # fix owner of home/USER
 			startarch c "chown -R $USER:$USER /home/$USER"
 		fi
 	done
+	}
+	_DOFIXOWNER_ ||:
 }
 
 _REFRESHSYS_() { # refreshes installation
@@ -107,7 +112,6 @@ _REFRESHSYS_() { # refreshes installation
 	if [[ "${LCR:-}" = 2 ]]
 	then
 	_FUNLCR2_
-	_FIXOWNER_
 	fi
 	printf "\\n"
 	_WAKEUNLOCK_
