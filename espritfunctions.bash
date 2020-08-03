@@ -65,6 +65,11 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
+_DOTIF_() {
+	printf "%s\\n" "==> Running mv -f $1 $1.org"
+	mv -f "$1" "$1.org"
+}
+
 _EDITFILES_() {
 	if [[ "${ceds[$i]}" = "vi" ]]
 	then
@@ -97,7 +102,7 @@ _EDITORS_() {
 	done
 	for i in "${!ceds[@]}"
 	do
-		cedst+="\`\\e[1;32m${ceds[$i]}\\e[0;32m\`, "
+		cedst+="${ceds[$i]}, "
 	done
 	for i in "${!ceds[@]}"
 	do
