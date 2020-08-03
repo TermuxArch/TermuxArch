@@ -67,8 +67,6 @@ _LOADIMAGE_() {
 }
 
 _FIXOWNER_() { # fix owner of home/USER
-	echo echo
-	echo echo
 	_DOFIXOWNER_() {
 	VAR=($(ls home))
 	for USER in ${VAR[@]}
