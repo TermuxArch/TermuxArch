@@ -275,8 +275,8 @@ _ADDfbindprocstat8_() {
 _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
 	cat > var/binds/fbindprocversion.prs  <<- EOM
-	PROOTSTMNT+=" --kernel-release=5.4.0-fake-kernel "
-	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
+	PROOTSTMNT+=" --kernel-release=5.4.0-fake-kernel \"
+	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	EOM
 	cat > var/binds/fbindprocversion <<- EOM
 	Linux version 5.4.0-fake-kernel (termux@fakehost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Aug 04 00:00:00 UTC 2020
