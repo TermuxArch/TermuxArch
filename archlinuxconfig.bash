@@ -274,12 +274,13 @@ _ADDfbindprocstat8_() {
 
 _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
+	#Display a fake updated kernel when /proc/version is accessed.
 	cat > var/binds/fbindprocversion.prs  <<- EOM
-	PROOTSTMNT+=" --kernel-release=5.4.0-fake-kernel \"
+	PROOTSTMNT+=" --kernel-release=5.4.0-generic \"
 	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	EOM
 	cat > var/binds/fbindprocversion <<- EOM
-	Linux version 5.4.0-fake-kernel (termux@fakehost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Aug 04 00:00:00 UTC 2020
+	Linux version 5.4.0-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Aug 04 00:00:00 UTC 2020
 	EOM
 }
 
