@@ -49,7 +49,7 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	_DOTIF_ root/.bash_profile
+	_DOTHF_ root/.bash_profile
 	cat > root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
@@ -70,7 +70,7 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	_DOTIF_ root/.bashrc
+	_DOTHF_ root/.bashrc
 	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc 
 	cat >> root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
@@ -547,7 +547,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	_DOTIF_ root/.profile
+	_DOTHF_ root/.profile
 	cat > root/.profile <<- EOM
 	. "\$HOME"/.bash_profile
 	EOM

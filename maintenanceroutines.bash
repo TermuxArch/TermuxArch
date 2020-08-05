@@ -29,9 +29,9 @@ _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
 	do
 		if [[ "$USER" != alarm ]]
 		then
-			_DOTIF_ "$INSTALLDIR/home/$USER"/.bash_profile
-			_DOTIF_ "$INSTALLDIR/home/$USER"/.bashrc
-			_DOTIF_ "$INSTALLDIR/home/$USER"/.profile
+			_DOTHF_ "$INSTALLDIR/home/$USER"/.bash_profile
+			_DOTHF_ "$INSTALLDIR/home/$USER"/.bashrc
+			_DOTHF_ "$INSTALLDIR/home/$USER"/.profile
 			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/.profile "$INSTALLDIR/home/$USER/"
