@@ -67,7 +67,7 @@ _COPYSTARTBIN2PATHQ_() {
 
 # copy dot files if found
 _DOTHF_() { # do the file
-	[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $1.org" && mv -f "$1" "$1.org" ||:
+	[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp" ||:
 } 
 
 _EDITFILES_() {
