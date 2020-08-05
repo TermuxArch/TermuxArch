@@ -24,26 +24,22 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
 }
 
 _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
-	echo echo 
-	echo echo 
-	echo echo 
-	echo echo 
-	VAR=($(ls $INSTALLDIR/home))
-	for USER in ${VAR[@]}
+	FUVAR=("$(ls "$INSTALLDIR/home/")")
+	for USER in ${FUVAR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
 			_DOTIF_ "$INSTALLDIR/home/$USER"/.bash_profile
 			_DOTIF_ "$INSTALLDIR/home/$USER"/.bashrc
 			_DOTIF_ "$INSTALLDIR/home/$USER"/.profile
-			cp "$INSTALLDIR/root/.bash_profile" "$INSTALLDIR/home/$USER"
-			cp "$INSTALLDIR/root/.bashrc" "$INSTALLDIR/home/$USER"
-			cp "$INSTALLDIR/root/.profile" "$INSTALLDIR/home/$USER"
-			cp "$INSTALLDIR/root/bin/*" "$INSTALLDIR/home/$USER/bin"
-		       	ls "$INSTALLDIR/home/$USER/.bash_profile" |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER/.bashrc" |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER/.profile" |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER/bin/*" |cut -f7- -d /
+			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/.profile "$INSTALLDIR/home/$USER/"
+			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
+		       	ls "$INSTALLDIR/home/$USER"/.bash_profile |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.bashrc |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/.profile |cut -f7- -d /
+		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
 		fi
 	done
 }
@@ -75,24 +71,24 @@ _LOADIMAGE_() {
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	_DOFIXOWNER_() {
-	VAR=($(ls $INSTALLDIR/home))
-	for USER in ${VAR[@]}
+	FXARR=("$(ls "$INSTALLDIR/home")")
+	for USER in ${FXARR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
-			GID=$(id -g)
 			# This can have some ugly yet useful consequences. Will open a seperate issue to discuss
+			# GID=$(id -g)
 			# $STARTBIN c "usermod -u $UID $USER &>/dev/null"
     			# $STARTBIN c "groupmod -g $GID $USER &>/dev/null"
-			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
-			$STARTBIN c "chmod u+rwX $INSTALLDIR/home/$USER"
+			"$STARTBIN" c 'chown -R $USER:$USER $INSTALLDIR/home/$USER'
+			"$STARTBIN" c 'chmod u+rwX $INSTALLDIR/home/$USER'
 		fi
 	done
 	}
 	_DOFIXOWNER_ ||:
 }
 
-_REFRESHSYS_() { # refreshes installation
+_REFRESHSYS_() { # refresh installation
 	printf '\033]2; setupTermuxArch.bash refresh 📲 \007'
  	_NAMESTARTARCH_
  	_SPACEINFO_
@@ -110,15 +106,15 @@ _REFRESHSYS_() { # refreshes installation
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
 	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
-	ls "$INSTALLDIR/$STARTBIN" |cut -f7- -d /
-	ls "$INSTALLDIR"/bin/we |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.bashrc |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.bash_profile |cut -f7- -d /
-	ls "$INSTALLDIR"/root/.profile |cut -f7- -d /
-	ls "$INSTALLDIR"/root/bin/* |cut -f7- -d /
+	ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
+	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
+	ls "$INSTALLDIR"/root/.profile | cut -f7- -d /
+	ls "$INSTALLDIR"/root/bin/* | cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]]
 	then
-	_FUNLCR2_
+		_FUNLCR2_
 	fi
 	printf "\\n"
 	_WAKEUNLOCK_
