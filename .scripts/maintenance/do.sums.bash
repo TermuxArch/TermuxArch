@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2019 (c) all rights reserved by S D Rausty; see LICENSE  
+# Copyright 2019 (c) all rights reserved by S D Rausty; see LICENSE
 # https://sdrausty.github.io hosted courtesy https://pages.github.com
 # To create checksum files and commit use; ./do.sums.bash
 # To see file tree use; awk '{print $2}' sha512.sum
@@ -20,7 +20,7 @@ do
 		$SCHECK "$FILE" >> ${SCHECK::-3}.sum
 	done
 done
-chmod 400 ${SCHECK::-3}.sum 
+chmod 400 ${SCHECK::-3}.sum
 for SCHECK in  ${CHECKLIST[@]}
 do
 	printf "%s\\n" "Checking $SCHECK..."

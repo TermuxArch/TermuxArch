@@ -71,7 +71,7 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	_DOTHF_ root/.bashrc
-	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc 
+	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc
 	cat >> root/.bashrc <<- EOM
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'

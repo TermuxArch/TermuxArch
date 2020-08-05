@@ -11,7 +11,7 @@
 # DM=curl		# uncomment to use the curl download tool
 # DM=lftp 		# uncomment to use this download tool
 # DM=wget		# uncomment to use the wget download tool
-KEEP=1			# change to a zero 0 to keep downloaded check and image files9
+KEEP=1			# change to a zero 0 to keep downloaded check and image files
 KOE=0
 
 _AARCH64ANDROID_() {
