@@ -5,14 +5,14 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 # Running `setupTermuxArch.bash manual` will create `setupTermuxArchConfigs.bash` from this file in the working directory.  Run `setupTermuxArch.bash` and `setupTermuxArchConfigs.bash` loads automaticaly and this file is ignored at runtime; `setupTermuxArch.bash help` has additional information.  Change mirror (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location in `setupTermuxArchConfigs.bash` to resolve download, 404 and checksum issues.  The following user configurable variables are available in this file:
-# DMVERBOSE="-v" 	# Uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.bash` also.
-# DM=aria2c		# Uncomment to use this download tool.
-# DM=axel 		# Uncomment to use this download tool.
-# DM=curl		# Uncomment to use the curl download tool.
-# DM=lftp 		# Uncomment to use this download tool.
-# DM=wget		# Uncomment to use the wget download tool.
+# DMVERBOSE="-v" 	# uncomment for verbose download tool output with curl and wget;  for verbose output throughout runtime, change this setting in `setupTermuxArch.bash` also
+# DM=aria2c		# uncomment to use this download tool
+# DM=axel 		# uncomment to use this download tool
+# DM=curl		# uncomment to use the curl download tool
+# DM=lftp 		# uncomment to use this download tool
+# DM=wget		# uncomment to use the wget download tool
+KEEP=1			# change to a zero 0 to keep downloaded check and image files9
 KOE=0
-KEEP=1
 
 _AARCH64ANDROID_() {
 	IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
@@ -49,7 +49,7 @@ _ARMV7CHROME_() {
 	_MAKESYSTEM_
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  $IFILE is read from md5sums.txt
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from thevmd5sums.txt file.
 
 _I686_() { # IFILE is read from md5sums.txt
 	CMIRROR="archive.archlinux.org"
@@ -63,9 +63,7 @@ _X86_64_() { # IFILE is read from md5sums.txt
 	_MAKESYSTEM_
 }
 
-# Function _PR00TSTRING_ which creates the PRoot init statement uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
-# To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.
-# Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  The command `setupTermuxArch.bash manual re` will refresh the installation and update locales.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.
+# Function _PR00TSTRING_ which creates the PRoot init statement uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  The command `setupTermuxArch.bash manual re` will refresh the installation and update locales.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct proot init statements
 	PROOTSTMNT="exec proot "

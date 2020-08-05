@@ -24,8 +24,8 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
 }
 
 _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
-	FUVAR=("$(ls "$INSTALLDIR/home/")")
-	for USER in ${FUVAR[@]}
+	FLCR2AR=("$(ls "$INSTALLDIR/home/")")
+	for USER in ${FLCR2AR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
@@ -105,7 +105,7 @@ _REFRESHSYS_() { # refresh installation
 	"$INSTALLDIR"/root/bin/setupbin.bash ||:
  	rm -f root/bin/finishsetup.bash
  	rm -f root/bin/setupbin.bash
-	printf "\\e[1;34mThe following files have been updated to the newest version.\\n\\n\\e[0;32m"
+	printf "\\e[1;34mFiles moved and updated to the newest version:\\n\\n\\e[0;32m"
 	ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
 	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
