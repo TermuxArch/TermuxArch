@@ -546,17 +546,6 @@ _ADDpci_() {
 	chmod 700 root/bin/pci
 }
 
-_ADDprofile_() {
-	_DOTHF_ root/.profile
-	cat > root/.profile <<- EOM
-	. "\$HOME"/.bash_profile
-	EOM
-	if [ -e "$HOME"/.profile ]
-	then
-		grep "proxy" "$HOME"/.profile |grep "export" >>  root/.profile 2>/dev/null ||:
-	fi
-}
-
 _ADDaddresolvconf_() {
 	mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM

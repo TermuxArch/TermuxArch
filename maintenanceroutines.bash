@@ -31,14 +31,11 @@ _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
 		then
 			_DOTHF_ "$INSTALLDIR/home/$USER"/.bash_profile
 			_DOTHF_ "$INSTALLDIR/home/$USER"/.bashrc
-			_DOTHF_ "$INSTALLDIR/home/$USER"/.profile
 			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/.bashrc "$INSTALLDIR/home/$USER/"
-			cp "$INSTALLDIR"/root/.profile "$INSTALLDIR/home/$USER/"
 			cp "$INSTALLDIR"/root/bin/* "$INSTALLDIR/home/$USER/bin/"
 		       	ls "$INSTALLDIR/home/$USER"/.bash_profile |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER"/.bashrc |cut -f7- -d /
-		       	ls "$INSTALLDIR/home/$USER"/.profile |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
 		fi
 	done
@@ -110,7 +107,6 @@ _REFRESHSYS_() { # refresh installation
 	ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
 	ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
-	ls "$INSTALLDIR"/root/.profile | cut -f7- -d /
 	ls "$INSTALLDIR"/root/bin/* | cut -f7- -d /
 	if [[ "${LCR:-}" = 2 ]]
 	then
