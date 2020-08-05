@@ -49,7 +49,7 @@ _ARMV7CHROME_() {
 	_MAKESYSTEM_
 }
 
-# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from thevmd5sums.txt file.
+# Information at https://www.archlinux.org/news/phasing-out-i686-support/ and https://archlinux32.org/ regarding why i686 is currently frozen at release 2017.03.01-i686.  IFILE is read from the md5sums.txt file.
 
 _I686_() { # IFILE is read from md5sums.txt
 	CMIRROR="archive.archlinux.org"
@@ -63,7 +63,7 @@ _X86_64_() { # IFILE is read from md5sums.txt
 	_MAKESYSTEM_
 }
 
-# Function _PR00TSTRING_ which creates the PRoot init statement uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  The command `setupTermuxArch.bash manual re` will refresh the installation and update locales.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  Usage: PROOTSTMNT+="-b host_path:guest_path " The space before the last double quote is necessary.
+# Function _PR00TSTRING_ which creates the PRoot init statement uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  To regenerate the start script use `setupTermuxArch.bash re[fresh]`.  An example is included for convenience.  Appending to the PRoot statement can be accomplished on the fly by creating a *.prs file in /var/binds.  The format is straightforward, `PROOTSTMNT+="option command "`.  The space is required before the last double quote.  Commands `info proot` and `man proot` have more information about what can be configured in a proot init statement.  The command `setupTermuxArch.bash manual refresh` will refresh the installation globally.  The command `setupTermuxArch.bash manual re` will refresh the installation and update locales.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  Usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct proot init statements
 	PROOTSTMNT="exec proot "
