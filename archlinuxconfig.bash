@@ -272,6 +272,18 @@ _ADDfbindprocstat8_() {
 	EOM
 }
 
+_ADDfbindprocversion_() {
+	_CFLHDRS_ var/binds/fbindprocversion.prs
+	#Display a fake updated kernel when /proc/version is accessed.
+	cat > var/binds/fbindprocversion.prs  <<- EOM
+	PROOTSTMNT+=" --kernel-release=5.4.0-generic \"
+	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
+	EOM
+	cat > var/binds/fbindprocversion <<- EOM
+	Linux version 5.4.0-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT Tue Aug 04 00:00:00 UTC 2020
+	EOM
+}
+
 _ADDfbindexample_() {
 	_CFLHDRS_ var/binds/fbindexample.prs "# Before regenerating the start script with \`setupTermuxArch.bash re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  Examples are included for convenience.  The space before the last double quote is necessary."
 	cat >> var/binds/fbindexample.prs <<- EOM
@@ -288,6 +300,7 @@ _ADDfbindexample_() {
 _ADDfbinds_() { # Checks if /proc/stat is usable.
 	if [[ ! -r /proc/stat ]] ; then
 		_ADDfbindprocstat_
+		_ADDfbindprocversion_
 	fi
 }
 
