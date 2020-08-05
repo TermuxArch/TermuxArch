@@ -276,7 +276,7 @@ _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
 	#Display a fake updated kernel when /proc/version is accessed.
 	cat > var/binds/fbindprocversion.prs  <<- EOM
-	PROOTSTMNT+=" --kernel-release=5.4.0-generic \"
+	PROOTSTMNT+=" --kernel-release=5.4.0-generic "
 	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	EOM
 	cat > var/binds/fbindprocversion <<- EOM
