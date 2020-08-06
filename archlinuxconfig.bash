@@ -13,10 +13,12 @@ _ADDAUSER_() {
 		exit 201
 	else
 		useradd -s /bin/bash "\$1" -U
-		usermod "\$1" -g wheel
-		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers
+		usermod "\$1" -aG wheel
+		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
+		echo "Enter a password for \$1"
+		passwd "\$1"
 		su - "\$1"
 	fi
 	EOM
