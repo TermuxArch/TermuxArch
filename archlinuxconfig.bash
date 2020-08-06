@@ -500,7 +500,7 @@ _ADDmakefakeroot-tcp_() {
 	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
 	printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
-	[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo "pacman -S automake fakeroot po4a"
+	[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo pacman -S automake fakeroot po4a --noconfirm --color=always
 	cd 
 	( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -si --noprepare ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp  && makepkg -si --noprepare
 	printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
