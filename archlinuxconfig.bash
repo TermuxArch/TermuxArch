@@ -509,7 +509,7 @@ _ADDmakefakeroot-tcp_() {
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
 		cd 
-		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si
+		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si --noconfirm --verifysource) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si --noconfirm --verifysource
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
 	fi
 	EOM
@@ -527,8 +527,7 @@ _ADDmakeyay_() {
 		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
 		printf "%s\\n" "Attempting to build and install yay: "
 		cd 
-		( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si ) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si
-		sudo pacman -Rncs go
+		( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm --rmdeps --verifysource) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si --noconfirm --rmdeps --verifysource
 		printf "%s\\n" "Attempting to build and install yay: DONE"
 	fi
 	EOM
