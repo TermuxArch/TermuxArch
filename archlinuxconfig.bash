@@ -501,11 +501,11 @@ _ADDMOTO_() {
 _ADDmakefakeroot-tcp_() {
 	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
-	if [ "\$(id -u)" = "0" ]; then
-		echo
-		echo "Error: Should not be used as root."
-		echo
+	if [ "\$(id -u)" = "0" ]
+	then
+		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
+		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
 		cd 
@@ -519,11 +519,12 @@ _ADDmakefakeroot-tcp_() {
 _ADDmakeyay_() {
 	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
 	cat >> root/bin/makeyay.bash  <<- EOM
-	if [ "\$(id -u)" = "0" ]; then
-		echo
-		echo "Error: Should not be used as root."
-		echo
+	if [ "\$(id -u)" = "0" ]
+	then
+		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
+		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
+		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
 		printf "%s\\n" "Attempting to build and install yay: "
 		cd 
 		( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si ) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si
@@ -648,7 +649,7 @@ _ADDcsystemctl_() {
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
 	touch /var/lock/csystemctl.lock
-	printf "%s\\n" "Installing systemctl replacement at /usr/local/bin and /usr/bin: DONE"
+	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
 }
