@@ -222,6 +222,7 @@ _MAKEFINISHSETUP_() {
 	 		printf "./root/bin/pci sudo\\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
+	_DOKEYS_
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
 	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
@@ -234,7 +235,7 @@ _MAKESETUPBIN_() {
 	cat >> root/bin/setupbin.bash <<- EOM
 	set +Eeuo pipefail
 	EOM
-	echo "$PROOTSTMNT /root/bin/finishsetup.bash ||:" >> root/bin/setupbin.bash
+	echo "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
 	set -Eeuo pipefail
 	EOM
@@ -381,7 +382,6 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
-	"$INSTALLDIR"/"$STARTBIN" c keys
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
@@ -463,7 +463,7 @@ _TOUCHUPSYS_() {
 	_ADDMOTD_
 	_SETLOCALE_
 	_RUNFINISHSETUP_
-	rm -f root/bin/finishsetup.bash
+	rm -f root/bin/$BINFNSTP
 	rm -f root/bin/setupbin.bash
 }
 
