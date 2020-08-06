@@ -35,6 +35,8 @@ _ADDADDS_() {
 	_ADDgpl_
 	_ADDinputrc
 	_ADDkeys_
+	_ADDmakefakeroot-tcp_
+	_ADDmakeyay_
 	_ADDpc_
 	_ADDpci_
 	_ADDprofile_

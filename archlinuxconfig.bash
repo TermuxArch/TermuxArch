@@ -496,6 +496,26 @@ _ADDMOTO_() {
 	EOM
 }
 
+_ADDmakefakeroot-tcp_() {
+	_CFLHDR_ root/bin/makefakeroot-tcp.bash
+	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
+	printf "%s\\n" "Attempting to build and install \`yay\`: "
+	cd && git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -si --noprepare
+	printf "%s\\n" "Attempting to build and install \`yay\`: DONE"
+	EOM
+	chmod 700 root/bin/makefakeroot-tcp.bash
+}
+
+_ADDmakeyay_() {
+	_CFLHDR_ root/bin/makeyay.bash
+	cat >> root/bin/makeyay.bash  <<- EOM
+	printf "%s\\n" "Attempting to build and install \`yay\`: "
+	cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noprepare
+	printf "%s\\n" "Attempting to build and install \`yay\`: DONE"
+	EOM
+	chmod 700 root/bin/makeyay.bash
+}
+
 _ADDpc_() {
 	_CFLHDR_ root/bin/pc "# Pacman install packages wrapper without system update."
 	cat >> root/bin/pc  <<- EOM
