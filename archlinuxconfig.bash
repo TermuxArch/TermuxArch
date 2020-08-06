@@ -17,8 +17,6 @@ _ADDAUSER_() {
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
-		echo "Enter a new password for \$1"
-		passwd "\$1"
 		su - "\$1"
 	fi
 	EOM
