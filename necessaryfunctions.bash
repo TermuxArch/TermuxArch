@@ -158,7 +158,7 @@ _MAINBLOCK_() {
 	_WAKEUNLOCK_
 	_PRINTFOOTER_
 	set +Eeuo pipefail
-	"$INSTALLDIR/$STARTBIN" || printf "\033[1;31m%s\\n\\n\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "Signal generated in INSTALLDIR/STARTBIN _MAINBLOCK_" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+	"$INSTALLDIR/$STARTBIN" || printf "\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 	set -Eeuo pipefail
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
@@ -189,7 +189,7 @@ _DOKEYS_() {
 	else
  		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
 	fi
-	}
+}
 
 _MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
@@ -217,9 +217,9 @@ _MAKEFINISHSETUP_() {
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
+			printf "./root/bin/pci gzip sed sudo\\n" >> root/bin/"$BINFNSTP"
 		else
-	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
+	 		printf "./root/bin/pci sudo\\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -333,10 +333,8 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	if [[ "$KEEP" -ne 0 ]] # Set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5
-	then
-		rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
-       	fi
+       	# set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files
+       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 	_PRINTDONE_
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_
@@ -383,6 +381,7 @@ _PREPROOT_() {
 }
 
 _RUNFINISHSETUP_() {
+	"$INSTALLDIR"/"$STARTBIN" c keys
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
