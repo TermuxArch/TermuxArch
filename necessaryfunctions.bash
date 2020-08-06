@@ -220,9 +220,9 @@ _MAKEFINISHSETUP_() {
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pci gzip sed sudo" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -S gzip sed sudo" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pci sudo" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -S sudo" >> root/bin/"$BINFNSTP"
 		fi
 		_DOKEYS_
 	fi
