@@ -428,11 +428,11 @@ _ADDkeys_() {
 		T0=256 # Maximum number of seconds loop shall run unless keys completes earlier.
 		T1=0.4
 		for I in "\$(seq 1 "\$N")"; do
-			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
+			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
+			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! 2>/dev/null)" 2>/dev/null &
+			"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
 		done
 		disown
@@ -509,7 +509,7 @@ _ADDmakefakeroot-tcp_() {
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
 		cd 
-		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si --noconfirm --verifysource) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si --noconfirm --verifysource
+		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
 	fi
 	EOM
@@ -527,7 +527,7 @@ _ADDmakeyay_() {
 		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
 		printf "%s\\n" "Attempting to build and install yay: "
 		cd 
-		( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm --rmdeps --verifysource) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si --noconfirm --rmdeps --verifysource
+		(git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -irs --noconfirm) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -irs --noconfirm
 		printf "%s\\n" "Attempting to build and install yay: DONE"
 	fi
 	EOM
