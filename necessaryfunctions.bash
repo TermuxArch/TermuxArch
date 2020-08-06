@@ -66,7 +66,7 @@ _CALLSYSTEM_() {
 				if [[ "$COUNTER" = 4 ]]
 				then
 					_PRINTMAX_
-					exit
+					break
 				fi
 			done
 		else
@@ -220,9 +220,9 @@ _MAKEFINISHSETUP_() {
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pacman -S gzip sed sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+			printf "pacman -Syu gzip sed sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pacman -S sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+			printf "pacman -Syu  sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		fi
 		_DOKEYS_
 	fi
