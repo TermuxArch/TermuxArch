@@ -507,7 +507,7 @@ _ADDmakefakeroot-tcp_() {
 		echo
 	else
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
-		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake fakeroot po4a libtool
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
 		cd 
 		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
