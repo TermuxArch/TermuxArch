@@ -30,7 +30,7 @@ _ADDAUSER_() {
 		echo "Use: addauser username"
 		exit 201
 	else
-		useradd -s /bin/bash "\$1"
+		useradd -s /bin/bash "\$1" -g wheel
 		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
