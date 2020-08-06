@@ -538,6 +538,7 @@ _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg.bash "# attempt to build and install yay"
 	cat >> root/bin/patchmakepkg.bash  <<- EOM
 	printf "%s\\n" "Attempting to patch makepkg: "
+	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg makepkg.\$(date +%s).bkp 
@@ -545,6 +546,7 @@ _ADDpatchmakepkg_() {
 	# copy to /usr/local/bin to make it update-proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg
 	mv makepkg /bin/makepkg
+	touch /var/lock/patchmakepkg.lock
 	printf "%s\\n" "Attempting to patch makepkg: DONE"
 	EOM
 	chmod 700 root/bin/patchmakepkg.bash
