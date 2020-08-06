@@ -197,14 +197,14 @@ _MAKEFINISHSETUP_() {
 	then
 		cat >> root/bin/"$BINFNSTP" <<- EOM
 		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
-  	    	locale-gen ||:
+   	    	locale-gen ||:
 		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 		EOM
 	fi
 	_FIXOWNER_
-	_DOKEYS_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
+		_DOKEYS_
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
@@ -217,12 +217,12 @@ _MAKEFINISHSETUP_() {
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "./root/bin/pci gzip sed sudo\\n" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pci gzip sed sudo" >> root/bin/"$BINFNSTP"
 		else
-	 		printf "./root/bin/pci sudo\\n" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pci sudo" >> root/bin/"$BINFNSTP"
 		fi
+		_DOKEYS_
 	fi
-	_DOKEYS_
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
 	printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "

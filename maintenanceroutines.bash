@@ -24,7 +24,7 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
 }
 
 _DOFUNLCR2_() {
-	if [ -d "$INSTALLDIR/home/$USER" ]
+	if [ -d "$INSTALLDIR/home" ]
 	then
 		if [[ "$USER" != alarm ]]
 		then 
@@ -41,8 +41,8 @@ _DOFUNLCR2_() {
 }
 
 _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
-	FLCRVAR="$(ls "$INSTALLDIR/home/")"
-	for USER in ${FLCR2VAR[@]}
+	export FLCRVAR=($(ls "$INSTALLDIR/home/"))
+	for USER in ${FLCRVAR[@]}
 	do
 		_DOFUNLCR2_
 	done
@@ -75,6 +75,7 @@ _LOADIMAGE_() {
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	_DOFIXOWNER_() {
+	printf "%s\\n" "Adjusting ownership and permissions..."
 	FXVAR="$(ls "$INSTALLDIR/home")"
 	for USER in ${FXVAR[@]}
 	do

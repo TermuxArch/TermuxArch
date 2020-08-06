@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.157
+VERSIONID=2.0.158
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -394,14 +394,14 @@ _OPT1_() {
 		_INTROREFRESH_ "$@"
 	elif [[ "$2" = [Rr][Ee]* ]]
 	then
-		LCR="2"
+		export LCR="2"
 		printf "\\nSetting mode to minimal refresh and refresh user directories.\\n"
 		shift
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
 	elif [[ "$2" = [Rr]* ]]
 	then
-		LCR="1"
+		export LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift
 		_ARG2DIR_ "$@"
@@ -430,14 +430,14 @@ _OPT2_() {
 		_INTROREFRESH_ "$@"
 	elif [[ "$3" = [Rr][Ee]* ]]
 	then
-		LCR="2"
+		export LCR="2"
 		printf "\\nSetting mode to minimal refresh and refresh user directories.\\n"
 		shift 2
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
 	elif [[ "$3" = [Rr]* ]]
 	then
-		LCR="1"
+		export LCR="1"
 		printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 		shift 2
 		_ARG2DIR_ "$@"
@@ -800,14 +800,14 @@ then
 ## [ref [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales, the TermuxArch generated scripts with user directories to their newest versions.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
-	LCR="2"
+	export LCR="2"
 	printf "\\nSetting mode to minimal refresh and refresh user directories.\\n"
 	_ARG2DIR_ "$@"
 	_INTROREFRESH_ "$@"
 ## [r [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing locales and the TermuxArch generated scripts to their newest versions.
 elif [[ "${1//-}" = [Rr] ]]
 then
-	LCR="1"
+	export LCR="1"
 	printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s \`%s\` %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full refresh."
 	_ARG2DIR_ "$@"
 	_INTROREFRESH_ "$@"
