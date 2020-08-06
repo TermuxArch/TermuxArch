@@ -13,6 +13,7 @@ _ADDAUSER_() {
 		exit 201
 	else
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
+		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U
  		usermod "\$1" -aG wheel
  		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
