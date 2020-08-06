@@ -23,12 +23,11 @@ _COPYIMAGE_() { # A systemimage.tar.gz file can be used: `setupTermuxArch.bash .
  	fi
 }
 
-_FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
-	FLCR2AR=("$(ls "$INSTALLDIR/home/")")
-	for USER in ${FLCR2AR[@]}
-	do
+_DOFUNLCR2_() {
+	if [ -d "$INSTALLDIR/home/$USER" ]
+	then
 		if [[ "$USER" != alarm ]]
-		then
+		then 
 			_DOTHF_ "$INSTALLDIR/home/$USER"/.bash_profile
 			_DOTHF_ "$INSTALLDIR/home/$USER"/.bashrc
 			cp "$INSTALLDIR"/root/.bash_profile "$INSTALLDIR/home/$USER/"
@@ -38,6 +37,14 @@ _FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
 		       	ls "$INSTALLDIR/home/$USER"/.bashrc |cut -f7- -d /
 		       	ls "$INSTALLDIR/home/$USER"/bin/* |cut -f7- -d /
 		fi
+	fi
+}
+
+_FUNLCR2_() { # copy from root to INSTALLDIR/home/USER
+	FLCRVAR="$(ls "$INSTALLDIR/home/")"
+	for USER in ${FLCR2VAR[@]}
+	do
+		_DOFUNLCR2_
 	done
 }
 
@@ -68,21 +75,17 @@ _LOADIMAGE_() {
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER
 	_DOFIXOWNER_() {
-	FXARR=("$(ls "$INSTALLDIR/home")")
-	for USER in ${FXARR[@]}
+	FXVAR="$(ls "$INSTALLDIR/home")"
+	for USER in ${FXVAR[@]}
 	do
 		if [[ "$USER" != alarm ]]
 		then
-			# This can have some ugly yet useful consequences. Will open a seperate issue to discuss
-			# GID=$(id -g)
-			# $STARTBIN c "usermod -u $UID $USER &>/dev/null"
-    			# $STARTBIN c "groupmod -g $GID $USER &>/dev/null"
-			"$STARTBIN" c 'chown -R $USER:$USER $INSTALLDIR/home/$USER'
-			"$STARTBIN" c 'chmod u+rwX $INSTALLDIR/home/$USER'
+			$STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
+			$STARTBIN c "chmod 700 $INSTALLDIR/home/$USER"
 		fi
 	done
 	}
-	_DOFIXOWNER_ ||:
+	_DOFIXOWNER_ || printf "%s" "signal generated in _DOFIXOWNER_ ${0##*/} maintenanceroutines.bash : continuing : "
 }
 
 _REFRESHSYS_() { # refresh installation

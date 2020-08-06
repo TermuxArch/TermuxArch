@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.153"
+FLHDR1[5]="VERSIONID=2.0.154"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -58,7 +58,8 @@ TRAPS[3]="trap _TRPQ_ QUIT"
 TRAPS[4]=" "
 
 _CFLHD_() { #	creates file header and inserts comments
-  	if [[ -z "${2:-}" ]] ; then
+  	if [[ -z "${2:-}" ]]
+	then
 		printf "%s\\n" "${FLHDR0[1]}" > "$1"
 		printf "%s\\n" "${FLHDR0[2]}" >> "$1"
 		printf "%s\\n" "${FLHDR0[3]}" >> "$1"
@@ -75,7 +76,8 @@ _CFLHD_() { #	creates file header and inserts comments
 }
 
 _CFLHDR_() { #	creates BASH script boilerplate, file header and inserts comments
-  	if [[ -z "${2:-}" ]] ; then
+  	if [[ -z "${2:-}" ]]
+	then
 		printf "%s\\n" "${FLHDR0[@]}" > "$1"
 		printf "%s\\n" "${FLHDR1[@]}" >> "$1"
   	else
@@ -91,7 +93,8 @@ _CFLHDR_() { #	creates BASH script boilerplate, file header and inserts comments
 }
 
 _CFLHDRS_() { #	creates file header and inserts comments
-  	if [[ -z "${2:-}" ]] ; then
+  	if [[ -z "${2:-}" ]]
+	then
 		printf "%s\\n" "${FLHDR0[1]}" > "$1"
 		printf "%s\\n" "${FLHDR0[2]}" >> "$1"
 		printf "%s\\n" "${FLHDR0[3]}" >> "$1"

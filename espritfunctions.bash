@@ -65,9 +65,9 @@ _COPYSTARTBIN2PATHQ_() {
 	done
 }
 
-# copy dot files if found
+
 _DOTHF_() { # do the file
-	[[ -f $1 ]] && printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp" ||:
+	[[ -f $1 ]] && ( printf "%s\\n" "==> mv -f $1 $1.bkp" && mv -f "$1" "$1.bkp" ) || printf "%s" "copy dot files if found : file not found : continuing : "
 }
 
 _EDITFILES_() {

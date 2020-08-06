@@ -5,6 +5,23 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
+_ADDAUSER_() {
+	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
+	cat >> root/bin/addauser <<- EOM
+	if [[ -z "\${1:-}" ]] ; then
+		echo "Use: addauser username"
+		exit 201
+	else
+		useradd -s /bin/bash "\$1" -g wheel -U
+		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers
+		sed -i "s/\$1:x/\$1:/g" /etc/passwd
+		cp -r /root /home/"\$1"
+		su - "\$1"
+	fi
+	EOM
+	chmod 700 root/bin/addauser
+}
+
 _ADDREADME_() {
 	_CFLHDR_ root/bin/README.md
 	cat > root/bin/README.md <<- EOM
@@ -23,21 +40,12 @@ _ADDae_() {
 	chmod 700 root/bin/ae
 }
 
-_ADDAUSER_() {
-	_CFLHDR_ root/bin/addauser "# Add Arch Linux user."
-	cat >> root/bin/addauser <<- EOM
-	if [[ -z "\${1:-}" ]] ; then
-		echo "Use: addauser username"
-		exit 201
-	else
-		useradd -s /bin/bash "\$1" -g wheel
-		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers
-		sed -i "s/\$1:x/\$1:/g" /etc/passwd
-		cp -r /root /home/"\$1"
-		su - "\$1"
-	fi
+_ADDaddresolvconf_() {
+	mkdir -p run/systemd/resolve
+	cat > run/systemd/resolve/resolv.conf <<- EOM
+	nameserver 8.8.8.8
+	nameserver 8.8.4.4
 	EOM
-	chmod 700 root/bin/addauser
 }
 
 _ADDbash_logout_() {
@@ -49,7 +57,7 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	_DOTHF_ root/.bash_profile
+	[ -e root/.bash_profile ] && _DOTHF_ root/.bash_profile
 	cat > root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
@@ -70,31 +78,44 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	_DOTHF_ root/.bashrc
-	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc
+	[ -e root/.bashrc ] && _DOTHF_ root/.bashrc
+	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets\"" >> root/.bashrc
 	cat >> root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
+	alias C='cd .. && pwd'
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
 	alias ...='cd ../../.. && pwd'
 	alias ....='cd ../../../.. && pwd'
 	alias .....='cd ../../../../.. && pwd'
+	alias D='nice -n 20 du -hs'
 	alias d='nice -n 20 du -hs'
+	alias E='exit'
 	alias e='exit'
+	alias F='grep --color=always'
 	alias f='grep --color=always'
+	alias G='ga ; gcm ; gp'
 	alias g='ga ; gcm ; gp'
 	alias gca='git commit -a -S'
 	alias gcam='git commit -a -S -m'
+	alias H='history >> \$HOME/.historyfile'
 	alias h='history >> \$HOME/.historyfile'
+	alias J='jobs'
 	alias j='jobs'
+	alias I='whoami'
 	alias i='whoami'
+	alias L='ls -al --color=always'
 	alias l='ls -al --color=always'
+	alias LR='ls -alR --color=always'
 	alias lr='ls -alR --color=always'
+	alias N2='nice -n -20'
 	alias n2='nice -n -20'
+	alias P='pwd'
 	alias p='pwd'
 	alias pacman='pacman --color=always'
 	alias pcs='pacman -S --color=always'
 	alias pcss='pacman -Ss --color=always'
+	alias Q='exit'
 	alias q='exit'
 	EOM
 	if [ -e "$HOME"/.bashrc ] ; then
@@ -546,14 +567,6 @@ _ADDpci_() {
 	chmod 700 root/bin/pci
 }
 
-_ADDaddresolvconf_() {
-	mkdir -p run/systemd/resolve
-	cat > run/systemd/resolve/resolv.conf <<- EOM
-	nameserver 8.8.8.8
-	nameserver 8.8.4.4
-	EOM
-}
-
 _ADDcsystemctl_() {
 	_CFLHDR_ root/bin/csystemctl.bash
 	cat >> root/bin/csystemctl.bash  <<- EOM
@@ -579,6 +592,12 @@ _ADDcsystemctl_() {
 	printf "%s\\n" "Installing systemctl replacement at /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
+}
+
+_ADDprofile_() {
+	[ -e root/.profile ] && _DOTHF_ root/.profile
+	[ -e "$HOME"/.profile ] && ( grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null )
+	touch root/.profile
 }
 
 _ADDt_() {
@@ -824,15 +843,7 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	cat >> root/bin/yt  <<- EOM
-	if [[ ! -x "\$(command -v youtube-dl)" ]]
-	then
-		pacman --noconfirm --color=always -S youtube-dl
-		youtube-dl "\$@"
-	else
-		youtube-dl "\$@"
-	fi
-	EOM
+	printf "%s\\n" "[ ! -x \"\$(command -v youtube-dl)\" ] && ( [ \"\$(id -u)\" = \"0\" ] && pacman --noconfirm --color=always -S youtube-dl || pacman --noconfirm --color=always -S youtube-dl ) || youtube-dl "\$@" " >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 # archlinuxconfig.bash EOF

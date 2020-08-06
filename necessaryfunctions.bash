@@ -5,6 +5,7 @@
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
+BINFNSTP=finishsetup.bash
 LC_TYPE=( "LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME" )
 
 _ADDADDS_() {
@@ -36,6 +37,7 @@ _ADDADDS_() {
 	_ADDkeys_
 	_ADDpc_
 	_ADDpci_
+	_ADDprofile_
 	_ADDt_
 	_ADDtour_
 	_ADDtrim_
@@ -124,10 +126,10 @@ _DETECTSYSTEM64_() {
 _KERNID_() {
 	declare KID=""
 	ur="$(uname -r)"
-	declare -i KERNEL_VERSION="$(echo "$ur" |awk -F'.' '{print $1}')"
-	declare -i MAJOR_REVISION="$(echo "$ur" |awk -F'.' '{print $2}')"
-	declare -- TMP="$(echo "$ur" |awk -F'.' '{print $3}')"
-	declare -- MINOR_REVISION="$(echo "${TMP:0:3}" |sed 's/[^0-9]*//g')"
+	declare -i KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$ur")"
+	declare -i MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$ur")"
+	declare -- TMP="$(awk -F'.' '{print $3}' <<< "$ur")"
+	declare -- MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMP:0:3}")"
 	if [[ "$KERNEL_VERSION" -le 2 ]]
 	then
 		KID=1
@@ -162,19 +164,6 @@ _MAINBLOCK_() {
 	_PRINTSTARTBIN_USAGE_
 }
 
-_MAKEFINISHSETUP_() {
-	BINFNSTP=finishsetup.bash
-_DOKEYS_() {
-	if [[ "$CPUABI" = "$CPUABIX86" ]]
-	then
-		printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
-	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
-	then
-		printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
-	else
- 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
-	fi
-	}
 _DOPROXY_() {
 	if [[ -e "$HOME"/.bash_profile ]]
 	then
@@ -188,7 +177,21 @@ _DOPROXY_() {
 	then
 		grep "proxy" "$HOME"/.profile | grep "export" >> root/bin/"$BINFNSTP" 2>/dev/null ||:
 	fi
+}
+
+_DOKEYS_() {
+	if [[ "$CPUABI" = "$CPUABIX86" ]]
+	then
+		printf "./root/bin/keys x86\\n" >> root/bin/"$BINFNSTP"
+	elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+	then
+		printf "./root/bin/keys x86_64\\n" >> root/bin/"$BINFNSTP"
+	else
+ 		printf "./root/bin/keys\\n" >> root/bin/"$BINFNSTP"
+	fi
 	}
+
+_MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
 	if [[ "${LCR:-}" -ne 1 ]] # is not equal to 1
 	then
@@ -198,8 +201,8 @@ _DOPROXY_() {
 		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
 		EOM
 	fi
-	_DOPROXY_
 	_FIXOWNER_
+	_DOKEYS_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
@@ -212,14 +215,12 @@ _DOPROXY_() {
 		then
 	 		printf "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 	 	fi
-		_DOKEYS_
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
 			printf "./root/bin/pci gzip sed \\n" >> root/bin/"$BINFNSTP"
 		else
 	 		printf "./root/bin/pci \\n" >> root/bin/"$BINFNSTP"
 		fi
-		_DOKEYS_
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
@@ -356,15 +357,17 @@ _MD5CHECK_() {
 _PREPROOTDIR_() {
 	cd "$INSTALLDIR"
 	mkdir -p etc
-	mkdir -p var/binds
+	mkdir -p home
 	mkdir -p root/bin
 	mkdir -p usr/bin
+	mkdir -p var/binds
 }
 
 _PREPINSTALLDIR_() {
 	_PREPROOTDIR_
 	_SETLANGUAGE_
 	_ADDADDS_
+	_DOPROXY_
 	_MAKEFINISHSETUP_
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
