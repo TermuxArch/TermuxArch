@@ -37,6 +37,7 @@ _ADDADDS_() {
 	_ADDkeys_
 	_ADDmakefakeroot-tcp_
 	_ADDmakeyay_
+	_ADDpatchmakepkg_
 	_ADDpc_
 	_ADDpci_
 	_ADDprofile_
@@ -195,14 +196,14 @@ _DOKEYS_() {
 
 _MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
-	if [[ "${LCR:-}" -ne 1 ]] # is not equal to 1
-	then
-		cat >> root/bin/"$BINFNSTP" <<- EOM
-		printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[1;32m%s\\e[0;32m" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} r " "for a quick system refresh; For full system refresh you can use ${0##*/} re[fresh]." "==> "
-   	    	locale-gen ||:
-		printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
-		EOM
-	fi
+	[[ "${LCR:-}" -ne 1 ]] && LOCGEN="" 
+	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
+	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
+	cat >> root/bin/"$BINFNSTP" <<- EOM
+	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories" "${0##*/} re" " can be used."
+   	$LOCGEN
+	printf "\\n\\e[1;34m:: \\e[1;37mRemoving redundant packages for Termux PRoot installation…\\n"
+	EOM
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then

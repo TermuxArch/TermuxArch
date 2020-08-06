@@ -497,27 +497,44 @@ _ADDMOTO_() {
 }
 
 _ADDmakefakeroot-tcp_() {
-	_CFLHDR_ root/bin/makefakeroot-tcp.bash
+	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
-	printf "%s\\n" "Attempting to build and install \`yay\`: "
-	cd && git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -si --noprepare
-	printf "%s\\n" "Attempting to build and install \`yay\`: DONE"
+	printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
+	[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo "pacman -S automake fakeroot po4a"
+	cd 
+	( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -si --noprepare ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp  && makepkg -si --noprepare
+	printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
 	EOM
 	chmod 700 root/bin/makefakeroot-tcp.bash
 }
 
 _ADDmakeyay_() {
-	_CFLHDR_ root/bin/makeyay.bash
+	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
 	cat >> root/bin/makeyay.bash  <<- EOM
-	printf "%s\\n" "Attempting to build and install \`yay\`: "
-	cd && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noprepare
-	printf "%s\\n" "Attempting to build and install \`yay\`: DONE"
+	printf "%s\\n" "Attempting to build and install yay: "
+	cd 
+	( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noprepare ) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si --noprepare
+	printf "%s\\n" "Attempting to build and install yay: DONE"
 	EOM
 	chmod 700 root/bin/makeyay.bash
 }
 
+_ADDpatchmakepkg_() {
+	_CFLHDR_ root/bin/patchmakepkg.bash "# attempt to build and install yay"
+	cat >> root/bin/patchmakepkg.bash  <<- EOM
+	printf "%s\\n" "Attempting to patch makepkg: "
+	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
+	patch -n -i makepkg.diff -o makepkg /bin/makepkg
+	cp /bin/makepkg makepkg.\$(date +%s).bkp 
+	chmod 700 makepkg /bin/makepkg
+	mv makepkg /bin/makepkg
+	printf "%s\\n" "Attempting to patch makepkg: DONE"
+	EOM
+	chmod 700 root/bin/patchmakepkg.bash
+}
+
 _ADDpc_() {
-	_CFLHDR_ root/bin/pc "# Pacman install packages wrapper without system update."
+	_CFLHDR_ root/bin/pc "# pacman install packages wrapper without system update"
 	cat >> root/bin/pc  <<- EOM
 	declare -g ARGS="\$@"
 
