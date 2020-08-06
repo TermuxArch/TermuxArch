@@ -12,9 +12,10 @@ _ADDAUSER_() {
 		echo "Use: addauser username"
 		exit 201
 	else
+		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U
-		usermod "\$1" -aG wheel
-		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/"\$1"
+ 		usermod "\$1" -aG wheel
+ 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/"\$1"
 		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
