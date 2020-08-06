@@ -499,11 +499,17 @@ _ADDMOTO_() {
 _ADDmakefakeroot-tcp_() {
 	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
-	printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
-	[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo pacman -S automake fakeroot po4a --noconfirm --color=always
-	cd 
-	( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && makepkg -si --noprepare ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp  && makepkg -si --noprepare
-	printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
+	if [ "$(id -u)" = "0" ]; then
+		echo
+		echo "Error: Should not be used as root."
+		echo
+	else
+		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
+		[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo "pacman -S automake fakeroot po4a"
+		cd 
+		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si
+		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
+	fi
 	EOM
 	chmod 700 root/bin/makefakeroot-tcp.bash
 }
@@ -511,10 +517,17 @@ _ADDmakefakeroot-tcp_() {
 _ADDmakeyay_() {
 	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
 	cat >> root/bin/makeyay.bash  <<- EOM
-	printf "%s\\n" "Attempting to build and install yay: "
-	cd 
-	( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noprepare ) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si --noprepare
-	printf "%s\\n" "Attempting to build and install yay: DONE"
+	if [ "$(id -u)" = "0" ]; then
+		echo
+		echo "Error: Should not be used as root."
+		echo
+	else
+		printf "%s\\n" "Attempting to build and install yay: "
+		cd 
+		( git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si ) || printf "%s\n" "Continuing to build and install yay : " && cd yay && makepkg -si
+		sudo pacman -Rncs go
+		printf "%s\\n" "Attempting to build and install yay: DONE"
+	fi
 	EOM
 	chmod 700 root/bin/makeyay.bash
 }
@@ -527,6 +540,8 @@ _ADDpatchmakepkg_() {
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
 	cp /bin/makepkg makepkg.\$(date +%s).bkp 
 	chmod 700 makepkg /bin/makepkg
+	# copy to /usr/local/bin to make it update-proof (fail safe measure)
+	cp makepkg /usr/local/bin/makepkg
 	mv makepkg /bin/makepkg
 	printf "%s\\n" "Attempting to patch makepkg: DONE"
 	EOM
