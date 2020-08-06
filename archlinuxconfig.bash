@@ -14,7 +14,8 @@ _ADDAUSER_() {
 	else
 		useradd -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel
-		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/"\$1"
+		[[ -f /etc/sudoers ]] && printf "%s\\n" "\$1 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		cp -r /root /home/"\$1"
 		su - "\$1"
@@ -499,13 +500,13 @@ _ADDMOTO_() {
 _ADDmakefakeroot-tcp_() {
 	_CFLHDR_ root/bin/makefakeroot-tcp.bash "# attempt to build and install fakeroot-tcp"
 	cat >> root/bin/makefakeroot-tcp.bash  <<- EOM
-	if [ "$(id -u)" = "0" ]; then
+	if [ "\$(id -u)" = "0" ]; then
 		echo
 		echo "Error: Should not be used as root."
 		echo
 	else
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
-		[[ ! "\$(command automake)" ]] || [[ ! "\$(command fakeroot)" ]] || [[ ! "\$(command po4a)" ]] && sudo "pacman -S automake fakeroot po4a"
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman -S automake fakeroot po4a
 		cd 
 		( git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si ) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -si
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
@@ -517,7 +518,7 @@ _ADDmakefakeroot-tcp_() {
 _ADDmakeyay_() {
 	_CFLHDR_ root/bin/makeyay.bash "# attempt to build and install yay"
 	cat >> root/bin/makeyay.bash  <<- EOM
-	if [ "$(id -u)" = "0" ]; then
+	if [ "\$(id -u)" = "0" ]; then
 		echo
 		echo "Error: Should not be used as root."
 		echo
