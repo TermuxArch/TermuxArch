@@ -222,9 +222,9 @@ _MAKEFINISHSETUP_() {
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "pacman -Syu gzip sed sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+			printf "pacman -Syu gzip patch unzip sed sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		else
-			printf "pacman -Syu  sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
+			printf "pacman -Syu patch unzip sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
