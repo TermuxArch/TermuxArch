@@ -91,10 +91,10 @@ _PR00TSTRING_() { # construct proot init statements
 	fi
 	[[ "$(getprop ro.build.version.release)" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
 	# Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  
-	declare -A PRAARR # associative array
+	declare -A PRSTARR # associative array
 	# populate writable binds
-	PRAARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
-	for PRBIND in ${!PRAARR[@]}
+	PRSTARR=([/dev/ashmem]=/dev/ashmem [/dev/shm]=/dev/shm)
+	for PRBIND in ${!PRSTARR[@]}
 	do
 	       	if [[ -w "$PRBIND" ]]	# is writable
 		then	# add proot bind
@@ -102,34 +102,25 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate readable binds
- 	PRAARR=([/data/dalvik-cache]=/data/dalvik-cache [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX/bin"]="$PREFIX/bin" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/plat_property_contexts]=/plat_property_contexts [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
-	for PRBIND in ${!PRAARR[@]}
+ 	PRSTARR=([/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+	for PRBIND in ${!PRSTARR[@]}
 	do
 	       	if [[ -r "$PRBIND" ]]	# is readable
 		then	# add proot bind
-		       	PROOTSTMNT+="-b $PRBIND:${PRAARR[$PRBIND]} "
+		       	PROOTSTMNT+="-b $PRBIND:${PRSTARR[$PRBIND]} "
 		fi
 	done
 	# populate NOT readable binds
-	PRAARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/sys/]=/sys/)
-	for PRBIND in ${!PRAARR[@]}
+	PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/shm]="$INSTALLDIR/tmp" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/sys/]=/sys/)
+	for PRBIND in ${!PRSTARR[@]}
 	do
 	       	if [[ ! -r "$PRBIND" ]]	# is not readable
 		then	# add proot bind
-		       	PROOTSTMNT+="-b ${PRAARR[$PRBIND]}:$PRBIND "
+		       	PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp "
-	PRARR=(ANDROID_DATA ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT)
-	for PRBIND in ${PRARR[@]}
-	do
-		if [[ -v "${PRBIND:-}" ]]
-		then
-			PTMP="\$$PRBIND"
-			PTMP="$PRBIND=$PTMP"
- 			PROOTSTMNT+="$PTMP "
-		fi
-	done
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot root user string
+# 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # old create PRoot user string
  	PROOTSTMNTU="$PROOTSTMNT " # create PRoot user string
 }
 _PR00TSTRING_

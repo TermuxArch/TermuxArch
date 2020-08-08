@@ -11,11 +11,12 @@ FLHDR0[2]="# Hosting sdrausty.github.io/TermuxArch courtesy https://pages.github
 FLHDR0[3]="# https://sdrausty.github.io/TermuxArch/README has info about this project."
 FLHDR0[4]="# https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help."
 FLHDR1[0]="################################################################################"
-FLHDR1[1]="IFS=$'\\n\\t'"
+FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
-FLHDR1[3]="shopt -s nullglob globstar"
+FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.193"
+FLHDR1[5]="VERSIONID=2.0.194"
+FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
 TRPERROR[0]="_TRPERR_() {  #	Run on script error."
@@ -170,7 +171,7 @@ _PRINTCONFIGUP_() {
 
 _PRINTMAX_() {
 	printf "\033]2;%s\007" "Run \`bash setupTermuxArch.bash\` again…"
-	printf "\\n\\e[07;1m\\e[31;1m%s\\e[34;1m\\e[30;1m%s\\n\\n%s\\n\\e[0;0m\\n" " 🔆 WARNING: Maximum amount of attempts exceeded;" "  \` setupTermuxArch.bash\` continuing...  See \`bash setupTermuxArch.bash help\` to resolve download errors.  If this keeps repeating run  \`bash setupTermuxArch.bash manual\`.  The file \`knownconfigurations.bash\` will be copied to \`setupTermuxArchConfigs.bash\`.  Edit for preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, this file loads automaticaly from the working directory.  Change mirror to desired geographic location to resolve md5sum errors." "User configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory by using \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`, and run \`bash setupTermuxArch.bash\` again..."
+	printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded!\\e[34;1m\\e[30;1m  Run \`bash setupTermuxArch.bash\` again.  See \`bash setupTermuxArch.bash help\` to resolve download errors.  If this keeps repeating, copy \`knownconfigurations.bash\` to \`setupTermuxArchConfigs.bash\` with preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, run \`bash setupTermuxArch.bash\` and \`setupTermuxArchConfigs.bash\` loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`.\\n\\n	Run \`bash setupTermuxArch.bash\` again…\\n\\e[0;0m\\n"
 }
 
 _PRINTMD5CHECK_() {
@@ -209,7 +210,7 @@ _PRINTFOOTER2_() {
 
 _PRINTROOTDIRFUNCTION_() {
 	declare -g PRINTROOTDIR
-	PRINTROOTDIR="$(printf "%s" "${ROOTDIR%/}" | sed 's#//*#/#g')"
+	PRINTROOTDIR="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 _PRINTROOTDIRFUNCTION_
 # printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""

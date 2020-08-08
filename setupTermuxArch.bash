@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.193
+VERSIONID=2.0.194
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -346,17 +346,17 @@ _NAMEINSTALLDIR_() {
 	then
 		ROOTDIR=arch
 	fi
-	INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
+	INSTALLDIR="$(echo "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
- 	DARCH="$(printf "%s\\n" "${ROOTDIR%/}" |sed 's#//*#/#g')" # ${@%/} removes trailing slash
+ 	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')" # ${@%/} removes trailing slash
 	if [[ "$DARCH" = "/arch" ]]
 	then
 		AARCH=""
 		STARTBI2=arch
 	else
- 		AARCH="$(printf "%s\\n" "$DARCH" |sed 's/\//\+/g')"
+ 		AARCH="$(echo "$DARCH" |sed 's/\//\+/g')"
 		STARTBI2=arch
 	fi
 	declare -g STARTBIN=start"$STARTBI2$AARCH"
@@ -497,7 +497,7 @@ _PRINTSTARTBIN_USAGE_() {
  	_NAMESTARTARCH_
 	if [[ -x "$(command -v "$STARTBIN")" ]]
 	then
-		printf "%s\\n" "$STARTBIN help"
+		echo "$STARTBIN" help
 		"$STARTBIN" help
 	fi
 }
@@ -638,7 +638,7 @@ then
 	STIME="${STIM:0:3}"
 else
 	STI="$(date +%s)"
-	STIME="$(printf "%s" "${STI:7:4}" | rev)"
+	STIME="$(echo "${STI:7:4}"|rev)"
 fi
 ONES="$(date +%s)"
 ONESA="${ONES: -1}"

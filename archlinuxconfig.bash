@@ -82,7 +82,7 @@ _ADDbash_profile_() {
 
 _ADDbashrc_() {
 	[ -e root/.bashrc ] && _DOTHF_ root/.bashrc
-	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$HOME/bin:$PREFIX/bin:$PREFIX/bin/applets\"" > root/.bashrc || printf "%s\\n" "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets:$PREFIX/lib:$PREFIX/libexec\"" >> root/.bashrc
+	[[ -d "$HOME"/bin ]] && printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\"" > root/.bashrc || printf "%s\\n" "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PREFIX/bin:$PREFIX/bin/applets:$PREFIX/lib:$PREFIX/libexec\"" >> root/.bashrc
 	cat >> root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
@@ -429,11 +429,11 @@ _ADDkeys_() {
 		T0=256 # Maximum number of seconds loop will run unless keys completes earlier.
 		T1=0.4
 		for I in "\$(seq 1 "\$N")"; do
-			"\$(nice -n 20 ls -alR / 2>&1>/dev/null & sleep "\$T0" ; kill \$! )" 2>&1>/dev/null &
+			"\$(nice -n 20 ls -alR / 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 find / 2>&1>/dev/null & sleep "\$T0" ; kill \$! )" 2>&1>/dev/null &
+			"\$(nice -n 20 find / 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 cat /dev/urandom 2>&1>/dev/null & sleep "\$T0" ; kill \$! )" 2>&1>/dev/null &
+			"\$(nice -n 20 cat /dev/urandom 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
 			sleep "\$T1"
 		done
 		disown
@@ -631,9 +631,9 @@ _ADDcsystemctl_() {
 	INSTALLDIR="$INSTALLDIR"
 	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
-	declare COMMANDL
-	COMMANDL="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
-	[ "\${COMMANDL:-}" = "/usr/bin/python3" ] || pacman --noconfirm --color=always -S python3
+	declare COMMANDP
+	COMMANDP="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
+	[[ "\${COMMANDP:-}" == *python3* ] || pacman --noconfirm --color=always -S python3
 	SDATE="\$(date +%s)"
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
@@ -649,7 +649,7 @@ _ADDcsystemctl_() {
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
-	[ -d /run/lock ] && mkdir -p /run/lock
+	[ ! -d /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
