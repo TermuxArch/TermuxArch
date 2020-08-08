@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.181
+VERSIONID=2.0.182
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -346,17 +346,17 @@ _NAMEINSTALLDIR_() {
 	then
 		ROOTDIR=arch
 	fi
-	INSTALLDIR="$(echo "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
+	INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" |sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
- 	DARCH="$(echo "${ROOTDIR%/}" |sed 's#//*#/#g')" # ${@%/} removes trailing slash
+ 	DARCH="$(printf "%s\\n" "${ROOTDIR%/}" |sed 's#//*#/#g')" # ${@%/} removes trailing slash
 	if [[ "$DARCH" = "/arch" ]]
 	then
 		AARCH=""
 		STARTBI2=arch
 	else
- 		AARCH="$(echo "$DARCH" |sed 's/\//\+/g')"
+ 		AARCH="$(printf "%s\\n" "$DARCH" |sed 's/\//\+/g')"
 		STARTBI2=arch
 	fi
 	declare -g STARTBIN=start"$STARTBI2$AARCH"
