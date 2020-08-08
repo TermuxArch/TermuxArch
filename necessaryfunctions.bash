@@ -208,7 +208,8 @@ _MAKEFINISHSETUP_() {
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 		printf "%s\\n" "pacman -Syy" >> root/bin/"$BINFNSTP"
-		_DOKEYS_
+		printf "%s\\n" "/root/bin/keys" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"

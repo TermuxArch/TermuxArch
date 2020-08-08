@@ -633,7 +633,7 @@ _ADDcsystemctl_() {
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
 	declare COMMANDP
 	COMMANDP="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
-	[[ "\${COMMANDP:-}" == *python3* ] || pacman --noconfirm --color=always -S python3
+	[[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3
 	SDATE="\$(date +%s)"
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
