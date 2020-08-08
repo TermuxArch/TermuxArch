@@ -119,7 +119,7 @@ _PR00TSTRING_() { # construct proot init statements
 		       	PROOTSTMNT+="-b ${PRAARR[$PRBIND]}:$PRBIND "
 		fi
 	done
-	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp " # create PRoot root user string
+	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp "
 	PRARR=(ANDROID_DATA ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT)
 	for PRBIND in ${PRARR[@]}
 	do
