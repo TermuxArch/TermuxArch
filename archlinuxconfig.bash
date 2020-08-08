@@ -109,6 +109,7 @@ _ADDbashrc_() {
 	alias i='whoami'
 	alias L='ls -al --color=always'
 	alias l='ls -al --color=always'
+	alias ls='ls --color=always'
 	alias LR='ls -alR --color=always'
 	alias lr='ls -alR --color=always'
 	alias N2='nice -n -20'
