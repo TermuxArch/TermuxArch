@@ -429,11 +429,11 @@ _ADDkeys_() {
 		T0=256 # Maximum number of seconds loop will run unless keys completes earlier.
 		T1=0.4
 		for I in "\$(seq 1 "\$N")"; do
-			"\$(nice -n 20 ls -alR / 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
+			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 find / 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
+			"\$(nice -n 20 find / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
-			"\$(nice -n 20 cat /dev/urandom 2>&1>/dev/null & sleep "\$T0" ; kill \$! 2>&1>/dev/null )" 2>&1>/dev/null &
+			"\$(nice -n 20 cat /dev/urandom >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &
 			sleep "\$T1"
 		done
 		disown
