@@ -102,7 +102,7 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	# populate readable binds
- 	PRAARR=([/data/dalvik-cache]=/data/dalvik-cache [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/plat_property_contexts]=/plat_property_contexts [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+ 	PRAARR=([/data/dalvik-cache]=/data/dalvik-cache [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX/bin"]="$PREFIX/bin" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/stat]=/proc/stat [/plat_property_contexts]=/plat_property_contexts [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 	for PRBIND in ${!PRAARR[@]}
 	do
 	       	if [[ -r "$PRBIND" ]]	# is readable
