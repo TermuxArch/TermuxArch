@@ -650,7 +650,7 @@ _ADDcsystemctl_() {
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
 	[ -d /run/lock ] && mkdir -p /run/lock
-	touch /var/lock/csystemctl.lock"
+	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
