@@ -628,6 +628,7 @@ _ADDpci_() {
 _ADDcsystemctl_() {
 	_CFLHDR_ root/bin/csystemctl.bash
 	cat >> root/bin/csystemctl.bash  <<- EOM
+	INSTALLDIR="$INSTALLDIR"
 	printf "%s\\n" "Installing /usr/bin/systemctl replacement: "
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
 	declare COMMANDL
@@ -648,7 +649,7 @@ _ADDcsystemctl_() {
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
-	touch /var/lock/csystemctl.lock
+	touch "$INSTALLDIR"/var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash

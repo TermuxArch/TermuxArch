@@ -15,7 +15,7 @@ FLHDR1[1]="IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.190"
+FLHDR1[5]="VERSIONID=2.0.191"
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
 TRPERROR[0]="_TRPERR_() {  #	Run on script error."
@@ -170,7 +170,7 @@ _PRINTCONFIGUP_() {
 
 _PRINTMAX_() {
 	printf "\033]2;%s\007" "Run \`bash setupTermuxArch.bash\` again…"
-	printf "\\n\\e[07;1m\\e[31;1m%s\\e[34;1m\\e[30;1m%s\\n\\n%s\\n\\e[0;0m\\n" " 🔆 WARNING: Maximum amount of attempts exceeded;" "  \` setupTermuxArch.bash\` continuing...  See \`bash setupTermuxArch.bash help\` to resolve download errors.  If this keeps repeating run  \`bash setupTermuxArch.bash manual\`.  The file \`knownconfigurations.bash\` will be copied to \`setupTermuxArchConfigs.bash\`.  Edit for preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, this file loads automaticaly from the working directory.  Change mirror to desired geographic location to resolve md5sum errors." "User configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory.  Use \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`, and run \`bash setupTermuxArch.bash\` again..."
+	printf "\\n\\e[07;1m\\e[31;1m%s\\e[34;1m\\e[30;1m%s\\n\\n%s\\n\\e[0;0m\\n" " 🔆 WARNING: Maximum amount of attempts exceeded;" "  \` setupTermuxArch.bash\` continuing...  See \`bash setupTermuxArch.bash help\` to resolve download errors.  If this keeps repeating run  \`bash setupTermuxArch.bash manual\`.  The file \`knownconfigurations.bash\` will be copied to \`setupTermuxArchConfigs.bash\`.  Edit for preferred mirror.  After editing \`setupTermuxArchConfigs.bash\`, this file loads automaticaly from the working directory.  Change mirror to desired geographic location to resolve md5sum errors." "User configurable variables are in \`setupTermuxArchConfigs.bash\`.  Create this file from \`kownconfigurations.bash\` in the working directory by using \`bash setupTermuxArch.bash manual\` to create and edit \`setupTermuxArchConfigs.bash\`, and run \`bash setupTermuxArch.bash\` again..."
 }
 
 _PRINTMD5CHECK_() {
