@@ -207,6 +207,7 @@ _MAKEFINISHSETUP_() {
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
+		printf "%s\\n" "pacman -Syy" >> root/bin/"$BINFNSTP"
 		_DOKEYS_
 		printf "%s\\n" "$INSTALLDIR/root/bin/csystemctl.bash" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
@@ -225,7 +226,6 @@ _MAKEFINISHSETUP_() {
 		else
 			printf "pacman -Syu  sudo --noconfirm --color=always 2>/dev/null ||:\\n" >> root/bin/"$BINFNSTP"
 		fi
-		_DOKEYS_
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲 "
