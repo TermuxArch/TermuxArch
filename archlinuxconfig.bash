@@ -425,7 +425,7 @@ _ADDkeys_() {
 
 	_GENEN_() { # This for loop generates entropy on device for \$t seconds.
 		N=2 # Number of loop generations for generating entropy.
-		T0=256 # Maximum number of seconds loop shall run unless keys completes earlier.
+		T0=256 # Maximum number of seconds loop will run unless keys completes earlier.
 		T1=0.4
 		for I in "\$(seq 1 "\$N")"; do
 			"\$(nice -n 20 ls -alR / >/dev/null 2>/dev/null & sleep "\$T0" ; kill \$! >/dev/null)" >/dev/null &

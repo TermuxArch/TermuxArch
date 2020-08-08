@@ -3,7 +3,6 @@
 # by S D Rausty https://termuxarch.github.io/TermuxArch/
 #####################################################################
 set -Eeuo pipefail
-shopt -s nullglob globstar
 
 _SGSATRPERROR_() { # Run on script error.
 	local RV="$?"
