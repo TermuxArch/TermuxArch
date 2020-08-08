@@ -123,7 +123,7 @@ _PR00TSTRING_() { # construct proot init statements
 	PRARR=(ANDROID_DATA ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT)
 	for PRBIND in ${PRARR[@]}
 	do
-		if [[ ! -z "${PRBIND:-}" ]]
+		if [[ -v "${PRBIND:-}" ]]
 		then
 			PTMP="\$$PRBIND"
 			PTMP="$PRBIND=$PTMP"
