@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.182
+VERSIONID=2.0.183
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -497,7 +497,7 @@ _PRINTSTARTBIN_USAGE_() {
  	_NAMESTARTARCH_
 	if [[ -x "$(command -v "$STARTBIN")" ]]
 	then
-		echo "$STARTBIN" help
+		printf "%s\\n" "$STARTBIN help"
 		"$STARTBIN" help
 	fi
 }
@@ -638,7 +638,7 @@ then
 	STIME="${STIM:0:3}"
 else
 	STI="$(date +%s)"
-	STIME="$(echo "${STI:7:4}"|rev)"
+	STIME="$(printf "%s" "${STI:7:4}" | rev)"
 fi
 ONES="$(date +%s)"
 ONESA="${ONES: -1}"
