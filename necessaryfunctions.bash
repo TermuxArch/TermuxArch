@@ -84,7 +84,7 @@ _COPYSTARTBIN2PATH_() {
 		BPATH="$PREFIX"/bin
 	fi
 	cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-	printf "\\e[0;34m 🕛 > 🕦 \\e[1;32m$STARTBIN \\e[0mcopied to \\e[1m$BPATH\\e[0m.\\n\\n"
+printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -202,7 +202,7 @@ _MAKEFINISHSETUP_() {
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() {
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation."
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
 	}
 	printf "\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
@@ -392,7 +392,7 @@ _RUNFINISHSETUP_() {
 	printf "\\e[0m"
 	if [[ "$FSTND" ]]
 	then
-		NMIR="$(echo "$NLCMIRROR" |awk -F'/' '{print $3}')"
+		NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
 		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
 	else
@@ -407,6 +407,7 @@ _RUNFINISHSETUP_() {
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	fi
 	printf "\\n"
+	cat "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	"$INSTALLDIR"/root/bin/setupbin.bash ||:
 }
 
