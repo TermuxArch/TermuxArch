@@ -59,7 +59,8 @@ _CALLSYSTEM_() {
 		then
 			until _FTCHSTND_
 			do
-				_FTCHSTND_ ||:
+				_FTCHSTND_ || CRV="$?"
+				[[ $CRV = 22 ]] && break
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
