@@ -506,10 +506,9 @@ _ADDmakefakeroot-tcp_() {
 	then
 		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
-		sudo pc git
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
-		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
 		cd 
 		(git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: DONE"
@@ -650,6 +649,8 @@ _ADDcsystemctl_() {
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
+	[ ! -d /run/lock ] && mkdir -p /run/lock
+	touch /var/lock/csystemctl.lock
 	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl/g' /etc/pacman.conf
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
