@@ -506,6 +506,7 @@ _ADDmakefakeroot-tcp_() {
 	then
 		printf "\\n%s\\n\\n" "Error: Should not be used as root."
 	else
+		sudo pc git
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		printf "%s\\n" "Attempting to build and install fakeroot-tcp: "
 		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v po4a)" ]]) && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot po4a libtool
