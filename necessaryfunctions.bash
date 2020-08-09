@@ -206,28 +206,28 @@ _MAKEFINISHSETUP_() {
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
-	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for Android $CPUABI and removing redundant packages for Termux PRoot installation…"
+	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation…"
 	EOM
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
-		printf "%s\\n" "pacman -Syy || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "pacman -Syy ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null || _PMFSESTRING_" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
 		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM

@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.217
+VERSIONID=2.0.218
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -646,6 +646,8 @@ PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 4) Gets device information via `getprop`,
 CPUABI="$(getprop ro.product.cpu.abi)"
+SYSVER="$(getprop ro.build.version.release)"
+NASVER="$(getprop net.bt.name ) $SYSVER"
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.

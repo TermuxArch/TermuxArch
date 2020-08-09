@@ -56,4 +56,5 @@ rm -f gen/*
 sha512sum setupTermuxArch.tar.gz > setupTermuxArch.sha512
 sha512sum -c setupTermuxArch.sha512
 .scripts/maintenance/do.sums.bash
+git show
 # tgen.bash EOF

@@ -89,7 +89,7 @@ _PR00TSTRING_() { # construct proot init statements
 		       	. "$PRSFILES"
 	       	done
 	fi
-	[[ "$(getprop ro.build.version.release)" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
+	[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
 	# Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.  
 	declare -A PRSTARR # associative array
 	# populate writable binds
