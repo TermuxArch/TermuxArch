@@ -60,11 +60,11 @@ _CALLSYSTEM_() {
 			until _FTCHSTND_
 			do
 				_FTCHSTND_ || CRV="$?"
-				[[ $CRV = 22 ]] && break
+				[[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
-				if [[ "$COUNTER" = 4 ]]
+				if [[ "$COUNTER" = 9 ]]
 				then
 					_PRINTMAX_
 					break
@@ -84,7 +84,7 @@ _COPYSTARTBIN2PATH_() {
 		BPATH="$PREFIX"/bin
 	fi
 	cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
+	printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -162,7 +162,7 @@ _MAINBLOCK_() {
 	_WAKEUNLOCK_
 	_PRINTFOOTER_
 	set +Eeuo pipefail
-	"$INSTALLDIR/$STARTBIN" || printf "\033[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\033[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+	"$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
 	set -Eeuo pipefail
 	_PRINTFOOTER2_
 	_PRINTSTARTBIN_USAGE_
@@ -242,7 +242,7 @@ _MAKESETUPBIN_() {
 	cat >> root/bin/setupbin.bash <<- EOM
 	set +Eeuo pipefail
 	EOM
-	echo "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
+	printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 	cat >> root/bin/setupbin.bash <<- EOM
 	set -Eeuo pipefail
 	EOM
@@ -273,7 +273,7 @@ _MAKESTARTBIN_() {
 	if [[ -z "\${1:-}" ]];then
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; TermuxArch $STARTBIN 📲  \007'
@@ -286,7 +286,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -296,7 +296,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNTU /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -305,7 +305,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
@@ -319,7 +319,7 @@ _MAKESTARTBIN_() {
 		fi
 		set +Eeuo pipefail
 	EOM
-		echo "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$2\" -c \"\$ar3ar\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN su user command 📲  \007'
@@ -394,7 +394,14 @@ _RUNFINISHSETUP_() {
 	then
 		NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
 		sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR"/etc/pacman.d/mirrorlist
-		sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
+		if grep "$NMIR" "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		then
+			printf "%s\\n" "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
+			sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR"/etc/pacman.d/mirrorlist # sed replace a character in a matched line in place
+		else
+			printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR."
+			printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR"/etc/pacman.d/mirrorlist
+		fi
 	else
 		if [[ "$ed" = "" ]]
 		then
@@ -407,8 +414,7 @@ _RUNFINISHSETUP_() {
 		"$ed" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 	fi
 	printf "\\n"
-	cat "$INSTALLDIR"/etc/pacman.d/mirrorlist
-	"$INSTALLDIR"/root/bin/setupbin.bash ||:
+	"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
@@ -458,10 +464,10 @@ _SETLANGUAGE_() { # This function uses device system settings to set locale.  To
 
 _SETLOCALE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run `setupTermuxArch.bash r for a quick system refresh.
 	FTIME="$(date +%F%H%M%S)"
-	echo "##  File locale.conf generated by setupTermuxArch.bash at" ${FTIME//-}. > etc/locale.conf
+	printf "%s\\n" "##  File locale.conf generated by setupTermuxArch.bash at ${FTIME//-}." > etc/locale.conf
 	for i in "${!LC_TYPE[@]}"
 	do
-	 	echo "${LC_TYPE[i]}"="$ULANGUAGE".UTF-8 >> etc/locale.conf
+	 	printf "%s\\n" "${LC_TYPE[i]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf

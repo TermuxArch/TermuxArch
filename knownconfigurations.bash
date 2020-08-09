@@ -120,8 +120,6 @@ _PR00TSTRING_() { # construct proot init statements
 		fi
 	done
 	PROOTSTMNT+="-w \"\$PWD\" /usr/bin/env -i HOME=/root TERM=\"\$TERM\" TMPDIR=/tmp ANDROID_DATA=/data " # create PRoot root user string
-# 	PROOTSTMNTU="${PROOTSTMNT//--link2symlink }" # old create PRoot user string
- 	PROOTSTMNTU="$PROOTSTMNT " # create PRoot user string
 }
 _PR00TSTRING_
 # uncomment the next two lines to test function _PR00TSTRING_

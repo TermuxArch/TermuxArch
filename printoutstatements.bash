@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.214"
+FLHDR1[5]="VERSIONID=2.0.215"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -208,10 +208,12 @@ _PRINTFOOTER2_() {
 	( [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] ) && printf "\\e[1;34m%s\\e[0m\\n\\n" "See https://wiki.archlinux.org/index.php/IRC_channel for available Arch Linux IRC channels." || printf "\\e[1;34m%s\\e[0m\\n\\n" "See https://archlinuxarm.org/forum/ for available Arch Linux ARM Forums."
 }
 
+_PRINTPROOTERROR_() {
+	printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
+}
 _PRINTROOTDIRFUNCTION_() {
 	declare -g PRINTROOTDIR
 	PRINTROOTDIR="$(printf "%s" "${ROOTDIR%/}" | sed 's#//*#/#g')"
 }
 _PRINTROOTDIRFUNCTION_
-# printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error \` env ... not found \` is found, ensure that all the software is up to date.  After updating, reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 # printoutstatements.bash EOF
