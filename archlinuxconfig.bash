@@ -222,7 +222,7 @@ _ADDcsystemctl_() {
 	touch /var/lock/csystemctl.lock
 	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
 	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
-	sed -i 's/#NoUpgrade =/NoUpgrade = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
+	sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
