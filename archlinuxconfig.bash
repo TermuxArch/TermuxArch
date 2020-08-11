@@ -202,7 +202,7 @@ _ADDcsystemctl_() {
 	[ -f /var/lock/csystemctl.lock ] && printf "%s\\n" "Already installed /usr/bin/systemctl replacement: DONE" && exit
 	declare COMMANDP
 	COMMANDP="\$(command -v python3)" || printf "%s\\n" "Command python3 not found; Continuing..."
-	[[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3
+	[[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3 || sudo pacman --noconfirm --color=always -S python3
 	SDATE="\$(date +%s)"
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
@@ -222,6 +222,7 @@ _ADDcsystemctl_() {
 	touch /var/lock/csystemctl.lock
 	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
 	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
+	sed -i 's/#NoUpgrade =/NoUpgrade = systemctl systemd-libs systemd-sysvcompat/g' /etc/pacman.conf
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM
 	chmod 700 root/bin/csystemctl.bash
@@ -747,14 +748,8 @@ _ADDv_() {
 	else
 		ARGS=("\$@")
 	fi
-	if [[ ! -x "\$(command -v vim)" ]]
-	then
-		pacman --noconfirm --color=always -S vim
-		vim "\${ARGS[@]}"
-	else
-		vim "\${ARGS[@]}"
-	fi
 	EOM
+	printf "%s\\n" "[ ! -x \"\$(command -v vim)\" ] && ( [ \"\$(id -u)\" = \"0\" ] && pacman --noconfirm --color=always -S vim || sudo pacman --noconfirm --color=always -S vim ) || vim  \"\${ARGS[@]}\"" >> root/bin/v
 	chmod 700 root/bin/v
 }
 
