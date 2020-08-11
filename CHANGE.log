@@ -33,15 +33,16 @@ Computed on 20190611 branch master.
 692	.git
 1044	.
 Computed on 20200718 branch master: 
-Size in KB
 2464	.git
 2992	.
 RESET: size
-Size in KB
 1024	.git
 1552	.
 Computed on 20200811 branch master: TermuxArch
-Size in KB
 1020	.git
 1536	.
-# CHANGE.log EOF
+RESET: module structure
+Size in KB
+1004	.git
+1472	.
+# TermuxArch CHANGE.log EOF
