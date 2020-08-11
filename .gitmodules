@@ -1,0 +1,9 @@
+[submodule "docs"]
+	path = docs
+	url = https://github.com/TermuxArch/docsTermuxArch
+[submodule "gen"]
+	path = gen
+	url = https://github.com/TermuxArch/genTermuxArch
+[submodule "scripts/frags/dfa"]
+	path = scripts/frags/dfa
+	url = https://github.com/TermuxArch/dfa
