@@ -40,9 +40,9 @@ _GSA_() {
 }
 SIAD="/github.com"
 OUNA="/shlibs"
-_GSA_ \.scripts/maintenance maintenance ""
+_GSA_ "\.scripts/maintenance" maintenance ""
 OUNA="/TermuxArch"
 _GSA_ docs docsTermuxArch ""
 _GSA_ gen genTermuxArch ""
-_GSA_ scripts scripts\.TermuxArch ""
+_GSA_ scripts "scripts\.TermuxArch" ""
 # gsa.bash EOF
