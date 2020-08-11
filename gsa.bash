@@ -45,10 +45,4 @@ OUNA="/TermuxArch"
 _GSA_ docs docsTermuxArch ""
 _GSA_ gen genTermuxArch ""
 _GSA_ scripts scripts\.TermuxArch ""
-cd scripts/frags
-_GSA_ scripts/frags/dfa dfa ""
-cd ../..
-cd docs
-_GSA_ docs/imgs imgsTermuxArch ""
-exit
 # gsa.bash EOF
