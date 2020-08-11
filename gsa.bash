@@ -35,7 +35,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
 _GSA_() {
-	(git submodule add $3 https:/$SIAD$OUNA/$2 $1) && (git submodule update --init --recursive --remote $1) || (git submodule update --init --recursive --remote $1) || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing...")
+	(git submodule add $3 https:/$SIAD$OUNA/$2 $1) && (git submodule update --init --recursive --remote "$1") || (git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing...")
 	sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
 }
 SIAD="/github.com"
