@@ -50,4 +50,5 @@ _GSA_ gen genTermuxArch ""
 _GSA_ scripts scripts\.TermuxArch ""
 cd scripts/frags
 _GSA_ scripts/frags/dfa dfa ""
+exit
 # gsa.bash EOF
