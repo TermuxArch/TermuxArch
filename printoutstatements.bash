@@ -15,7 +15,7 @@ FLHDR1[1]="# IFS=$'\\n\\t'"
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="# shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.225"
+FLHDR1[5]="VERSIONID=2.0.226"
 FLHDR1[6]=" "
 FLHDRP[0]="## BEGIN #######################################################################"
 FLHDRP[1]=""
@@ -124,9 +124,9 @@ _PRINTDETECTEDSYSTEM_() {
 	printf "\\n\\e[1;34m%s" " 🕛 > 🕝 Detected $NASVER $CPUABI "
 	if [[ "$(getprop ro.product.device)" == *_cheets ]]
 	then
-		printf "%s\\n\\n\\e[0m" "Chromebook."
+		printf "%s\\n\\n\\e[0m" "Chromebook operating system."
 	else
-		printf "%s\\n\\n\\e[0m" "$(uname -o) operating system."
+		printf "%s\\n\\n\\e[0m" "operating system."
 	fi
 }
 
