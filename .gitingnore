@@ -1,3 +1,4 @@
 *.swp
+.conf/RONGSA
 setupTermuxArchConfigs.bash
 setupTermuxArchSysInfo*
