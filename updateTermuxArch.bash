@@ -1,1 +1,1 @@
-update.bash
+gsa.bash
