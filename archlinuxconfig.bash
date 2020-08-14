@@ -903,6 +903,7 @@ _ADDyt_() {
 
 _PREPPACMANCONF_() {
 	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
+	sed -i 's/^#Color/Color/g' "$INSTALLDIR"/etc/pacman.conf
 	sed -i 's/#IgnorePkg   =/IgnorePkg   = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
 	sed -i 's/#IgnoreGroup =/IgnoreGroup = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
 	sed -i 's/#NoUpgrade   =/NoUpgrade  = systemctl systemd-libs systemd-sysvcompat/g' "$INSTALLDIR"/etc/pacman.conf
