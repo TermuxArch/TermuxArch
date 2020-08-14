@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.233
+VERSIONID=2.0.234
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -203,10 +203,7 @@ _DEPENDSBLOCK_() {
 	else
 		cd "$TAMPDIR"
 		_DWNL_
-		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
-		then
-			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
-		fi
+		cp "$ORGSCRIPT" setupTermuxArch.tmp
 		_CHKDWN_
 		_CHK_ "$@"
 	fi
@@ -616,6 +613,7 @@ if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
 fi
+ORGSCRIPT="${0%*/}"
 ROOTDIR=/arch
 STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
