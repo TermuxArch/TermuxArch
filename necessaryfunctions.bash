@@ -57,10 +57,9 @@ _CALLSYSTEM_() {
 	else
 		if [[ "$CMIRROR" = "os.archlinuxarm.org" ]] || [[ "$CMIRROR" = "mirror.archlinuxarm.org" ]]
 		then
-			until _FTCHSTND_
+			until _FTCHSTND_ || CRV="$?" && [[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
 			do
-				_FTCHSTND_ || CRV="$?"
-				[[ $CRV = 22 ]] && printf "%s\\n" "Received curl error message $CRV; Continuing..." && break
+				_FTCHSTND_
 				sleep 2
 				printf "\\n"
 				COUNTER=$((COUNTER + 1))
@@ -204,6 +203,8 @@ _MAKEFINISHSETUP_() {
 	_PMFSESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
 	}
+	_PREPPACMANCONF_
+	_SETLOCALE_ 
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
 	printf "\\n\\e[1;34m:: \\e[1;37m%s\\n" "Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot installation…"
@@ -211,8 +212,9 @@ _MAKEFINISHSETUP_() {
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
-		printf "%s\\n" "pacman -Syy ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "pacman -Syy || pacman -Syy || printf \"\\n%s\\n\" \"Cannot complete 'pacman -Syy' : continuing : using 'bash setupTermuxArch.bash refresh' is recommended to correct any errors found : \" :" >> root/bin/"$BINFNSTP"
 		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash ||:" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
 	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
@@ -470,12 +472,10 @@ _SETLOCALE_() { # This function uses device system settings to set locale.  To g
 	 	printf "%s\\n" "${LC_TYPE[i]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
 	done
 	sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
-	sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR"/etc/pacman.conf
 }
 
 _TOUCHUPSYS_() {
 	_ADDMOTD_
-	_SETLOCALE_
 	_RUNFINISHSETUP_
 	rm -f root/bin/$BINFNSTP
 	rm -f root/bin/setupbin.bash
