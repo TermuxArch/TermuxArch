@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.237
+VERSIONID=2.0.242
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -103,12 +103,12 @@ _CHKDWN_() {
 
 _CHKSELF_() {
 	if [[ -f "setupTermuxArch.tmp" ]]
-	then # compare the two versions:
-		if [[ "$(<setupTermuxArch.bash)" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
-		then # copy the newer version to update:
+	then # compare the two versions
+		if [[ "$(<setupTermuxArch.bash)" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal
+		then # copy the newer version to update
 			cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "${WDIR}setupTermuxArch.bash" "$@"
+ 			.  "setupTermuxArch.bash" "$@"
 		fi
 	fi
 }
@@ -202,7 +202,10 @@ _DEPENDSBLOCK_() {
 		fi
 	else
 		cd "$TAMPDIR"
-		_DWNL_
+# 		_DWNL_
+echo $ORGSCRIPT
+echo $ORGSCRIPTDIR
+echo $WDIR
 		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
 		then
 			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
@@ -619,6 +622,7 @@ then
 	TAMPDIR=""
 fi
 ORGSCRIPT="${0%*/}"
+ORGSCRIPTDIR="$(dirname "$0")"
 ROOTDIR=/arch
 STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
