@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.235
+VERSIONID=2.0.236
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -204,11 +204,11 @@ _DEPENDSBLOCK_() {
 		cd "$TAMPDIR"
 		_DWNL_
 		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
--               then
--                       cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
+		then
+			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
 		else
 			cp "$ORGSCRIPT" setupTermuxArch.tmp
--               fi
+		fi
 		_CHKDWN_
 		_CHK_ "$@"
 	fi
