@@ -211,23 +211,23 @@ _MAKEFINISHSETUP_() {
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
 		printf "%s\\n" "pacman -Syy || pacman -Syy || printf \"\\n%s\\n\" \"Cannot complete 'pacman -Syy' : continuing : using 'bash setupTermuxArch.bash refresh' is recommended to correct any errors found : \" :" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/keys ||:" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/csystemctl.bash ||:" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/keys || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI8" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 	 	fi
 		if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]]
 		then
-			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu gzip patch sed sudo unzip --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 		else
-			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null ||:" >> root/bin/"$BINFNSTP"
+			printf "%s\\n" "pacman -Syu patch sudo unzip --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
 		fi
 	fi
 	cat >> root/bin/"$BINFNSTP" <<- EOM
