@@ -201,7 +201,7 @@ _MAKEFINISHSETUP_() {
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
 	_PMFSESTRING_() {
-	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened.  Please read the error message.  Correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
+	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\e[0m" "Something unexpected happened : Cannot complete '\$1' : continuing : To correct the error, and run " "setupTermuxArch.bash refresh" " to complete the installation.  If you find an error in this script, please open an issue and a pull request."
 	}
 	printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n" "To generate locales in a preferred language use " "Settings > Language & Keyboard > Language " "in Android; Then run " "${0##*/} refresh" " for a full system refresh including locale generation; For quick refresh you can use " "${0##*/} r" ".  For a refresh with user directories " "${0##*/} re" " can be used."
    	$LOCGEN
@@ -210,12 +210,12 @@ _MAKEFINISHSETUP_() {
 	_FIXOWNER_
 	if [[ -z "${LCR:-}" ]] # is undefined
 	then
-		printf "%s\\n" "pacman -Syy || pacman -Syy || printf \"\\n%s\\n\" \"Cannot complete 'pacman -Syy' : continuing : using 'bash setupTermuxArch.bash refresh' is recommended to correct any errors found : \" :" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/keys || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
-		printf "%s\\n" "/root/bin/csystemctl.bash || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "pacman -Syy || pacman -Syy || _PMFSESTRING_ \"pacman -Syy\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/keys || _PMFSESTRING_ \"keys\"" >> root/bin/"$BINFNSTP"
+		printf "%s\\n" "/root/bin/csystemctl.bash || _PMFSESTRING_ \"csystemctl.bash\"" >> root/bin/"$BINFNSTP"
 	 	if [[ "$CPUABI" = "$CPUABI5" ]]
 		then
-	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
+	 		printf "%s\\n" "pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always 2>/dev/null || _PMFSESTRING_ \"pacman -Rc\"" >> root/bin/"$BINFNSTP"
 	 	elif [[ "$CPUABI" = "$CPUABI7" ]]
 		then
 	 		printf "%s\\n" "pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always 2>/dev/null || printf \"%s\\n\" \"Something unexpected happened : use 'bash setupTermuxArch.bash refresh' to attempt to fix the errors\"" >> root/bin/"$BINFNSTP"
