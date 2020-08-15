@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.245
+VERSIONID=2.0.246
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -66,7 +66,7 @@ _ARG2DIR_() {  # argument as ROOTDIR
 }
 
 _CHK_() {
-	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
+	if sha512sum -c termuxarchchecksum.sha512
 	then
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
