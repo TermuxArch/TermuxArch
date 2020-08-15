@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.246
+VERSIONID=2.0.247
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -68,6 +68,7 @@ _ARG2DIR_() {  # argument as ROOTDIR
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512
 	then
+		printf "\\n"
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
 		_LOADCONF_
@@ -87,6 +88,7 @@ _CHK_() {
 			_MANUAL_
 		fi
 	else
+		printf "\\n"
 		_PRINTSHA512SYSCHKER_
 	fi
 }
@@ -101,15 +103,12 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {
-	if [[ -f "setupTermuxArch.tmp" ]]
-	then # compare the two versions:
-		if [[ "$(<setupTermuxArch.bash)" != "$(<setupTermuxArch.tmp)" ]] # the two versions are not equal:
-		then # copy the newer version to update:
-			cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
- 			.  "${WDIR}setupTermuxArch.bash" "$@"
-		fi
+_CHKSELF_() { # compare the two versions of file setupTermuxArch.bash
+	if [[ "$(<setupTermuxArch.bash)" != "$(<$0)" ]] # they are not equal
+	then # copy the newer version to update file setupTermuxArch.bash
+		cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
+		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+		.  "${WDIR}setupTermuxArch.bash" "$@"
 	fi
 }
 
