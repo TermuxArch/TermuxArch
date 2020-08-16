@@ -119,7 +119,7 @@ _DEPENDDM_() { # checks and sets download manager
 		if [[ -x $(command -v "${ADM[$PKG]}") ]]
 		then
  			DM="$PKG"
-			printf "\\nFound download tool \`%s\`: Continuing…\\n" "$PKG"
+			printf "\\nFound download tool \`%s\`: Continuing...\\n" "$PKG"
 			break
 		fi
 	done
@@ -131,7 +131,7 @@ _DEPENDTM_() { # checks and sets tar manager: depreciated
 		if [[ -x $(command -v "${ATM[$PKG]}") ]]
 		then
  			tm="$PKG"
-			printf "\\nFound tar tool \`%s\`: Continuing…\\n" "$PKG"
+			printf "\\nFound tar tool \`%s\`: Continuing...\\n" "$PKG"
 			break
 		fi
 	done
@@ -144,13 +144,13 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available
 		then #	sets both download tool for install and exception check.
  			APTIN+="$PKG "
 			APTON+=("${ADM[$PKG]}")
-			printf "\\nSetting download tool \`%s\` for install: Continuing…\\n" "$PKG"
+			printf "\\nSetting download tool \`%s\` for install: Continuing...\\n" "$PKG"
  		fi
  	done
 }
 
 _DEPENDS_() { # checks for missing commands
-	printf "\\e[1;34mChecking prerequisites…\\n\\e[1;32m"
+	printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
 	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 	ATM=([bsdtar]=bsdtar)
 	if [[ "$DM" != "" ]]
@@ -167,7 +167,7 @@ _DEPENDS_() { # checks for missing commands
 		DM=lftp
 		APTIN+="lftp "
 		APTON+=(lftp)
-		printf "Setting download tool \`lftp\` for install: Continuing…\\n"
+		printf "Setting download tool \`lftp\` for install: Continuing...\\n"
 	fi
 #	# Installs missing commands.
 	for PKG in "${PKGS[@]}"
@@ -182,7 +182,7 @@ _DEPENDS_() { # checks for missing commands
 #	# Checks whether install missing commands was successful.
 # 	_PECHK_ "$APTON"
 	printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
-	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch…\\n\\n\\e[0;32m"
+	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch...\\n\\n\\e[0;32m"
 }
 
 _DEPENDSBLOCK_() {
@@ -450,8 +450,8 @@ _OPT2_() {
 }
 
 _PE_() {
-	printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN…"
-	printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN…"
+	printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN..."
+	printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN..."
 	exit
 }
 
@@ -487,8 +487,8 @@ _PRINTCONFLOADED_() {
 }
 
 _PRINTSHA512SYSCHKER_() {
-	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.bash\` again…"
-	printf '\033]2; Run `bash setupTermuxArch.bash %s` again…\007' "$ARGS"
+	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run \`bash setupTermuxArch.bash\` again..."
+	printf '\033]2; Run `bash setupTermuxArch.bash %s` again...\007' "$ARGS"
 	exit
 }
 
@@ -529,7 +529,7 @@ _RMARCH_() {
 			break
 		elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 		then
-			printf "\\e[30mUninstalling $INSTALLDIR…\\n"
+			printf "\\e[30mUninstalling $INSTALLDIR...\\n"
 			if [[ -e "$PREFIX/bin/$STARTBIN" ]]
 			then
 				rm -f "$PREFIX/bin/$STARTBIN"
@@ -575,8 +575,8 @@ _RMARCHQ_() {
 _SETROOT_EXCEPTION_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 	then
-		printf  '\033]2;%s\007' "Rootdir exception.  Run bash setupTermuxArch.bash $ARGS again with different options…"
-		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options…"
+		printf  '\033]2;%s\007' "Rootdir exception.  Run bash setupTermuxArch.bash $ARGS again with different options..."
+		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options..."
 		exit
 	fi
 }
@@ -626,7 +626,7 @@ STRING2="Cannot update \`setupTermuxArch.bash\` prerequisite: Continuing..."
 COMMANDG="$(command -v getprop)" ||:
 if [[ "$COMMANDG" = "" ]]
 then
-	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in the OS system in Termux, e.g., Amazon Fire, Android and Chromebook."
+	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run \`bash ${0##*/}\` and \`./${0##*/}\` from the BASH shell in in Termux: exiting..."
 	exit
 fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v apt)"
@@ -673,18 +673,20 @@ if [[ -z "${1:-}" ]]
 then
 	_PREPTERMUXARCH_
 	_INTRO_ "$@"
-## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional. A systemimage.tar.gz file can be substituted for network install: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`.
+## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional. A systemimage.tar.gz file can be copied substituting network install: `setupTermuxArch.bash ./[path/]systemimage.tar.gz` and `setupTermuxArch.bash /absolutepath/systemimage.tar.gz`.
 elif [[ "${ARGS:0:1}" = . ]]
 then
  	printf "\\nSetting mode to copy system image.\\n"
+ 	GFILE="$1"
  	LCC="1"
  	LCP="1"
  	_ARG2DIR_ "$@"
  	_INTRO_ "$@"
-## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can be substituted for network install.
+## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  A systemimage.tar.gz file can be copied substituting network install.
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
 	printf "\\nSetting mode to copy system image.\\n"
+ 	GFILE="$1"
 	LCC="1"
 	LCP="0"
 	_ARG2DIR_ "$@"
