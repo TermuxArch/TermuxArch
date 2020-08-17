@@ -65,7 +65,6 @@ _ARG2DIR_() {  # argument as ROOTDIR
 	fi
 }
 
-#balnck
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512
 	then
@@ -73,25 +72,20 @@ _CHK_() {
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
 		_LOADCONF_
-		. archlinuxconfig.bash
-		. espritfunctions.bash
-		. getimagefunctions.bash
-		. knownconfigurations.bash
-		. maintenanceroutines.bash
-		. necessaryfunctions.bash
-		. printoutstatements.bash
+		_COREFILESLOAD_
 		if [[ "$OPT" = BLOOM ]]
 		then
 			rm -f termuxarchchecksum.sha512
-		fi
-		if [[ "$OPT" = MANUAL ]]
-		then
-			_MANUAL_
 		fi
 	else
 		printf "\\n"
 		_PRINTSHA512SYSCHKER_
 	fi
+}
+
+_CKINSTDR_() {
+	_SETROOT_EXCEPTION_
+	[[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]] && printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure is correct; Cannot continue setupTermuxArch.bash install!  See \`setupTermuxArch.bash help\` and \`$STARTBIN help\` for more information" && exit 205
 }
 
 _CHKDWN_() {
@@ -104,12 +98,42 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() { # compare the two versions of file setupTermuxArch.bash
+_CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
 	then # copy the newer version to update file setupTermuxArch.bash
-		cp setupTermuxArch.bash "${WDIR}setupTermuxArch.bash"
+		cp setupTermuxArch.bash "$WFILE"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-		.  "${WDIR}setupTermuxArch.bash" "$@"
+		bash "$WFILE" "$ARGS"
+	fi
+}
+
+_COREFILES_() {
+	[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
+}
+
+_COREFILESDO_() {
+	if _COREFILES_
+	then
+		_COREFILESLOAD_
+	else
+		cd "$TAMPDIR"
+		_DWNL_
+		_CHKDWN_
+		_CHK_ "$@"
+	fi
+}
+
+_COREFILESLOAD_() {
+	. archlinuxconfig.bash
+	. espritfunctions.bash
+	. getimagefunctions.bash
+	. knownconfigurations.bash
+	. maintenanceroutines.bash
+	. necessaryfunctions.bash
+	. printoutstatements.bash
+	if [[ "$OPT" = MANUAL ]]
+	then
+		_MANUAL_
 	fi
 }
 
@@ -143,7 +167,6 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available
  		if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
 		then #	sets both download tool for install and exception check.
  			APTIN+="$PKG "
-			APTON+=("${ADM[$PKG]}")
 			printf "\\nSetting download tool \`%s\` for install: Continuing...\\n" "$PKG"
  		fi
  	done
@@ -166,7 +189,6 @@ _DEPENDS_() { # checks for missing commands
 	then
 		DM=lftp
 		APTIN+="lftp "
-		APTON+=(lftp)
 		printf "Setting download tool \`lftp\` for install: Continuing...\\n"
 	fi
 #	# Installs missing commands.
@@ -179,40 +201,22 @@ _DEPENDS_() { # checks for missing commands
 			_INPKGS_
 		fi
 	done
-#	# Checks whether install missing commands was successful.
-# 	_PECHK_ "$APTON"
 	printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
 	printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch...\\n\\n\\e[0;32m"
 }
 
 _DEPENDSBLOCK_() {
 	_DEPENDS_ || printf "%s\\n" "signal received _DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
-	if [[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
+	if [[ $DIRLCR == 0 ]]
 	then
-		. archlinuxconfig.bash
-		. espritfunctions.bash
-		. getimagefunctions.bash
-		. knownconfigurations.bash
-		. maintenanceroutines.bash
-		. necessaryfunctions.bash
-		. printoutstatements.bash
-		if [[ "$OPT" = MANUAL ]]
-		then
-			_MANUAL_
-		fi
+		cd "${WFILE%/*}" 
+		_COREFILESDO_
 	else
-		cd "$TAMPDIR"
-		_DWNL_
-# 		if [[ -f "${WDIR}setupTermuxArch.bash" ]]
-# 		then
-# 			cp "${WDIR}setupTermuxArch.bash" setupTermuxArch.tmp
-# 		fi
-		_CHKDWN_
-		_CHK_ "$@"
+		_COREFILESDO_
 	fi
 }
 
-_DWNL_() { # downloads TermuxArch from Github
+_DWNL_() { # download TermuxArch from Github
 	if [[ "$DFL" = "/gen" ]]
 	then # get development version from:
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
@@ -242,12 +246,7 @@ _DWNL_() { # downloads TermuxArch from Github
 
 _INTRO_() {
 	printf "\033]2;%s\007" "bash setupTermuxArch.bash $ARGS 📲"
-	_SETROOT_EXCEPTION_
-	if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
-	then
-		printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure is correct; Cannot continue setupTermuxArch.bash install!  See \`setupTermuxArch.bash help\` and \`$STARTBIN help\` for more information"
-		exit 205
-	fi
+	_CKINSTDR_
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s will attempt to install Linux in \\e[0;32m%s\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  To run this BASH script again, use \`!!\`.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  \\e[0;34m" "$VERSIONID" "$INSTALLDIR"
 	_DEPENDSBLOCK_ "$@"
 	if [[ "$LCC" = "1" ]]
@@ -258,7 +257,7 @@ _INTRO_() {
 	fi
 }
 
-_INTROBLOOM_() { # BLOOM = `setupTermuxArch.bash manual verbose`
+_INTROBLOOM_() { # BLOOM = setupTermuxArch.bash manual verbose
 	OPT=BLOOM
 	printf "\033]2;%s\007" "bash setupTermuxArch.bash bloom 📲"
 	printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID bloom option.  Run \\e[1;32mbash setupTermuxArch.bash help \\e[1;34mfor additional information.  Ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
@@ -368,34 +367,34 @@ _OPT1_() {
 		_ARG2DIR_ "$@"
 	elif [[ "$2" = [Bb]* ]]
 	then
-		printf "Setting mode to bloom.\\n"
+		printf "%s\\n" "Setting mode to bloom."
 		_INTROBLOOM_ "$@"
 	elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]
 	then
-		printf "Setting mode to sysinfo.\\n"
+		printf "%s\\n" "Setting mode to sysinfo."
 		shift
 		_ARG2DIR_ "$@"
 		_INTROSYSINFO_ "$@"
 	elif [[ "$2" = [Ii]* ]]
 	then
-		printf "Setting mode to install.\\n"
+		printf "%s\\n" "Setting mode to install."
 		shift
 		_ARG2DIR_ "$@"
 	elif [[ "$2" = [Mm]* ]]
 	then
-		printf "Setting mode to manual.\\n"
+		printf "%s\\n" "Setting mode to manual."
 		OPT=MANUAL
  		_OPT2_ "$@"
 	elif [[ "$2" = [Rr][Ee][Ff]* ]]
 	then
-		printf "\\nSetting mode to refresh.\\n"
+		printf "\\n%s\\n" "Setting mode to refresh."
 		shift
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
 	elif [[ "$2" = [Rr][Ee]* ]]
 	then
 		export LCR="2"
-		printf "\\nSetting mode to minimal refresh and refresh user directories.\\n"
+		printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 		shift
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
@@ -419,19 +418,19 @@ _OPT2_() {
 		_INTRO_ "$@"
 	elif [[ "$3" = [Ii]* ]]
 	then
-		printf "Setting mode to install.\\n"
+		printf "%s\\n" "Setting mode to install."
 		shift 2
 		_ARG2DIR_ "$@"
 		_INTRO_ "$@"
 	elif [[ "$3" = [Rr][Ee][Ff]* ]]
 	then
-		printf "\\nSetting mode to refresh.\\n"
+		printf "\\n%s\\n" "Setting mode to refresh."
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
 	elif [[ "$3" = [Rr][Ee]* ]]
 	then
 		export LCR="2"
-		printf "\\nSetting mode to minimal refresh and refresh user directories.\\n"
+		printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 		shift 2
 		_ARG2DIR_ "$@"
 		_INTROREFRESH_ "$@"
@@ -447,25 +446,6 @@ _OPT2_() {
 		_ARG2DIR_ "$@"
 		_INTRO_ "$@"
 	fi
-}
-
-_PE_() {
-	printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN..."
-	printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN..."
-	exit
-}
-
-_PECHK_() {
-	if [[ "$APTON" != "" ]]
-	then
-		pe @APTON
-	fi
-	for PKG in "${!ADM[@]}" ; do
-		if [[ -x $(command -v "${ADM[$PKG]}") ]]
-		then
-			:
-		fi
-	done
 }
 
 _PREPTMPDIR_() {
@@ -584,7 +564,6 @@ declare -A ADM		## Declare associative array for all available download tools.
 declare -A ATM		## Declare associative array for all available tar tools.
 declare -a ARGS="$@"	## Declare arguments as string.
 declare APTIN=""	## apt install string
-declare APTON=""	## exception string
 declare COMMANDIF=""
 declare COMMANDR
 declare COMMANDG=""
@@ -599,6 +578,7 @@ declare CPUABIX86_64="x86_64"	## Used for development.
 declare DFL=""		## Used for development.
 declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in `setupTermuxArchConfigs.bash` when using `setupTermuxArch.bash m[anual]`.
 declare ed=""
+declare DIRLCR=""
 declare DM=""
 declare FSTND=""
 declare -A FILE
@@ -649,7 +629,8 @@ SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 WFILE="$0"
-[[ "$WFILE"  == "setupTermuxArch.bash" ]] && WFILE="$WDIR$WFILE"
+[[ "$WFILE" == "setupTermuxArch.bash" ]] && WFILE="$WDIR$WFILE"
+[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "$PWD" != "$HOME" ]] && DIRLCR=0
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.
