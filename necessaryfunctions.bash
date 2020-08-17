@@ -256,7 +256,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDG="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDG" = "" ]] ; then
- 		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "'\${0##*/}' WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in the OS system in Termux: exiting..."
+ 		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "'\${0##*/}' WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux: exiting..."
 		exit 202
 	fi
 	declare -g ar2ar="\${@:2}"
@@ -342,8 +342,7 @@ _MAKESYSTEM_() {
 	_PRINTMD5CHECK_
 	_MD5CHECK_
 	_PRINTCU_
-       	# set KEEP to 0 in file knownconfigurations.bash after using either `setupTermuxArch.bash bloom` or `setupTermuxArch.bash manual` to disable deleting of INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files
-       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
+       	[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 # set KEEP to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch.bash bloom' or 'setupTermuxArch.bash manual' to keep the INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 files.
 	_PRINTDONE_
 	_PRINTCONFIGUP_
 	_TOUCHUPSYS_

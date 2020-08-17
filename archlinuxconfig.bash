@@ -21,7 +21,7 @@ else
 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 	sed -i "s/\$1:x/\$1:/g" /etc/passwd
 	cp -r /root /home/"\$1"
-	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Please remember to not nest proot in proot as this may cause issues."
+	printf "%s\\n" "Added user \$1 and directory /home/\$1 created.  To use this account run '$STARTBIN login \$1' in Termux.  Remember please to not nest proot in proot by running '$STARTBIN' in '$STARTBIN' as this may cause issues."
 fi
 }
 _PMFSESTRING_() { 
