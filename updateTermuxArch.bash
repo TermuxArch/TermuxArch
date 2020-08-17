@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Copyright 2019-2020 (c) all rights reserved
 # by S D Rausty https://termuxarch.github.io/TermuxArch/
-# This script updates the main git repository and its' submodules.
+# this script updates the main git repository and its' modules
 #####################################################################
 set -Eeuo pipefail
 
@@ -36,7 +36,7 @@ trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
 _GSA_() {
-	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing...") || (git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA)) || ((git submodule update --init --recursive --remote "$1" && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add submodule $2 : Continuing..."))
+	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...") || (git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA)) || ((git submodule update --init --recursive --remote "$1" && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add module $2 : Continuing..."))
 	sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
 }
 git pull
