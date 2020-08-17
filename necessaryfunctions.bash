@@ -256,7 +256,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 	COMMANDG="\$(command -v getprop)" ||:
 	if [[ "\$COMMANDG" = "" ]] ; then
- 		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "'\${0##*/}' WARNING: Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux: exiting..."
+ 		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 		exit 202
 	fi
 	declare -g ar2ar="\${@:2}"
