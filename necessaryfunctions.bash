@@ -363,11 +363,11 @@ _MD5CHECK_() {
 
 _PREPROOTDIR_() {
 	cd "$INSTALLDIR"
-	mkdir -p etc
-	mkdir -p home
-	mkdir -p root/bin
-	mkdir -p usr/bin
-	mkdir -p var/binds
+	[ ! -e etc ] &&	mkdir -p etc
+	[ ! -e home ] && mkdir -p home
+	[ ! -e root/bin ] && mkdir -p root/bin
+	[ ! -e usr/bin ] && mkdir -p usr/bin
+	[ ! -e var/binds ] && mkdir -p var/binds
 }
 
 _PREPINSTALLDIR_() {

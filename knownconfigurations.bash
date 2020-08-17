@@ -123,6 +123,5 @@ _PR00TSTRING_() { # construct proot init statements
 }
 _PR00TSTRING_
 # uncomment the next two lines to test function _PR00TSTRING_
-# printf "%s\\n" "$PROOTSTMNT"
-# exit
+# printf "%s\\n" "$PROOTSTMNT" && exit
 # knownconfigurations.bash EOF

@@ -218,9 +218,9 @@ _PRINTROOTDIRFUNCTION_() {
 }
 _PRINTROOTDIRFUNCTION_
 
-# print signal generated in arg 1 : format : _PSGI1ESTRING_ string
+
 _PSGI1ESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\e[1;37m%s\\n\\n\\e[0m" "Signal generated in '$1' : cannot complete '$1' : continuing...   Running " "bash setupTermuxArch.bash refresh" " will attempt to complete the autoconfiguration and installation." "  If you find improvements for 'setupTermuxArch.bash' and '$0', please open an issue and accompanying pull request." 
 }
-_PSGI1ESTRING_
+# _PSGI1ESTRING_ "test string" && exit # print signal generated with arg 1 format
 # printoutstatements.bash EOF

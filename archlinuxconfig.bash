@@ -52,7 +52,7 @@ _ADDae_() {
 }
 
 _ADDaddresolvconf_() {
-	mkdir -p run/systemd/resolve
+	[ ! -e run/systemd/resolve ] && mkdir -p run/systemd/resolve
 	cat > run/systemd/resolve/resolv.conf <<- EOM
 	nameserver 8.8.8.8
 	nameserver 8.8.4.4
@@ -226,7 +226,7 @@ _ADDcsystemctl_() {
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl
 	chmod 700 /usr/local/bin/systemctl
-	[ ! -d /run/lock ] && mkdir -p /run/lock
+	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
 	EOM

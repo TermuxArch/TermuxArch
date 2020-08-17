@@ -469,11 +469,9 @@ _PECHK_() {
 }
 
 _PREPTMPDIR_() {
-	mkdir -p "$INSTALLDIR/tmp"
-	chmod 777 "$INSTALLDIR/tmp"
-	chmod +t "$INSTALLDIR/tmp" || printf "Could not chmod +t: Continuing...\\n"
+	[ ! -e "$INSTALLDIR/tmp" ] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ||:
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
-	mkdir -p "$TAMPDIR"
+	[ ! -e "$TAMPDIR" ] && mkdir -p "$TAMPDIR"
 }
 
 _PREPTERMUXARCH_() {
