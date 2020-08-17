@@ -259,7 +259,7 @@ _MAKESTARTBIN_() {
  		printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 		exit 202
 	fi
-	declare -g ar2ar="\${@:2}"
+	declare -g AR2AR="\${@:2}"
 	declare -g ar3ar="\${@:3}"
 	_PRINTUSAGE_() {
 	printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
@@ -287,7 +287,7 @@ _MAKESTARTBIN_() {
 		touch $INSTALLDIR/root/.chushlogin
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
@@ -297,7 +297,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/su - \"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -306,7 +306,7 @@ _MAKESTARTBIN_() {
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 		set +Eeuo pipefail
 	EOM
-		printf "%s\\n" "$PROOTSTMNT /bin/\"\$ar2ar\" ||:" >> "$STARTBIN"
+		printf "%s\\n" "$PROOTSTMNT /bin/\"\$AR2AR\" ||:" >> "$STARTBIN"
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'

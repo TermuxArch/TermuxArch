@@ -35,16 +35,16 @@ trap _SGSATRPEXIT_ EXIT
 trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
-_GSA_() {
-	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...") || (git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA)) || ((git submodule update --init --recursive --remote "$1" && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add module $2 : Continuing..."))
-	sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
+_GSA_() { # add or update module 
+	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...")) || ((git submodule add $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add module $2 : Continuing..."))
+	 sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
 }
-git pull
-SIAD="/github.com"
+git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
+SIAD="$(grep url .git/config | cut -d"=" -f 2 | head -n 1 | cut -d"/" -f 2-3)"
 OUNA="/shlibs"
-_GSA_ "\.scripts/maintenance" maintenance ""
+_GSA_ "\.scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance : Continuing..."
 OUNA="/TermuxArch"
-_GSA_ docs docsTermuxArch ""
-_GSA_ gen genTermuxArch ""
-_GSA_ scripts "scripts\.TermuxArch" ""
+_GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs : Continuing..."
+_GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen : Continuing..."
+_GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts : Continuing..."
 # updateTermuxArch.bash EOF

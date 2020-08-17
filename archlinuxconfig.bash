@@ -918,7 +918,7 @@ _ADDwe_() {
 
 _ADDyt_() {
 	_CFLHDR_ root/bin/yt
-	printf "%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\n%s\\n%s\\n\" \"Cannot run as root : exiting : the command '$STARTBIN addauser username' creates user accounts in ${INSTALLDIR##*/} : \" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
+	printf "%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' can create user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : the command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " >> root/bin/yt
 	chmod 700 root/bin/yt
 }
 
