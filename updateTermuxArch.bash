@@ -8,7 +8,7 @@ set -Eeuo pipefail
 _SGSATRPERROR_() { # Run on script error.
 	local RV="$?"
 	printf "\\n%s\\n" "$RV"
-	printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "gsa.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
+	printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "updateTermuxArch.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 	exit 179
 }
 
@@ -20,13 +20,13 @@ _SGSATRPEXIT_() { # Run on exit.
 
 _SGSATRPSIGNAL_() { # Run on signal.
 	local RV="$?"
-	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
+	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
  	exit 178
 }
 
 _SGSATRPQUIT_() { # Run on quit.
 	local RV="$?"
-	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Quit signal %s received!\\e[0m\\n" "gsa.bash" "$RV"
+	printf "\\e[?25h\\e[1;7;38;5;0mBuildAPKs %s WARNING:  Quit signal %s received!\\e[0m\\n" "updateTermuxArch.bash" "$RV"
  	exit 177
 }
 
