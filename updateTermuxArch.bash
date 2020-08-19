@@ -35,9 +35,8 @@ trap _SGSATRPEXIT_ EXIT
 trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
-_GSA_() { # add or update module 
-	[[ -f .cong/RONGSA ]] && ((git submodule update --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...")) || ((git submodule add --depth 1 $3 https:/$SIAD$OUNA/$2 $1 && touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add module $2 : Continuing..."))
-	 sleep 0."$(shuf -i 24-72 -n 1)"	# latency support
+_GSA_() { # first add, then update modules if run once file exists
+	[[ -f .conf/RONGSA ]] && ((git submodule update --depth 1 $3 --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...")) || ((git submodule add --depth 1 $3 https:/$SIAD$OUNA/$2 $1 ; touch .conf/RONGSA) || (printf "\\n\\n%s\\n" "Cannot add module $2 : Continuing...")) ; sleep 0."$(shuf -i 24-72 -n 1)" # latency support
 }
 git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
 SIAD="$(grep url .git/config | cut -d"=" -f 2 | head -n 1 | cut -d"/" -f 2-3)"
