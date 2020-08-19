@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
-# Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
+# Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
+# https://termuxarch.github.io/TermuxArch courtesy host https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 IFS=$'\n\t'
