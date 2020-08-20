@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2017-2020 by SDRausty. All rights reserved.  🌎 🌍 🌏 🌐 🗺
+# Copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
 # Hosted termuxarch.github.io/TermuxArch courtesy https://pages.github.com
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.273
+VERSIONID=2.0.274
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,21 +89,25 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
+	cd "$WDIR"
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
 	then # copy the newer version to update file setupTermuxArch.bash
-		if ! _COREFILES_
+		if _COREFILES_
 		then
-			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
+			: # do nothing
+		else
 			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 			NNVAR="$(grep '="' setupTermuxArch.bash|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 			for NNSET in $NNVAR
 			do
 				unset "$NNSET"
 			done
+			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
 			bash "$WFILE" "$ARGS"
 		fi
 	fi
+	cd "$TAMPDIR"
 }
 
 _COREFILES_() {
@@ -636,8 +640,7 @@ SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 WFILE="$0"
-[[ "$WFILE" == "setupTermuxArch.bash" ]] && WFILE="$WDIR$WFILE"
-[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "$PWD" != "$HOME" ]] && DIRLCR=0
+[[ "${WFILE%/*}" != "$WDIR" ]] && DIRLCR=0
 ## 5) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED.
