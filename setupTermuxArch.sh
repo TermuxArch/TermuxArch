@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.269
+VERSIONID=2.0.270
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -96,10 +96,18 @@ _CHKDWN_() {
 _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # files differ
 	then # copy the newer version to update file setupTermuxArch.bash
-		cp setupTermuxArch.bash "$WFILE"
-		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-		unset -f $(grep \_\( "$WFILE" | cut -d"(" -f 1 | sort -u | sed ':a;N;$!ba;s/\n/ /g')
-		bash "$WFILE" "$ARGS"
+		if ! _COREFILES_
+		then
+			cp setupTermuxArch.bash "$WFILE"
+			unset -f $(grep \_\( "$WFILE" | cut -d"(" -f 1 | sort -u | sed ':a;N;$!ba;s/\n/ /g')
+			NNVAR="$(grep '="' setupTermuxArch.bash | grep -v -e \] -e ARGS -e TAMPDIR -e WFILE| grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+			for NNSET in $NNVAR
+			do
+				unset "$NNSET"
+			done
+			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+			bash "$WFILE" "$ARGS"
+		fi
 	fi
 }
 
@@ -107,8 +115,12 @@ _COREFILES_() {
 	[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
 }
 
+_COREFILESN_() {
+	[[ ! -f archlinuxconfig.bash ]] && [[ ! -f espritfunctions.bash ]] && [[ ! -f getimagefunctions.bash ]] && [[ ! -f knownconfigurations.bash ]] && [[ ! -f maintenanceroutines.bash ]] && [[ ! -f necessaryfunctions.bash ]] && [[ ! -f printoutstatements.bash ]] && [[ ! -f setupTermuxArch.bash ]]
+}
+
 _COREFILESDO_() {
-	if _COREFILES_
+	if _COREFILES_ "-f"
 	then
 		_COREFILESLOAD_
 	else
