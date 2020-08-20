@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.281
+VERSIONID=2.0.282
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -22,8 +22,7 @@ _STRPERROR_() { # run on script error
 
 _STRPEXIT_() { # run on exit
 	local RV="$?"
- 	rm -rf "$TAMPDIR"
-	sleep 0.04
+ 	rm -rf "$TAMPDIR/*"
 	if [[ "$RV" = 0 ]]
 	then
 		printf "\\e[0;32m%s %s \\e[0m$VERSIONID\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n\\e[0m" "${0##*/}" "$ARGS" "DONE 🏁 "
