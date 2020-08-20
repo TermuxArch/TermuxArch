@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.270
+VERSIONID=2.0.271
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -98,7 +98,7 @@ _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 	then # copy the newer version to update file setupTermuxArch.bash
 		if ! _COREFILES_
 		then
-			cp setupTermuxArch.bash "$WFILE"
+			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
 			unset -f $(grep \_\( "$WFILE" | cut -d"(" -f 1 | sort -u | sed ':a;N;$!ba;s/\n/ /g')
 			NNVAR="$(grep '="' setupTermuxArch.bash | grep -v -e \] -e ARGS -e TAMPDIR -e WFILE| grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 			for NNSET in $NNVAR
