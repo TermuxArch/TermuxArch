@@ -68,7 +68,7 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	_DOTHF_ root/.bash_profile
+	[ -e root/.bash_profile ] && _DOTHF_ "root/.bash_profile"
 	printf "%s\\n" "PATH=\"\$HOME/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:\$PATH\"" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
@@ -90,7 +90,7 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	_DOTHF_ root/.bashrc
+	[ -e root/.bashrc ] && _DOTHF_ "root/.bashrc"
 	cat > root/.bashrc <<- EOM
 	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
@@ -660,7 +660,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	_DOTHF_ root/.profile
+	[ -e root/.profile] && _DOTHF_ "root/.profile"
 	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
