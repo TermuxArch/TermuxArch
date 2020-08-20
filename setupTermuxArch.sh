@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.272
+VERSIONID=2.0.273
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -71,12 +71,7 @@ _CHK_() {
 		printf "\\n"
  		_CHKSELF_ "$@"
 		printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 > 🕜" "TermuxArch $VERSIONID integrity:" "OK"
-		_LOADCONF_
 		_COREFILESLOAD_
-		if [[ "$OPT" = BLOOM ]]
-		then
-			rm -f termuxarchchecksum.sha512
-		fi
 	else
 		printf "\\n"
 		_PRINTSHA512SYSCHKER_
@@ -99,8 +94,8 @@ _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 		if ! _COREFILES_
 		then
 			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
-			unset -f $(grep \_\( "$WFILE" | cut -d"(" -f 1 | sort -u | sed ':a;N;$!ba;s/\n/ /g')
-			NNVAR="$(grep '="' setupTermuxArch.bash | grep -v -e \] -e ARGS -e TAMPDIR -e WFILE| grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+			NNVAR="$(grep '="' setupTermuxArch.bash|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 			for NNSET in $NNVAR
 			do
 				unset "$NNSET"
@@ -115,12 +110,8 @@ _COREFILES_() {
 	[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch.bash ]]
 }
 
-_COREFILESN_() {
-	[[ ! -f archlinuxconfig.bash ]] && [[ ! -f espritfunctions.bash ]] && [[ ! -f getimagefunctions.bash ]] && [[ ! -f knownconfigurations.bash ]] && [[ ! -f maintenanceroutines.bash ]] && [[ ! -f necessaryfunctions.bash ]] && [[ ! -f printoutstatements.bash ]] && [[ ! -f setupTermuxArch.bash ]]
-}
-
 _COREFILESDO_() {
-	if _COREFILES_ "-f"
+	if _COREFILES_
 	then
 		_COREFILESLOAD_
 	else
@@ -142,6 +133,10 @@ _COREFILESLOAD_() {
 	if [[ "$OPT" = MANUAL ]]
 	then
 		_MANUAL_
+	fi
+	if [[ "$OPT" = BLOOM ]]
+	then
+		rm -f termuxarchchecksum.sha512
 	fi
 }
 
@@ -342,8 +337,7 @@ _MANUAL_() {
 	if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 	then
 		"$ed" "${WDIR}setupTermuxArchConfigs.bash"
-		. "${WDIR}setupTermuxArchConfigs.bash"
-		_PRINTCONFLOADED_
+		_LOADCONF_
 	else
 		cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
  		sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
@@ -751,7 +745,7 @@ then
 	LCC="1"
 	_ARG2DIR_ "$@"
 	_PRINTUSAGE_ "$@"
-## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace. $HOME is appended to installation directory. To install Arch Linux in $HOME/customdir use `bash setupTermuxArch.bash install customdir`. In bash shell use `./setupTermuxArch.bash install customdir`.  All options can be abbreviated to one, two and three letters.  Hence `./setupTermuxArch.bash install customdir` can be run as `./setupTermuxArch.bash i customdir` in BASH.
+## [i[nstall] [customdir]]  Install Arch Linux in a custom directory.  Instructions: Install in userspace.  The HOME directory is appended to the installation directory.  To install Arch Linux in HOME/customdir use `bash setupTermuxArch.bash install customdir`.  In the BASH shell you can use `./setupTermuxArch.bash install customdir`.  All options can be abbreviated to one, two and three letters.  Hence `./setupTermuxArch.bash install customdir` can be run as `./setupTermuxArch.bash i customdir` in BASH.
 elif [[ "${1//-}" = [Ii]* ]]
 then
 	printf "\\nSetting mode to install.\\n"
