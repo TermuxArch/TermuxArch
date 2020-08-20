@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.274
+VERSIONID=2.0.275
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -104,7 +104,7 @@ _CHKSELF_() { # compare the two versions of file setupTermuxArch.bash and update
 			done
 			cp $TAMPDIR/setupTermuxArch.bash "$WFILE"
 			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-			bash "$WFILE" "$ARGS"
+			. "$WFILE" "$ARGS"
 		fi
 	fi
 	cd "$TAMPDIR"
