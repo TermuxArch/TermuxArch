@@ -7,7 +7,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.275
+VERSIONID=2.0.276
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -315,8 +315,8 @@ _INTROREFRESH_() {
 		fi
 		if [[ "$DIRCHECK" -eq 1 ]]
 		then	# delete superfluous tmp dir
-			rmdir "$INSTALLDIR"/tmp
-			rmdir "$INSTALLDIR"
+			rm -rf "$INSTALLDIR"/tmp
+			rm -rf "$INSTALLDIR"
 		fi
 		exit 204
 	fi
@@ -460,7 +460,7 @@ _OPT2_() {
 }
 
 _PREPTMPDIR_() {
-	[ ! -e "$INSTALLDIR/tmp" ] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ||:
+	[ ! -e "$INSTALLDIR/tmp" ] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
  	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
 	[ ! -e "$TAMPDIR" ] && mkdir -p "$TAMPDIR"
 }
@@ -468,7 +468,7 @@ _PREPTMPDIR_() {
 _PREPTERMUXARCH_() {
 	_NAMEINSTALLDIR_
 	_NAMESTARTARCH_
-	_PREPTMPDIR_
+	_PREPTMPDIR_ || printf "%s\\n" "signal received _PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 }
 
 _PRINTCONFLOADED_() {
