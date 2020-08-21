@@ -36,8 +36,13 @@ trap _SGSATRPEXIT_ EXIT
 trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
+_PESTRG_() {
+	printf "\\n\\n%s\\n" "Cannot $2 module $1 : Continuing..."
+}
+
 _GSA_() { # git repository update modules
-	((git submodule update --depth 1 $3 --init --recursive --remote "$1") || (printf "\\n\\n%s\\n" "Cannot update module $2 : Continuing...")) ; sleep 0."$(shuf -i 24-72 -n 1)" # latency support
+	(git submodule update $3 --depth 1 --init --recursive --remote "$1") || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
+	sleep 0."$(shuf -i 24-72 -n 1)" # latency support
 }
 git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
 SIAD="$(grep url .git/config|cut -d"=" -f 2|head -n 1|cut -d"/" -f 2-3)"
