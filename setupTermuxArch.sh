@@ -829,4 +829,4 @@ then
 else
 	_PRINTUSAGE_
 fi
-# setupTermuxArch.bash EOF
+# setupTermuxArch.sh EOF
