@@ -70,8 +70,8 @@ _ADDbash_logout_() {
 }
 
 _ADDbash_profile_() {
-	[ -e root/.bash_profile ] && _DOTHF_ "root/.bash_profile"
-	printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:\$PATH\"" > root/.bash_profile
+	[ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
+	printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" > root/.bash_profile
 	cat >> root/.bash_profile <<- EOM
 	. "\$HOME"/.bashrc
 	if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ] ; then
@@ -92,9 +92,8 @@ _ADDbash_profile_() {
 }
 
 _ADDbashrc_() {
-	[ -e root/.bashrc ] && _DOTHF_ "root/.bashrc"
+	[ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 	cat > root/.bashrc <<- EOM
-	[ -f /etc/profile.d/perlbin.sh ] && . /etc/profile.d/perlbin.sh
 	alias C='cd .. && pwd'
 	alias c='cd .. && pwd'
 	alias ..='cd ../.. && pwd'
@@ -216,18 +215,13 @@ _ADDcsystemctl_() {
 	SDATE="\$(date +%s)"
 	# path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 	# backup original binary
-	if [ ! -f /usr/bin/systemctl.old ]
-	then
-		cp /usr/bin/systemctl /usr/bin/systemctl.old
-	fi
-	mv /usr/bin/systemctl ~/systemctl.\$SDATE.old
-	printf "%s\\n" "Moved /usr/bin/systemctl ~/systemctl.\$SDATE.old"
+	mv /usr/bin/systemctl $INSTALLDIR/var/backups/${INSTALLDIR##*/}/systemctl.\$SDATE.bkp
+	printf "%s\\n" "Moved /usr/bin/systemctl ~/systemctl.\$SDATE.bkp"
 	printf "%s\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# copy to both /usr/local/bin and /usr/bin
 	# updates won't halt functioning since /usr/local/bin precedes /usr/bin in PATH
 	curl https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
-	chmod 700 /usr/bin/systemctl
-	chmod 700 /usr/local/bin/systemctl
+	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
 	printf "%s\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: DONE"
@@ -700,7 +694,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	[ -e root/.profile ] && _DOTHF_ "root/.profile"
+	[ -e root/.profile ] && _DOTHRF_ "root/.profile"
 	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
