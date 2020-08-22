@@ -596,7 +596,7 @@ _ADDmakeyay_() {
 	else
 		_PRMAKE_() {
 		printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running" "makepkg -irs --noconfirm"
-		{
+		}
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg.bash
 		! fakeroot ls >/dev/null && makefakeroot-tcp.bash
 		printf "%s\\n" "Attempting to build and install yay: "
