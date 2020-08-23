@@ -298,7 +298,7 @@ _MAKESTARTBIN_() {
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN command 📲  \007'
 		rm -f $INSTALLDIR/root/.chushlogin
-	# [login user|login user [options]] Login as user [plus options].  Use \'addauser user\' first to create this user and user's home directory.
+	# [login user|login user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 	then
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
@@ -308,7 +308,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN login user [options] 📲  \007'
-	# [raw ARGS] Construct the \'startarch\' proot statement.  For example \'startarch r su\' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
+	# [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/sdrausty/TermuxArch/issues and https://github.com/sdrausty/TermuxArch/pulls.
 	elif [[ "\${1//-}" = [Rr]* ]]
 	then
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
@@ -318,7 +318,7 @@ _MAKESTARTBIN_() {
 	cat >> "$STARTBIN" <<- EOM
 		set -Eeuo pipefail
 		printf '\033]2; $STARTBIN raw ARGS 📲  \007'
-	# [su user command] Login as user and execute command.  Use \'addauser user\' first to create this user and user's home directory.
+	# [su user command] Login as user and execute command.  Use 'addauser user' first to create this user and user's home directory.
 	elif [[ "\${1//-}" = [Ss]* ]]
 	then
 		printf '\033]2; $STARTBIN su user command 📲  \007'
