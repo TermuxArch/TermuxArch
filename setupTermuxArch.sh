@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.0.346
+VERSIONID=2.0.347
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,27 +89,25 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {	# compare file setupTermuxArch.bash and the file being used
+_CHKSELF_() {	# compare file setupTermuxArch.bash and file used
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
-	then	# either 
+	then
 		cd "${WFILE%/*}"
-		if _COREFILES_	# core files are found
-		then
-			: # do nothing
-		else	# unset functions and variables
-			unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
-			NNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
-			for NNSET in $NNVAR
-			do
-				unset "$NNSET"
-			done
-			# copy to update the working file
-			cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
- 			rm -rf "$TAMPDIR"
-			printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
-			# restart with the newest version published 
-			. "$WFILE" "$ARGS"
-		fi
+		# find and unset functions
+		unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+		# find variables
+		UNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		# unset variables
+		for UNSET in $UNVAR
+		do
+			unset "$UNSET"
+		done
+		# update working file
+		cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
+		rm -rf "$TAMPDIR"
+		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
+		# restart with published version
+		. "$WFILE" "$ARGS"
 	fi
 	cd "$TAMPDIR"
 }
