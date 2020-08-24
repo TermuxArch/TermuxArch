@@ -1,0 +1,9 @@
+archlinuxconfig.bash
+espritfunctions.bash
+getimagefunctions.bash
+knownconfigurations.bash
+maintenanceroutines.bash
+necessaryfunctions.bash
+printoutstatements.bash
+setupTermuxArch.bash
+setupTermuxArch.sh
