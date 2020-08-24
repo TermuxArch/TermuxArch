@@ -32,5 +32,5 @@ See https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to 
 
 This repository uses submodules.  To get all the pieces of this repository run the following code after cloning in the root directory of this repository: 
 
-[`./updateTermuxArch.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/updateTermuxArch.bash)
+[`./uprepoTermuxArch.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/uprepoTermuxArch.bash)
 <!-- README.md EOF -->
