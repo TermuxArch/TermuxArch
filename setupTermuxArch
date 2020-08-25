@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.379
+VERSIONID=2.0.380
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -842,7 +842,7 @@ fi
 ## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if help be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone.  File 'setupTermuxArch' is earmarked as the install file name for this project.
 ## File 'setupTermuxArch' downloads as file 'setupTermuxArch.bin' through Internet browsers into Android Downloads on smartphone;  And Arch Linux in Termux PRoot can be installed directly from this file with this command 'bash ~/storage/downloads/setupTermuxArch.bin' which will also check whether there is a newer version since the time it was downloaded.  If there is a newer version, this file will self update.
 ## These files 'setupTermuxArch[.{bash,bin,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'uprTermuxArch.bash' can be employed to update to the newest published version.
-## Very hardy thank yous to contributors who are helping and have already helped to make this open source project better!  Thank you warmly!
+## Many Very hardy thank yous to contributors who are helping and have already helped to make this open source project better!  Thank you warmly!
 # The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version when the user runs them.
 # setupTermuxArch EOF
 	printf '\033]2; Run bash %s again...\007' "${0##*/} $ARGS"
