@@ -13,7 +13,6 @@ _SGSATRPERROR_() { # run on script error signal
 }
 
 _SGSATRPEXIT_() { # run on exit signal
-	[[ ! -f .conf/RONGSA ]] && touch .conf/RONGSA
 	printf "\\e[?25h\\e[0m"
 	set +Eeuo pipefail
 	exit
