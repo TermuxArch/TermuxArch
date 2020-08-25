@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.382
+VERSIONID=2.0.383
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,9 +89,9 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
-	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$0)" ]] || [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$HOME$0)" ]] # differ
+	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$0)" ]] # differ
 	then
-		cd "${0%/*}" || cd "$HOME${0%/*}"
+		cd "${0%/*}"
 		# find and unset functions
 		unset -f $(grep \_\( "$0"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
