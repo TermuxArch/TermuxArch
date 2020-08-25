@@ -7,8 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-unset LD_PRELOAD
-VERSIONID=2.0.376
+VERSIONID=2.0.377
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,7 +88,7 @@ _CHKDWN_() {
 	fi
 }
 
-_CHKSELF_() {	# compare file setupTermuxArch.bash and file used
+_CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
 	then
 		cd "${WFILE%/*}"
@@ -174,14 +173,14 @@ _DEPENDIFDM_() { # checks if download tool is set and sets install if available
  	for PKG in "${!ADM[@]}" # checks from available toolset and sets one for install if available
 	do #	checks for both set DM and if tool exists on device.
  		if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
-		then #	sets both download tool for install and exception check.
+		then	#	sets both download tool for install and exception check.
  			APTIN+="$PKG "
 			printf "\\nSetting download tool '%s' for install: Continuing...\\n" "$PKG"
  		fi
  	done
 }
 
-_DEPENDS_() { # checks for missing commands
+_DEPENDS_() {	# check for missing commands
 	printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
 	ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 	ATM=([bsdtar]=bsdtar)
@@ -193,17 +192,16 @@ _DEPENDS_() { # checks for missing commands
 	then
 		_DEPENDDM_
 	fi
-	# Sets and installs lftp if nothing else was found, installed and set.
+	# set and install lftp if nothing else was found
 	if [[ "$DM" = "" ]]
 	then
 		DM=lftp
 		APTIN+="lftp "
 		printf "Setting download tool 'lftp' for install: Continuing...\\n"
 	fi
-#	# Installs missing commands.
 	for PKG in "${PKGS[@]}"
-	do
-		COMMANDP="$(command -v "$PKG")" || printf "Command %s not found: Continuing...\\n" "$PKG" # test if command exists
+	do	# check for missing commands
+		COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;124mCommand %s not found: Continuing...\\e[0m\\n" "$PKG" # test if command exists
 		COMMANDPF="${COMMANDP##*/}"
 		if [[ "$COMMANDPF" != "$PKG" ]]
 		then
@@ -223,31 +221,32 @@ _DEPENDSBLOCK_() {
 	else
 		_COREFILESDO_
 	fi
+	unset LD_PRELOAD
 }
 
 _DWNL_() { # download TermuxArch from Github
 	if [[ "$DFL" = "/gen" ]]
-	then # get development version from:
+	then	# get development version from:
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/gensTermuxArch/master/setupTermuxArch.tar.gz"
-	else # get stable version from:
+	else	# get stable version from:
 		FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
 		FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz"
 	fi
 	if [[ "$DM" = aria2 ]]
-	then # use https://github.com/aria2/aria2
+	then	# use https://github.com/aria2/aria2
 		"${ADM[aria2]}" -Z "${FILE[sha]}" "${FILE[tar]}"
 	elif [[ "$DM" = axel ]]
-	then # use https://github.com/mopp/Axel
+	then	# use https://github.com/mopp/Axel
 		"${ADM[axel]}" -a "${FILE[sha]}"
 		"${ADM[axel]}" -a "${FILE[tar]}"
 	elif [[ "$DM" = curl ]]
-	then # use https://github.com/curl/curl
+	then	# use https://github.com/curl/curl
 		"${ADM[curl]}" "$DMVERBOSE" -O {"${FILE[sha]},${FILE[tar]}"}
 	elif [[ "$DM" = wget ]]
-	then # use https://github.com/mirror/wget
+	then	# use https://github.com/mirror/wget
 		"${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
-	else # use https://github.com/lavv17/lftp
+	else	# use https://github.com/lavv17/lftp
 		"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 	fi
 	printf "\\n\\e[1;32m"
@@ -280,12 +279,20 @@ _INTROBLOOM_() { # BLOOM = setupTermuxArch manual verbose
 	_BLOOM_
 }
 
-_INPKGS_() {
-	if [[ "$COMMANDIF" = au ]]
-	then
-		au "${PKGS[@]}" || printf "\\e[1;38;5;117m%s\\e[0m\\n" "$STRING2"
+_INPKGS_() {	# install missing packages
+	STRNGB="\\e[1;38;5;146m%s\\e[0m\\n"
+	STRNGC="\\e[1;38;5;124m%s\\e[0m\\n"
+	if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
+	then	# use 'au' to install missing packages
+		au "${PKGS[@]}" || printf ""$STRNGC "$STRING2"
+	elif [[ "$COMMANDIF" = pkg ]]
+	then	# use 'pkg' to install missing packages
+		pkg install ${PKGS[@]} && printf "$STRNGB" "$STRING1" || printf "$STRNGC" "$STRING2"
+	elif [[ "$COMMANDIF" = apt ]]
+	then	# use 'apt' to install missing packages
+		apt install "${PKGS[@]}" --yes && printf "$STRNGC" "$STRING1" || printf "$STRNGC" "$STRING2"
 	else
-		apt install "${PKGS[@]}" --yes || printf "\\e[1;37;5;116m%s\\e[0m\\n" "$STRING2"
+		printf ""$STRNGC "$STRING1" && printf "$STRNGC" "$STRING2"
 	fi
 }
 
@@ -298,7 +305,7 @@ _INTROSYSINFO_() {
 }
 
 _INTROREFRESH_() {
-	printf '\033]2;  bash setupTermuxArch.bash refresh 📲 \007'
+	printf '\033]2;  bash setupTermuxArch refresh 📲 \007'
 	_SETROOT_EXCEPTION_
 	if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR"/root/bin ]] || [[ ! -d "$INSTALLDIR"/var/binds ]] || [[ ! -f "$INSTALLDIR"/bin/we ]] || [[ ! -f "$INSTALLDIR"/usr/bin/env ]]
 	then
@@ -338,7 +345,7 @@ _LOADCONF_() {
 }
 
 _MANUAL_() {
-	printf '\033]2; bash setupTermuxArch.bash manual 📲 \007'
+	printf '\033]2; bash setupTermuxArch manual 📲 \007'
 	_EDITORS_
 	if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 	then
@@ -478,8 +485,8 @@ _PRINTCONFLOADED_() {
 }
 
 _PRINTSHA512SYSCHKER_() {
-	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run 'bash setupTermuxArch.bash' again..."
-	printf '\033]2; Run bash setupTermuxArch.bash %s again...\007' "$ARGS"
+	printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 WARNING sha512sum mismatch!  Setup initialization mismatch!" "  Try again, initialization was not successful this time.  Wait a little while.  Then run 'bash ${0##*/}' again..."
+	printf '\033]2; Run bash %s again...\007' "${0##*/} $ARGS"
 	exit
 }
 
@@ -567,13 +574,13 @@ _RMARCHQ_() {
 _SETROOT_EXCEPTION_() {
 	if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 	then
-		printf  '\033]2;%s\007' "Rootdir exception.  Run bash setupTermuxArch.bash $ARGS again with different options..."
+		printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options..."
 		printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options..."
 		exit
 	fi
 }
 
-## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch.bash manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
+## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
 declare -A ADM		## Declare associative array for all available download tools.
 declare -A ATM		## Declare associative array for all available tar tools.
 declare -a ARGS="$@"	## Declare arguments as string.
@@ -622,7 +629,7 @@ then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING: Run 'bash ${0##*/}' and './${0##*/}' from the BASH shell in in Termux: exiting..."
 	exit
 fi
-COMMANDR="$(command -v au)" || COMMANDR="$(command -v apt)"
+COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
 if [[ -r  /proc/sys/kernel/random/uuid ]]
@@ -838,3 +845,4 @@ fi
 ## Very hardy thank yous to contributors who are helping and have already helped to make this open source project better!  Thank you warmly!
 # The name of file 'setupTermuxArch' in the EOF line at the end of this file is to assist scripts 'setupTermuxArch[.{bash,bin,sh}]' when they selfupdate to the latest version when the user runs them.
 # setupTermuxArch EOF
+	printf '\033]2; Run bash %s again...\007' "${0##*/} $ARGS"
