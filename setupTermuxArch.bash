@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.380
+VERSIONID=2.0.381
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,24 +89,24 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
-	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$WFILE)" ]] # differ
+	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<$0)" ]] # differ
 	then
-		cd "${WFILE%/*}"
+		cd "${0%/*}"
 		# find and unset functions
-		unset -f $(grep \_\( "$WFILE"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+		unset -f $(grep \_\( "$0"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
-		UNVAR="$(grep '="' "$WFILE"|grep -v -e \] -e ARGS -e TAMPDIR -e WFILE|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		UNVAR="$(grep '="' "$0"|grep -v -e \] -e ARGS -e TAMPDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 		# unset variables
 		for UNSET in $UNVAR
 		do
 			unset "$UNSET"
 		done
 		# update working file
-		cp "$TAMPDIR/setupTermuxArch.bash" "$WFILE"
+		cp "$TAMPDIR/setupTermuxArch.bash" "$0"
 		rm -rf "$TAMPDIR"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
 		# restart with published version
-		. "$WFILE" "$ARGS"
+		. "$0" "$ARGS"
 	fi
 	cd "$TAMPDIR"
 }
@@ -216,7 +216,7 @@ _DEPENDSBLOCK_() {
 	_DEPENDS_ || printf "%s\\n" "signal received _DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 	if [[ $DIRLCR == 0 ]]
 	then
-		cd "${WFILE%/*}" 
+		cd "${0%/*}" 
 		_COREFILESDO_
 	else
 		_COREFILESDO_
@@ -608,7 +608,6 @@ declare LCC=""
 declare LCP=""
 declare OPT=""
 declare ROOTDIR=""
-declare WFILE=""
 declare WDIR=""
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
@@ -650,8 +649,7 @@ CPUABI="$(getprop ro.product.cpu.abi)"
 SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
-WFILE="$0"
-[[ "${WFILE%/*}" != "$WDIR" ]] && [[ "${WFILE%/*}" != "${0##*/}" ]] && DIRLCR=0
+[[ "${0%/*}" != "$WDIR" ]] && [[ "${0%/*}" != "${0##*/}" ]] && DIRLCR=0
 ## 6) Create a default user account with the 'addauser' command that configures this account for use with the 'sudo' command,
 ## 7) And all options are optional for install.
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
