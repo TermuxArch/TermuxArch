@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.400
+VERSIONID=2.0.401
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -89,13 +89,13 @@ _CHKDWN_() {
 }
 
 _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
-	# change directory to where file resides (partial implementation)
-	cd "$WFDIR" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
+	# change directory to where file resides
+	cd "$WFDIR"
 	if [[ "$(<$TAMPDIR/setupTermuxArch.bash)" != "$(<${0##*/})" ]] # files differ
 	then	# find and unset functions
 		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 		# find variables
-		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e TAMPDIR -e WFDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e TAMPDIR -e WDIR -e WFDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
 		# unset variables
 		for UNSET in $UNVAR
 		do
@@ -104,9 +104,10 @@ _CHKSELF_() {	# compare file setupTermuxArc.bash and the file being used
 		# update working file
 		cp "$TAMPDIR/setupTermuxArch.bash" "${0##*/}"
 		rm -rf "$TAMPDIR"
+		cd "$WDIR"
 		printf "\\e[0;32m%s\\e[1;34m: \\e[1;32mUPDATED\\n\\e[1;32mRESTARTED\\e[1;34m: \\e[0;32m%s %s \\n\\n\\e[0m"  "${0##*/}" "${0##*/}" "$ARGS"
 		# restart with published version
-		. "${0##*/}" "$ARGS"
+		. "$0" "$ARGS"
 	fi
 	cd "$TAMPDIR"
 }
@@ -605,7 +606,6 @@ declare LCP=""
 declare OPT=""
 declare ROOTDIR=""
 declare WDIR=""
-declare WFDIR=""
 declare STI=""		## Generates pseudo random number.
 declare STIME=""	## Generates pseudo random number.
 if [[ -z "${TAMPDIR:-}" ]]
@@ -647,7 +647,7 @@ SYSVER="$(getprop ro.build.version.release)"
 NASVER="$(getprop net.bt.name ) $SYSVER"
 WDIR="$PWD/"
 ## 6) Determine its own name and location of invocation,
-WFDIR="$(realpath "$0")"
+WFDIR="$(realpath "$0")" || printf "\\e[1;31m%s\\e[0m%s\\n" "signal received during update :" " please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
 ## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8) And all options are optional for install!
