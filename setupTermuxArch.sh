@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.401
+VERSIONID=2.0.402
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -505,12 +505,11 @@ _PRINTUSAGE_() {
 	printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\n\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "SYSINFO" "'${0##*/} sysinfo'" "creates a system information file; A file like" "setupTermuxArchSysInfo$STIME.log" "will be populated with device and system information.  Please post information from this file along with details at" "https://github.com/TermuxArch/TermuxArch/issues." "  If screenshots will help in resolving an issue better, include these with information from this system information log file in a post as well.  If you are sharing an issue, please consider sharing a pull request at " "https://github.com/TermuxArch/TermuxArch/pulls" " too.  Sharing a pull request can give a better perspective of how an issue can be improved."
 	if [[ "$LCC" = 1 ]]
 	then
-		printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has %s usage information:\\n\\n" "'$STARTBIN help'" "$STARTBIN"
-		_PRINTSTARTBIN_USAGE_
 		printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,900p;900p' "$0"|grep "^##"|sed 's/## /\n  /g')"
+		printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has %s usage information:\\n" "'$STARTBIN help'" "$STARTBIN"
+		_PRINTSTARTBIN_USAGE_
 	else
 		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
-
 	fi
 #	
 }
