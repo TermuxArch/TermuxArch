@@ -646,6 +646,7 @@ _ADDmakeyay_() {
 _ADDpatchmakepkg_() {
 	_CFLHDR_ root/bin/patchmakepkg "# patch makepkg"
 	cat >> root/bin/patchmakepkg <<- EOM
+	SDATE="\$(date +%s)"
 	printf "%s\\n" "Attempting to patch makepkg: "
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
