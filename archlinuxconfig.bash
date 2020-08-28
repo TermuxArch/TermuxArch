@@ -745,7 +745,7 @@ _ADDpci_() {
 
 _ADDprofile_() {
 	[ -e root/.profile ] && _DOTHRF_ "root/.profile"
-	[ -e "$HOME"/.profile ] && (grep "proxy" "$HOME"/.profile | grep "export" >>  root/.profile 2>/dev/null)
+	[ -e "$HOME"/.profile ] && (grep proxy "$HOME"/.profile | grep "export" >> root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
 
