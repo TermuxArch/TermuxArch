@@ -14,7 +14,7 @@ _ADDAUSER_() {
 		printf "\\e[1;31m%s\\\\n" "Use: addauser username: exiting..."
 		exit 201
 	else
-		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1:"
+		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -s /bin/bash "\$1" -U || sudo useradd -s /bin/bash "\$1" -U
