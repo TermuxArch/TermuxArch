@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.427
+VERSIONID=2.0.428
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -590,18 +590,17 @@ declare APTIN=""	## apt install string
 declare COMMANDIF=""
 declare COMMANDR
 declare COMMANDG=""
-declare STRING1
-declare STRING2
 declare CPUABI=""
 declare CPUABI5="armeabi"	## Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install and run alternate architectures on device.
-declare CPUABI7="armeabi-v7a"	## Used for development.
-declare CPUABI8="arm64-v8a"	## Used for development.
-declare CPUABIX86="x86"		## Used for development.
-declare CPUABIX86_64="x86_64"	## Used for development.
-declare DFL=""		## Used for development.
-declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'.
-declare ed=""
+declare CPUABI7="armeabi-v7a"	## used for development
+declare CPUABI8="arm64-v8a"	## used for development
+declare CPUABIX86="x86"		## used for development
+declare CPUABIX86_64="x86_64"	## used for development
+declare DFL=""		## used for development
+declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 declare DM=""
+declare ELCR=""
+declare ed=""
 declare FSTND=""
 declare -A FILE
 declare INSTALLDIR=""
@@ -611,8 +610,10 @@ declare OPT=""
 declare ROOTDIR=""
 declare WDIR=""
 declare SDATE=""
-declare STI=""		## Generates pseudo random number.
-declare STIME=""	## Generates pseudo random number.
+declare STI=""		## generates pseudo random number
+declare STIME=""	## generates pseudo random number
+declare STRING1
+declare STRING2
 if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
