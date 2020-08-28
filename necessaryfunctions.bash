@@ -390,7 +390,6 @@ _PREPINSTALLDIR_() {
 	_MAKESETUPBIN_
 	_MAKESTARTBIN_
   	[[ $ELCR == 0 ]] && exit || : # used to create TermuxArchBloom and root directories and with files skeleton
-	sed -i '2 i cd' root/.bash_profile
 }
 
 _PREPROOT_() {
