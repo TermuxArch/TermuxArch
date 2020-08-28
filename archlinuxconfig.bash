@@ -651,7 +651,7 @@ _ADDpatchmakepkg_() {
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\n" "Already patched makepkg: DONE" && exit
 	cd && curl -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip && unzip diff.makepkg.zip 
 	patch -n -i makepkg.diff -o makepkg /bin/makepkg
-	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$(date +%s).bkp
+	cp /bin/makepkg $INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp
 	chmod 700 makepkg /bin/makepkg
 	# copy to /usr/local/bin to make it update-proof (fail safe measure)
 	cp makepkg /usr/local/bin/makepkg

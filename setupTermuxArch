@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.430
+VERSIONID=2.0.431
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -591,7 +591,7 @@ declare COMMANDIF=""
 declare COMMANDR
 declare COMMANDG=""
 declare CPUABI=""
-declare CPUABI5="armeabi"	## Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install and run alternate architectures on device.
+declare CPUABI5="armeabi"	## Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
 declare CPUABI7="armeabi-v7a"	## used for development
 declare CPUABI8="arm64-v8a"	## used for development
 declare CPUABIX86="x86"		## used for development
@@ -599,7 +599,7 @@ declare CPUABIX86_64="x86_64"	## used for development
 declare DFL=""		## used for development
 declare DMVERBOSE="-q"	## -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 declare DM=""
-declare ELCR=""
+declare ELCR=1
 declare ed=""
 declare FSTND=""
 declare -A FILE
@@ -725,15 +725,16 @@ then
 	DM=aria2
 	_OPT1_ "$@"
 	_INTRO_ "$@"
-## [b[loom]]  Create and run a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
+## [bl[oom]]  Create a local copy of TermuxArch in TermuxArchBloom and create the TermuxArch root tree skeleton and skeleton files.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
+elif [[ "${1//-}" = [Bb][Ll]* ]]
+then
+	printf "\\nSetting mode to bloom. \\n"
+	_BLOOMSKEL_
+## [b[loom]]  Create a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb]* ]]
 then
 	printf "\\nSetting mode to bloom. \\n"
 	_INTROBLOOM_ "$@"
-## [bl[oom]]  Create and run a local copy of TermuxArch in TermuxArchBloom and create the TermuxArch root tree skeleton and skeleton files.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
-elif [[ "${1//-}" = [Bb][Ll]* ]]
-then
-	_BLOOMSKEL_
 ## [cd|cs]  Get device system information with 'curl'.
 elif [[ "${1//-}" = [Cc][Dd]* ]] || [[ "${1//-}" = [Cc][Ss]* ]]
 then
