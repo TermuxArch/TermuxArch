@@ -4,7 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 _ADDAUSER_() {
 	_CFLHDR_ root/bin/addauser "# add Arch Linux in Termux PRoot user"
 	cat >> root/bin/addauser <<- EOM
@@ -538,7 +537,6 @@ _ADDkeys_() {
 	ARGS="\${KEYRINGS[@]}"
 	printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch" "\${0##*/}" "\$ARGS" "\$VERSIONID"
-# 	mv usr/lib/gnupg/scdaemon{,_} 2>/dev/null || printf "%s\\\\n" "signal generated mv keys \${0##*/}"
 	printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[0;37mgpg: Generating pacman keyring master key\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman-key --init\\\\e[0;32m...\\\\n" "$DARCH"
 	pacman-key --init || sudo pacman-key --init ||:
 	chmod 700 /etc/pacman.d/gnupg
@@ -612,13 +610,14 @@ _ADDmakefakeroottcp_() {
 	else
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		printf "%s\\n" "Building and installing fakeroot-tcp: "
-		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && sudo pacman --noconfirm --color=always -S automake base-devel fakeroot git po4a libtool
-		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
+		([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git po4a libtool
+		cd && (git clone https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is && libtool --finish /usr/lib/libfakeroot) || printf "%s\n" "Continuing to build and install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -is
 		printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 	fi
 	# makefakeroottcp EOF
 	EOM
 	chmod 700 root/bin/makefakeroottcp
+
 }
 
 _ADDmakeyay_() {
