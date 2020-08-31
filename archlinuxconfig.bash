@@ -15,16 +15,19 @@ _ADDAUSER_() {
 	else
 		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
+		sed -i "/# ALL ALL=(ALL) ALL/ s/ALL ALL=(ALL) NOPASSWD: ALL
+# this line added by TermuxArch//" "/etc/sudoers" 
+		ALL ALL=(ALL) NOPASSWD: ALL
+		# ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
 		usermod "\$1" -aG wheel || sudo usermod "\$1" -aG wheel
 		chage -I -1 -m 0 -M -1 -E -1 "\$1" || sudo chage -I -1 -m 0 -M -1 -E -1 "\$1"
  		passwd -d "\$1" || sudo passwd -d "\$1"
-# 		cp -r /root /home/"\$1"
 		chmod 775 /home/\$1
 		chown -R \$1:\$1 /home/\$1
-# 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
+ 		[[ -d /etc/sudoers.d ]] && printf "%s\\n" "\$1 ALL=(ALL) ALL" >> /etc/sudoers.d/"\$1"
 		sed -i "s/\$1:x/\$1:/g" /etc/passwd
 		printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please remember not to nest proot in proot unknowingly by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for PRoot users."
 	fi
