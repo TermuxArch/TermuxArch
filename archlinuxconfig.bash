@@ -15,10 +15,6 @@ _ADDAUSER_() {
 	else
 		printf "\\\\e[0;32m%s\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 		sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" "/etc/sudoers" 
-		sed -i "/# ALL ALL=(ALL) ALL/ s/ALL ALL=(ALL) NOPASSWD: ALL
-# this line added by TermuxArch//" "/etc/sudoers" 
-		ALL ALL=(ALL) NOPASSWD: ALL
-		# ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
 		sed -i "s/required/sufficient/g" /etc/pam.d/su
 		sed -i "s/^#auth/auth/g" /etc/pam.d/su
 		useradd -k /root -m -s /bin/bash "\$1" -U || sudo useradd -k /root -m -s /bin/bash "\$1" -U
