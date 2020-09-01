@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 002
-VERSIONID=2.0.481
+VERSIONID=2.0.482
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -586,7 +586,8 @@ _SETROOT_EXCEPTION_() {
 ## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
 declare -A ADM		## Declare associative array for all available download tools.
 declare -A ATM		## Declare associative array for all available tar tools.
-declare -a ARGS="$@"	## Declare arguments as string.
+declare ARGS		## Declare arguments as string.
+ARGS="${@%/}"
 declare APTIN=""	## apt install string
 declare COMMANDIF=""
 declare COMMANDR
