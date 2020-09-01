@@ -633,7 +633,19 @@ _ADDmakeyay_() {
 		_PRMAKE_() {
 			printf "\\\\e[1;32m==> \\\\e[1;37m%s\\\\n" "Running makepkg -irs --noconfirm..."
 		}
-		printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Building and installing  yay:"
+		printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
+		printf "%s\\\\n" "When this message:
+		libtool: warning: remember to run 'libtool --finish /usr/lib/libfakeroot'
+		When this message is displayed on the screen '\${0##*/}' will deal with it a little bit later in the build proccess, and there will be a short pause when this message is displayed:
+		\"Libraries have been installed in:\"
+		A difficult part of any build process can be choosing the correct answers.  Here are the correct answers:
+		:: fakeroot-tcp and fakeroot are in conflict. Remove fakeroot? [y/N] y
+		Tap the 'y' key first, then enter.  For the first question, the 'y' key must be tapped first, then enter.  Yes will be chosen when enter is tapped in all of the questions after the first question:
+		:: Proceed with installation? [Y/n]
+		Tap enter x4 as this build proccess continues.  If everything goes well, you will see these messages:
+		Libraries have been installed in:
+		makefakeroottcp  2.0.476: DONE 🏁
+		and then this will go on to make 'yay' which is much simpler.  It is simply tapping enter which chooses the yes answer."
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
