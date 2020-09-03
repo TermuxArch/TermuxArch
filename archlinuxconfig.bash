@@ -1050,7 +1050,7 @@ _PREPPACMANCONF_() {
 	then # rewrite it for the PRoot environment
 		sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 	else
-		printf "%s%s" "Cannot find file $INSTALLDIR/etc/pacman.conf : " "Signal generated in _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/} : Continuing... "
+		_PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf : _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
 	fi
 }
 # archlinuxconfig.bash EOF
