@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/setupTermuxArch</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/CONTRIBUTORS.html</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/NOTICE.html</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/NOTICE</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/docs/PRoot</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/docs/Arch</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/docs/install</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/docs/README.md</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
-  <url>
-    <loc>https://termuxarch.github.io/TermuxArch/docs/TermuxSetupStorage</loc>
-    <lastmod>2020-09-03</lastmod>
-  </url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/CONTRIBUTORS.html</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/NOTICE.html</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/NOTICE</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/docs/PRoot</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/docs/Arch</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/docs/install</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://termuxarch.github.io/TermuxArch/docs/TermuxSetupStorage</loc>
+  <lastmod>2020-09-03T04:24:26+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+
+
 </urlset>
