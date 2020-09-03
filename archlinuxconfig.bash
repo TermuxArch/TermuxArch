@@ -292,11 +292,17 @@ _ADDexd_() {
 	chmod 700 root/bin/exd
 }
 
-_ADDfbindprocshmem_() {
-	_CFLHDRS_ var/binds/fbindprocshmem.prs
-	cat > var/binds/fbindprocshmem.prs <<- EOM
-	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
+_ADDfbindprocpcidevices_() {
+	touch var/binds/fbindprocpcidevices
+	_CFLHDRS_ var/binds/fbindprocpcidevices.prs
+	cat >> var/binds/fbindprocpcidevices.prs <<- EOM
+	# bind an empty /proc/bus/pci/devices file
+	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices "
+	# fbindprocpcidevices.prs EOF
 	EOM
+}
+
+_ADDfbindprocshmem_() {
 	cat > var/binds/fbindprocshmem <<- EOM
 	------ Message Queues --------
 	key        msqid      owner      perms      used-bytes   messages
@@ -306,6 +312,11 @@ _ADDfbindprocshmem_() {
 
 	------ Semaphore Arrays --------
 	key        semid      owner      perms      nsems
+	EOM
+	_CFLHDRS_ var/binds/fbindprocshmem.prs
+	cat >> var/binds/fbindprocshmem.prs <<- EOM
+	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
+	# fbindprocshmem.prs EOF
 	EOM
 }
 
@@ -383,13 +394,14 @@ _ADDfbindprocuptime_() {
 }
 
 _ADDfbindprocversion_() {
-	_CFLHDRS_ var/binds/fbindprocversion.prs
-	cat > var/binds/fbindprocversion.prs <<- EOM
-	# bind a fake kernel when /proc/version is accessed
-	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
-	EOM
 	cat > var/binds/fbindprocversion <<- EOM
 	Linux version $(uname -r)-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)
+	EOM
+	_CFLHDRS_ var/binds/fbindprocversion.prs
+	cat >> var/binds/fbindprocversion.prs <<- EOM
+	# bind kernel information when /proc/version is accessed
+	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
+	# fbindprocversion.prs EOF
 	EOM
 }
 

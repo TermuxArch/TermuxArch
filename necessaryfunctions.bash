@@ -28,6 +28,7 @@ _ADDADDS_() {
 	_ADDdfa_
 	_ADDexd_
 	_ADDfbindexample_
+	_ADDfbindprocpcidevices_
 	_ADDfbindprocuptime_
 	_ADDfbinds_
 	_ADDfibs_
