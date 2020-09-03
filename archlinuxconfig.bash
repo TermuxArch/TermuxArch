@@ -236,6 +236,15 @@ _ADDch_() {
 	chmod 700 root/bin/ch
 }
 
+_ADDchperms.cache+gnupg_() {
+	_CFLHDR_ root/bin/chperms.cache+gnupg
+	cat >> root/bin/chperms.cache+gnupg <<- EOM
+	[[ -d "\$HOME/.cache" ]] && find "\$HOME/.cache" -type d -exec chmod 777 {} \; && find "\$HOME/.cache" -type f -exec chmod 666 {} \;
+	[[ -d "\$HOME/.gnupg" ]] && find "\$HOME/.gnupg" -type d -exec chmod 777 {} \; && find "\$HOME/.gnupg" -type f -exec chmod 666 {} \;
+	EOM
+	chmod 700 root/bin/chperms.cache+gnupg
+}
+
 _ADDcsystemctl_() {
 	_CFLHDR_ root/bin/csystemctl
 	cat >> root/bin/csystemctl <<- EOM
@@ -656,7 +665,7 @@ _ADDmakeyay_() {
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
 		(git clone https://aur.archlinux.org/yay.git&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..."&&cd yay&&_PRMAKE_&&makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
-		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "A couple of paths to follow after having built 'yay' are 'yay cmatrix' which builds a couple of nice matrix screensavers.  The commands 'yay [pikaur|pikaur-git|tpac]' build more aur installers you can also use in your smartphone to download aur repositories and build packages like with 'yay'.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
+		printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers thst can also be used to download aur repositories and build packages like with 'yay' in your smartphone, tablet, wearable and more...  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 	fi
 	# makeyay EOF 
 	EOM
@@ -765,8 +774,7 @@ _ADDpci_() {
 }
 
 _ADDprofile_() {
-	[ -e root/.profile ] && _DOTHRF_ "root/.profile"
-	[ -e "$HOME"/.profile ] && (grep proxy "$HOME"/.profile | grep "export" >> root/.profile 2>/dev/null) ||:
+	[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep proxy "$HOME"/.profile | grep "export" >> root/.profile 2>/dev/null) ||:
 	touch root/.profile
 }
 
@@ -834,12 +842,12 @@ _ADDtrim_() {
 	then
 		SUTRIM="pacman -Sc --noconfirm --color=always"
 		_SUTRIM_() {
-			pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc"
+			pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc \${0##*/}"
 		}
 	else
 		SUTRIM="sudo pacman -Sc --noconfirm --color=always"
 		_SUTRIM_() {
-			sudo pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc"
+			sudo pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "sudo pacman -Sc \${0##*/}"
 		}
 	fi
 	printf "%s\\\\n" "[1/5] rm -rf /boot/"
@@ -851,7 +859,7 @@ _ADDtrim_() {
 	printf "%s\\\\n" "[4/5] \$SUTRIM"
 	_SUTRIM_
 	printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*xz"
-	rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f"
+	rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f \${0##*/}"
 	printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
 	# trim EOF
 	EOM
