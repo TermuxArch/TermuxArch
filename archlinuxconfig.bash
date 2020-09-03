@@ -297,7 +297,7 @@ _ADDfbindprocpcidevices_() {
 	_CFLHDRS_ var/binds/fbindprocpcidevices.prs
 	cat >> var/binds/fbindprocpcidevices.prs <<- EOM
 	# bind an empty /proc/bus/pci/devices file
-	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices "
+	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices "
 	# fbindprocpcidevices.prs EOF
 	EOM
 }
@@ -400,7 +400,7 @@ _ADDfbindprocversion_() {
 	_CFLHDRS_ var/binds/fbindprocversion.prs
 	cat >> var/binds/fbindprocversion.prs <<- EOM
 	# bind kernel information when /proc/version is accessed
-	PROOTSTMNT+=" -b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
+	PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocversion:/proc/version "
 	# fbindprocversion.prs EOF
 	EOM
 }
