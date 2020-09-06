@@ -672,7 +672,7 @@ _ADDmakeyay_() {
 		Tap enter once more as this build proccess continues.  If everything goes well, you will see these messages:
 		Libraries have been installed in:
 		makefakeroottcp  2.0.476: DONE 🏁
-		and then this will go on to make 'yay' which is much simpler.  There is no tapping yes enter to do."
+		Then this pocess will go on to attepmt to make 'yay' which is much simpler.  There is no tapping yes enter to do."
 		cd 
 		[ ! -f /var/lock/patchmakepkg.lock ] && patchmakepkg
 		! fakeroot ls >/dev/null && makefakeroottcp
