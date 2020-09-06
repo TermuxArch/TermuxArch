@@ -1058,9 +1058,9 @@ _MODvimrc_() {
 		else
 			printf "\\e[0;34mline %s found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
 		fi
-		else
-			printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
-			printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
+	else
+		printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
+		printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
 	fi
 }
 
