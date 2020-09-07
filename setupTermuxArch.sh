@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.528
+VERSIONID=2.0.529
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -521,7 +521,7 @@ _PRINTUSAGE_() {
 }
 # print signal generated in arg 1 format
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Signal generated in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for modification and review.  The command " "'setupTermuxArch help'" " has more information."
+	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "SIGNAL GENERATED in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information about how to use use " "'${0##*/}'" " in an effective way."
 }
 
 _RMARCH_() {
@@ -591,7 +591,7 @@ declare -A FILE		# declare associative array
 ECLAVARR=(ARGS APTIN COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
 for ECLAVARS in ${ECLAVARR[@]}
 do
-	declare $ECLAVARS
+	declare "$ECLAVARS"
 done
 ARGS="${@%/}"
 APTIN=""	# apt install string
@@ -644,6 +644,8 @@ ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
+## If your target install system is aarch64/arm64 then this line of code CPUABI="$(getprop ro.product.cpu.abi)" should be changed to CPUABI="arm64-v8a".
+## QEMU implementation #25 https://github.com/TermuxArch/TermuxArch/issues/25 has more information.
 CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || _PSGI1ESTRING_ "CPUABI setupTermuxArch ${0##*/}"
 WDIR="$PWD/"
 ## 6) Determine its own name and location of invocation,
