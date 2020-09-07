@@ -7,6 +7,8 @@
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
 ##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) 
 
+![Test](https://github.com/TermuxArch/TermuxArch/install/workflows/Test/badge.svg) ![Lint](https://github.com/TermuxArch/TermuxArch/install/workflows/Lint/badge.svg)
+
 This Termux bash setup shell script will attempt to set Arch Linux up in your Termux environment.  See [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch) on device.  Use `bash setupTermuxArch[.{bash,bin,sh}]` once downloaded to install [Arch Linux](https://wiki.archlinux.org/) in a [Termux PRoot](https://github.com/termux/proot) container on your Android smartphone and tablet, and Chromebook too.  When successfully completed, you will be experiencing the pleasure of the Linux command prompt in Arch Linux in Termux PRoot on Android, Chromebook and Fire OS on smartphone, tablet and wearable.
 
 #### Screenshot from an Android smartphone 2018
