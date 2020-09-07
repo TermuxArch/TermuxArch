@@ -1060,22 +1060,29 @@ _ADDyt_() {
 	printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = \"0\" ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in $INSTALLDIR : the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && sudo pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "# yt EOF" >> root/bin/yt
 	chmod 700 root/bin/yt
 }
-# add 'set belloff=all' to file /root/.vimrc 
-_MODvimrc_() {
-	if [[ -f "$INSTALLDIR/root/.vimrc" ]] 
-	then 
-		_DOTHRF_ "root/.vimrc"
-		if ! grep "set belloff=all" "$INSTALLDIR/root/.vimrc" 1>/dev/null
-		then
-			printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
-			printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-		else
-			printf "\\e[0;34mline %s found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-		fi
-	else
-		printf "set belloff=all\\n" >> "$INSTALLDIR/root/.vimrc"
-		printf "\\e[0;33mline %s not found in %s.vimrc file\\e[0m\\n" "'set belloff=all'" "/${INSTALLDIR##*/}/root/"
-	fi
+
+_MODdotfile_() {
+	_MODdotfNF_() {
+			printf "\\e[0;33mline %s not found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
+			printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
+	}
+	# add MODFILEADD to file /root/MODFILENAME 
+	[[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" 1>/dev/null && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
+}
+
+_DOMODdotfiles_() {
+	# Have you heard of metacarpals syndrome?  My metacarpals flare from vibrations.  To disable this feature replace the contents of this function with a colon (:) like in this example:
+# 	_DOMODdotfiles_() {
+# 		:
+# 	}
+	# add (setq visible-bell 1) to file /root/.emacs
+	MODFILENAME=".emacs"
+	MODFILEADD='(setq visible-bell 1)'
+	_MODdotfile_
+	# add set belloff=all to file /root/.vimrc
+	MODFILENAME=".vimrc"
+	MODFILEADD='set belloff=all'
+	_MODdotfile_
 }
 
 _PREPPACMANCONF_() {
