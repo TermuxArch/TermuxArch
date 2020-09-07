@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.522
+VERSIONID=2.0.523
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -643,7 +643,7 @@ then
 	STIME="${STIME//-}"
 	STIME="${STIME:0:3}"
 else
-	STIME="$(SDATE)"
+	STIME="$SDATE"
 	STIME="$(printf "%s" "${STIME:7:4}"|rev)"
 fi
 ONESA="${SDATE: -1}"
