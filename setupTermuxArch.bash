@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.523
+VERSIONID=2.0.524
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -519,6 +519,10 @@ _PRINTUSAGE_() {
 	fi
 #	
 }
+# print signal generated in arg 1 format
+_PSGI1ESTRING_() {
+	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Signal generated in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if this process was unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for modification and review.  The command " "'setupTermuxArch help'" " has more information."
+}
 
 _RMARCH_() {
 	_NAMESTARTARCH_
@@ -561,17 +565,13 @@ _RMARCH_() {
 
 _RMARCHRM_() {
 	_SETROOT_EXCEPTION_
-	rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-	find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null ||:
-	rm -rf "$INSTALLDIR" 2>/dev/null ||:
+	rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||: # _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+	find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
+	rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
 }
 
 _RMARCHQ_() {
-	if [[ -d "$INSTALLDIR" ]]
-	then
-		printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  $INSTALLDIR/" "directory detected." "Purge $INSTALLDIR as requested?"
-		_RMARCH_
-	fi
+	[[ -d "$INSTALLDIR" ]] && printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY WARNING!  $INSTALLDIR/" "directory detected." "Purge $INSTALLDIR as requested?" && _RMARCH_ || _PSGI1ESTRING_ "_RMARCHQ_ setupTermuxArch ${0##*/}"
 }
 
 _SETROOT_EXCEPTION_() {
@@ -627,7 +627,7 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
-COMMANDG="$(command -v getprop)" ||:
+COMMANDG="$(command -v getprop)" || _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
 if [[ "$COMMANDG" = "" ]]
 then
 	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the BASH shell in the shell in native Termux:  exiting..."
@@ -636,16 +636,7 @@ fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
-SDATE="$(date +%s)"
-if [[ -r  /proc/sys/kernel/random/uuid ]]
-then
-	STIME="$(cat /proc/sys/kernel/random/uuid)"
-	STIME="${STIME//-}"
-	STIME="${STIME:0:3}"
-else
-	STIME="$SDATE"
-	STIME="$(printf "%s" "${STIME:7:4}"|rev)"
-fi
+SDATE="$(date +%s)" && [[ -r  /proc/sys/kernel/random/uuid ]] && (STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME:0:3}") || STIME="$SDATE" && STIME="$(printf "%s" "${STIME:7:4}"|rev)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
 ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
