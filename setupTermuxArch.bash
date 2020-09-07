@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.529
+VERSIONID=2.0.530
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -521,7 +521,7 @@ _PRINTUSAGE_() {
 }
 # print signal generated in arg 1 format
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "SIGNAL GENERATED in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  It transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information about how to use use " "'${0##*/}'" " in an effective way."
+	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "SIGNAL GENERATED in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information about how to use use " "'${0##*/}'" " in an effective way."
 }
 
 _RMARCH_() {
