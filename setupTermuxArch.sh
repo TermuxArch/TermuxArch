@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.542
+VERSIONID=2.0.543
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -96,18 +96,18 @@ _CHKDWN_() {
 
 _CHKSELF_() {	# compare file setupTermuxArch and the file being used
 	cd "$WFDIR" # change directory to where file resides
-	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # files differ
+	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<$0)" ]] # files differ
 	then	# find and unset functions
-		unset -f $(grep \_\( "${0##*/}"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
-		# find variables
-		UNVAR="$(grep '="' "${0##*/}"|grep -v -e \] -e ARGS -e CPUABI -e INSTALLDIR -e ROOTDIR -e TAMPDIR -e VERSIONID -e WDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
-		# unset variables
-		for UNSET in $UNVAR
-		do
-			unset "$UNSET"
-		done
+		unset -f $(grep \_\( "$0"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
+# 		# find variables
+# 		UNVAR="$(grep '="' "$0"|grep -v -e \] -e ARGS -e CPUABI -e INSTALLDIR -e ROOTDIR -e TAMPDIR -e VERSIONID -e WDIR|grep -v +|sed 's/declare -a//g'|sed 's/declare//g'|sed 's/export//g'|sed -e "s/[[:space:]]\+//g"|cut -d"=" -f 1|sort -u)"
+# 		# unset variables
+# 		for UNSET in $UNVAR
+# 		do
+# 			unset "$UNSET"
+# 		done
 		# update working file
-		cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
+		cp "$TAMPDIR/setupTermuxArch" "$0"
 		rm -rf "$TAMPDIR"
 		cd "$WDIR"
 		[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
@@ -605,10 +605,7 @@ CPUABIX86_64="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 ELCR=1
-if [[ -z "${TAMPDIR:-}" ]]
-then
-	TAMPDIR=""
-fi
+[[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""
 ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
