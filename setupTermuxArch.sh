@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.541
+VERSIONID=2.0.542
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -785,8 +785,9 @@ then
 	# split the string
 	IFS=';' read -ra my_array <<< "$(tr -d '\n' < $0)"
 	# print the split string
-	for EMSTRING in "${my_array[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" && sleep 0.0"$(shuf -i 0-999 -n 1)" ; done
+ 	for EMSTRING in "${my_array[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" && sleep 0.0"$(shuf -i 0-999 -n 1)" ; done
 ## [p[urge] [customdir]]  Remove Arch Linux.
+	tail -n 8 "$0"
 elif [[ "${1//-}" = [Pp]* ]]
 then
 	printf "\\nSetting mode to purge.\\n"
