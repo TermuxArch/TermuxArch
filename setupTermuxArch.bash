@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.532
+VERSIONID=2.0.533
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -72,11 +72,11 @@ _BLOOMSKEL_() {
 	_INTROBLOOM_ "$@"
 	_PREPTERMUXARCH_
 	_INTRO_ "$@" || exit
-}	
+}
 _CHK_() {
 	if sha512sum -c termuxarchchecksum.sha512 1>/dev/null
 	then
-		if [[ -z "${INSTALLDIR:-}" ]]	# is unset 
+		if [[ -z "${INSTALLDIR:-}" ]]	# is unset
 		then	# exit here or the program will continue to run on
 			printf "\\e[0;34m%s \\e[1;34m%s \\e[1;32m%s\\e[0m\\n" " 🕛 = 🕛" "TermuxArch $VERSIONID integrity:" "OK"
 			exit
@@ -517,7 +517,7 @@ _PRINTUSAGE_() {
 	else
 		printf "\\e[0;32m  command \\e[1;32m%s\\e[0;32m has %s usage information\\n\\n" "'$STARTBIN help'" "$STARTBIN"
 	fi
-#	
+#
 }
 # print signal generated in arg 1 format
 _PSGI1ESTRING_() {
@@ -592,7 +592,7 @@ PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that 
 declare -A EMPARIAS	# declare associative array for empty variables
 EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 # set empty variables
-for PKG in ${!EMPARIAS[@]} ; do PKG="" ; done
+for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 declare -a LC_TYPE	# declare array for locale types
 declare -A FILE		# declare associative array
 ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
@@ -624,6 +624,7 @@ COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(comma
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
 SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
+# STIME=""
 [[ -r  /proc/sys/kernel/random/uuid ]] && (STIME="$(cat /proc/sys/kernel/random/uuid)" && STIME="${STIME//-}" && STIME="${STIME//[[:alpha:]]}" && STIME="${STIME:0:3}") || STIME="$SDATE" && STIME="$(printf "%s" "${STIME:7:4}"|rev)"
 ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)

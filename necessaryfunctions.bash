@@ -202,11 +202,11 @@ _DOKEYS_() {
 
 _MAKEFINISHSETUP_() {
 	_CFLHDR_ root/bin/"$BINFNSTP"
-	[[ "${LCR:-}" -ne 1 ]] && LOCGEN="" 
+	[[ "${LCR:-}" -ne 1 ]] && LOCGEN=""
 	[[ "${LCR:-}" -ne 2 ]] && LOCGEN=""
 	[[ -z "${LCR:-}" ]] && LOCGEN="printf \"\\e[1;32m%s\\e[0;32m\"  \"==> \" && locale-gen  ||:"
 	cat >> root/bin/"$BINFNSTP" <<- EOM
-	_PMFSESTRING_() { 
+	_PMFSESTRING_() {
 	printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing...   To correct the error run " "setupTermuxArch refresh" " to attempt to finish the autoconfiguration."
 	printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n" "  If you find better resolves for " "setupTermuxArch" " and " "\$0" ", please open an issue and accompanying pull request."
 	}
@@ -386,7 +386,7 @@ _MD5CHECK_() {
 }
 
 _PREPROOTDIR_() {
-	# create local array of directories to be created for setupTermuxArch 
+	# create local array of directories to be created for setupTermuxArch
 	local DRARRLST=("etc" "home" "root/bin" "usr/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 	for ISDIR in ${DRARRLST[@]}
 	do
