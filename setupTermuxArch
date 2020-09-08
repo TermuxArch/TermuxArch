@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.533
+VERSIONID=2.0.534
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -618,7 +618,7 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
 _COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the native BASH shell in Termux:  EXITING...";}
-COMMANDG="$(command -v getprop)" || _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
+COMMANDG="$(command -v getprop)" ||: # _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
 [[ "$COMMANDG" = "" ]] && _COMMANDG_ && exit
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
