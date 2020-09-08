@@ -1,9 +1,5 @@
 <link rel="prerender" href="https://termuxarch.github.io/TermuxArch/">
 
-## [TermuxArch Website](https://termuxarch.github.io/TermuxArch/)
-
-## [TermuxArch Github](https://github.com/TermuxArch/TermuxArch/)
-
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
 ##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) 
 
