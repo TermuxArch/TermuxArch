@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.530
+VERSIONID=2.0.532
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -521,7 +521,7 @@ _PRINTUSAGE_() {
 }
 # print signal generated in arg 1 format
 _PSGI1ESTRING_() {
-	printf "\\e[1;33m%s\\e[1;34m : \\e[1;32m%s\\e[0;34m%s\\e[1;32m%s\\e[0;34m%s\\n\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "SIGNAL GENERATED in '$1'" "CONTINUING...   " "Executing " "'bash ${0##*/} refresh'" " in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were unsuccessful." "  Should better solutions for " "'${0##*/}'" " be found, please open an issue and accompanying pull request if possible.  The entire script can be reviewed by creating a " "'~/TermuxArchBloom/'" " directory with the command " "'setupTermuxArch b'" " which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command " "'setupTermuxArch help'" " has more information about how to use use " "'${0##*/}'" " in an effective way."
+	printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m in an effective way.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 
 _RMARCH_() {
@@ -586,55 +586,40 @@ _SETROOT_EXCEPTION_() {
 ## User Information:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'kownconfigurations.bash' in the working directory is simple.  'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing; See 'setupTermuxArch help' for more information.
 declare -A ADM		# declare associative array for download tools
 declare -A ATM		# declare associative array for tar tools
-declare -a ECLAVARR	# declare array for variables
+declare -a ECLAVARR	# declare array for arrays and variables
+declare -a PRFXTOLS	# declare array for device tools that should be accessible in the PRoot environment
+PRFXTOLS=(am getprop toolbox toybox)	# patial implementaion : system tools that work and can be found can be added to this array
+declare -A EMPARIAS	# declare associative array for empty variables
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+# set empty variables
+for PKG in ${!EMPARIAS[@]} ; do PKG="" ; done
+declare -a LC_TYPE	# declare array for locale types
 declare -A FILE		# declare associative array
-ECLAVARR=(ARGS APTIN COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
-for ECLAVARS in ${ECLAVARR[@]}
-do
-	declare "$ECLAVARS"
-done
+ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM ELCR ed FSTND INSTALLDIR LCC LCP OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
-APTIN=""	# apt install string
-COMMANDIF=""
-COMMANDG=""
-CPUABI=""
 CPUABI5="armeabi"	# Used for development;  The command 'getprop ro.product.cpu.abi' can be used to ascertain the device architecture.  Matching an alternate CPUABI* will install an alternate architecture on device.  The original device architecture must be changed to something else so it does not match.  This is usefull with QEMU to install alternate architectures on device.
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
 CPUABIX86="x86"		# used for development
 CPUABIX86_64="x86_64"	# used for development
-DFL=""		# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
-DM=""
+EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [ed]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 ELCR=1
-ed=""
-FSTND=""
-INSTALLDIR=""
-LCC=""
-LCP=""
-OPT=""
-ROOTDIR=""
-WDIR=""
-SDATE=""
-STI=""		# generates pseudo random number
-STIME=""	# generates pseudo random number
 if [[ -z "${TAMPDIR:-}" ]]
 then
 	TAMPDIR=""
 fi
-ROOTDIR=/arch
+ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
-COMMANDG="$(command -v getprop)" || _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
-if [[ "$COMMANDG" = "" ]]
-then
-	printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the BASH shell in the shell in native Termux:  exiting..."
-	exit
-fi
+_COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and './${0##*/}' from the native BASH shell in Termux:  EXITING...";}
+COMMANDG="$(command -v getprop)" || _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
+[[ "$COMMANDG" = "" ]] && _COMMANDG_ && exit
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
