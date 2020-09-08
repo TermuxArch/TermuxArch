@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.540
+VERSIONID=2.0.541
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -781,9 +781,9 @@ then
 elif [[ "${1//-}" = [Oo]* ]]
 then
 	printf "\\nSetting mode to option.\\n"
- 	printf "\\e[1;32m%s \\e[0m" "$(tr -d '\n' < ${0##*/})"
+ 	printf "\\e[1;32m%s \\e[0m" "$(tr -d '\n' < $0)"
 	# split the string
-	IFS=';' read -ra my_array <<< "$(tr -d '\n' < ${0##*/})"
+	IFS=';' read -ra my_array <<< "$(tr -d '\n' < $0)"
 	# print the split string
 	for EMSTRING in "${my_array[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" && sleep 0.0"$(shuf -i 0-999 -n 1)" ; done
 ## [p[urge] [customdir]]  Remove Arch Linux.
