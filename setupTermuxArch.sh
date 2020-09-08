@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.538
+VERSIONID=2.0.539
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -67,7 +67,6 @@ _ARG2DIR_() {  # argument as ROOTDIR
 }
 
 _BLOOMSKEL_() {
-	printf "\\nSetting mode to option.\\n"
 	ELCR=0
 	_INTROBLOOM_ "$@"
 	_PREPTERMUXARCH_
@@ -781,7 +780,13 @@ then
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
-	printf "\\e[0;32m%s \\e[0m" "$(tr -d '\n' < ${0##*/})"
+	printf "\\nSetting mode to option.\\n"
+ 	printf "\\e[1;32m%s \\e[0m" "$(tr -d '\n' < ${0##*/})"
+	# split the string
+	IFS=';' read -ra my_array <<< "$(tr -d '\n' < ${0##*/})"
+	# print the split string
+	for EMSTRING in "${my_array[@]}" ; do printf "\\e[0;32m%s" "$EMSTRING" && sleep 0.0"$(shuf -i 0-999 -n 1)" ; done
+ 	printf "\\e[1;32m%s \\e[0m" "$(tr -d '\t' < ${0##*/})"
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]]
 then
