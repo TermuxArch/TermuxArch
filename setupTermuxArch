@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.537
+VERSIONID=2.0.538
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -781,7 +781,7 @@ then
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
-	_BLOOMSKEL_
+	printf "\\e[0;32m%s \\e[0m" "$(tr -d '\n' < ${0##*/})"
 ## [p[urge] [customdir]]  Remove Arch Linux.
 elif [[ "${1//-}" = [Pp]* ]]
 then
