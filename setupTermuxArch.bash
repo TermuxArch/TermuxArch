@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.546
+VERSIONID=2.0.548
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -96,7 +96,7 @@ _CHKDWN_() {
 
 _CHKSELF_() {	# compare file setupTermuxArch and the file being used
 	cd "$WFDIR" # change directory to where file resides
-	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<$0)" ]] # files differ
+	if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # files differ
 	then	# find and unset functions
 # 		unset -f $(grep \_\( "$0"|cut -d"(" -f 1|sort -u|sed ':a;N;$!ba;s/\n/ /g')
 # 		# find variables
