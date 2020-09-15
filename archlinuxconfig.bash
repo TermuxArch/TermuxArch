@@ -742,7 +742,7 @@ _ADDpc_() {
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
 	if [[ -z "\${1:-}" ]]
 	then
-	pacman --noconfirm --color=always -S
+	pacman --noconfirm --color=always -S "\$@"
 	elif [[ "\$1" = "a" ]]
 	then
 	pacman --noconfirm --color=always -S base base-devel "\${@:2}"
