@@ -846,7 +846,7 @@ _ADDtools_() {
 }
 
 _ADDtour_() {
-	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new featires of this system."
+	_CFLHDR_ root/bin/tour "# A short tour that shows a few of the new features of the overlayed system."
 	cat >> root/bin/tour <<- EOM
 	printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alr --color=always \$HOME \\\\e[1;37m\\\\n\\\\n"
 	sleep 1
