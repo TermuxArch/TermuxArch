@@ -8,7 +8,7 @@ IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 022
-VERSIONID=2.0.564
+VERSIONID=2.0.565
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -97,7 +97,7 @@ _CHK_() {
 }
 
 _CHKDWN_() {
-	$( sha512sum -c setupTermuxArch.sha512 1>/dev/null ) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+	$(sha512sum -c setupTermuxArch.sha512 1>/dev/null) && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 
 _CHKSELF_() {	# compare setupTermuxArch and file being used
@@ -763,6 +763,12 @@ then
 	DM=lftp
 	_OPT1_ "$@"
 	_INTRO_ "$@"
+## [mat[ix]]  Print TermuxArch source code as Matrix
+elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
+then
+	printf "\\nSetting mode to matrix.\\n"
+	_DEPENDSBLOCK_ "$@"
+	_TAMATRIX_
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm]* ]]
 then
@@ -770,11 +776,6 @@ then
 	OPT=MANUAL
 	_OPT1_ "$@"
 	_INTRO_ "$@"
-## [mat[ix]]  Print TermuxArch source code as Matrix
-elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
-then
-	printf "\\nSetting mode to matrix.\\n"
-	_TAMATRIX_
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
 then
