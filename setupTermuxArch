@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.590
+VERSIONID=2.0.592
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -671,12 +671,13 @@ ONESA="${SDATE: -1}"
 PKGS=(bsdtar proot)
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
-## QEMU implementation #25 https://github.com/TermuxArch/TermuxArch/issues/25 has more information.
 ## 6) Determine its own name and location of invocation,
 WDIR="$PWD/" && WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
-## 7) Create a default user Arch Linux in Termux PRoot account with the TermuxArch command 'addauser' that configures user accounts for use with the Arch Linux 'sudo' command,
-## 8) And all options are optional for install!
+## 7) Create a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
+## 8) Install alternate architectures with QEMU in your smartphone with two taps,
+## 9) Create and install the Arch Linux aur installer 'yay' with command 'makeyay',
+## 10) And all options are optional for install!
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
