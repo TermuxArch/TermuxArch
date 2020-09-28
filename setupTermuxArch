@@ -9,7 +9,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.589
+VERSIONID=2.0.590
 ## INIT FUNCTIONS ##############################################################
 _STRPERROR_() { # run on script error
 	local RV="$?"
@@ -526,25 +526,20 @@ _QEMU_ () {
 	COMMANDIF="${COMMANDR##*/}"
 	STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 	STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
-	PKGS="$2"
+	PKG="$2"
 	_INPKGS_() {
 		if [ "$COMMANDIF" = au ]
 		then 
-			au "$PKGS" || printf "%s\\n" "$STRING2"
+			au "$PKG" || printf "%s\\n" "$STRING2"
 		else
-			apt install "$PKGS" || printf "%s\\n" "$STRING2"
+			apt install "$PKG" || printf "%s\\n" "$STRING2"
 		fi
 	}
-	for COMMA in "$COMMS"
-	do
-		COMMANDP="$(command -v "$COMMA")" || printf "Command %s not found: Continuing...\\n" "$COMMA" # test if command exists
-		COMMANDPF="${COMMANDP##*/}"
-		if [ "$COMMANDPF" != "$COMMA" ]
-		then 
-			printf "%s\\n" "Beginning qemu \`$3\` setup:"
-			_INPKGS_
-		fi
-	done
+	if ! command -v "$COMMS"
+	then
+		printf "%s\\n" "Beginning qemu '$3' setup:"
+		_INPKGS_
+	fi
 	}
 	printf "Setting mode to qemu.  This feature is being developed.\\n"
 	printf "%s\\n" "Please select the architecture by number from this list:"
@@ -567,9 +562,9 @@ _QEMU_ () {
 		INCOMM="qemu-user-$ARCHITEC"
 		[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "You picked ($REPLY) $CPUABI.  The chosen architecture for installation is $CPUABI." && QEMUCR=0 && break || printf "%s\\n" "Please select the architecture by number."
 	done
-	if ! command -v "$INCOMM"
+	if ! command -v "${INCOMM//-user}"
 	then
-		_INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
+		_INST_ "${INCOMM//-user}" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
 	fi
 }
 
