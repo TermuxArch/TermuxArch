@@ -10,3 +10,6 @@
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/TermuxArch/scripts.TermuxArch
+[submodule ".github"]
+	path = .github
+	url = https://github.com/SDRausty/.github
