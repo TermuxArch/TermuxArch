@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.609
+VERSIONID=2.0.610
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -467,7 +467,7 @@ _OPT2_() {
 
 _PREPTMPDIR_() {
 	[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
-	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$"
+	TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
 	[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
 }
 

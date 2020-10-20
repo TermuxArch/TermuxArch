@@ -285,7 +285,7 @@ _ADDcsystemctl_() {
 	printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py"
 	# Arch Linux package 'systemctl' updates will mot halt functioning as /usr/local/bin precedes /usr/bin in the PATH
 	# downlaodvand copy to both /usr/local/bin and /usr/bin
-	curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py|tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
+	curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 	chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
 	[ ! -e /run/lock ] && mkdir -p /run/lock
 	touch /var/lock/csystemctl.lock
