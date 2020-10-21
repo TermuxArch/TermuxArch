@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.632
+VERSIONID=2.0.633
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
@@ -838,9 +838,9 @@ then
 ## [q[emu] [customdir]]  Partial Implementation:  Install alternate architecture on smartphone with QEMU.
 elif [[ "${1//-}" = [Qq]* ]]
 then
-	_OPT1_ "$@"
 	_PREPTERMUXARCH_
 	_QEMU_
+	_OPT1_ "$@"
 	_INTRO_ "$@"
 ## [ref[resh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version and also runs keys and generates locales.
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
