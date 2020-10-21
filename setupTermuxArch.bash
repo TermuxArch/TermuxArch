@@ -7,7 +7,7 @@
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
-VERSIONID=2.0.622
+VERSIONID=2.0.623
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
