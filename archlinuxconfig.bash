@@ -730,7 +730,10 @@ _ADDpatchmakepkg_() {
 	printf "%s\\\\n" "Attempting to patch makepkg: "
 	SDATE="\$(date +%s)"
 	BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/makepkg.\$SDATE.bkp"
-	[[ ! "\$(command -v unzip)" ]] 2>/dev/null && pci unzip
+	if [[ ! "\$(command -v unzip)" ]] 2>/dev/null || [[ ! "\$(command -v unzip)" ]] 2>/dev/null
+	then
+		pci patch unzip
+	fi
 	[ -f /var/lock/patchmakepkg.lock ] && printf "%s\\\\n" "Already patched makepkg: DONE 🏁" && exit
 	mkdir -p "\$BKPDIR"
 	cp /bin/makepkg "\$BKPDIR"
