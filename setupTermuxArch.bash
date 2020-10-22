@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.652
+VERSIONID=2.0.653
 IFS=$'\n\t'
 set -Eeuo pipefail
 shopt -s nullglob globstar
