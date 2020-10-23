@@ -63,7 +63,7 @@ _FUNLCR2_() { # copy from root to home/USER
 
 _LOADIMAGE_() {
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	printf "\\n"
 	_WAKELOCK_
 	_PREPINSTALLDIR_
@@ -105,7 +105,7 @@ _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
 _REFRESHSYS_() { # refresh installation
 	printf '\033]2; setupTermuxArch refresh 📲 \007'
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	cd "$INSTALLDIR"
 	_SETLANGUAGE_
 	_PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
@@ -153,11 +153,13 @@ _SPACEINFO_() {
 	if [[ "$SIZEUNIT" = Size ]]
 	then
 		_SPACEINFOGSIZE_
-		printf "%s  \\e[0m" "$SPACEMESSAGE"
+		printf "\\e[0;33m%s\\e[1;33m%s  \\e[0m" "$SPACEMESSAGE"
 	elif [[ "$SIZEUNIT" = 1K-blocks ]]
 	then
 		_SPACEINFOKSIZE_
-		printf "%s  \\e[0m" "$SPACEMESSAGE"
+				SPACEMESSAGE=("TermuxArch: " "FREE SPACE WARNING!   " "Start thinking about cleaning out some stuff.  " "$USRSPACE of free user space is available on this device.  " "The recommended minimum to install Arch Linux in Termux PRoot for $CPUABI is 800M of free user space.")
+		printf "\\e[0;33m%s\\e[1;33m%s\\e[1;30m%s\\e[33m%s\\e[1;30m%s  \\e[0m" "${SPACEMESSAGE[@]}"
+		exit
 	fi
 	if [[ "$SPACEMESSAGE" != "" ]]
 	then
@@ -178,7 +180,7 @@ _SPACEINFOGSIZE_() {
 			usspace="${USRSPACE: : -1}"
 			if [[ "$usspace" < "800" ]]
 			then
-				SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space."
+				SPACEMESSAGE=("TermuxArch: " "FREE SPACE WARNING!   " "Start thinking about cleaning out some stuff.  " "$USRSPACE of free user space is available on this device.  " "The recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.")
 			fi
 		fi
 	elif [[ "$USRSPACE" = *G ]]
@@ -188,6 +190,7 @@ _SPACEINFOGSIZE_() {
 		then
 			if [[ "$usspace" < "1.5" ]]
 			then
+				SPACEMESSAGE=("TermuxArch: " "FREE SPACE WARNING!   " "Start thinking about cleaning out some stuff.  " "$USRSPACE of free user space is available on this device.  " "The recommended minimum to install Arch Linux in Termux PRoot for x86 and x86_64 is 800M of free user space.")
 				SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff.  \\e[33m$USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for installing $CPUABI8 architecture is 1.5G of free user space."
 			else
 				SPACEMESSAGE=""
@@ -247,7 +250,7 @@ _SPACEINFOKSIZE_() {
 
 _SYSINFO_() {
 	_NAMESTARTARCH_
-	_SPACEINFO_
+#	_SPACEINFO_
 	printf "\\n\\e[1;32mGenerating TermuxArch system information; Please wait...\\n\\n"
 	_SYSTEMINFO_ ## & spinner "Generating" "System Information..."
 	printf "\\e[38;5;76m"
