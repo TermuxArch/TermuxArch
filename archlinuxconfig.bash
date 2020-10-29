@@ -540,7 +540,7 @@ printf \"%s\\n\" \"Running gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSE
 gpg --homedir /etc/pacman.d/gnupg --keyserver \$HKPSERVR --recv-keys 0x194e37a47a4c671807bacb37b1117bc1094ea6e9 && GPGBREAK=\"0\"
 [[ -z \"\${GPGBREAK:-}\" ]] || break
 done
-UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"o/openssl/openssl-1.0.2.k-1-i686.pkg.tar.xz\")
+UPGDPKGS=(\"a/archlinux32-keyring/archlinux32-keyring-20191103-1.0-any.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"o/openssl/\"o/openssl/openssl-1.1.1-1.0-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 printf \"%s\\n\" \"Running curl -OL http://archive.archlinux32.org/packages/\$UPGDPAKG\"
@@ -609,6 +609,7 @@ printf "\\\\n\\\\e[1;32m[1/2] \\\\e[0;34mWhen \\\\e[0;37mgpg: Generating pacman 
 pacman-key --init || sudo pacman-key --init || _PRTERROR_
 chmod 700 /etc/pacman.d/gnupg
 $X86INT || _PRTERROR_
+pacman -Sy
 pacman-key --populate || sudo pacman-key --populate || _PRTERROR_
 printf "\\\\n\\\\e[1;32m==>\\\\e[0m Running \\\\e[1mpacman -S %s --noconfirm --color=always\\\\e[0;32m...\\\\n" "\$ARGS"
 pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || sudo pacman -S "\${KEYRINGS[@]}" --noconfirm --color=always || _PRTERROR_
@@ -914,11 +915,11 @@ $STARTBIN su user "pwd && whoami"
 echo th$STARTBIN done
 # th"$STARTBIN" EOF
 EOM
-chmod 700 root/bin/th"$STARTBIN"
+chmod 700 root/bin/thstartarch
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
-[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep mkfifo ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
+[[ -z "${EDO01LCR:-}" ]] && PRFXTOLS=(getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top) || [[ $EDO01LCR = 0 ]] && PRFXTOLS=(am dpkg getprop grep ping termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top)
 #  	PRFXTOLS=(am getprop toolbox toybox)
 for STOOL in ${PRFXTOLS[@]}
 do
