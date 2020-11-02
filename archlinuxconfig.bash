@@ -606,7 +606,6 @@ _PMUEOEPE_ 8
 #_PMUEOEPE_ 6
 #_PMUEOEPE_ 5
 #pacman -Uv \${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/} --noconfirm || pacman -Uv \${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\"
-pacman -Uv \${UPGDPKGS[5]##*/} \${UPGDPKGS[7]##*/} --noconfirm || pacman -Uv \${UPGDPKGS[5]##*/} \${UPGDPKGS[7]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\"
 #_PMUEOEPE_ 0
 #_PMUEOEPE_ 1"
 X86IPT="(1/1)"
