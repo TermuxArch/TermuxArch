@@ -584,7 +584,7 @@ _ADDkeys_() {
 # set customized commands for Arch Linux 32
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20181218-1.1-any.pkg.tar.xz\"  \"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\"  \"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-1.1-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.s-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.3-2.0-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"p/pacman/pacman-5.1.0-2.1-i686.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.27-3.2-i686.pkg.tar.xz\" \"a/archlinux32-keyring-transition/archlinux32-keyring-transition-20191103-1-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"o/openssl-1.0/openssl-1.0-1.0.2.t-1.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
@@ -596,18 +596,22 @@ fi
 done
 
 _PMUEOEPE_() {
-printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[\$1]##*/}\") --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[\$1]##*/}\") --noconfirm' did not succeed: continuing...\")
 }
 
 printf \"\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s\\e[0m...\\n\\n\" \"Running\" \"pacman-key --refresh-keys \${0##*/} \${ARGS[@]} \$VERSIONID\" ; echo $ECHOEXEC $ECHOSYNC pacman-key --refresh-keys
-_PMUEOEPE_ 2
-#_PMUEOEPE_ 3
+_PMUEOEPE_ 1
+printf \"\\e[1;32m==>\\e[0m Running \\e[1;32mpacman -Ss keyring --color=always\\e[0;32m...\\n\"
+pacman -Ss keyring --color=always || _PRTERROR_
+_PMUEOEPE_ 3
 _PMUEOEPE_ 8
-#_PMUEOEPE_ 6
-#_PMUEOEPE_ 5
-#pacman -Uv \${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/} --noconfirm || pacman -Uv \${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[4]##*/} \${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\"
 #_PMUEOEPE_ 0
-#_PMUEOEPE_ 1"
+_PMUEOEPE_ 6
+#_PMUEOEPE_ 5
+_PMUEOEPE_ 2
+#pacman -Uv \"\${UPGDPKGS[5]##*/}\" \"\${UPGDPKGS[7]##*/}\" --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[5]##*/} \${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\"
+#pacman -Uv \"\${UPGDPKGS[7]##*/}\" --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\"
+#pacman -Uv \${UPGDPKGS[4]##*/} \${UPGDPKGS[5]##*/} \${UPGDPKGS[7]##*/} --noconfirm || printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \$(printf \"%s\" \"\${UPGDPKGS[4]##*/} \${UPGDPKGS[5]##*/} \${UPGDPKGS[7]##*/}\") --noconfirm' did not succeed: continuing...\""
 X86IPT="(1/1)"
 X86INK=":"
 else
@@ -948,7 +952,7 @@ chmod 700 root/bin/thstartarch
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
 if [[ -z "${EDO01LCR:-}" ]]
 then
-PRFXTOLS=(awk getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which)
+PRFXTOLS=(awk getprop grep gzip ping sed tar termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock termux-wake-lock termux-wake-unlock top which)
 elif [[ $EDO01LCR = 0 ]]
 then
 PRFXTOLS=(am awk dpkg getprop grep gzip ping sed termux-change-repo termux-info termux-open termux-open-url termux-wake-lock termux-wake-unlock top which)
