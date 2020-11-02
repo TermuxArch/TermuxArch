@@ -960,7 +960,7 @@ $STARTBIN su user "pwd && whoami" || _PRTERROR_
 printf "%s\\n" "th$STARTBIN done"
 # th"$STARTBIN" EOF
 EOM
-chmod 700 root/bin/thstartarch
+chmod 700 root/bin/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion : working system tools that work can be added to array PRFXTOLS
