@@ -597,15 +597,15 @@ fi
 done
 
 _PMUEOEPE_() {
-printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP2_() {
-printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
@@ -837,7 +837,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[0;32m%s \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[0m\\\\n" "Running" "TermuxArch" "\${0##*/} \$ARGS" "\$VERSIONID..."
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
@@ -878,7 +878,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" = "0" ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37m%s \\\\e[1;32m%s %s %s \\\\e[0m%s...\\\\n" "Running" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 \$SUDOCONF pacman --noconfirm --color=always -Syu
