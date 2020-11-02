@@ -585,7 +585,7 @@ _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
-printf \"%s\\n\" \"Downloading files '\$(printf \"%s\" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
+printf \"%s\\n\" \"Downloading files '\"\${UPGDPKGS[0]##*/} \${UPGDPKGS[1]##*/} \${UPGDPKGS[2]##*/} \${UPGDPKGS[3]##*/} \${UPGDPKGS[4]##*/} \${UPGDPKGS[5]##*/} \${UPGDPKGS[6]##*/} \${UPGDPKGS[7]##*/}\"' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
@@ -601,14 +601,12 @@ printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacma
 }
 
 _PMUEOEP2_() {
-pacman -Uv \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm' did not succeed: continuing...\")
 }
 
 _PMUEOEP3_() {
-pacman -Uv \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
+printf \"\\n\\e[1;32m==> \\e[1;37mRunning \\e[1;32m%s\\e[0m%s...\\n\\n\" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm || (_PRTERROR_ && printf \"\\e[1;31m\\n%s\\e[1;37m%s\\e[0m\\n\" \"The command 'pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm' did not succeed: continuing...\")
 }
-
-#printf \"\\n\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s\\e[0m...\\n\\n\" \"Running\" \"pacman-key --refresh-keys \${0##*/} \${ARGS[@]} \$VERSIONID\" ; echo $ECHOEXEC $ECHOSYNC pacman-key --refresh-keys
 
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
 _PMUEOEPE_ 1
@@ -625,8 +623,7 @@ sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
 pacman -S archlinux-keyring archlinux32-keyring --noconfirm
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 pacman -S pacman --noconfirm
-rm /etc/ssl/certs/ca-certificates.crt
-"
+rm /etc/ssl/certs/ca-certificates.crt"
 X86IPT="(1/1)"
 X86INK=":"
 else
