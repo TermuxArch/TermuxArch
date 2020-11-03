@@ -675,7 +675,7 @@ KEYRINGS[2]="ca-certificates-utils"
 elif [[ "\$1" = x86 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
-KEYRINGS[1]="archlinux32-keyring-transition"
+KEYRINGS[1]="archlinux32-keyring"
 KEYRINGS[2]="ca-certificates-utils"
 elif [[ "\$1" = x86_64 ]]
 then
@@ -770,12 +770,14 @@ export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
 [ ! -f \$HOME/bin/lock/orcaconf.lock ] && touch \$HOME/orcaconf.lock
+mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' error"
 # orcaconf EOF
 EOM
 chmod 700 root/bin/orcaconf
 _ADDmateconf_() {
 _CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> root/bin/mateconf <<- EOM
+csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' error"
 vncserver -kill :0
 vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
 # mateconf EOF
