@@ -765,7 +765,7 @@ cat >> root/bin/orcaconf <<- EOM
 [ -d \$HOME/bin/lock ] && printf "%s\\\\n" "Already confugured orca: DONE 🏁" && exit
 [ -f \$HOME/bin/lock/orcaconf.lock ] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf ”%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
+nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf ”%s\\n" "export DISPLAY=:0
