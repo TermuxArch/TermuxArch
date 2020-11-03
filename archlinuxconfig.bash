@@ -764,13 +764,16 @@ _CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmi
 cat >> root/bin/orcaconf <<- EOM
 [ -d \$HOME/bin/lock ] && printf "%s\\\\n" "Already confugured orca: DONE 🏁" && exit
 [ -f \$HOME/bin/lock/orcaconf.lock ] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
-nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf ”%s\\n" "failed" && exit
+_INSTALLORCACONF_() {
+nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf ”%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
+}
+_INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf ”%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf ”%s\\n" "export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
 [ ! -f \$HOME/bin/lock/orcaconf.lock ] && touch \$HOME/orcaconf.lock
-mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' error"
+mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' did not completed as expected"
 # orcaconf EOF
 EOM
 chmod 700 root/bin/orcaconf
