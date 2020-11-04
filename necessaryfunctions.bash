@@ -407,7 +407,7 @@ fi
 
 _PREPROOTDIR_() {
 # create local array of directories to be created for setupTermuxArch
-local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds" "var/lock/texarh")
+local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
 [[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
@@ -429,9 +429,9 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
-proot --link2symlink -0 bsdtar -x -p -f "$IFILE" --strip-components 1
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1
 else
-proot --link2symlink -0 bsdtar -x -p -f "$IFILE"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE"
 fi
 }
 
