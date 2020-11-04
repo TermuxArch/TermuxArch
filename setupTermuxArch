@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.751
+VERSIONID=2.0.752
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -733,7 +733,7 @@ if [[ -z "${1:-}" ]]
 then
 _PREPTERMUXARCH_
 _INTRO_ "$@"
-## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.
+## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.
 elif [[ "${ARGS:0:1}" = . ]]
 then
 printf "\\n%s\\n" "Setting mode to copy system image."
@@ -742,7 +742,7 @@ LCC="1"
 LCP="1"
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
-## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch systemimage.tar.gz'.
+## [systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.
 elif [[ "$ARGS" = *.tar.gz* ]]
 then
 printf "\\n%s\\n" "Setting mode to copy system image."
