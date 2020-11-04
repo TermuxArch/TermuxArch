@@ -303,7 +303,7 @@ INSTALLDIR="$INSTALLDIR"
 printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
 [ -f /var/lock/csystemctl.lock ] && printf "%s\\\\n" "Already installed /usr/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
-COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 not found: continuing..."
+COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
 [[ "\${COMMANDP:-}" == *python3* ]] || pacman --noconfirm --color=always -S python3 || sudo pacman --noconfirm --color=always -S python3
 SDATE="\$(date +%s)"
 # path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
@@ -1208,7 +1208,7 @@ _DOMODdotfiles_() {
 # 	}
 _MODdotfile_() {
 _MODdotfNF_() {
-printf "\\e[0;33mline %s not found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
+printf "\\e[0;33mline %s can not be found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
 printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
 }
 # add MODFILEADD to file /root/MODFILENAME
