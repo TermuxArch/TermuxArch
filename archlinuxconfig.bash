@@ -584,7 +584,7 @@ _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
 X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\")
-printf \"%s\\n\" \"Downloading files \$(printf \"%s\" \"\${UPGDPKGS[0]##*/}, \${UPGDPKGS[1]##*/}, \${UPGDPKGS[2]##*/}, \${UPGDPKGS[3]##*/}, \${UPGDPKGS[4]##*/}, \${UPGDPKGS[5]##*/}, \${UPGDPKGS[6]##*/} and \${UPGDPKGS[7]##*/}\") from https://archive.archlinux32.org.\"
+printf \"%s\\n\" \"Downloading files: \$(printf \"%s\" \"\${UPGDPKGS[0]##*/}, \${UPGDPKGS[1]##*/}, \${UPGDPKGS[2]##*/}, \${UPGDPKGS[3]##*/}, \${UPGDPKGS[4]##*/}, \${UPGDPKGS[5]##*/}, \${UPGDPKGS[6]##*/} and \${UPGDPKGS[7]##*/}\") from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
 if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
