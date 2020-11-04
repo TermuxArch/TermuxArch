@@ -762,17 +762,16 @@ chmod 700 root/bin/makeyay
 _ADDorcaconf_() {
 _CFLHDR_ root/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> root/bin/orcaconf <<- EOM
-[ -d \$HOME/bin/lock ] && printf "%s\\\\n" "Already confugured orca: DONE 🏁" && exit
-[ -f \$HOME/bin/lock/orcaconf.lock ] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
+[[ -f /var/lock/texarh/orcaconf.lock ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
+[[ ! -f /var/lock/texarh/orcaconfinstall.lock ]] && nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc && touch /var/lock/texarh/orcaconfinstall.lock || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 printf "%s\\n" "export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> \$HOME/.profile
-[ ! -f \$HOME/bin/lock/orcaconf.lock ] && touch \$HOME/orcaconf.lock
+[[ ! -f /var/lock/texarh/orcaconf.lock ]] && touch /var/lock/texarh/orcaconf.lock
 mateconf || printf "\\e[1;31m%s\\e[0m\\n" "command 'mateconf' did not completed as expected"
 # orcaconf EOF
 EOM
@@ -780,7 +779,7 @@ chmod 700 root/bin/orcaconf
 _ADDmateconf_() {
 _CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> root/bin/mateconf <<- EOM
-csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
+# csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
 vncserver -kill :0
 vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
 # mateconf EOF
