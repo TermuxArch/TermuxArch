@@ -4,7 +4,7 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-##  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and this file is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+# The architecture of this device is armeabi-v7a; Adjust configurations in the appropriate section.  Change CMIRROR (https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) to desired geographic location to resolve 404 and checksum issues.
 # DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
 ECHOEXEC=""		##  insert 'echo' to supress most 'pacman' instructions from 'keys' file during runtime
 ECHOSYNC=""		##  insert 'echo' to only supress 'pacman' syncing instructions from 'keys' file during runtime
@@ -43,7 +43,7 @@ _MAKESYSTEM_
 
 _ARMV7ANDROID_() {
 IFILE="ArchLinuxARM-armv7-latest.tar.gz"
-CMIRROR="os.archlinuxarm.org"
+CMIRROR="il.us.archlinuxarm.org"
 RPATH="os"
 _MAKESYSTEM_
 }
@@ -120,7 +120,9 @@ PROOTSTMNT+="-b $PRBIND:$PRBIND "
 fi
 done
 # populate readable binds
-PRSTARR=([/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd/]=/dev/fd/ [/proc/]=/proc/ [/proc/]=/proc/ [/plat_property_contexts]=/plat_property_contexts [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+# PRSTARR=([/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd/]=/dev/fd/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/]=/proc/ [/proc/]=/proc/ [/plat_property_contexts]=/plat_property_contexts [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/storage/self/primary/]=/sdcard/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+# PRSTARR=([/data/dalvik-cache/]=/data/dalvik-cache/ [/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd/]=/dev/fd/ [/proc/self/fd/0]=/dev/stdin [/proc/self/fd/1]=/dev/stdout [/proc/self/fd/2]=/dev/stderr [/proc/]=/proc/ [/proc/]=/proc/ [/plat_property_contexts]=/plat_property_contexts [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
+PRSTARR=([/dev/]=/dev/ [/dev/urandom]=/dev/random ["$EXTERNAL_STORAGE"]="$EXTERNAL_STORAGE" ["$HOME"]="$HOME" ["$PREFIX"]="$PREFIX" [/proc/]=/proc/ [/proc/self/fd]=/dev/fd [/proc/stat]=/proc/stat [/property_contexts]=/property_contexts [/storage/]=/storage/ [/sys/]=/sys/ [/system/]=/system/ [/vendor/]=/vendor/)
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ -r "$PRBIND" ]]	# is readable
