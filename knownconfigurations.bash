@@ -141,6 +141,6 @@ PROOTSTMNT="${PROOTSTMNT//-i \"\$AR2AR:wheel\" }" # create PRoot root user strin
 }
 _PR00TSTRING_
 ##  uncomment the next line to test function _PR00TSTRING_
-#   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
+##   printf "%s\\n" "$PROOTSTMNT" && printf "%s\\n" "$PROOTSTMNTU" && printf "%s\\n" "$PROOTSTMNTUU" && exit
 ##  The commands 'setupTermuxArch r[e[fresh]]' can be used to regenerate the start script to the newest version if there is a newer version published and can be customized as wanted.  Command 'setupTermuxArch refresh' will refresh the installation globally, including excecuting 'keys' and 'locales-gen' and backup user configuration files that were initially created and are refreshed.  The command 'setupTermuxArch re' will refresh the installation and update user configuration files and backup user configuration files that were initially created and are refreshed.  Command 'setupTermuxArch r' will only refresh the installation and update the root user configuration files and backup root user configuration files that were initially created and are refreshed.
 # knownconfigurations.bash EOF
