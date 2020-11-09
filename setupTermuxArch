@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.797
+VERSIONID=2.0.798
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -256,7 +256,7 @@ printf "\\n\\e[1;32m"
 _EDITORCHOOSER_() {
 if [[ -z "${EDITOR:-}" ]]
 then
-if command -v editor
+if command -v editor 1>/dev/null
 then
 USEREDIT="editor"
 fi
