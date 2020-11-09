@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.793
+VERSIONID=2.0.794
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -253,6 +253,19 @@ fi
 printf "\\n\\e[1;32m"
 }
 
+_EDITORCHOOSER_() {
+if [[ -z "${EDITOR:-}" ]]
+then
+if command -v editor
+then
+USEREDIT="editor"
+fi
+elif [[ ! -z "${EDITOR:-}" ]]
+then
+USEREDIT="$EDITOR"
+fi
+}
+
 _INTRO_() {
 printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
 _SETROOT_EXCEPTION_
@@ -354,17 +367,6 @@ else
 . knownconfigurations.bash
 fi
 }
-
-if [[ -z "${EDITOR:-}" ]]
-then
-if command -v editor
-then
-USEREDIT="editor"
-fi
-elif [[ ! -z "${EDITOR:-}" ]]
-then
-USEREDIT="$EDITOR"
-fi
 
 _MANUAL_() {
 printf '\033]2; bash setupTermuxArch manual 📲 \007'
@@ -506,6 +508,7 @@ _PREPTERMUXARCH_() {
 _NAMEINSTALLDIR_
 _NAMESTARTARCH_
 _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
+_EDITORCHOOSER_
 }
 
 _PRPREFRESH_() {
