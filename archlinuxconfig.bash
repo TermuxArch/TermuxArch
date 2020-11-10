@@ -805,8 +805,7 @@ chmod 700 root/bin/orcaconf
 _ADDmateconf_() {
 _CFLHDR_ root/bin/mateconf "# mateconf contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> root/bin/mateconf <<- EOM
-vncserver -kill :0
-vncserver -extension MIT-SHM -localhost -geometry 1024x768 -depth 24 -name remote-desktop :0 -SecurityTypes=None
+Xvnc -localhost -geometry 1024x768 -depth 24 -SecurityTypes=None
 # mateconf EOF
 EOM
 chmod 700 root/bin/mateconf
