@@ -839,7 +839,7 @@ cp makepkg /usr/local/bin/makepkg
 mv -f makepkg /bin/makepkg
 mv -f diff.makepkg.zip "\$BKPDIR"
 # create lock file to update proof patchmakepkg
-touch /var/lock/texarh/patchmakepkg.lock
+mkdir -p /var/lock/texarh/ ; touch /var/lock/texarh/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 # patchmakepkg EOF
 EOM
