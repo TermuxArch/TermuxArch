@@ -1048,7 +1048,7 @@ if [ ! -d root/storage ]
 then
 [ -d "$HOME/storage" ] && cp -fR "$HOME/storage/" root/
 fi
-if [ ! -d root/storage/txhome ]
+if [ ! -d root/storage/txhome ] && [ -d root/storage ]
 then
 ln -s "$HOME" root/storage/txhome
 fi
