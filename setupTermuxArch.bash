@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.828
+VERSIONID=2.0.830
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
