@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.832
+VERSIONID=2.0.835
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -324,7 +324,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} is incorrect; Cannot continue '${0##*/} $ARGS'!  These commands '${0##*/} help' and '$STARTBIN help' have more information"
 if [[ -d "$INSTALLDIR"/tmp ]]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -482,7 +482,6 @@ then
 shift
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-_INTRO_ "$@"
 elif [[ "$3" = [Ii]* ]]
 then
 shift 2
@@ -755,7 +754,10 @@ curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/
 fi
 }
 SCMD="au"
-command -v "$SCMD"  > /dev/null && printf "%s\\n" "Found command '$SCMD'; Continuing..." || (printf "\\e[1;38;5;124mCommand \\e[1;38;5;148m%s\\e[1;38;5;124m not found: \\e[1;38;5;150mContinuing...\\n" "'$SCMD'" ; _IFBINEXT_ ; printf "\\e[0m")
+if ! command -v "$SCMD"  > /dev/null
+then
+printf "\\e[1;38;5;124mCommand \\e[1;38;5;148m%s\\e[1;38;5;124m not found: \\e[1;38;5;150mContinuing...\\n" "'$SCMD'" ; _IFBINEXT_ ; printf "\\e[0m"
+fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
 ## 4) Generate pseudo random number to create uniq strings,
@@ -932,6 +934,7 @@ _RMARCHQ_
 ## [q[emu] [refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
+printf "\\nSetting mode to qemu.\\n"
 _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
