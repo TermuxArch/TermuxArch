@@ -1,0 +1,13 @@
+#!/bin/env sh
+# Copyright 2017-2019 (c) all rights reserved by SDRausty.
+# https://sdrausty.github.io/au  Contributors: frumpylava/Glow, Hax4us
+# $ dpkg --purge name.pkg; dpkg --install name.pkg  ## downgrades packages. 
+# External microSD card destination is preferred to save space on devices.
+################################################################################
+mkdir -p "/storage/emulated/0/tdebs" 
+apt update # updates packages list 
+apt -o APT::Keep-Downloaded-Packages="true" upgrade -y # upgrades
+apt -o APT::Keep-Downloaded-Packages="true" install $@ -y # installs
+mv "$PREFIX"/var/cache/apt/archives/*.deb /storage/emulated/0/tdebs >&2 
+## In order to save native space on device, change ^the path above^ to a microSDcard destination.
+# au EOF
