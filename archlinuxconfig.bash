@@ -783,7 +783,7 @@ then
 printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Building and installing fakeroot-tcp with ${0##*/} version $VERSIONID: "
+printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} version $VERSIONID: "
 ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc glibc po4a libtool || sudo pci automake base-devel fakeroot git gcc glibc po4a libtool)
 cd
 if [ ! -d fakeroot-tcp ]
