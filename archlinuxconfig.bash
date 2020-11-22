@@ -794,9 +794,9 @@ cd fakeroot-tcp
 cp PKGBUILD PKGBUILD.$$.bkp
 sed -ir '/prepare()/,+4d' PKGBUILD
 sed -i 's/silence-dlerror.patch//g' PKGBUILD
-sed -i 's/pkgver=1.24/pkgver=1.25.2/g' PKGBUILD
+sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
-sed -ir "s/^md5sums=.*/md5sums=('e47a50feb3ec93a1fb70309f586c1aac')/g" PKGBUILD
+sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
