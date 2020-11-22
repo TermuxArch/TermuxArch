@@ -792,10 +792,11 @@ gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
 fi
 cd fakeroot-tcp
 cp PKGBUILD PKGBUILD.$$.bkp
-sed -i '/silence-dlerror.sudo patch/d' PKGBUILD
+sed -ir '/prepare()/,+4d' PKGBUILD
+sed -i 's/silence-dlerror.patch//g' PKGBUILD
 sed -i 's/pkgver=1.24/pkgver=1.25.2/g' PKGBUILD
-sed -i '/^md5sums/d' PKGBUILD
-sed -ir "s/         '5fba0b541b5af39d804265223fda525c/md5sums=\('e47a50feb3ec93a1fb70309f586c1aac/g" PKGBUILD
+sed -i '/^md5sums=/{n;d}' PKGBUILD
+sed -ir "s/^md5sums=.*/md5sums=('e47a50feb3ec93a1fb70309f586c1aac')/g" PKGBUILD
 printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
