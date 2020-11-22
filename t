@@ -774,25 +774,16 @@ chmod 700 usr/local/bin/keys
 _ADDmakefakeroottcp_() {
 _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
-_PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
-}
-
 if [ "\$UID" = "0" ]
 then
 printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Building and installing fakeroot-tcp with ${0##*/} version $VERSIONID: "
+printf "%s\\\\n" "Building and installing fakeroot-tcp: "
 ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc glibc po4a libtool || sudo pci automake base-devel fakeroot git gcc glibc po4a libtool)
-cd
-gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
-cd fakeroot-tcp
-cp PKGBUILD PKGBUILD.$$.bkp
-awk -i inplace '{gsub(/sudo patch/,"patch")}1' PKGBUILD
-printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot
-fi
+cd && (gcl https://aur.archlinux.org/fakeroot-tcp.git && cd fakeroot-tcp && awk -i inplace '{gsub(/\//,"\+")}1' PKGBUILD && printf "%s\\\\n" "Continuing ${0##*/}..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot) || printf "%s\\\\n" "Continuing to build and attempting to install fakeroot-tcp: " && cd fakeroot-tcp && sed -i 's/  patch/  sudo patch/g' PKGBUILD && makepkg -irs
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
+fi
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -825,7 +816,7 @@ Then this process will go on to try to make 'yay' which is much simpler for the 
 sleep 6
 cd
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
+! fakeroot ls && makefakeroottcp
 (gcl https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
