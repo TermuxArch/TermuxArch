@@ -510,9 +510,9 @@ cat >> usr/local/bin/gcl <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
 pci git
-gcl --depth 1 "\$@" --branch master --single-branch
+git clone --depth 1 "\$@" --branch master --single-branch
 else
-gcl --depth 1 "\$@" --branch master --single-branch
+git clone --depth 1 "\$@" --branch master --single-branch
 fi
 # gcl EOF
 EOM
