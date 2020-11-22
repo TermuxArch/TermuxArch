@@ -775,7 +775,7 @@ _ADDmakefakeroottcp_() {
 _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
 }
 
 if [ "\$UID" = "0" ]
@@ -786,10 +786,16 @@ else
 printf "%s\\\\n" "Building and installing fakeroot-tcp with ${0##*/} version $VERSIONID: "
 ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && (pci automake base-devel fakeroot git gcc glibc po4a libtool || sudo pci automake base-devel fakeroot git gcc glibc po4a libtool)
 cd
+if [ ! -d fakeroot-tcp ]
+then
 gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
+fi
 cd fakeroot-tcp
 cp PKGBUILD PKGBUILD.$$.bkp
-awk -i inplace '{gsub(/sudo patch/,"patch")}1' PKGBUILD
+sed -i '/silence-dlerror.sudo patch/d' PKGBUILD
+sed -i 's/pkgver=1.24/pkgver=1.25.2/g' PKGBUILD
+sed -i '/^md5sums/d' PKGBUILD
+sed -ir "s/         '5fba0b541b5af39d804265223fda525c/md5sums=\('e47a50feb3ec93a1fb70309f586c1aac/g" PKGBUILD
 printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..." && makepkg -irs && libtool --finish /usr/lib/libfakeroot
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
@@ -822,7 +828,7 @@ Libraries have been installed in:
 The message above will be displayed for a short time with more information.  Then ${0##*/} will go on, and there will be one more tap enter to touch before script ${0##*/} is done;  SLEEPING SIX SECONDS...
 makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
-sleep 6
+# sleep 6
 cd
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
