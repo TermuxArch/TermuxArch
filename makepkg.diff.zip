@@ -1,0 +1,45 @@
+185c185
+< 	fakeroot -- bash -$- "${BASH_SOURCE[0]}" -F "${ARGLIST[@]}" || exit $?
+---
+> 	bash -$- "${BASH_SOURCE[0]}" -F "${ARGLIST[@]}" || exit $?
+232,234c232,234
+< 		if type -p sudo >/dev/null; then
+< 			cmd=(sudo "${cmd[@]}")
+< 		else
+---
+> #		if type -p sudo >/dev/null; then
+> #			cmd=(sudo "${cmd[@]}")
+> #		else
+236c236
+< 		fi
+---
+> #		fi
+592c592
+< 	printf "# using %s\n" "$(fakeroot -v)"
+---
+> 	printf "# using %s\n" "fakeroot -v"
+1178,1189c1178,1188
+< if (( ! INFAKEROOT )); then
+< 	if (( EUID == 0 )); then
+< 		error "$(gettext "Running %s as root is not allowed as it can cause permanent,\n\
+< catastrophic damage to your system.")" "makepkg"
+< 		exit $E_ROOT
+< 	fi
+< else
+< 	if [[ -z $FAKEROOTKEY ]]; then
+< 		error "$(gettext "Do not use the %s option. This option is only for internal use by %s.")" "'-F'" "makepkg"
+< 		exit $E_INVALID_OPTION
+< 	fi
+< fi
+---
+> #if (( ! INFAKEROOT )); then
+> #	if (( EUID == 0 )); then
+> #		error "$(gettext "Running %s as root is not allowed as it can cause permanent,\n\catastrophic damage to your system.")" "makepkg"
+> #		exit $E_ROOT
+> #	fi
+> #else
+> #	if [[ -z $FAKEROOTKEY ]]; then
+> #		error "$(gettext "Do not use the %s option. This option is only for internal use by %s.")" "'-F'" "makepkg"
+> #		exit $E_INVALID_OPTION
+> #	fi
+> #fi

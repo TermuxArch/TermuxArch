@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.837
+VERSIONID=2.0.838
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -390,7 +390,7 @@ if [[ "$ROOTDIR" = "" ]]
 then
 ROOTDIR=arch
 fi
-INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}"|sed 's#//*#/#g')"
+INSTALLDIR="$(printf "%s\\n" "$HOME/${ROOTDIR%/}" | sed 's#//*#/#g')"
 }
 
 _NAMESTARTARCH_() {
@@ -400,7 +400,7 @@ then
 AARCH=""
 STARTBI2=arch
 else
-AARCH="$(printf "%s\\n" "$DARCH"|sed 's/\//\+/g')"
+AARCH="$(printf "%s\\n" "$DARCH" | awk '{gsub(/\//,"\+")}1')"
 STARTBI2=arch
 fi
 STARTBIN=start"$STARTBI2$AARCH"
