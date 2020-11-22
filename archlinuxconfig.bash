@@ -1076,9 +1076,9 @@ fi
 _ADDtour_() {
 _CFLHDR_ usr/local/bin/tour "# A short tour that shows a few of the new featires of this system."
 cat >> usr/local/bin/tour <<- EOM
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alr --color=always \$HOME\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alRr --color=always \$HOME\\\\e[1;37m...\\\\n\\\\n"
 sleep 1
-ls -alr --color=always "\$HOME"
+ls -alRr --color=always "\$HOME"
 sleep 4
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/.bash_profile\\\\e[1;37m...\\\\n\\\\n"
 sleep 1

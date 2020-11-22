@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.845
+VERSIONID=2.0.846
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -400,7 +400,7 @@ then
 AARCH=""
 STARTBI2=arch
 else
-AARCH="$(printf "%s\\n" "$DARCH" | awk '{gsub(/\//,"\+")}1')"
+AARCH="$(printf "%s\\n" "$DARCH" | sed 's/\//\+/g')"
 STARTBI2=arch
 fi
 STARTBIN=start"$STARTBI2$AARCH"
