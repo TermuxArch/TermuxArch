@@ -340,14 +340,13 @@ printf '\033]2; $STARTBIN login user [options] 📲  \007'
 # [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/SDRausty/TermuxArch/issues and https://github.com/SDRausty/TermuxArch/pulls.
 elif [[ "\${1//-}" = [Rr]* ]]
 then
-printf '\033]2; $STARTBIN raw ARGS 📲  \007'
+printf '\033]2; $STARTBIN raw %s 📲  \007' "\$@"
 set +Eeuo pipefail
 umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/\"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; $STARTBIN raw ARGS 📲  \007'
 # [su user command] Login as user and execute command.  Use 'addauser user' first to create this user and user's home directory.
 elif [[ "\${1//-}" = [Ss]* ]]
 then
@@ -358,6 +357,7 @@ touch $INSTALLDIR/root/.chushlogin
 else
 touch $INSTALLDIR/home/"\$2"/.chushlogin
 fi
+printf '\033]2; %s 📲  \007' "$STARTBIN s \$2 \$AR3AR"
 set +Eeuo pipefail
 umask 0022
 EOM

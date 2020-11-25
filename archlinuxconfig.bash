@@ -61,13 +61,13 @@ chmod 700 usr/local/bin/addauser
 
 _ADDMOTA_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTEC1" "IRC:	" "$MOTTEC2"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTEC1" "IRC:	" "$MOTTEC2"
 EOM
 }
 
 _ADDMOTD_() {
 cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
+Welcome to Arch Linux in Termux PRoot!
 Install a package: pacman -S package
 More  information: pacman -[D|F|Q|R|S|T|U]h
 Search   packages: pacman -Ss query
@@ -83,7 +83,7 @@ EOM
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTEC1" "$MOTTEC2"
+printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTEC1" "$MOTTEC2"
 EOM
 }
 
