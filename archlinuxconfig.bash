@@ -61,7 +61,7 @@ chmod 700 usr/local/bin/addauser
 
 _ADDMOTA_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTEC1" "IRC:	" "$MOTTEC2"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTECGIT" "IRC:	" "$MOTTECIRC"
 EOM
 }
 
@@ -73,17 +73,17 @@ More  information: pacman -[D|F|Q|R|S|T|U]h
 Search   packages: pacman -Ss query
 Upgrade  packages: pacman -Syu
 
-$MOTTEC0
+$MOTTECBBS
 Chat:	wiki.termux.com/wiki/Community
-GitHub:	$MOTTEC1
+GitHub:	$MOTTECGIT
 Help:	info query and man query
-IRC:	$MOTTEC2
+IRC:	$MOTTECIRC
 EOM
 }
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTEC1" "$MOTTEC2"
+printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
 }
 
@@ -1377,18 +1377,18 @@ fi
 _PREPMOTS_() {
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
-MOTTEC0="BBS: bbs.archlinux.org"
-MOTTEC1="github.com/archlinux"
-MOTTEC2="wiki.archlinux.org/index.php/IRC_channel"
+MOTTECBBS="BBS: bbs.archlinux.org"
+MOTTECGIT="github.com/archlinux"
+MOTTECIRC="wiki.archlinux.org/index.php/IRC_channel"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-MOTTEC0="BBS:	bbs.archlinux32.org"
-MOTTEC1="github.com/archlinux32"
-MOTTEC2="wiki.archlinux32.org"
+MOTTECBBS="BBS:	bbs.archlinux32.org"
+MOTTECGIT="github.com/archlinux32"
+MOTTECIRC="wiki.archlinux32.org"
 else
-MOTTEC0=""
-MOTTEC1="github.com/archlinuxarm"
-MOTTEC2="archlinuxarm.org/about/contact"
+MOTTECBBS=""
+MOTTECGIT="github.com/archlinuxarm"
+MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
 # archlinuxconfig.bash EOF
