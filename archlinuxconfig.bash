@@ -756,19 +756,18 @@ chmod 700 usr/local/bin/keys
 _ADDmakefakeroottcp_() {
 _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
+_DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
 exit
 }
-
-_DOMAKEFAKEROOTTCP_() {
 if [ "\$UID" = "0" ]
 then
-printf "\\\\n\\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "ERROR:  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  EXITING..."
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} $VERSIONID: "
-([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool
+([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool' as root user, and run '\${0##*/} \${ARGS[@]}' again."
 cd
 if [ ! -d fakeroot-tcp ]
 then
@@ -784,8 +783,8 @@ sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-fi
 touch /var/lock/termuxarch/"\${0##*/}".lock
+fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
 [ ! -f /var/lock/termuxarch/"\${0##*/}".lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/"\${0##*/}".lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
@@ -799,7 +798,7 @@ _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; contributors ht
 cat >> usr/local/bin/makeyay <<- EOM
 if [ "\$UID" = "0" ]
 then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Error:" "  Script '\${0##*/}' should not be used as root:  The TermuxArch command 'addauser' creates user accounts in Arch Linux in PRoot and configures these user accounts for 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in PRoot root user:  To use 'addauser' directly from Termux, run '$STARTBIN command addauser user' in Termux to create this account in Arch Linux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
@@ -818,7 +817,7 @@ Libraries have been installed in:
 The message above will be displayed for a short time with more information.  Then \${0##*/} will go on, and there will be one more tap enter to touch before script \${0##*/} is done;  SLEEPING SIX SECONDS...
 makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
-# sleep 6
+sleep 6
 cd
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
@@ -872,23 +871,30 @@ printf "%s\\\\n" "Attempting to patch makepkg: "
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
-if [[ ! "\$(command -v patch)" ]] || [[ ! "\$(command -v unzip)" ]] || [[ ! "\$(command -v wget)" ]]
-then
-pci patch unzip wget
-fi
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-cd /tmp
-if [ ! -f makepkg.diff ]
+if ! grep 'fakeroot -- bash' /bin/makepkg 2>&1 >/dev/null
 then
-curl --fail --retry 2 -O https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip || wget https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/diff.makepkg.zip
-unzip diff.makepkg.zip
+sed -ie 's/bash -/fakeroot -- &/' /bin/makepkg # append to match
+sed -ie 232's/.*/# &/' /bin/makepkg # append to line
+sed -ie 233's/.*/# &/' /bin/makepkg
+sed -ie 234's/.*/# &/' /bin/makepkg
+sed -ie 236's/.*/# &/' /bin/makepkg
+sed -ir 's/\$(fakeroot -v)/fakeroot -v/g' /bin/makepkg
+sed -ie 1178's/.*/# &/' /bin/makepkg
+sed -ie 1179's/.*/# &/' /bin/makepkg
+sed -ie 1180's/.*/# &/' /bin/makepkg
+sed -ie 1181's/.*/# &/' /bin/makepkg
+sed -ie 1182's/.*/# &/' /bin/makepkg
+sed -ie 1183's/.*/# &/' /bin/makepkg
+sed -ie 1184's/.*/# &/' /bin/makepkg
+sed -ie 1185's/.*/# &/' /bin/makepkg
+sed -ie 1186's/.*/# &/' /bin/makepkg
+sed -ie 1187's/.*/# &/' /bin/makepkg
+sed -ie 1188's/.*/# &/' /bin/makepkg
+sed -ie 1189's/.*/# &/' /bin/makepkg
 fi
-patch -n -i makepkg.diff -o makepkg /bin/makepkg
-chmod 700 makepkg /bin/makepkg
-# copy to /usr/local/bin to make it update proof (fail safe measure)
-cp makepkg /usr/local/bin/makepkg
-mv -f diff.makepkg.zip "\$BKPDIR"
-rm -f makepkg.diff
+# copy makepkg to /usr/local/bin to update proof it (fail safe measure)
+cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
 mkdir -p /var/lock/termuxarch/ ; touch /var/lock/termuxarch/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
