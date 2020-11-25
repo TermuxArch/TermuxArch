@@ -766,24 +766,28 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
-printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} $VERSIONID: "
+printf "%s\\\\n" "Preparing to building and install fakeroot-tcp with \${0##*/} $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
-pci automake base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 if [ ! -d fakeroot-tcp ]
 then
 gcl https://aur.archlinux.org/fakeroot-tcp.git || _PRTERROR_
 fi
-cd fakeroot-tcp
+_FUNDOPKGBUILD_() {
 cp PKGBUILD PKGBUILD.$$.bkp
 sed -ir '/prepare()/,+4d' PKGBUILD
 sed -i 's/silence-dlerror.patch//g' PKGBUILD
 sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-printf "%s\\\\n" "Running command 'makepkg -irs';  Continuing to build and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
+touch /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock
+}
+cd fakeroot-tcp
+[ ! -f /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
+printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 touch /var/lock/termuxarch/"\${0##*/}".lock
