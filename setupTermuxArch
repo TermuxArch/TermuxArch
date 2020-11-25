@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.852
+VERSIONID=2.0.854
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -60,27 +60,7 @@ trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 
 _ARG2DIR_() {  # argument as ROOTDIR
-if [[ -z "${@:-}" ]]
-then
-ARG2=arch
-elif [[ "${#@}" = 1 ]]
-then
-if [[ "${PCR:-}" = 0 ]]
-then
-ARG2=arch
-elif [[ "${REFCR:-}" = 0 ]]
-then
-ARG2=arch
-else
-ARG2="${@:1}"
-fi
-elif [[ "${#@}" = 2 ]]
-then
-ARG2="${@:2}"
-else
-printf "%s\\n" "error exit" && exit
-fi
-ARG2="${ARG2##$HOME/}"
+ARG2="${@:2:1}"
 if [[ -z "${ARG2:-}" ]]
 then
 ROOTDIR=/arch
