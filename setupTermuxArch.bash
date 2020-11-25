@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.855
+VERSIONID=2.0.856
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -934,7 +934,7 @@ _RMARCHQ_
 ## [q[emu] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
-printf "\\nSetting mode to QEMU [install|install] [customdir].\\n"
+printf "\\nSetting mode to QEMU [install|refresh] [customdir].\\n"
 _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
