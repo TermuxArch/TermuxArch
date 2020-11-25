@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.856
+VERSIONID=2.0.857
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -61,7 +61,6 @@ trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
-ARG2="${ARG2: -1}"
 if [[ -z "${ARG2:-}" ]]
 then
 ROOTDIR=/arch
@@ -931,7 +930,7 @@ then
 printf "\\nSetting mode to purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
-## [q[emu] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
+## [q[emu] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq]* ]]
 then
 printf "\\nSetting mode to QEMU [install|refresh] [customdir].\\n"
@@ -976,7 +975,7 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [v[isualshortcut] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
+## [v[isualshortcut] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
 printf "\\nSetting mode to visualshortcut [install|refresh] [customdir].\\n"
