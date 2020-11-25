@@ -60,21 +60,12 @@ chmod 700 usr/local/bin/addauser
 }
 
 _ADDMOTA_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "Help:	" "info query " "and " "man query" "GitHub:	" "$MOTTEC1" "IRC:	" "$MOTTEC2"
 EOM
-else
-cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:  " "https://wiki.termux.com/wiki/Community" "Forum: " "https://archlinuxarm.org/forum" "Help: " "info query " "and " "man query" "IRC: " "wiki.archlinux.org/index.php/IRC_channel"
-EOM
-fi
 }
 
 _ADDMOTD_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
-then
 cat > etc/motd <<- EOM
 Welcome to Arch Linux in Termux!
 Install a package: pacman -S package
@@ -82,29 +73,17 @@ More  information: pacman -[D|F|Q|R|S|T|U]h
 Search   packages: pacman -Ss query
 Upgrade  packages: pacman -Syu
 
-Chat:  https://wiki.termux.com/wiki/Community
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
+$MOTTEC0
+Chat:	wiki.termux.com/wiki/Community
+GitHub:	$MOTTEC1
+Help:	info query and man query
+IRC:	$MOTTEC2
 EOM
-else
-cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux!
-Install a package: pacman -S package
-More  information: pacman -[D|F|Q|R|S|T|U]h
-Search   packages: pacman -Ss query
-Upgrade  packages: pacman -Syu
-
-Chat:  https://wiki.termux.com/wiki/Community
-Forum: https://archlinuxarm.org/forum
-Help: info query and man query
-IRC: wiki.archlinux.org/index.php/IRC_channel
-EOM
-fi
 }
 
 _ADDMOTO_() {
 cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat: \\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp: \\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mIRC:  \\\\e[0mwiki.archlinux.org/index.php/IRC_channel\\\\n\\\\n\\\\e[0m"
+printf "\\\\n\\\\e[1;34mShare Your Arch Linux in Termux Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTEC1" "$MOTTEC2"
 EOM
 }
 
@@ -1371,6 +1350,24 @@ sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
 sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 else
 _PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf : _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
+fi
+}
+
+_PREPMOTS_() {
+if [[ "$CPUABI" = "$CPUABIX86_64" ]]
+then
+MOTTEC0="BBS: bbs.archlinux.org"
+MOTTEC1="github.com/archlinux"
+MOTTEC2="wiki.archlinux.org/index.php/IRC_channel"
+elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+then
+MOTTEC0="BBS:	bbs.archlinux32.org"
+MOTTEC1="github.com/archlinux32"
+MOTTEC2="wiki.archlinux32.org"
+else
+MOTTEC0=""
+MOTTEC1="github.com/archlinuxarm"
+MOTTEC2="archlinuxarm.org/about/contact"
 fi
 }
 # archlinuxconfig.bash EOF
