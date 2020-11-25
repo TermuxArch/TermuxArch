@@ -767,7 +767,10 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script
 else
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 printf "%s\\\\n" "Building and installing fakeroot-tcp with \${0##*/} $VERSIONID: "
-([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null && pci automake base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool' as root user, and run '\${0##*/} \${ARGS[@]}' again."
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+then
+pci automake base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
 cd
 if [ ! -d fakeroot-tcp ]
 then
@@ -818,10 +821,18 @@ The message above will be displayed for a short time with more information.  The
 makefakeroottcp $VERSIONID: DONE 🏁
 Then this process will go on to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever."
 sleep 6
+if ! command -v go 2>/dev/null
+then
+pci go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci go' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci go'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
 cd
 [ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
-(gcl https://aur.archlinux.org/yay.git && cd yay && _PRMAKE_ && makepkg -irs --noconfirm)||printf "\\\\e[1;37m%s\\\\e[0m\\\\n" "Continuing to build and install yay..." && cd yay && _PRMAKE_ && makepkg -irs --noconfirm||printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
+if [ ! -d yay ]
+then
+gcl https://aur.archlinux.org/yay.git
+fi
+cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 # makeyay EOF
