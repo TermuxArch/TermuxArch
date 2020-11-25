@@ -280,11 +280,11 @@ declare -g AR3AR="\${@:3}"
 _PRINTUSAGE_() {
 printf "\\e]2;%s\\007" "TermuxArch $STARTBIN help 📲"
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux as root.  This account is reserved for system administration."
-printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user.  Quoting multiple commands, \"$STARTBIN c[ommand] 'command command && command || command'\" can assit when passing multiple arguments\"."
+printf "\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root user.  Quoting multiple commands, \"$STARTBIN c[ommand] 'command argument && command || command'\" can assit when passing multiple arguments\"."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software and using the command 'makeyay'."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" "  use alternate elogin or euser option to login as user.  This option is preferred when using the command 'git' in shared storage."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Quoting multiple commands, \"$STARTBIN c[ommand] 'command command && command || command'\" can assit when passing multiple arguments\".  Please use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Quoting multiple commands, \"$STARTBIN c[ommand] 'command argument && command || command'\" can assit when passing multiple arguments\".  Please use " "$STARTBIN c addauser user " "first to create this user and user's home directory."
 }
 # [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
