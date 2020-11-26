@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.872
+VERSIONID=2.0.873
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -110,7 +110,7 @@ cd "$WFDIR"	# change directory to working file directory
 if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
 then	# update the working file to newest version
 cp "$TAMPDIR/setupTermuxArch" "${0##*/}"
-[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m Updated to the newest version published!\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '\!\!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\e[0;32m'%s'\\e[1;32m Updated to the newest version published!\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '\!\!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was updated to the newest version published\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '!!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was updated to the newest version published\\e[1;34m:\\e[0;32m Please run 'bash %s' again;  You can use the '!!' command to run '%s' again.\\n\\n\\e[0m" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
 exit
 fi
 cd "$TAMPDIR"
