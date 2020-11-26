@@ -1088,6 +1088,14 @@ for STOOL in ${PRFXTOLS[@]}
 do
 cp $(which "$STOOL") usr/local/bin/ || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
 done
+if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
+then
+ln -s "$HOME/storage"
+fi
+if [ ! -e root/storage/txhome ] && [ -e root/storage ]
+then
+ln -s "$HOME" root/storage/txhome
+fi
 }
 
 _ADDtour_() {
