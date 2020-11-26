@@ -18,12 +18,12 @@ fi
 _FUNADDU_() {
 if [[ -z "\${1:-}" ]]
 then
-printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;31m: EXITING...\\\\n"
+printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: EXITING...\\\\n"
 exit 201
 else
 if [ "\$UID" != "0" ]
 then
-printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;31m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
+printf "\\\\n\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;32m: EXITING...\\\\e[0m\\\\n\\\\n" "Script '\${0##*/}' must be run using the root account, not the '\$(whoami)' account"
 else
 [[ ! "\$(command -v sudo)" ]] 2>/dev/null && pci sudo
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
