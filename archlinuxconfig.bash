@@ -829,7 +829,8 @@ The message above will be displayed for a short time with more information.  The
 Then this process will continue to try to make 'yay' which is much simpler for the user;  There is no tapping yes enter needed to be done whatsoever.
 Script \${0##*/} information presentation done;  SLEEPING SIX SECONDS..."
 sleep 6
-if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v go)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
 pci automake base base-devel fakeroot git gcc glibc po4a libtool || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go po4a libtool'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
@@ -846,7 +847,6 @@ then
 pci go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci go' as root user.  You can do this without leaving this session by running command \"$STARTBIN command 'pci go'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
-[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg
 [ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
 ! fakeroot ls 2>&1 >/dev/null && makefakeroottcp
