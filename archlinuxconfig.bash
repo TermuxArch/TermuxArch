@@ -655,7 +655,7 @@ printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0#
 pacman -S pacman --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
-pacman -Su --noconfirm"
+pacman -Su --noconfirm || pacman -Su --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# architecture versions armv5, armv7, aarch64 and x86_64 of Arch Linux use these options
