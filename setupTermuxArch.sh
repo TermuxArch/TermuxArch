@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.899
+VERSIONID=2.0.900
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -927,6 +927,14 @@ printf "\\nSetting 'lftp' as download manager.\\n"
 DM=lftp
 _OPT1_ "$@"
 _INTRO_ "$@"
+## [matr[ix]]  Print TermuxArch source code as Matrix
+elif [[ "${1//-}" = [Mm][Aa][Tt][Rr]* ]]
+then
+printf "\\nSetting mode to matrix.\\n"
+MATRIXLCR=0
+_PREPTERMUXARCH_
+_DEPENDSBLOCK_ "$@"
+_TAMATRIX_
 ## [mat[ix]]  Print TermuxArch source code as Matrix
 elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
 then
