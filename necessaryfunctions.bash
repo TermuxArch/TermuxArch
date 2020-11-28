@@ -475,6 +475,8 @@ curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
+AL32MRLT="https://www.archlinux.org/mirrorlist/all/"
+curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 fi
 printf "\\e[0m"
