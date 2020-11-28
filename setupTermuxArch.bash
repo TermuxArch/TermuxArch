@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.898
+VERSIONID=2.0.899
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -663,16 +663,22 @@ PURGEMETHOD="quick "
 else
 PURGEMETHOD=""
 fi
-printf "\\n\\e[1;30m"
+printf "\\e[1;30m"
 while true; do
-read -n 1 -p "Uninstall '$INSTALLDIR' with ${PURGEMETHOD}purge? [Y|n] " RUANSWER
+read -n 1 -p "Uninstall '~/${INSTALLDIR##*/}/' with ${PURGEMETHOD}purge? [Y|n] " RUANSWER
 if [[ "$RUANSWER" = [Ee]* ]] || [[ "$RUANSWER" = [Nn]* ]] || [[ "$RUANSWER" = [Qq]* ]]
 then
-printf "\\n%s\\n" "No was answered: uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
+printf "\\n%s\\n" "No was answered: uninstalling '~/${INSTALLDIR##*/}/': nothing to do for '~/${INSTALLDIR##*/}/'."
 break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
-printf "\\e[30m%s\\n" "Uninstalling '$INSTALLDIR'..."
+printf "\\e[30m%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/'..."
+if [[ -d "$INSTALLDIR" ]]
+then
+_RMARCHRM_
+else
+printf "%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/': nothing to do for '~/${INSTALLDIR##*/}/'."
+fi
 if [[ -e "$PREFIX/bin/$STARTBIN" ]]
 then
 rm -f "$PREFIX/bin/$STARTBIN"
@@ -685,13 +691,7 @@ rm -f "$HOME/bin/$STARTBIN"
 else
 printf "%s\\n" "Uninstalling '$HOME/bin/$STARTBIN': nothing to do for '$HOME/bin/$STARTBIN'."
 fi
-if [[ -d "$INSTALLDIR" ]]
-then
-_RMARCHRM_
-else
-printf "%s\\n" "Uninstalling '$INSTALLDIR': nothing to do for '$INSTALLDIR'."
-fi
-printf "%s \\e[1;32mDone\\e[30m\\n\\n" "Uninstalling '$INSTALLDIR':"
+printf "%s \\e[1;32mDONE\\e[30m\\n\\n" "Uninstalling '~/${INSTALLDIR##*/}/':"
 break
 else
 printf "\\nYou answered \\e[33;1m%s\\e[30m.\\n\\nAnswer \\e[32mYes\\e[30m or \\e[1;31mNo\\e[30m. [\\e[32my\\e[30m|\\e[1;31mn\\e[30m]\\n" "$RUANSWER"
@@ -706,13 +706,26 @@ find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ 
 rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
 }
 _SETROOT_EXCEPTION_
-if [[ -z "${PURGELCR:-}" ]]
+declare -a EXONSTGE
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d)")
+_DOEXONSTGE_() {
+for EXONSTGEM in ${EXONSTGE[@]}
+do
+cd "$EXONSTGEM" && rm -f * && cd .. && rmdir "$EXONSTGEM" || (printf "\\e[1:33m%s\\e[1:35m%s\\n" "error:" " attempting to 'rmdir ' exception in directory $EXONSTGEM;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+done
+}
+if [[ ! -z "${EXONSTGE:-}" ]]
+then
+_DOEXONSTGE_
+fi
+if [[ ! -z "${PURGELCR:-}" ]]
 then
 find "$INSTALLDIR/home/" -maxdepth 3 -type l -delete 2>/dev/null ||:
 find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
 else
 find "$INSTALLDIR" -type l -delete 2>/dev/null ||:
 fi
+_RMARCHCRRM_
 }
 
 _SETROOT_EXCEPTION_() {
