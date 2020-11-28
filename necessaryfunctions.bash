@@ -147,9 +147,10 @@ then
 RUSRCOUNTRYCODE="$USERCOUNTRYCODE"
 USERCOUNTRYCODE="edu"
 fi
-CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w $USERCOUNTRYCODE | awk 'sub(/^.{1}/,"")' | head -n 1)"
+CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
 printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
-printf "Uncommented this '%s' mirror in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
+printf "Uncommented mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
+DOMIRLCR=0
 }
 if [[ -f "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/domirror.lock" ]]
 then
@@ -264,7 +265,7 @@ then
 printf "%s\\n" "pacman -Su grep gzip patch sed sudo unzip --noconfirm --color=always || pacman -Su gzip patch sed sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su gzip patch sed sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su patch sudo unzip --noconfirm --color=always || pacman -Su patch sudo unzip --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su patch sudo unzip $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su sudo --noconfirm --color=always || pacman -Su sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -464,7 +465,6 @@ _RUNFINISHSETUP_() {
 _SEDUNCOM_() {
 sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
 }
-
 _ADDresolvconf_
 ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
 cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
@@ -493,6 +493,9 @@ printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $N
 printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 fi
 else
+if [[ -z "${DOMIRLCR:-}" ]]
+then
+DOMIRLCR=0
 if [[ -z "${USEREDIT:-}" ]] || [[ "$USEREDIT" = "" ]]
 then
 _EDITORS_
@@ -503,6 +506,7 @@ _EDITFILES_
 fi
 fi
 "$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
+fi
 fi
 $INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
