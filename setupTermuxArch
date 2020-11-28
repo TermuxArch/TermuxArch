@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.897
+VERSIONID=2.0.898
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -708,7 +708,7 @@ rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermu
 _SETROOT_EXCEPTION_
 if [[ -z "${PURGELCR:-}" ]]
 then
-find "$INSTALLDIR/home/" -maxdepth 2 -type l -delete 2>/dev/null ||:
+find "$INSTALLDIR/home/" -maxdepth 3 -type l -delete 2>/dev/null ||:
 find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
 else
 find "$INSTALLDIR" -type l -delete 2>/dev/null ||:
