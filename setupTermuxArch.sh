@@ -5,13 +5,21 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.900
+VERSIONID=2.0.901
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
 ## The entire dataset can be viewed and work on with command 'setupTermuxArch bloom' which downloads all the components of TermuxArch into a ~/TermuxArchBloom directory in the home directory.  The command 'setupTermuxArch bloom' is very similar to command 'setupTermuxArch manual' but much more expansive, verbose.  Command 'setupTermuxArch h[elp]' has additional information how to use this file.
+
+_TAMATRIXEXIT_() { # run when Matrix presentation ends
+if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+then
+_TAMATRIXEND_
+fi
+}
+
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-unknown} near or at line number ${1:-unknown} by '${2:-command}'!"
@@ -31,6 +39,10 @@ _STRPEXIT_() { # run on exit
 local RV="$?"
 rm -rf "$TAMPDIR"
 sleep 0.04
+if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+then
+_TAMATRIXEND_
+fi
 if [[ "$RV" = 0 ]]
 then
 printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n\\n" "'${0##*/} $ARGS'" "$VERSIONID" "DONE 🏁 "
