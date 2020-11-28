@@ -224,7 +224,9 @@ done
 _TAMATRIXEND_() {	# print TermuxArch source code as matrix ending
 # Information about VT100 terminal codes such as \\e[?25l is available at this https://wiki.bash-hackers.org/scripting/terminalcodes website.
 printf "\\e[0;32m"
+. "$0" help
 tail -n 32 "$0"
+. "$0" h
 printf "\\e[0m"
 printf "\\e[?25h"
 }
