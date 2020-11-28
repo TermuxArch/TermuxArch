@@ -136,6 +136,38 @@ _AARCH64ANDROID_
 fi
 }
 
+_DOMIRROR_() { # partial implementaion: choose the corrrect mirror and test this mirror website
+_DOCEMIRROR_() {
+USERCOUNTRYCODE="$(getprop gsm.operator.iso-country || getprop gsm.sim.operator.iso-country)"
+printf "Copying file '%s' to file '%s';  " "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
+cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
+printf "DONE\\n"
+if [[ $USERCOUNTRYCODE == us ]]
+then
+RUSRCOUNTRYCODE="$USERCOUNTRYCODE"
+USERCOUNTRYCODE="edu"
+fi
+CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep -w $USERCOUNTRYCODE | awk 'sub(/^.{1}/,"")' | head -n 1)"
+printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
+printf "Uncommented this '%s' mirror in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
+}
+if [[ -f "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/domirror.lock" ]]
+then
+printf "Lockfile '%s' exists;  Continuing..." "~/${INSTALLDIR##*/}/var/lock/${INSTALLDIR##*/}/domirror.lock"
+else
+if ! grep ^Server "$INSTALLDIR/etc/pacman.d/mirrorlist"
+then
+_DOCEMIRROR_
+fi
+fi
+}
+
+_DOPROXY_() {
+[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
+}
+
 _KERNID_() {
 declare KID=""
 ur="$(uname -r)"
@@ -175,12 +207,6 @@ _PRINTFOOTER_
 _PRINTFOOTER2_
 _PRINTSTARTBIN_USAGE_
 exit
-}
-
-_DOPROXY_() {
-[[ -f "$HOME"/.bash_profile ]] && grep -s "proxy" "$HOME"/.bash_profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.bashrc ]] && grep -s "proxy" "$HOME"/.bashrc  | grep -s "export" >> root/bin/"$BINFNSTP" ||:
-[[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
 }
 
 _MAKEFINISHSETUP_() {
@@ -428,13 +454,17 @@ _FIXOWNER_
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]] || [[ "$IFILE" == *i686* ]]
 then
-_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" --strip-components 1 ; kill $!
 else
-_TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" ; kill $!
+_TASPINNER_ clock & proot --link2symlink -0 tar -p -xf "$IFILE" ; kill $!
 fi
 }
 
 _RUNFINISHSETUP_() {
+_SEDUNCOM_() {
+sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
+}
+
 _ADDresolvconf_
 ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
 cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
@@ -443,10 +473,11 @@ then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
+_DOMIRROR_
+elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+then
+_DOMIRROR_
 fi
-_SEDUNCOM_() {
-sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _PSGI1ESTRING_ "sed -i _SEDUNCOM_ necessaryfunctions.bash ${0##*/}" # sed replace a character in a matched line in place
-}
 printf "\\e[0m"
 if [[ "$FSTND" ]]
 then
@@ -540,17 +571,5 @@ _SETLOCALE_
 _RUNFINISHSETUP_
 rm -f root/bin/$BINFNSTP
 rm -f root/bin/setupbin.bash
-}
-
-_WAKELOCK_() {
-_PRINTWLA_
-am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKELOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
-_PRINTDONE_
-}
-
-_WAKEUNLOCK_() {
-_PRINTWLD_
-am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null || _PSGI1ESTRING_ "am startservice _WAKEUNLOCK_ necessaryfunctions.bash ${0##/*} : Continuing..."
-_PRINTDONE_
 }
 # necessaryfunctions.bash EOF

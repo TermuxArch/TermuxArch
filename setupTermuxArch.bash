@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.903
+VERSIONID=2.0.904
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -719,7 +719,7 @@ rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermu
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
-EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d)")
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d 2>/dev/null ||:)")
 _DOEXONSTGE_() {
 for EXONSTGEM in ${EXONSTGE[@]}
 do
