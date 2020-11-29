@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.918
+VERSIONID=2.0.919
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -200,6 +200,12 @@ done
 }
 
 _DEPENDS_() {	# check for missing commands
+if [[ -z "${VLORALCR:-}" ]]
+then
+PKGS=(bsdtar proot)
+else
+PKGS=(pulseaudio bsdtar proot)
+fi
 printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
 ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 ATM=([bsdtar]=bsdtar)
@@ -806,12 +812,6 @@ else
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
-if [[ -z "${VLORALCR:-}" ]]
-then
-PKGS=(bsdtar proot)
-else
-PKGS=(pulseaudio bsdtar proot)
-fi
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
 ## 6) Determine its own name and location of invocation,
@@ -1034,10 +1034,10 @@ _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 ## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
-VLORALCR=0
 elif [[ "${1//-}" = [Vv]* ]]
 then
-printf "\\nSetting mode to visualorca [install|refresh] [customdir].\\n"
+VLORALCR=0
+printf "\\nSetting mode to visualorca [manual] [install|refresh] [customdir].\\n"
 ABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
