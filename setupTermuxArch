@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.916
+VERSIONID=2.0.917
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -1028,10 +1028,10 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [v[isualshortcut] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) have more information about this option.
+## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
-printf "\\nSetting mode to visualshortcut [install|refresh] [customdir].\\n"
+printf "\\nSetting mode to visualorca [install|refresh] [customdir].\\n"
 ABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
