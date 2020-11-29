@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.917
+VERSIONID=2.0.918
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -806,7 +806,12 @@ else
 STIME="$SDATE" && STIME="$(rev <<< "${STIME:7:4}")"
 fi
 ONESA="${SDATE: -1}"
+if [[ -z "${VLORALCR:-}" ]]
+then
 PKGS=(bsdtar proot)
+else
+PKGS=(pulseaudio bsdtar proot)
+fi
 STIME="$ONESA$STIME"
 ## 5) Get device information via the 'getprop' command,
 ## 6) Determine its own name and location of invocation,
@@ -1029,6 +1034,7 @@ _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 ## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
+VLORALCR=0
 elif [[ "${1//-}" = [Vv]* ]]
 then
 printf "\\nSetting mode to visualorca [install|refresh] [customdir].\\n"
@@ -1092,5 +1098,5 @@ fi
 ## Files 'setupTermuxArch{.bash,.sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file might self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 ## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  In this case 'git pull' or 'pullTermuxArchSubmodules.bash' can update to the newest published version.
-## Very many hardy thank yous to contributors who are helping and have already helped to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
+## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
 # setupTermuxArch EOF

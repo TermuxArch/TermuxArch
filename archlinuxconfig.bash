@@ -155,12 +155,14 @@ EOM
 _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
-alias C='cd .. && pwd'
-alias c='cd .. && pwd'
 alias ..='cd ../.. && pwd'
 alias ...='cd ../../.. && pwd'
 alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
+alias C='cd .. && pwd'
+alias c='cd .. && pwd'
+alias cuo='curl -O'
+alias cuol='curl -JOL'
 alias D='nice -n 20 du -hs'
 alias d='nice -n 20 du -hs'
 alias E='exit'
@@ -947,6 +949,13 @@ fi
 # pci EOF
 EOM
 chmod 700 usr/local/bin/pci
+}
+
+_ADDprofileusretc_() {
+if ! grep pulseaudio "$PREFIX/etc/profile" 2>/dev/null
+then
+printf "%s\\n%s\\n" "pulseaudio --start --exit-idle-time=-1" "pacmd load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" >> "$PREFIX/etc/profile"
+fi
 }
 
 _ADDprofileetc_() {

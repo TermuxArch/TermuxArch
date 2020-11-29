@@ -49,6 +49,10 @@ _ADDpc_
 _ADDpci_
 _ADDprofile_
 _ADDprofileetc_
+if [[ ! -z "${VLORALCR:-}" ]]
+then
+_ADDprofileusretc_
+fi
 _ADDt_
 _ADDthstartarch_
 _ADDtools_
