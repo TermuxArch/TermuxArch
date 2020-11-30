@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.925
+VERSIONID=2.0.926
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -932,7 +932,7 @@ _PRINTUSAGE_ "$@"
 elif [[ "${1//-}" = [Ii]* ]]
 then
 printf "\\nSetting mode to install.\\n"
-_OPT1_ "$@"
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [ld|ls]  Get device system information with 'lftp'.
 elif [[ "${1//-}" = [Ll][Dd]* ]] || [[ "${1//-}" = [Ll][Ss]* ]]

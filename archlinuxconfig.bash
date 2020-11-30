@@ -95,8 +95,7 @@ The HOME/bin directory contains shortcut commands that automate and ease using t
 
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'keys' installs Arch Linux keys,
-* Command 'makefakeroottcp' creates the 'fakeroot-tcp' command,
-* Command 'makeyay' creates the 'fakeroot-tcp' and 'yay' commands, and also patches the 'makepkg' command,
+* Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
 * Command 'patchmakepkg' patches the 'makepkg' command,
 * Command 'tour' runs a short tour of the Arch Linux system directories,
 * Command 'trim' removes downloaded packages from the Arch Linux system directories.
@@ -768,6 +767,51 @@ EOM
 chmod 700 usr/local/bin/keys
 }
 
+_ADDmakefakeroottcp_() {
+_CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
+cat >> usr/local/bin/makefakeroottcp <<- EOM
+_DOMAKEFAKEROOTTCP_() {
+_PRTERROR_() {
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
+exit
+}
+if [ "\$UID" = "0" ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
+[ ! -f /var/lock/termuxarch/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file /var/lock/termuxarch/patchmakepkg.lock found;  Continuing..."
+printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
+if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
+then
+pci automake base base-devel fakeroot git gcc glibc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
+cd
+[ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
+_FUNDOPKGBUILD_() {
+cp PKGBUILD PKGBUILD.$$.bkp
+sed -ir '/prepare()/,+4d' PKGBUILD
+sed -i 's/silence-dlerror.patch//g' PKGBUILD
+sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
+sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
+sed -i '/^md5sums=/{n;d}' PKGBUILD
+sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
+touch /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock
+}
+cd fakeroot-tcp
+[ ! -f /var/lock/termuxarch/makefakeroottcp_FUNDOPKGBUILD_.lock ] && _FUNDOPKGBUILD_
+printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
+makepkg -irs || _PRTERROR_
+libtool --finish /usr/lib/libfakeroot || _PRTERROR_
+touch /var/lock/termuxarch/makefakeroottcp.lock
+fi
+printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
+}
+[ ! -f /var/lock/termuxarch/makefakeroottcp.lock ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file /var/lock/termuxarch/makefakeroottcp.lock in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+# makefakeroottcp EOF
+EOM
+chmod 700 usr/local/bin/makefakeroottcp
+}
+
 _ADDmakeyay_() {
 _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 cat >> usr/local/bin/makeyay <<- EOM
@@ -786,7 +830,7 @@ printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 [ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel gcc git go' \"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git

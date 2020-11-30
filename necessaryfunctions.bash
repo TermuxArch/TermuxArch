@@ -42,6 +42,7 @@ _ADDgp_
 _ADDgpl_
 _ADDinputrc
 _ADDkeys_
+_ADDmakefakeroottcp_
 _ADDmakeyay_
 _ADDorcaconf_
 _ADDpatchmakepkg_
