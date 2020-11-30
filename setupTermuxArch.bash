@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.923
+VERSIONID=2.0.924
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -691,7 +691,7 @@ break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
 printf "\\e[30m%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/'..."
-if grep ^pacmd "$PREFIX/etc/profile" && grep ^pulseaudio "$PREFIX/etc/profile"
+if grep ^pacmd "$PREFIX/etc/profile" 1> /dev/null && grep ^pulseaudio "$PREFIX/etc/profile" 1> /dev/null
 then
 awk '!/^pulseaudio/' "$PREFIX/etc/profile" > "$TAMPDIR/profile$FTIME"
 awk '!/^pacmd/' "$TAMPDIR/profile$FTIME" > "$PREFIX/etc/profile"
@@ -724,9 +724,8 @@ done
 
 _RMARCHRM_() {
 _RMARCHCRRM_() {
-rm -rf "${INSTALLDIR:?}"/* 2>/dev/null ||:
-find  "$INSTALLDIR" -type d -exec chmod 700 {} \; 2>/dev/null || _PSGI1ESTRING_ "find _RMARCHRM_ setupTermuxArch ${0##*/}"
-rm -rf "$INSTALLDIR" 2>/dev/null || _PSGI1ESTRING_ "rm -rf _RMARCHRM_ setupTermuxArch ${0##*/}"
+chmod -R 777 "$INSTALLDIR" || _PSGI1ESTRING_ "chmod -R 777 "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
+rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE

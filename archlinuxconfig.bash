@@ -837,31 +837,15 @@ SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-if [ "\$(awk 'FNR==2{print \$0}' /bin/makepkg)" != "#" ]
+if [ "\$(awk 'FNR==232{print \$0}' /bin/makepkg)" != "#" ]
 then
-# sed append to beginning of line
-sed -ie 232's/.*/# &/' /bin/makepkg
-sed -ie 233's/.*/# &/' /bin/makepkg
-sed -ie 234's/.*/# &/' /bin/makepkg
+# sed append to beginning of lines
+sed -ie 232,234's/.*/# &/' /bin/makepkg
 sed -ie 236's/.*/# &/' /bin/makepkg
-sed -ie 1178's/.*/# &/' /bin/makepkg
-sed -ie 1179's/.*/# &/' /bin/makepkg
-sed -ie 1180's/.*/# &/' /bin/makepkg
-sed -ie 1181's/.*/# &/' /bin/makepkg
-sed -ie 1182's/.*/# &/' /bin/makepkg
-sed -ie 1183's/.*/# &/' /bin/makepkg
-sed -ie 1184's/.*/# &/' /bin/makepkg
-sed -ie 1185's/.*/# &/' /bin/makepkg
-sed -ie 1186's/.*/# &/' /bin/makepkg
-sed -ie 1187's/.*/# &/' /bin/makepkg
-sed -ie 1188's/.*/# &/' /bin/makepkg
-sed -ie 1189's/.*/# &/' /bin/makepkg
+sed -ie 1178,1189's/.*/# &/' /bin/makepkg
 fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
-[[ ! "\$(command -v diff)" ]] 2>/dev/null && (pc diffutils || pc diffutils)
-diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg
-printf '%s\\n' "diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg"
 # create lock file to update proof patchmakepkg
 mkdir -p /var/lock/${INSTALLDIR##*/}/ ; touch /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
