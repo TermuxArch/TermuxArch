@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.927
+VERSIONID=2.0.928
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -587,9 +587,9 @@ fi
 }
 
 _PRINTUSAGE_() {
-printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} he[lp]|?'" "show this help screen"
+printf "\\n\\e[1;32m  %s     \\e[0;32mcommands \\e[1;32m%s \\e[0;32m%s\\n" "HELP" "'${0##*/} he[lp]'" "show this help screen"
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "TERSE" "'${0##*/} he[lp]'" "shows the terse help screen"
-printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} h'" "shows the verbose help screen"
+printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "VERBOSE" "'${0##*/} ?|h'" "shows the verbose help screen"
 printf "\\n\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\n\\n%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\n" "Usage information for" "${0##*/}" "$VERSIONID.  Some arguments can be abbreviated to one, two and three letters each;  Two and three letter arguments are acceptable.  For example" "'bash ${0##*/} cs'" "will use" "'curl'" "to download TermuxArch and produce a file like" "'setupTermuxArchSysInfo$STIME.log'" "populated with system information.  If you have a new smartphone that you are not familiar with, this file" "'setupTermuxArchSysInfo$STIME.log'" "might make for an interesting read in order to find out more about the device you might be holding in the palm of your hand right at this moment." "User configurable variables are in file" "'setupTermuxArchConfigs.bash'" ".  To create this file from file" "kownconfigurations.bash" "in the working directory, execute" "'bash ${0##*/} manual'" "to create and edit file" "setupTermuxArchConfigs.bash" "."
 printf "\\n\\e[1;32m  %s\\e[0;32m  %s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\n" "INSTALL" "You can run" "${0##*/}" "without arguments in a bash shell to install Arch Linux in Termux PRoot container in a smartphone, smartTV, table, wearable and more...  Command" "'bash ${0##*/} curl'" "will envoke" "curl" "as the download manager.  You can copy" "knownconfigurations.bash" "to" "setupTermuxArchConfigs.bash" "with the command" "'bash ${0##*/} manual'" "to edit your preferred CMIRROR site, refine the init statement and to access more options.  Change CMIRROR to desired geographic location to resolve download, 404 and checksum issues should these occur.  After editing" "setupTermuxArchConfigs.bash" ", you can run" "'bash ${0##*/}'" "and" "setupTermuxArchConfigs.bash" "loads automatically from the working directory.  User configurable variables are present in this file for your convenience." "  This link https://github.com/SDRausty/TermuxArch/issues/212 at GitHub has the most current information about setting Arch Linux in Termux PRoot as the default login shell in Termux in your smartphone, tablet, smartTV, wearable and more.  If you choose to, or are simply curious about setting Arch Linux in Termux PRoot as the default login shell, please be well acquainted with safe mode;  Long tapping on NEW SESSION will open a new session in safe mode.  This mode can be used to reset the default shell."
 printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE" "'${0##*/} purge'" "uninstalls Arch Linux in PRoot from Termux"
@@ -729,12 +729,18 @@ rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf "$INSTALLDIR" _RMARCHRM_ ${0##*/}
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
-EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d 2>/dev/null ||:)")
+EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d || printf "")")
+if [[ ! -z "${EXONSTGE:-}" ]]
+then
+chmod 777 $EXONSTGE
+fi
 _DOEXONSTGE_() {
-for EXONSTGEM in ${EXONSTGE[@]}
+printf "\\e[0;35m"
+for EXONSTGEM in ${EXONSTGE[@]:-}
 do
-cd "$EXONSTGEM" && rm -f * && cd .. && rmdir "$EXONSTGEM" || (printf "\\e[1:33m%s\\e[1:35m%s\\n" "error:" " attempting to 'rmdir ' exception in directory $EXONSTGEM;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
 done
+printf "\\e[1;30m"
 }
 if [[ ! -z "${EXONSTGE:-}" ]]
 then
@@ -917,12 +923,12 @@ printf "\\nSetting mode to sysinfo.\\n"
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
-## [he[lp]|? [customdir]]  Display terse builtin help.
-elif [[ "${1//-}" = [Hh][Ee]* ]] || [[ "${1//-}" = [?]* ]]
+## [he[lp] [customdir]]  Display terse builtin help.
+elif [[ "${1//-}" = [Hh][Ee]* ]]
 then
 _ARG2DIR_ "$@"
 _PRINTUSAGE_ "$@"
-## [h [customdir]]  Display verbose builtin help.
+## [h|? [customdir]]  Display verbose builtin help.
 elif [[ "${1//-}" = [Hh]* ]]
 then
 LCC="1"

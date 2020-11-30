@@ -184,7 +184,8 @@ alias ls='ls --color=always'
 alias LR='ls -alR --color=always'
 alias lr='ls -alR --color=always'
 alias mkdip='mkdir -p'
-alias N2='nice -n -20'
+alias N='nano'
+alias n='nano'
 alias n2='nice -n -20'
 alias P='pwd'
 alias p='pwd'
@@ -442,7 +443,7 @@ printf "%s\\\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
 
 _ADDfbindprocversion_() {
 cat > var/binds/fbindprocversion <<- EOM
-Linux version $(uname -r)-generic (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)
+Linux version $UNAMER (root@localhost) (gcc version 4.9.x 20150123 (prerelease) (GCC) ) #1 SMP PREEMPT $(date +%a" "%b" "%d" "%X" UTC "%Y)
 EOM
 _CFLHDRS_ var/binds/fbindprocversion.prs
 cat >> var/binds/fbindprocversion.prs <<- EOM
