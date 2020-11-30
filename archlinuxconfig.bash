@@ -783,7 +783,7 @@ _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
-[ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg || printf "\\\\e[1;33m%s\\\\e[0m\\\\n" " "Lock file /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock found;  Continuing..."
+[ ! -f /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel gcc git go' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci base base-devel gcc git go'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
@@ -837,7 +837,6 @@ SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-[[ ! "\$(command -v diff)" ]] 2>/dev/null && (pc diffutils || pc diffutils)
 if [ "\$(awk 'FNR==2{print \$0}' /bin/makepkg)" != "#" ]
 then
 # sed append to beginning of line
@@ -860,6 +859,7 @@ sed -ie 1189's/.*/# &/' /bin/makepkg
 fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
+[[ ! "\$(command -v diff)" ]] 2>/dev/null && (pc diffutils || pc diffutils)
 diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg
 printf '%s\\n' "diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg"
 # create lock file to update proof patchmakepkg

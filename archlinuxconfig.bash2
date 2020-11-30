@@ -837,7 +837,6 @@ SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
 cp /bin/makepkg "\$BKPDIR/makepkg.\$SDATE.bkp"
-[[ ! "\$(command -v diff)" ]] 2>/dev/null && (pc diffutils || pc diffutils)
 if [ "\$(awk 'FNR==2{print \$0}' /bin/makepkg)" != "#" ]
 then
 # sed append to beginning of line
@@ -860,6 +859,7 @@ sed -ie 1189's/.*/# &/' /bin/makepkg
 fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
+[[ ! "\$(command -v diff)" ]] 2>/dev/null && (pc diffutils || pc diffutils)
 diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg
 printf '%s\\n' "diff "\$BKPDIR/makepkg.\$SDATE.bkp" /usr/local/bin/makepkg"
 # create lock file to update proof patchmakepkg
