@@ -273,10 +273,12 @@ if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] ||
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
-printf "%s\\n" "pacman -Su grep gzip sed sudo --noconfirm --color=always || pacman -Su grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su sudo --noconfirm --color=always || pacman -Su sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc sudo --noconfirm --color=always || pacman -Su glibc sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+else
+printf "%s\\n" "pacman -Su glibc --noconfirm --color=always || pacman -Su glibc --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
