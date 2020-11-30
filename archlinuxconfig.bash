@@ -983,7 +983,7 @@ chmod 700 usr/local/bin/pci
 }
 
 _ADDprofileusretc_() {
-if ! grep pulseaudio "$PREFIX/etc/profile" 2>/dev/null
+if ! grep -q pulseaudio "$PREFIX/etc/profile" 2>/dev/null
 then
 printf "%s\\n%s\\n" "pulseaudio --start --exit-idle-time=-1" "pacmd load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" >> "$PREFIX/etc/profile"
 fi

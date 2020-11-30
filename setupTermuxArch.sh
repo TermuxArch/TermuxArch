@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.929
+VERSIONID=2.0.930
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -691,7 +691,7 @@ break
 elif [[ "$RUANSWER" = [Yy]* ]] || [[ "$RUANSWER" = "" ]]
 then
 printf "\\e[30m%s\\n" "Uninstalling '~/${INSTALLDIR##*/}/'..."
-if grep ^pacmd "$PREFIX/etc/profile" 1> /dev/null && grep ^pulseaudio "$PREFIX/etc/profile" 1> /dev/null
+if grep -q ^pacmd "$PREFIX/etc/profile"v && grep -q ^pulseaudio "$PREFIX/etc/profile"
 then
 awk '!/^pulseaudio/' "$PREFIX/etc/profile" > "$TAMPDIR/profile$FTIME"
 awk '!/^pacmd/' "$TAMPDIR/profile$FTIME" > "$PREFIX/etc/profile"
