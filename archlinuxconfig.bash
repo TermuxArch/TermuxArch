@@ -4,62 +4,6 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_ADDmakeaurhelpers_() {
-_CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
-cat >> usr/local/bin/makeaurhelpers <<- EOM
-_PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
-}
-_PANHELPERS_() {
-printf "%s\\\\n" "Installing packages: '\$(printf "%s " "\$@")'..."
-for AURHELPER in \$@
-do
-if [[ ! -d "\$AURHELPER" ]]
-then
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
-else
-printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
-fi
-done
-}
-_AURHELPERS_() {
-printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
-for AURHELPER in \$@
-do
-if [[ ! -d "\$AURHELPER" ]]
-then
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
-else
-printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
-fi
-done
-}
-declare -A AURHELPERS
-AURHELPERS=([aura]="" [auracle-git]="" [aurutils]="" [bauerbill]="pbget pm2ml powerpill python-xdg python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf" [pacaur]="" [pakku]="" [paru]="" [paru-bin]="" [pbget]="pm2ml python3-aur python3-xcgf python3-xcpf" [pikaur]="" [pikaur-git]="" [pkgbuilder]="" [puyo]="" [repoctl]="" [repofish]="" [rua]="" [trizen]="" [yaah]="" [yay]="" [yay-bin]="" [yay-git]="" [yayim]="")
-[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
-cd "\$HOME/makeaurhelpers"
-_PANHELPERS_ "\${AURHELPERS[@]}"
-# _AURHELPERS_ "\${AURHELPERS[@]}"
-_AURHELPERS_ "\${!AURHELPERS[@]}"
-if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
-then
-pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
-fi
-for AURHELPER in \${AURHELPERS[@]}
-do
-if [[ -d "\$HOME/makeaurhelpers/\$AURHELPER" ]]
-then
-cd "\$HOME/makeaurhelpers/\$AURHELPER"
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
-cd "\$HOME/makeaurhelpers"
-fi
-done
-# makeaurhelpers EOF
-EOM
-chmod 700 usr/local/bin/makeaurhelpers
-}
-
 _ADDAUSER_() {
 _CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
 cat >> usr/local/bin/addauser <<- EOM
@@ -179,6 +123,65 @@ watch cat /proc/sys/kernel/random/entropy_avail
 # ae EOF
 EOM
 chmod 700 usr/local/bin/ae
+}
+
+_ADDmakeaurhelpers_() {
+_CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
+cat >> usr/local/bin/makeaurhelpers <<- EOM
+printf "%s\\\\n\\\\n" "Please contribute to developing the '\${0##*/}' command at https://github.com/TermuxArch/TermuxArch/issues and https://github.com/TermuxArch/TermuxArch/pulls in order to have a greater working assortment of AUR helpers like 'yay' that builds Arch Linux packages in just a few taps.  More information about Arch Linux AUR helpers is at this https://wiki.archlinux.org/index.php/AUR_helpers link;  Waiting six seconds..."
+sleep 2
+printf "%s\\\\n\\\\n" "Command '${0##*/}' continuing..."
+_AURHELPERS_() {
+printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
+for AURHELPER in \$@
+do
+if [[ ! -d "\$AURHELPER" ]]
+then
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
+else
+printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
+fi
+done
+}
+_BLDHELPERS_() {
+for AURHELPER in \$@
+do
+if [[ -d "\$HOME/makeaurhelpers/\$AURHELPER" ]]
+then
+cd "\$HOME/makeaurhelpers/\$AURHELPER"
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
+cd "\$HOME/makeaurhelpers"
+fi
+done
+}
+_PRTERROR_() {
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
+}
+_PANHELPERS_() {
+printf "%s\\\\n" "Installing packages: '\$(printf "%s " "\$@")'..."
+for AURHELPER in \$@
+do
+printf "%s\\\\n\\\\n" "Attempting to install '\$AURHELPER'..." && pc "\${AURHELPER}" || _PRTERROR_
+done
+}
+declare -A AURHELPERS
+AURHELPERS=([aura]="" [auracle-git]="" [aurutils]="" [bauerbill]="pbget pm2ml powerpill python-xdg python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf" [pacaur]="" [pakku]="" [paru]="" [paru-bin]="" [pbget]="pm2ml python3-aur python3-xcgf python3-xcpf" [pikaur]="" [pikaur-git]="" [pkgbuilder]="" [puyo]="" [repoctl]="" [repofish]="" [rua]="" [trizen]="" [yaah]="" [yay]="" [yay-bin]="" [yay-git]="" [yayim]="")
+[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
+cd "\$HOME/makeaurhelpers"
+_PANHELPERS_ "\${AURHELPERS[@]}"
+_PANHELPERS_ "\${!AURHELPERS[@]}"
+_AURHELPERS_ "\${AURHELPERS[@]}"
+_AURHELPERS_ "\${!AURHELPERS[@]}"
+if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
+then
+pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
+_BLDHELPERS_ "\${AURHELPERS[@]}"
+_BLDHELPERS_ "\${!AURHELPERS[@]}"
+# makeaurhelpers EOF
+EOM
+chmod 700 usr/local/bin/makeaurhelpers
 }
 
 _ADDbash_logout_() {
@@ -404,7 +407,6 @@ chmod 700 usr/local/bin/exd
 }
 
 _ADDfbindprocpcidevices.prs_() {
-touch var/binds/fbindprocpcidevices
 _CFLHDRS_ var/binds/fbindprocpcidevices.prs
 cat >> var/binds/fbindprocpcidevices.prs <<- EOM
 # bind an empty /proc/bus/pci/devices file
@@ -1054,14 +1056,16 @@ fi
 }
 
 _ADDprofileetc_() {
+if [ -f "$INSTALLDIR/etc/profile" ]
+then
 if ! grep -q 'export PULSE_SERVER=127.0.0.1' "$INSTALLDIR/etc/profile"
 then
-
 printf "%s\\n" "##  The next lines were generated by ${0##*/} at ${FTIME//-}.
 export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> "$INSTALLDIR/etc/profile"
+fi
 fi
 }
 

@@ -278,11 +278,6 @@ fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
-
-# printf "%s\\n" "umask 4777" >> root/bin/"$BINFNSTP"
-# printf "%s\\n" "chmod 4777 \"/usr/bin/newgidmap\"" >> root/bin/"$BINFNSTP"
-# printf "%s\\n" "chmod 4777 \"/usr/bin/newuidmap\"" >> root/bin/"$BINFNSTP"
-# printf "%s\\n" "umask 0022" >> root/bin/"$BINFNSTP"
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
@@ -331,101 +326,88 @@ then
 printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
 exit 202
 fi
-declare -g AR3AR="\${@:3}"
 _PRINTUSAGE_() {
-printf "\\e]2;%s\\007" "TermuxArch $STARTBIN $@ 📲"
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux in $TXPRQUON with root login.  This account is reserved for system administration.  Please exercise caution when using the system administrator account."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root login.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN c 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makepkg' and 'makeyay'"
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" " login as user.  Use alternate elogin or euser option to login as user.  This option is preferred when using the 'git' command."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux."
-printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] login command" "  login as user and execute command.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s login 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
-printf "\\e]2;%s\\007" "TermuxArch $STARTBIN $@ 📲: DONE 🏁"
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN l[ogin] | u[ser] user" "  login as user.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Please use 'addauser user' first to create this user and the user's home directory."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN el[ogin] | eu[ser] user" "  login as user.  Use alternate elogin or euser option to login as user.  This option is preferred for working with programs that have already been installed, and for working with the 'git' command.  Please use " "$STARTBIN c 'addauser user'" " first to create this user and the user's home directory."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN r[aw]" "  construct the " "$STARTBIN " "proot statement from exec.../bin/.  For example " "$STARTBIN r su " "will exec su in Arch Linux.  See variable PROOTSTMNT for more options;  Please share your thoughts at https://github.com/SDRausty/TermuxArch/issues and https://github.com/SDRausty/TermuxArch/pulls."
+printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲 : DONE 🏁"
 }
-# [] Default Arch Linux in Termux PRoot root login.
+## [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
 then
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲 : DONE 🏁"
 set +Eeuo pipefail
 umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; TermuxArch $STARTBIN 📲  \007'
-# [? | help] Displays usage information.
+## [? | help] Displays usage information.
 elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
 then
 _PRINTUSAGE_
-# [command ARGS] Execute a command in BASH as root.
+## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
-printf '\033]2; $STARTBIN command 📲  \007'
-touch $INSTALLDIR/root/.chushlogin
+printf '\033]2; TermuxArch $STARTBIN command %s 📲 :DONE 🏁 \007' "\${@:2}"
+touch "$INSTALLDIR/root/.chushlogin"
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\$2\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/bash -lc \"\${@:2}\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; $STARTBIN command 📲  \007'
-rm -f $INSTALLDIR/root/.chushlogin
-# [l[ogin] user | u[ser] user [options]] Login as user [plus options].
+rm -f "$INSTALLDIR/root/.chushlogin"
+## [l[ogin] user | u[ser] user] Login as user.
 elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 then
-printf '\033]2; $STARTBIN login user [options] 📲  \007'
-set +Eeuo pipefail
-umask 0022
-EOM
-printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
-cat >> "$STARTBIN" <<- EOM
-set -Eeuo pipefail
-printf '\033]2; $STARTBIN command 📲  \007'
-rm -f $INSTALLDIR/root/.chushlogin
-# [el[ogin] user | eu[ser] user [options]] Login as user [plus options].  Use 'addauser user' first to create this user and the user's home directory.  This option is for working with programs that have already been installed, and for working with the 'git' command.
-elif [[ "\${1//-}" = e[Ll]* ]] || [[ "\${1//-}" = e[Uu]* ]]
-then
-printf '\033]2; $STARTBIN login user [options] 📲  \007'
+printf '\033]2; TermuxArch $STARTBIN login %s 📲 :DONE 🏁 \007' "\$2"
 set +Eeuo pipefail
 umask 0022
 EOM
 printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; $STARTBIN login user [options] 📲  \007'
-# [raw ARGS] Construct the 'startarch' proot statement.  For example 'startarch r su' will exec su in Arch Linux.  See PROOTSTMNT for more options; share your thoughts at https://github.com/SDRausty/TermuxArch/issues and https://github.com/SDRausty/TermuxArch/pulls.
+## [el[ogin] user | eu[ser] user] Login as user.
+elif [[ "\${1//-}" = e[Ll]* ]] || [[ "\${1//-}" = e[Uu]* ]]
+then
+printf '\033]2; TermuxArch $STARTBIN elogin %s 📲 :DONE 🏁 \007' "\$2"
+set +Eeuo pipefail
+umask 0022
+EOM
+printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
+cat >> "$STARTBIN" <<- EOM
+set -Eeuo pipefail
+## [raw ARGS] Construct the 'startarch' proot statement.
 elif [[ "\${1//-}" = [Rr]* ]]
 then
-printf '\033]2; $STARTBIN raw %s 📲  \007' "\$@"
+printf '\033]2; TermuxArch $STARTBIN raw %s 📲 :DONE 🏁 \007' "\$@"
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/\"\$2\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/\"\${@:2}\"" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-# [su user command] Login as user and execute command.  Use 'addauser user' first to create this user and user's home directory.
+## [su user command] Login as user and execute command.
 elif [[ "\${1//-}" = [Ss]* ]]
 then
-printf '\033]2; $STARTBIN su user command 📲  \007'
+printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲 : DONE 🏁"
 if [[ "\$2" = root ]]
 then
-touch $INSTALLDIR/root/.chushlogin
-else
-touch $INSTALLDIR/home/"\$2"/.chushlogin
+printf "%s\\n" "Please use this command \"$STARTBIN c '\${@:3}'\" for the Arch Linux in Termux PRoot \$2 user account;  Exiting..."
+exit
 fi
-printf '\033]2; %s 📲  \007' "$STARTBIN s \$2 \$AR3AR"
+touch "$INSTALLDIR/home/\$2/.chushlogin"
 set +Eeuo pipefail
 umask 0022
 EOM
-printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\$AR3AR\" ||:" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\${@:3}\"" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 set -Eeuo pipefail
-printf '\033]2; $STARTBIN su user command 📲  \007'
-if [[ "\$2" = root ]]
-then
-rm -f $INSTALLDIR/root/.chushlogin
-else
-rm -f $INSTALLDIR/home/"\$2"/.chushlogin
-fi
+rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 else
 _PRINTUSAGE_
 fi
