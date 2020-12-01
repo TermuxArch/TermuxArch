@@ -16,9 +16,11 @@ _PREPMOTS_
 _ADDMOTA_
 _ADDMOTD_
 _ADDMOTO_
+_ADDOPEN4ROOT_
 _ADDREADME_
 _ADDresolvconf_
 _ADDae_
+_ADDmakeaurhelpers_
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
@@ -51,9 +53,9 @@ _ADDpatchmakepkg_
 _ADDpc_
 _ADDpci_
 _ADDprofile_
-_ADDprofileetc_
 if [[ ! -z "${VLORALCR:-}" ]]
 then
+_ADDprofileetc_
 _ADDprofileusretc_
 fi
 _ADDt_
@@ -166,9 +168,9 @@ printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
 printf "Choosing mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "${INSTALLDIR##*/}/etc/pacman.d/mirrorlist"
 DOMIRLCR=0
 }
-if [[ -f "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/domirror.lock" ]]
+if [[ -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/domirror.lock" ]]
 then
-printf "Lockfile '%s' exists;  Continuing..." "~/${INSTALLDIR##*/}/var/lock/${INSTALLDIR##*/}/domirror.lock"
+printf "Lockfile '%s' exists;  Continuing..." "~/${INSTALLDIR##*/}/run/lock/${INSTALLDIR##*/}/domirror.lock"
 else
 if ! grep ^Server "$INSTALLDIR/etc/pacman.d/mirrorlist"
 then
@@ -259,19 +261,28 @@ printf "\\n\\e[1;34m:: \\e[1;32m%s\\n" "Processing system for $NASVER $CPUABI, a
 }
 EOM
 _DOPROXY_
+mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
+if [[ ! -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ]]
+then
 if [[ "$CPUABI" = "$CPUABI5" ]]
 then
-printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-armv5 linux-firmware --noconfirm --color=always && touch "/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" || _PMFSESTRING_ \"pacman -Rc linux-armv5 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABI7" ]]
 then
-printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-armv7 linux-firmware --noconfirm --color=always && touch "/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" || _PMFSESTRING_ \"pacman -Rc linux-armv7 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABI8" ]]
 then
-printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && touch "/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
+fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
+
+# printf "%s\\n" "umask 4777" >> root/bin/"$BINFNSTP"
+# printf "%s\\n" "chmod 4777 \"/usr/bin/newgidmap\"" >> root/bin/"$BINFNSTP"
+# printf "%s\\n" "chmod 4777 \"/usr/bin/newuidmap\"" >> root/bin/"$BINFNSTP"
+# printf "%s\\n" "umask 0022" >> root/bin/"$BINFNSTP"
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
@@ -279,7 +290,7 @@ then
 printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-printf "%s\\n" "pacman -Su glibc sudo --noconfirm --color=always || pacman -Su glibc sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "pacman -Su glibc sed sudo --noconfirm --color=always || pacman -Su glibc sed sudo --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else
 printf "%s\\n" "pacman -Su glibc --noconfirm --color=always || pacman -Su glibc --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
@@ -470,7 +481,7 @@ _FIXOWNER_
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]] || [[ "$IFILE" == *i686* ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
 then
 _TASPINNER_ clock & proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ; kill $!
 else

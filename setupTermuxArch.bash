@@ -5,7 +5,7 @@
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
 IFS=$'\n\t'
-VERSIONID=2.0.931
+VERSIONID=2.0.932
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -723,9 +723,17 @@ done
 }
 
 _RMARCHRM_() {
-_RMARCHCRRM_() {
+_RMARCHCRRM_() {	# remove installation
 chmod -R 777 "$INSTALLDIR" || _PSGI1ESTRING_ "chmod -R 777 "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
 rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf "$INSTALLDIR" _RMARCHRM_ ${0##*/}"
+}
+_DOEXONSTGE_() {	# remove empty storage directories
+printf "\\e[0;35m"
+for EXONSTGEM in ${EXONSTGE[@]:-}
+do
+find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
+done
+printf "\\e[1;30m"
 }
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
@@ -734,24 +742,9 @@ if [[ ! -z "${EXONSTGE:-}" ]]
 then
 chmod 777 $EXONSTGE
 fi
-_DOEXONSTGE_() {
-printf "\\e[0;35m"
-for EXONSTGEM in ${EXONSTGE[@]:-}
-do
-find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually and run ${0##/*} $ARGS;  Exiting..." && exit 206)
-done
-printf "\\e[1;30m"
-}
 if [[ ! -z "${EXONSTGE:-}" ]]
 then
 _DOEXONSTGE_
-fi
-if [[ ! -z "${PURGELCR:-}" ]]
-then
-find "$INSTALLDIR/home/" -maxdepth 3 -type l -delete 2>/dev/null ||:
-find "$INSTALLDIR/root/" -maxdepth 2 -type l -delete 2>/dev/null ||:
-else
-find "$INSTALLDIR" -type l -delete 2>/dev/null ||:
 fi
 _RMARCHCRRM_
 }

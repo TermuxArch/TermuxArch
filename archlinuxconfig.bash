@@ -4,6 +4,41 @@
 # https://sdrausty.github.io/TermuxArch/README has info about this project.
 # https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+_ADDmakeaurhelpers_() {
+_CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
+cat >> usr/local/bin/makeaurhelpers <<- EOM
+_PRTERROR_() {
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
+}
+declare -a AURHELPERS
+AURHELPERS=("auracle-git" "pbget" "repoctl" "yaah" "aurutils" "bauerbill" "pkgbuilder" "repofish" "rua" "aura" "pacaur" "pakku" "paru" "pikaur" "trizen" "yay")
+[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
+cd "\$HOME/makeaurhelpers"
+printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\${AURHELPERS[@]##*/}")' from https://aur.archlinux.org."
+for AURHELPER in \${AURHELPERS[@]}
+do
+if [[ ! -d "\$AURHELPER" ]]
+then
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
+else
+printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
+fi
+done
+if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
+then
+pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
+if [[ -d "\$HOME/makeaurhelpers/\$AURHELPER" ]]
+then
+cd "\$HOME/makeaurhelpers/\$AURHELPER"
+makepkg -irs --noconfirm
+cd "\$HOME/makeaurhelpers"
+fi
+# makeaurhelpers EOF
+EOM
+chmod 700 usr/local/bin/makeaurhelpers
+}
+
 _ADDAUSER_() {
 _CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
 cat >> usr/local/bin/addauser <<- EOM
@@ -86,6 +121,14 @@ _ADDMOTO_() {
 cat > etc/moto <<- EOM
 printf "\\\\n\\\\e[1;34mPlease Share Your Arch Linux in Termux PRoot Experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mHelp:	\\\\e[0;34minfo query \\\\e[1;34mand \\\\e[0;34mman query\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
 EOM
+}
+
+_ADDOPEN4ROOT_() {
+_CFLHDR_ usr/local/bin/open4root "# open TermuxArch programs for root user"
+cat >> usr/local/bin/open4root <<- EOM
+sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
+EOM
+chmod 700 usr/local/bin/open4root
 }
 
 _ADDREADME_() {
@@ -291,7 +334,7 @@ _CFLHDR_ usr/local/bin/csystemctl "# contributor https://github.com/petkar"
 cat >> usr/local/bin/csystemctl <<- EOM
 INSTALLDIR="$INSTALLDIR"
 printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replacement: "
-[ -f "/var/lock/${INSTALLDIR##*/}/csystemctl.lock" ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
+[ -f "/run/lock/${INSTALLDIR##*/}/csystemctl.lock" ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
 COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
 [[ "\${COMMANDP:-}" == *python3* ]] || pci python3
@@ -305,8 +348,7 @@ printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubuserconte
 # download and copy to both directories /usr/local/bin and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
 chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
-[ ! -e "/var/lock/${INSTALLDIR##*/}"  ] && mkdir -p "/var/lock/${INSTALLDIR##*/}"
-touch "/var/lock/${INSTALLDIR##*/}/csystemctl.lock"
+touch "/run/lock/${INSTALLDIR##*/}/csystemctl.lock"
 printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 # csystemctl EOF
 EOM
@@ -585,7 +627,7 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\"  \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\"  \"l/less/less-551-3.0-i686.pkg.tar.xz\"  \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} /tmp
 cd /tmp
 printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
@@ -693,7 +735,7 @@ done
 
 _PRINTTAIL_() {
 printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\${ARGS[@]}" "\$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
+printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\${0##*/} \${ARGS[@]}'"
 }
 
 _PRTERROR_() {
@@ -735,20 +777,21 @@ printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Sy\\\\e[1;37m.
 $ECHOEXEC $ECHOSYNC pacman -Sy
 }
 _DOPSY_ || _DOPSY_ || _PRTERROR_
-[ ! -d "/var/run/lock/${INSTALLDIR##*/}" ] && mkdir -p "/var/run/lock/${INSTALLDIR##*/}"
 _DOKPI_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpi.lock" ]
+if [ ! -f "/run/lock/${INSTALLDIR##*/}/kpi.lock" ]
 then
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
-$ECHOEXEC pacman-key --init && touch "/var/run/lock/${INSTALLDIR##*/}/kpi.lock" || _PRTERROR_
+$ECHOEXEC pacman-key --init && touch "/run/lock/${INSTALLDIR##*/}/kpi.lock" || _PRTERROR_
 else
 printf "\\\\e[1;32m==> \\\\e[1;37mAlready initialized with command \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
 fi
 }
 _DOKPI_ || _DOKPI_
+umask 000
+chmod 4777 /usr/bin/newgidmap
 chmod 4777 /usr/bin/newuidmap
-chmod 666 /usr/lib/tmpfiles.d/journal-nocow.conf
 chmod 700 /etc/pacman.d/gnupg
+umask 022
 _DOPP_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ]
 then
@@ -776,15 +819,15 @@ _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
 exit
 }
-if [ "\$UID" = "0" ]
+if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ ! -f "/var/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/var/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
-pci automake base base-devel fakeroot git gcc glibc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc glibc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
@@ -796,18 +839,18 @@ sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-touch "/var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock"
+touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock"
 }
 cd fakeroot-tcp
-[ ! -f "/var/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
 printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-touch "/var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock"
+touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock"
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f "/var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/var/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
 # makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -828,7 +871,7 @@ _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
-[ ! -f "/var/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
@@ -846,13 +889,13 @@ chmod 700 usr/local/bin/makeyay
 _ADDorcaconf_() {
 _CFLHDR_ usr/local/bin/orcaconf "# orcaconf contributor https://github.com/JanuszChmiel" "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let us expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> usr/local/bin/orcaconf <<- EOM
-[[ -f "/var/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
+[[ -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && printf "%s\\\\n" "Already configured orca: DONE 🏁" && exit
 _INSTALLORCACONF_() {
-[[ ! -f "/var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && mkdir -p "/var/lock/${INSTALLDIR##*/}" && touch "/var/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
+[[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" ]] && (nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc || nice -n 18 pci espeak-ng mate mate-extra orca pulseaudio-alsa tigervnc) && touch "/run/lock/${INSTALLDIR##*/}/orcaconfinstall.lock" || printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected; Continuing..."
 }
 _INSTALLORCACONF_ || _INSTALLORCACONF_ || (printf "%s\\n" "_INSTALLORCACONF_ \${0##*/} did not completed as expected.  Please check for errors and run \${0##*/} again." && exit)
 csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not completed as expected"
-[[ ! -f "/var/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && touch "/var/lock/${INSTALLDIR##*/}/orcaconf.lock"
+[[ ! -f "/run/lock/${INSTALLDIR##*/}/orcaconf.lock" ]] && touch "/run/lock/${INSTALLDIR##*/}/orcaconf.lock"
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
 # orcaconf EOF
 EOM
@@ -876,7 +919,7 @@ _ADDorcarun_
 _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
-[ -f "/var/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /var/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
+[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
 printf "%s\\\\n" "Attempting to patch makepkg: "
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
@@ -894,7 +937,7 @@ fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
-mkdir -p "/var/lock/${INSTALLDIR##*/}" ; touch "/var/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
+touch "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
 printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
 # patchmakepkg EOF
 EOM
@@ -921,7 +964,7 @@ trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
-[ "\$UID" = 0 ] && SUDOCONF="" || SUDOCONF="sudo"
+[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
 printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
@@ -960,7 +1003,7 @@ printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
-[ "\$UID" = 0 ] && SUDOCONF="" || SUDOCONF="sudo"
+[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
@@ -990,14 +1033,14 @@ fi
 }
 
 _ADDprofileetc_() {
-if ! grep 'export PULSE_SERVER=127.0.0.1' etc/profile 1>/dev/null
+if ! grep -q 'export PULSE_SERVER=127.0.0.1' "$INSTALLDIR/etc/profile"
 then
 
 printf "%s\\n" "##  The next lines were generated by ${0##*/} at ${FTIME//-}.
 export DISPLAY=:0
 export PULSE_SERVER=127.0.0.1
 unset DBUS_SESSION_BUS_ADDRESS
-unset SESSION_MANAGER" >> etc/profile
+unset SESSION_MANAGER" >> "$INSTALLDIR/etc/profile"
 fi
 }
 
@@ -1122,22 +1165,19 @@ chmod 700 usr/local/bin/tour
 _ADDtrim_() {
 _CFLHDR_ usr/local/bin/trim
 cat >> usr/local/bin/trim <<- EOM
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m...\\\\n\\\\n" "\${0##*/}"
 _PMFSESTRING_() {
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s\\\\e[1;37m...\\\\n\\\\n" "\${0##*/}"
-if [[ "\$UID" -eq "0" ]]
+_SUTRIM_() {
+\$SUTRIM pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Sc \${0##*/}"
+}
+if [[ "\$UID" -eq 0 ]]
 then
-SUTRIM="pacman -Sc --noconfirm --color=always"
-_SUTRIM_() {
-pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "pacman -Sc \${0##*/}"
-}
+SUTRIM=""
 else
-SUTRIM="sudo pacman -Sc --noconfirm --color=always"
-_SUTRIM_() {
-sudo pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "sudo pacman -Sc \${0##*/}"
-}
+SUTRIM="sudo "
 fi
 printf "%s\\\\n" "[1/5] rm -rf /boot/"
 rm -rf /boot/
