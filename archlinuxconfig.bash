@@ -129,8 +129,8 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
 printf "%s\\\\n\\\\n" "Please contribute to developing the '\${0##*/}' command at https://github.com/TermuxArch/TermuxArch/issues and https://github.com/TermuxArch/TermuxArch/pulls in order to have a greater working assortment of AUR helpers like 'yay' that builds Arch Linux packages in just a few taps.  More information about Arch Linux AUR helpers is at this https://wiki.archlinux.org/index.php/AUR_helpers link;  Waiting six seconds..."
-sleep 2
-printf "%s\\\\n\\\\n" "Command '${0##*/}' continuing..."
+sleep 6
+printf "%s\\\\n\\\\n" "Command '\${0##*/}' continuing..."
 _AURHELPERS_() {
 printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
 for AURHELPER in \$@
@@ -165,6 +165,10 @@ do
 printf "%s\\\\n\\\\n" "Attempting to install '\$AURHELPER'..." && pc "\${AURHELPER}" || _PRTERROR_
 done
 }
+if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
+then
+pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
 declare -A AURHELPERS
 AURHELPERS=([aura]="" [auracle-git]="" [aurutils]="" [bauerbill]="pbget pm2ml powerpill python-xdg python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf" [pacaur]="" [pakku]="" [paru]="" [paru-bin]="" [pbget]="pm2ml python3-aur python3-xcgf python3-xcpf" [pikaur]="" [pikaur-git]="" [pkgbuilder]="" [puyo]="" [repoctl]="" [repofish]="" [rua]="" [trizen]="" [yaah]="" [yay]="" [yay-bin]="" [yay-git]="" [yayim]="")
 [ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
@@ -173,10 +177,6 @@ _PANHELPERS_ "\${AURHELPERS[@]}"
 _PANHELPERS_ "\${!AURHELPERS[@]}"
 _AURHELPERS_ "\${AURHELPERS[@]}"
 _AURHELPERS_ "\${!AURHELPERS[@]}"
-if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
-then
-pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
-fi
 _BLDHELPERS_ "\${AURHELPERS[@]}"
 _BLDHELPERS_ "\${!AURHELPERS[@]}"
 # makeaurhelpers EOF
