@@ -10,12 +10,9 @@ cat >> usr/local/bin/makeaurhelpers <<- EOM
 _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
 }
-declare -a AURHELPERS
-AURHELPERS=("auracle-git" "pbget" "repoctl" "yaah" "aurutils" "bauerbill" "pkgbuilder" "repofish" "rua" "aura" "pacaur" "pakku" "paru" "pikaur" "trizen" "yay")
-[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
-cd "\$HOME/makeaurhelpers"
-printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\${AURHELPERS[@]##*/}")' from https://aur.archlinux.org."
-for AURHELPER in \${AURHELPERS[@]}
+_PANHELPERS_() {
+printf "%s\\\\n" "Installing packages: '\$(printf "%s " "\$@")'..."
+for AURHELPER in \$@
 do
 if [[ ! -d "\$AURHELPER" ]]
 then
@@ -24,16 +21,41 @@ else
 printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
 fi
 done
+}
+_AURHELPERS_() {
+printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
+for AURHELPER in \$@
+do
+echo \$AURHELPER
+if [[ ! -d "\$AURHELPER" ]]
+then
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
+else
+printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned."
+fi
+done
+}
+declare -A AURHELPERS
+AURHELPERS=([aura]="" [auracle-git]="" [aurutils]="" [bauerbill]="pbget pm2ml powerpill python-xdg python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf" [pacaur]="" [pakku]="" [paru]="" [paru-bin]="" [pbget]="pm2ml python3-aur python3-xcgf python3-xcpf" [pikaur]="" [pikaur-git]="" [pkgbuilder]="" [puyo]="" [repoctl]="" [repofish]="" [rua]="" [trizen]="" [yaah]="" [yay]="" [yay-bin]="" [yay-git]="" [yayim]="")
+[ ! -d "\$HOME/makeaurhelpers" ] && mkdir -p "\$HOME/makeaurhelpers"
+cd "\$HOME/makeaurhelpers"
+_PANHELPERS_ "\${AURHELPERS[@]}"
+# _AURHELPERS_ "\${AURHELPERS[@]}"
+_AURHELPERS_ "\${!AURHELPERS[@]}"
 if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
 then
 pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
+for AURHELPER in \${AURHELPERS[@]}
+do
 if [[ -d "\$HOME/makeaurhelpers/\$AURHELPER" ]]
 then
 cd "\$HOME/makeaurhelpers/\$AURHELPER"
-makepkg -irs --noconfirm
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
 cd "\$HOME/makeaurhelpers"
 fi
+done
 # makeaurhelpers EOF
 EOM
 chmod 700 usr/local/bin/makeaurhelpers
@@ -843,8 +865,8 @@ touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock"
 }
 cd fakeroot-tcp
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
-makepkg -irs || _PRTERROR_
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock"
 fi
@@ -868,7 +890,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 _PRMAKE_() {
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mmakepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
@@ -878,7 +900,7 @@ pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git 
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
-cd yay && _PRMAKE_ && makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
+cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; CONTINUING..."
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix' which builds matrix screensavers.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 # makeyay EOF
