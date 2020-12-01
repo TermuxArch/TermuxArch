@@ -407,6 +407,7 @@ chmod 700 usr/local/bin/exd
 }
 
 _ADDfbindprocpcidevices.prs_() {
+touch var/binds/fbindprocpcidevices
 _CFLHDRS_ var/binds/fbindprocpcidevices.prs
 cat >> var/binds/fbindprocpcidevices.prs <<- EOM
 # bind an empty /proc/bus/pci/devices file
