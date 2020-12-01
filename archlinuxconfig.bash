@@ -165,7 +165,7 @@ do
 printf "%s\\\\n\\\\n" "Attempting to install '\$AURHELPER'..." && pc "\${AURHELPER}" || _PRTERROR_
 done
 }
-if [[ ! "\$(command -v fakeroot)" ]] 2>/dev/null
+if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v gcc)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
 pci automake base base-devel binutils fakeroot gcc libtool po4a || pci automake base base-devel binutils fakeroot gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot gcc libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot gcc libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
