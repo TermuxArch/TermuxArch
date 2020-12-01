@@ -26,7 +26,6 @@ _AURHELPERS_() {
 printf "%s\\\\n" "Cloning repositories: '\$(printf "%s " "\$@")' from https://aur.archlinux.org."
 for AURHELPER in \$@
 do
-echo \$AURHELPER
 if [[ ! -d "\$AURHELPER" ]]
 then
 printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://archive.archlinux32.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished downloading file '\$AURHELPER' from https://aur.archlinux.org." || _PRTERROR_
