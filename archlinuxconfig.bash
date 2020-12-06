@@ -1160,7 +1160,7 @@ ln -s "$HOME/storage" root/storage
 fi
 if [ ! -e root/home ]
 then
-ln -s "$HOME" root/home
+ln -s "$HOME" root/txhome
 fi
 }
 
