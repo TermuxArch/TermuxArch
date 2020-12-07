@@ -156,7 +156,7 @@ AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pk
 else
 AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
 fi
-makeyay
+command yay || makeyay
 for AURHELPER in \${AURHELPERS[@]}
 do
 if [ "\$AURHELPER" = stack-static ]
