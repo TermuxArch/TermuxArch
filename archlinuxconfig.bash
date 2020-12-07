@@ -163,6 +163,12 @@ if [ "\$AURHELPER" = stack-static ]
 then
 gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
 fi
+if [ "\$AURHELPER" = pacaur ]
+then
+pci expac
+AURHELPER=auracle-git
+_CLONEAURHELPER_
+fi
 if [ "\$AURHELPER" = bauerbill ]
 then
 pci python-pyxdg
