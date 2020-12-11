@@ -137,26 +137,36 @@ else
 printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
-_MAKEAURHELPER_() {
-cd "\$HOME/aurhelpers/\$AURHELPER"
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
-}
-_PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
-}
-[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
-UNAMEM="\$(uname -m)"
-if [ "\$UNAMEM" = x86_64 ]
+
+_DONEAURHELPER_(){
+echo echo
+echo echo
+#command "\$1" || _DOAURHELPERS_
+if ! command "\$1" || echo whats diz whats diz whats diz whats diz whats diz whats diz whats diz whats diz
 then
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-elif [ "\$UNAMEM" = i386 ]
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+printf '%s\n' "Found command \$1"
+if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
 then
-AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-else
-AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
+echo echo
+echo echo
+echo \$1
+echo echo
+echo echo
+echo echo
+echo echo
+echo \$1
+echo echo
+echo echo
 fi
-command yay || makeyay
+fi
+echo echo
+echo echo
+}
+
+_DOAURHELPERS_(){
 for AURHELPER in \${AURHELPERS[@]}
 do
 if [ "\$AURHELPER" = stack-static ]
@@ -180,6 +190,33 @@ done
 fi
 _CLONEAURHELPER_
 done
+}
+
+_MAKEAURHELPER_() {
+cd "\$HOME/aurhelpers/\$AURHELPER"
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
+}
+
+_PRTERROR_() {
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/}' again."
+}
+
+[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
+UNAMEM="\$(uname -m)"
+if [ "\$UNAMEM" = x86_64 ]
+then
+AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+elif [ "\$UNAMEM" = i386 ]
+then
+AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+else
+AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
+fi
+# command yay || makeyay
+echo _DONEAURHELPER_ pikaur
+_DONEAURHELPER_ pikaur
+# _DOAURHELPERS_
 # makeaurhelpers EOF
 EOM
 chmod 700 usr/local/bin/makeaurhelpers
