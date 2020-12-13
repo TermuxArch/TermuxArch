@@ -1515,4 +1515,4 @@ MOTTECGIT="github.com/archlinuxarm"
 MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
-# archlinuxconfig.bash EOF
+## archlinuxconfig.bash EOF
