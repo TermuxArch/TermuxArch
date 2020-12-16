@@ -4,25 +4,13 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.961
+VERSIONID=2.0.962
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
 ## INIT FUNCTIONS ##############################################################
 ## The entire dataset can be viewed and work on with command 'setupTermuxArch bloom' which downloads all the components of TermuxArch into a ~/TermuxArchBloom directory in the home directory.  The command 'setupTermuxArch bloom' is very similar to command 'setupTermuxArch manual' but much more expansive, verbose.  Command 'setupTermuxArch h[elp]' has additional information how to use this file.
-
-_PRINTERRORMSG_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can find improvements and the timr for " "${0##*}" " please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
-}
-
-_TAMATRIXEXIT_() { # run when Matrix presentation ends
-if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
-then
-_TAMATRIXEND_
-fi
-}
 
 _STRPERROR_() { # run on script error
 local RV="$?"
@@ -133,6 +121,17 @@ cp "$TAMPDIR/setupTermuxArch" "$0"
 . $0 $ARGS
 fi
 cd "$TAMPDIR"
+}
+
+_CHOOSEABI_(){
+if [[ -z "$ABILIST64" ]]
+then
+ARCHITEC="i386"
+CPUABI="x86"
+else
+ARCHITEC="x86_64"
+CPUABI="x86_64"
+fi
 }
 
 _COREFILES_() {
@@ -568,6 +567,11 @@ _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 _EDITORCHOOSER_
 }
 
+_PRINTERRORMSG_() {
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can find improvements and the timr for " "${0##*}" " please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
+}
+
 _PRPREFRESH_() {
 printf "\\n%s\\n" "Refresh mode is set to refresh mode $1;  Initializing system refresh..."
 LCR="$1"
@@ -763,6 +767,13 @@ then
 printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} $ARGS again with different options..."
 printf "\\n\\e[1;31m%s\\n\\n\\e[0m" "Rootdir exception.  Run the script $ARGS again with different options..."
 exit
+fi
+}
+
+_TAMATRIXEXIT_() { # run when Matrix presentation ends
+if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+then
+_TAMATRIXEND_
 fi
 }
 
@@ -1045,11 +1056,11 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
-elif [[ "${1//-}" = [Vv]* ]]
+## [visu[alorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
+elif [[ "${1//-}" = [Vv][Ii][Ss][Uu]* ]]
 then
 VLORALCR=0
-printf "\\nSetting mode to visualorca [manual] [install|refresh] [customdir].\\n"
+printf "\\nSetting mode to visu[alorca] [manual] [install|refresh] [customdir].\\n"
 ABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
@@ -1057,14 +1068,24 @@ then
 _OPT1_ "$@"
 _INTRO_ "$@"
 else
-if [[ -z "$ABILIST64" ]]
-then
-ARCHITEC="i386"
-CPUABI="x86"
-else
-ARCHITEC="x86_64"
-CPUABI="x86_64"
+_CHOOSEABI_
+_OPT1_ "$@"
+_QEMU_
+_INTRO_ "$@"
 fi
+## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issues [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) and [Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily. #66](https://github.com/SDRausty/termux-archlinux/issues/66) have more information about this option.
+elif [[ "${1//-}" = [Vv]* ]]
+then
+VLORALCR=0
+printf "\\nSetting mode to v[isualorca] [manual] [install|refresh] [customdir].\\n"
+ABILIST64="$(getprop ro.product.cpu.abilist64)"
+CPUABI="$(getprop ro.product.cpu.abi)"
+if [[ $CPUABI == *86* ]]
+then
+_OPT1_ "$@"
+_INTRO_ "$@"
+else
+_CHOOSEABI_
 _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
