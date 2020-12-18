@@ -2,13 +2,13 @@
 # copyright 2020 (c) by SDRausty, all rights reserved, see LICENSE
 ################################################################################
 set -eu
-declare LATESTI686
+declare X86REALEASE
 _INST_() { # checks for neccessary commands
 COMMS="$1"
+STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 COMMANDR="$(command -v au)" || (printf "%s\\n\\n" "$STRING1")
 COMMANDIF="${COMMANDR##*/}"
-STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 PKG="$2"
 _INPKGS_() {
 printf "%s\\n" "Beginning qemu 'qemu-system-i386' setup:"
@@ -34,23 +34,23 @@ if ! command -v qemu-system-i386
 then
 _INST_ qemu-system-i386 qemu-system-i386-headless "${0##*/}" || _PSGI1ESTRING_ "_INST_ qemu-system-i386 ${0##*/}"
 fi
-[ -f sha512sums ] && printf "%s\\n\\n" "Found sha512sums file." || curl -OL https://mirror.math.princeton.edu/pub/archlinux32/archisos/sha512sums
-LATESTI686="$(grep i686 sha512sums |tail -n 1)"
-printf "%s\\n\\n" "Found filename '${LATESTI686##* }' with sha512sum ${LATESTI686%% *}."
-[ -f "${LATESTI686##* }" ] && printf "%s\\n\\n" "Found filename '${LATESTI686##* }'." || curl -OL "https://mirror.math.princeton.edu/pub/archlinux32/archisos/${LATESTI686##* }"
-if [ ! -f "checked${LATESTI686##* }" ]
+[ -f alpinev3.12releasesx86 ] && printf "%s\\n\\n" "Found alpinev3.12releasesx86 file." || (printf "%s\\n\\n" "Downloading index into alpinev3.12releasesx86 file from https://dl-cdn.alpinelinux.org." && curl -0 https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/ -o alpinev3.12releasesx86)
+X86REALEASESHA="$(sed -n '/^$/!{s/<[^>]*>//g;p;}' alpinev3.12releasesx86 | awk '/virt/' | awk '/sha512/' | awk 'END{print}'|  awk '{print$1}')"
+[ -f "$X86REALEASESHA" ] && printf "%s\\n\\n" "Found $X86REALEASESHA file." || (printf "%s\\n\\n" "Downloading $X86REALEASESHA file from https://dl-cdn.alpinelinux.org." && curl -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASESHA" -o "$X86REALEASESHA")
+X86REALEASE="$(awk '{print$2}' "$X86REALEASESHA")"
+[ -f "$X86REALEASE" ] && printf "%s\\n\\n" "Found $X86REALEASE file." || (printf "%s\\n\\n" "Downloading $X86REALEASE file from https://dl-cdn.alpinelinux.org." && curl -C - --fail --retry 4 -0 "https://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86/$X86REALEASE" -o "$X86REALEASE")
+if [ ! -f "checked${X86REALEASE##* }" ]
 then
-printf "%s\\n\\n" "Checking file '${LATESTI686##* }' with sha512sum."
-LATESTI686ISO="$(sha512sum "${LATESTI686##* }")"
-if [[ "$LATESTI686ISO" == "$LATESTI686" ]]
+printf "%s\\n\\n" "Checking file '${X86REALEASE##* }' with sha512sum."
+if sha512sum "$X86REALEASESHA"
 then
-touch "checked${LATESTI686##* }"
-_BOOTISO_ "${LATESTI686##* }"
+touch "checked${X86REALEASE##* }"
+_BOOTISO_ "${X86REALEASE##* }"
 else
-printf "%s\\n\\n" "Checking file '${LATESTI686##* }' with sha512sum failed;  Removing files '${LATESTI686##* }' and sha512sums."
-rm -f "${LATESTI686##* }" sha512sums
+printf "%s\\n\\n" "Checking file '${X86REALEASE##* }' with sha512sum failed;  Removing files '${X86REALEASE##* }' and sha512sums."
+# rm -f "${X86REALEASE##* }" sha512sums
 fi
 else
-_BOOTISO_ "${LATESTI686##* }"
+_BOOTISO_ "${X86REALEASE##* }"
 fi
-## qemugeti686.bash EOF
+## qemualpinex86.bash EOF
