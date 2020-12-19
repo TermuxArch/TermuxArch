@@ -4,7 +4,7 @@
 set -eu
 declare X86REALEASE
 declare X86REALEASESHA
-_INST_() {	# checks for neccessary commands
+_INST_() {	# check for wanted commands
 COMMS="$1"
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
