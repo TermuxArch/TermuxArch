@@ -4,7 +4,7 @@
 # https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 # command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.978
+VERSIONID=2.0.979
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -272,7 +272,7 @@ then	# use https://github.com/mirror/wget
 _DOADMWGET_() {
 "${ADM[wget]}" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}"
 }
-_DOADMWGET_  || (au wget && _DOADMWGET_) || _PSGI1ESTRING_ "_DOADMWGET_ _DWNL_ ${0##*/}"
+_DOADMWGET_  || (au wget && "$PREFIX/bin/wget" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}") || _PSGI1ESTRING_ "_DOADMWGET_ _DWNL_ ${0##*/}"
 else	# use https://github.com/lavv17/lftp
 "${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
 fi
