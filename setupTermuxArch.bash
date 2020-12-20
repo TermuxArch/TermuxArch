@@ -4,7 +4,7 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.988
+VERSIONID=2.0.989
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -170,7 +170,7 @@ rm -f termuxarchchecksum.sha512
 fi
 }
 
-_DEPENDDM_() { # checks and sets download manager
+_DEPENDDM_() { # check and set download manager
 for PKG in "${!ADM[@]}"
 do
 if [[ -x $(command -v "${ADM[$PKG]}") ]]
@@ -182,7 +182,7 @@ fi
 done
 }
 
-_DEPENDTM_() { # checks and sets tar manager: depreciated
+_DEPENDTM_() { # check and set tar manager: depreciated
 for PKG in "${!ATM[@]}"
 do
 if [[ -x $(command -v "${ATM[$PKG]}") ]]
@@ -194,9 +194,9 @@ fi
 done
 }
 
-_DEPENDIFDM_() { # checks if download tool is set and sets install if available
-for PKG in "${!ADM[@]}" # checks from available toolset and sets one for install if available
-do #	checks for both set DM and if tool exists on device.
+_DEPENDIFDM_() { # check if download tool is set and set install if available
+for PKG in "${!ADM[@]}" # check from available toolset and set one for install if available
+do #	check for both set DM and if tool exists on device.
 if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
 then	#	sets both download tool for install and exception check.
 APTIN+="$PKG "
