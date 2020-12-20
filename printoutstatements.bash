@@ -228,6 +228,7 @@ fi
 }
 
 _PRINTPROOTERROR_() {
+printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' proot info: vpid 1: terminated with signal 11 ' is found, ensure that all the software is up to date.  After updating all the software, including Android, please reference these links in order to find a resolution if updating Termux app and Termux packages and Android was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"proot info: vpid 1: terminated with signal 11\"" "  * https://github.com/termux/termux-packages/issues?q=\"proot info: vpid 1: terminated with signal 11\""
 printf "\\e[0;34m%s\\n\\n%s\\n\\n%s\\n\\n%s\\e[0m" "If error ' env ... not found ' is found, ensure that all the software is up to date.  After updating, please reference these links in order to find a resolution if updating Termux app and Termux packages was unsuccessful:" "  * https://github.com/termux/proot/issues?q=\"env\"+\"not+found\"" "  * https://github.com/termux/termux-packages/issues?q=\"not+found\"+\"proot\""
 }
 
