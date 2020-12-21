@@ -19,8 +19,9 @@ printf "%s\\n" "Cloning 'https://github.com/termux/proot'" && git clone --depth 
 _MAKEV1_() {
 if [ -f "$HOME/termux/proot/src/builttaprootuserland.lock" ]
 then
-printf "%s\\n" "Found file $HOME/termux/proot/src/builttaprootuserland.lock in directory $(pwd);  Please remove this file to rebuild Termux PRoot with USERLAND support:  Continuing..."
+printf "%s\\n" "Found file '$HOME/termux/proot/src/builttaprootuserland.lock' in directory '$(pwd)';  Please remove file '$HOME/termux/proot/src/builttaprootuserland.lock' to attempt to rebuild Termux PRoot with USERLAND support:  Continuing..."
 else
+sed -ir 's/^CPPFLAGS.*/CPPFLAGS += -DUSERLAND -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -I$(VPATH)/g' GNUmakefile
 printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..." && make clean && make V=1
 fi
 }
