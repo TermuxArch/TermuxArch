@@ -52,5 +52,7 @@ if [ ! -f "$HOME/termux/proot/tmp/proot.bkp" ]
 then
 cp "$HOME/termux/proot/tmp/proot.bkp" "$PREFIX/bin/proot" && printf "%s\\n" "Copied file '$HOME/termux/proot/tmp/proot.bkp' to '$PREFIX/bin/proot'."
 fi
+else
+printf "%s\\n" "Please use '${0##*/}' with either no options, or the '${0##*/} r[evert] proot' option."
 fi
 ## taprootuserland.bash EOF
