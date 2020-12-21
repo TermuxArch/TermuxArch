@@ -32,7 +32,7 @@ mkdir -p "$HOME/termux" && cd "$HOME/termux"
 _GITCLONED1TERMUXPROOTSB_ || (_AU_ git && _GITCLONED1TERMUXPROOTSB_)
 fi
 printf "%s\\n" "'cd $HOME/termux/proot/src'..." && cd "$HOME/termux/proot/src"
-_MAKEV1_ || ( _AU_ clang talloc make && _MAKEV1_ )
+_MAKEV1_ || ( _AU_ clang libtalloc make && _MAKEV1_ )
 command -v "$HOME/termux/proot/src/proot" && touch "$HOME/termux/proot/src/builttaprootuserland.lock" && mkdir -p "$HOME/termux/proot/tmp"
 if [ -f "$PREFIX/bin/proot" ]
 then
