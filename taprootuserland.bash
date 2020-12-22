@@ -13,23 +13,42 @@ printf "%s\\n" "Installing 'au'" && curl -OL "https://raw.githubusercontent.com/
 au "$@"
 fi
 }
-_GITCLONED1TERMUXPROOTSB_() {
-printf "%s\\n" "Cloning 'https://github.com/termux/proot'" && git clone --depth 1 "https://github.com/termux/proot" --single-branch
+_GITCLONETERMUXPROOT_ () {
+if [[ -z "${GITCLONETERMUXPROOTLCR:-}" ]]
+then
+printf"%s\\n" "Cloning 'https://github.com/termux/proot' with 'git --depth 1 --single-branch'."
+git clone --depth 1 "https://github.com/termux/proot" --single-branch
+else
+printf "%s\\n" "Cloning 'https://github.com/termux/proot' with 'git'."
+git clone "https://github.com/termux/proot"
+cd proot
+git reset --hard "$GITCLONETERMUXPROOTLCR" 
+fi
 }
 _MAKEV1_() {
 if [ -f "$HOME/termux/proot/src/builttaprootuserland.lock" ]
 then
-printf "%s\\n" "Found file '$HOME/termux/proot/src/builttaprootuserland.lock' in directory '$(pwd)';  Please remove file '$HOME/termux/proot/src/builttaprootuserland.lock' to attempt to rebuild Termux PRoot with USERLAND support:  Continuing..."
+printf "%s\\n" "Found file '$HOME/termux/proot/src/builttaprootuserland.lock' in directory '$HOME/termux/proot/src';  Please remove file '$HOME/termux/proot/src/builttaprootuserland.lock' to attempt to rebuild Termux PRoot with USERLAND support:  Continuing..."
 else
+if ! grep DUSERLAND GNUmakefile
+then
 sed -ir 's/^CPPFLAGS.*/CPPFLAGS += -DUSERLAND -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -I. -I$(VPATH)/g' GNUmakefile
-printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..." && make clean && make V=1
+fi
+if ! ./proot -V
+then
+printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..." 
+make clean && make V=1
+make install
+else
+make install
+fi
 fi
 }
 _DOTAPROOTUSERLAND_() {
 if [ ! -e "$HOME/termux/proot/src" ]
 then
 mkdir -p "$HOME/termux" && cd "$HOME/termux"
-_GITCLONED1TERMUXPROOTSB_ || (_AU_ git && _GITCLONED1TERMUXPROOTSB_)
+_GITCLONETERMUXPROOT_ || (_AU_ git && _GITCLONETERMUXPROOT_)
 fi
 printf "%s\\n" "'cd $HOME/termux/proot/src'..." && cd "$HOME/termux/proot/src"
 _MAKEV1_ || ( _AU_ clang libtalloc make && _MAKEV1_ )
@@ -43,16 +62,25 @@ fi
 fi
 cp "$HOME/termux/proot/src/proot" "$PREFIX/bin/proot" && printf "%s\\n" "Copied file '$HOME/termux/proot/src/proot' to '$PREFIX/bin/proot'."
 }
+## begin ##
 if [[ -z "${1:-}" ]]
 then
 _DOTAPROOTUSERLAND_
+elif [[ "${1//-}" = [Rr][Ee][Vv]* ]]
+then
+GITCLONETERMUXPROOTLCR="bc3668f3238cee2011f9afa5a964b2dfc9dc523b"
+_DOTAPROOTUSERLAND_
+elif [[ "${1//-}" = [Rr][Ee]* ]]
+then
+GITCLONETERMUXPROOTLCR="292fbc8a5406fdaf17b530444cd3dbaa92b1551d"
+_DOTAPROOTUSERLAND_
 elif [[ "${1//-}" = [Rr]* ]]
 then
-if [ ! -f "$HOME/termux/proot/tmp/proot.bkp" ]
+if [ -f "$HOME/termux/proot/tmp/proot.bkp" ]
 then
 cp "$HOME/termux/proot/tmp/proot.bkp" "$PREFIX/bin/proot" && printf "%s\\n" "Copied file '$HOME/termux/proot/tmp/proot.bkp' to '$PREFIX/bin/proot'."
 fi
 else
-printf "%s\\n" "Please use '${0##*/}' with either no options, or the '${0##*/} r[evert] proot' option."
+printf "%s\\n" "Please run '${0##*/}' with either no options, or the '${0##*/} r[e[v[ertPRootVersion]]]' options."
 fi
 ## taprootuserland.bash EOF
