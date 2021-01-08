@@ -9,7 +9,7 @@ if command -v au
 then
 au "$@"
 else
-printf "%s\\n" "Installing 'au'" && curl -OL "https://raw.githubusercontent.com/WAE/au/master/au" -o "$PREFIX/bin/au" && chmod 744 "$PREFIX/bin/au" 
+printf "%s\\n" "Installing 'au'" && curl -OL "https://raw.githubusercontent.com/WAE/au/master/au" -o "$PREFIX/bin/au" && chmod 744 "$PREFIX/bin/au"
 au "$@"
 fi
 }
@@ -44,7 +44,7 @@ fi
 _BKPPROOT_
 if ! ./proot -V
 then
-printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..." 
+printf "%s\\n" "Running 'make clean && make V=1' in directory $(pwd)..."
 make clean && make V=1
 make install
 else
