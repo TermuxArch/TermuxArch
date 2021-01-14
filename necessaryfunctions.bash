@@ -321,12 +321,8 @@ _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
-COMMANDG="\$(command -v getprop)" ||:
-if [[ "\$COMMANDG" = "" ]]
-then
-printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "$STARTBIN \${0##*/} WARNING:  Run \${0##*/} and $INSTALLDIR/\${0##*/} from the BASH shell in Termux:  Exiting..."
-exit 202
-fi
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in Termux:  EXITING..." && exit 202 ; }
+COMMANDG="\$(command -v getprop)" || _COMMANDGNE_
 _PRINTUSAGE_() {
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux in $TXPRQUON with root login.  This account is reserved for system administration.  Please exercise caution when using the system administrator account."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root login.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN c 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
