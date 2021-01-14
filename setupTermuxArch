@@ -623,7 +623,7 @@ printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0
 }
 
 _QEMU_() {
-_INST_() { # checks for neccessary commands
+_INST_() { # check for neccessary commands
 COMMS="$1"
 COMMANDR="$(command -v au)" || (printf "%s\\n\\n" "$STRING1")
 COMMANDIF="${COMMANDR##*/}"
@@ -810,15 +810,14 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 1) Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'bin/README.md' have detailed information about this feature,
 ## 2) Set timezone and locales from device,
 ## 3) Test for correct OS,
-_COMMANDG_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and '${0##*/}' from the native BASH shell in Termux:  EXITING..." ; }
-COMMANDG="$(command -v getprop)" ||: # _COMMANDG_ && _PSGI1ESTRING_ "COMMANDG setupTermuxArch ${0##*/}"
-[[ "$COMMANDG" = "" ]] && _COMMANDG_ && exit
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138m %s\\e[0m\\n\\n" "TermuxArch WARNING:  Run 'bash ${0##*/}' and '${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit ; }
+COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
 if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
 then
 curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" || _PSGI1ESTRING_ "curl au to HOME/bin setupTermuxArch ${0##*/}"
 else
-curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl au to HOME/prefix setupTermuxArch ${0##*/}"
+curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl au to PREFIX/bin setupTermuxArch ${0##*/}"
 fi
 }
 SCMD="au"
