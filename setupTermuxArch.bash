@@ -4,7 +4,7 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## commands 'setupTermuxArch h[elp]' have information how to use this file
 ################################################################################
-VERSIONID=2.0.1015
+VERSIONID=2.0.1016
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -621,7 +621,7 @@ fi
 }
 
 _PRINTINTRO_() {
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again with options.  Please ensure background data is not restricted.  Please check the wireless connection if you do not see one o'clock 🕐 below.  The command \\e[1;32mbash %s help \\e[1;34mhas additional information about \\e[1;32m%s\\e[1;34m.  \\e[0;34m" "$VERSIONID" "${0##*/}" "${0##*/}"
+printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again with options.  Please check the wireless connection if you do not see one o'clock 🕐 below and ensure background data is not restricted.  The command \\e[1;32mbash %s help \\e[1;34mhas additional information about \\e[1;32m%s\\e[1;34m.  \\e[0;34m" "$VERSIONID" "${0##*/}" "${0##*/}"
 }
 
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
