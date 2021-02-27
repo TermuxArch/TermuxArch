@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-## copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
+## Copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## commands 'setupTermuxArch h[elp]' have information how to use this file
 ################################################################################
-VERSIONID=2.0.1016
+VERSIONID=2.0.1017
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022

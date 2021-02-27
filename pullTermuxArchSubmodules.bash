@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Copyright 2017-2020 (c) by TermuxArch, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
+## Copyright 2017-2021 (c) by TermuxArch, all rights reserved, see LICENSE 🌎 🌍 🌏 🌐 🗺
 ## https://termuxarch.github.io/TermuxArch courtesy host https://pages.github.com
 ## update git repository, then update modules
 ################################################################################
