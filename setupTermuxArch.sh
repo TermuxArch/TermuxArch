@@ -2,9 +2,9 @@
 ## copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
-## command 'setupTermuxArch h[elp]' has information how to use this file
+## commands 'setupTermuxArch h[elp]' have information how to use this file
 ################################################################################
-VERSIONID=2.0.1014
+VERSIONID=2.0.1015
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
