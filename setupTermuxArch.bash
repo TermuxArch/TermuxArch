@@ -4,7 +4,7 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.1012
+VERSIONID=2.0.1013
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -300,7 +300,7 @@ then
 printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
-_PRINTINTRO_ "will attempt to install Linux in $INSTALLDIR.  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will attempt to install Linux in " "$INSTALLDIR" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DEPENDSBLOCK_ "$@"
 if [[ "$LCC" = "1" ]]
 then
@@ -313,7 +313,7 @@ fi
 _INTROBLOOM_() { # BLOOM = setupTermuxArch manual verbose
 OPT=BLOOM
 printf "\033]2;%s\007" "bash ${0##*/} bloom 📲"
-_PRINTINTRO_ "bloom option."
+_PRINTINTRO_ "bloom option" "" ""
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _BLOOM_
@@ -339,7 +339,7 @@ fi
 _INTROSYSINFO_() {
 printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲"
 _SETROOT_EXCEPTION_
-_PRINTINTRO_ "will create a system information file."
+_PRINTINTRO_ "will create a system information file" "" ""
 _DEPENDSBLOCK_ "$@"
 _SYSINFO_ "$@"
 }
@@ -373,7 +373,7 @@ rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
 fi
 exit 204
 fi
-_PRINTINTRO_ "will refresh your TermuxArch files in $INSTALLDIR.  Arch Linux in Termux PRoot will be available upon successful completion"
+_PRINTINTRO_ "will refresh your TermuxArch files in " "$INSTALLDIR" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 }
 
 _INTROREFRESH_() {
@@ -621,7 +621,7 @@ fi
 }
 
 _PRINTINTRO_() {
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1.  You can use '!!' to run this BASH script again.  Please ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  Run \\e[1;32mbash %s help \\e[1;34mfor additional information.  \\e[0;34m" "$VERSIONID" "${0##*/}"
+printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again.  Please ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  Run \\e[1;32mbash %s help \\e[1;34mfor additional information.  \\e[0;34m" "$VERSIONID" "${0##*/}"
 }
 
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
