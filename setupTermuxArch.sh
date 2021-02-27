@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-## copyright 2017-2020 (c) by SDRausty, all rights reserved, see LICENSE
+## copyright 2017-2021 (c) by SDRausty, all rights reserved, see LICENSE
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.1009
+VERSIONID=2.0.1010
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -1134,4 +1134,4 @@ fi
 ## File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 ## These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command 'git pull' and 'pullTermuxArchSubmodules.bash' to update to the newest version published.
 ## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using setupTermuxArch!
-## setupTermuxArch EOF
+# setupTermuxArch EOF

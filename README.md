@@ -1,4 +1,4 @@
-<link rel="prerender" href="https://termuxarch.github.io/TermuxArch/">
+<link rel="prerender" href="https://SDRausty.github.io/TermuxArch/">
 
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
 ##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) 
