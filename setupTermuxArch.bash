@@ -4,7 +4,7 @@
 ## https://termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for helping
 ## command 'setupTermuxArch h[elp]' has information how to use this file
 ################################################################################
-VERSIONID=2.0.1011
+VERSIONID=2.0.1012
 set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
@@ -300,7 +300,7 @@ then
 printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} install' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s will attempt to install Linux in \\e[0;32m%s\\e[1;34m.  Arch Linux in Termux PRoot will be available upon successful completion.  You can use '!!' to run this BASH script again.  Please ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  \\e[0;34m" "$VERSIONID" "$INSTALLDIR"
+_PRINTINTRO_ "will attempt to install Linux in $INSTALLDIR.  Arch Linux in Termux PRoot will be available upon successful completion"
 _DEPENDSBLOCK_ "$@"
 if [[ "$LCC" = "1" ]]
 then
@@ -313,7 +313,7 @@ fi
 _INTROBLOOM_() { # BLOOM = setupTermuxArch manual verbose
 OPT=BLOOM
 printf "\033]2;%s\007" "bash ${0##*/} bloom 📲"
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID bloom option.  Run \\e[1;32mbash ${0##*/} help \\e[1;34mfor additional information.  Please ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+_PRINTINTRO_ "bloom option."
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _BLOOM_
@@ -339,7 +339,7 @@ fi
 _INTROSYSINFO_() {
 printf "\033]2;%s\007" "bash ${0##*/} sysinfo 📲"
 _SETROOT_EXCEPTION_
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mTermuxArch $VERSIONID will create a system information file.  Please ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+_PRINTINTRO_ "will create a system information file."
 _DEPENDSBLOCK_ "$@"
 _SYSINFO_ "$@"
 }
@@ -373,7 +373,7 @@ rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
 fi
 exit 204
 fi
-printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ $VERSIONID will refresh your TermuxArch files in \\e[0;32m~/${INSTALLDIR##*/}\\e[1;34m.  Please ensure background data is not restricted.  Run \\e[0;32mbash ${0##*/} help \\e[1;34mfor additional information.  Check the wireless connection if you do not see one o'clock 🕐 below.  "
+_PRINTINTRO_ "will refresh your TermuxArch files in $INSTALLDIR.  Arch Linux in Termux PRoot will be available upon successful completion"
 }
 
 _INTROREFRESH_() {
@@ -591,12 +591,14 @@ exit 124
 }
 
 _PRINTSTARTBIN_USAGE_() {
-printf "\\e[1;38;5;155m"
 _NAMESTARTARCH_
 if [[ -x "$(command -v "$STARTBIN")" ]]
 then
-printf "\\n%s\\n" "$STARTBIN help"
+printf "\\e[1;38;5;155m\\n%s\\e[0m\\n" "$STARTBIN help"
 "$STARTBIN" help
+printf "\\n"
+else
+printf "\\n"
 fi
 }
 
@@ -610,12 +612,16 @@ printf "\\n\\e[1;32m  %s    \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s\\n" "PURGE"
 printf "\\n\\e[1;32m  %s  \\e[0;32mcommand \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s \\e[0;32m%s \\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "SYSINFO" "'${0##*/} sysinfo'" "creates a system information file;  A file like" "setupTermuxArchSysInfo$STIME.log" "will be populated with device and system information in the working directory.  Please post information from this file along with details at" "https://github.com/TermuxArch/TermuxArch/issues" " if questions or comments are related to a particular device;  Should screenshots help in resolving an issue, include these with information from this system information log file as well.  If you are sharing an issue please consider creating a pull request at " "https://github.com/TermuxArch/TermuxArch/pulls" " also.  A pull request can give a much better perspective of how an issue can be easily resolved."
 if [[ "$LCC" = 1 ]]
 then
-printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,1240p;1240p' "$0"|grep "^##"|sed 's/## /\n  /g')"
+printf "\\e[1;38;5;150m%s\\n\\n" "$(sed -n '600,1240p;1240p' "$0" | grep "^##" | sed 's/## /\n  /g')"
 printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has \\e[1;32m%s\\e[0;32m usage information:\\n" "'$STARTBIN help'" "'$STARTBIN'"
 _PRINTSTARTBIN_USAGE_
 else
 printf "\\e[0;32m  Command \\e[1;32m%s\\e[0;32m has \\e[1;32m%s\\e[0;32m usage information.\\n\\n" "'$STARTBIN help'" "'$STARTBIN'"
 fi
+}
+
+_PRINTINTRO_() {
+printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1.  You can use '!!' to run this BASH script again.  Please ensure background data is not restricted.  Check the wireless connection if you do not see one o'clock 🕐 below.  Run \\e[1;32mbash %s help \\e[1;34mfor additional information.  \\e[0;34m" "$VERSIONID" "${0##*/}"
 }
 
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
