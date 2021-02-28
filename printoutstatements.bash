@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.1018"
+FLHDR1[5]="VERSIONID=2.0.1019"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -237,4 +237,4 @@ declare -g PRINTROOTDIR
 PRINTROOTDIR="$(printf "%s" "${ROOTDIR%/}"|sed 's#//*#/#g')"
 }
 _PRINTROOTDIRFUNCTION_
-## printoutstatements.bash EOF
+# printoutstatements.bash EOF
