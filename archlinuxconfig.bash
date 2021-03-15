@@ -683,10 +683,14 @@ EOM
 chmod 700 usr/local/bin/gp
 }
 
-_ADDinputrc() {
+_ADDinputrc_() {
 cat > root/.inputrc <<- EOM
 set bell-style none
 EOM
+}
+
+_ADDtpumx_() {
+:
 }
 
 _ADDkeys_() {
