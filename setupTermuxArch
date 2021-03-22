@@ -120,7 +120,7 @@ cd "$TAMPDIR"
 }
 
 _CHOOSEABI_(){
-if [[ -z "$ABILIST64" ]]
+if [[ -z "$CPUABILIST64" ]]
 then
 ARCHITEC="i386"
 CPUABI="x86"
@@ -1064,12 +1064,20 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with mi
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [visu[alorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
-elif [[ "${1//-}" = [Vv][Ii][Ss][Uu]* ]]
+## [vis[ualorca] [manual] [install|refresh] [customdir]]  Install on smartphone.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.  Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
+elif [[ "${1//-}" = [Vv][Ii][Ss]* ]]
 then
 VLORALCR=0
-printf "\\nSetting mode to visu[alorca] [manual] [install|refresh] [customdir].\\n"
-ABILIST64="$(getprop ro.product.cpu.abilist64)"
+printf "\\nSetting mode to vis[ualorca] [manual] [install|refresh] [customdir].\\n"
+_OPT1_ "$@"
+_PREPTERMUXARCH_
+_INTRO_ "$@"
+## [vi[sualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.  Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
+elif "${1//-}" = [Vv][Ii]* ]]
+then
+VLORALCR=0
+printf "\\nSetting mode to vi[sualorca] [manual] [install|refresh] [customdir].\\n"
+CPUABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
 then
@@ -1081,12 +1089,12 @@ _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
 fi
-## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation. Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
+## [v[isualorca] [manual] [install|refresh] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Please use the TermuxArch command 'orcaconf' once Arch Linux in Termux PRoot in installed to complete the configuration.  Issue [Expanding setupTermuxArch so visually impaired users can install Orca screen reader (assistive technology) and have VNC support added easily. #34](https://github.com/TermuxArch/TermuxArch/issues/34) has more information about this option.
 elif [[ "${1//-}" = [Vv]* ]]
 then
 VLORALCR=0
 printf "\\nSetting mode to v[isualorca] [manual] [install|refresh] [customdir].\\n"
-ABILIST64="$(getprop ro.product.cpu.abilist64)"
+CPUABILIST64="$(getprop ro.product.cpu.abilist64)"
 CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
 then
