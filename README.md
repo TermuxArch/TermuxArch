@@ -3,16 +3,16 @@
 ## [TermuxArch](https://github.com/TermuxArch/TermuxArch/)
 
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
-##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch) 
+##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch)
 
 This Termux bash setup shell script will attempt to set Arch Linux up in your Termux environment.  Please see [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch) on device.  You can use `bash setupTermuxArch[.{bash,bin,sh}]` once downloaded to install [Arch Linux](https://wiki.archlinux.org/) in a [Termux PRoot](https://github.com/termux/proot) container on your Android smartphone and tablet, and Chromebook too.  When successfully completed, you will be experiencing the pleasure of the Linux command prompt in Arch Linux in Termux PRoot on Android, Chromebook and Fire OS on smartphone, tablet and wearable.
 
 #### Screenshot from an Android smartphone 2018
 [![screenshot_20180413-172406](https://user-images.githubusercontent.com/27742457/38758637-ec0ff0dc-3f3f-11e8-802c-82bc511cde88.png)](https://TermuxArch.github.io/docsTermuxArch/install)
 
-* Comments are welcome at [https://github.com/TermuxArch/TermuxArch/issues](https://github.com/TermuxArch/TermuxArch/issues?q=is%3Aissue+is%3Aclosed) ✍ 
+* Comments are welcome at [https://github.com/TermuxArch/TermuxArch/issues](https://github.com/TermuxArch/TermuxArch/issues?q=is%3Aissue+is%3Aclosed) ✍
 
-* Pull requests are welcome at [https://github.com/TermuxArch/TermuxArch/pulls](https://github.com/TermuxArch/TermuxArch/pulls?q=is%3Apr+is%3Aclosed) ✍ 
+* Pull requests are welcome at [https://github.com/TermuxArch/TermuxArch/pulls](https://github.com/TermuxArch/TermuxArch/pulls?q=is%3Apr+is%3Aclosed) ✍
 
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
@@ -24,23 +24,23 @@ Share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
 
 Install Arch Linux into a Termux PRoot container with [`curl -OL https://TermuxArch.github.io/TermuxArch/setupTermuxArch && bash setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch).  After succesfull installation start the container with `startarch`.
 
-See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch) on device.  
+See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch) on device.
 
 See https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.
 
-This repository uses submodules.  To get all the pieces of this repository run the following code after cloning in the root directory of this repository: 
+This repository uses submodules.  To get all the pieces of this repository run the following code after cloning in the root directory of this repository:
 
 [`pullTermuxArchSubmodules.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/pullTermuxArchSubmodules.bash)
 
 ## FACTS ABOUT THIS PROJECT:
 
-The core dataset can be viewed and tooled to your wish and desire with command 'setupTermuxArch bloom' which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command 'setupTermuxArch bloom' is much like the command 'setupTermuxArch manual';  The bloom option is more expansive than 'setupTermuxArch manual' which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands 'setupTermuxArch h[e[lp]]' for additional information how to use 'setupTermuxArch'.
+The core dataset can be viewed and tooled to your wish and desire with command `setupTermuxArch bloom` which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command `setupTermuxArch bloom` is much like the command `setupTermuxArch manual`;  The bloom option is more expansive than `setupTermuxArch manual` which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands `setupTermuxArch h[e[lp]]` for additional information how to use `setupTermuxArch`.
 
-Files 'setupTermuxArch.{bash,sh}' are held for backward compatibility;  Please reference file 'setupTermuxArch' as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File 'setupTermuxArch' is earmarked as the install file name for this project.
+Files `setupTermuxArch.{bash,sh}` are held for backward compatibility;  Please reference file `setupTermuxArch` as the chosen install file if aid and assistance be through sharing insight about this Arch Linux in a Termux PRoot container project which can be used on a smartphone, smartTV, tablet, wearable and more.  File `setupTermuxArch` is earmarked as the install file name for this project.
 
-File 'setupTermuxArch' downloads as files 'setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command 'bash ~/storage/downloads/setupTermuxArch.bin' and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
+File `setupTermuxArch` downloads as files `setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]`' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command `bash ~/storage/downloads/setupTermuxArch.bin` and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 
-These files 'setupTermuxArch[.{bash,sh}]' will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command 'git pull' and 'pullTermuxArchSubmodules.bash' to update to the newest version published.
+These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command `git pull && git submodule update --init --remote --recursive` and `pullTermuxArchSubmodules.bash` to update to the newest version published.
 
 #### Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using [our product](https://github.com/TermuxArch/)!
 <!-- README.md EOF -->
