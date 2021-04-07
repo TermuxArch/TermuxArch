@@ -1135,5 +1135,5 @@ fi
 ## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
 ## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
-## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using our product; setupTermuxArch!
+## Many very hardy thank yous to contributors who are helping and have worked to make this open source resource better!  Please accept a wholehearted THANK YOU for using our product!
 ## setupTermuxArch EOF
