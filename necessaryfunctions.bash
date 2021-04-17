@@ -20,6 +20,7 @@ _ADDOPEN4ROOT_
 _ADDREADME_
 _ADDresolvconf_
 _ADDae_
+_ADDabrowser_
 _ADDmakeaurhelpers_
 _ADDbash_logout_
 _ADDbash_profile_

@@ -120,6 +120,15 @@ EOM
 chmod 700 usr/local/bin/ae
 }
 
+_ADDabrowser_() {
+_CFLHDR_ usr/local/bin/abrowser "# contributor https://www.reddit.com/u/DutchOfBurdock"
+cat >> usr/local/bin/abrowser <<- EOM
+am start -a android.intent.action.OPEN_DOCUMENT -d /storage/emulated/0 -t '*/*'
+## abrowser EOF
+EOM
+chmod 700 usr/local/bin/abrowser
+}
+
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM

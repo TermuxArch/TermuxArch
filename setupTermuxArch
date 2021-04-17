@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1061
+VERSIONID=2.0.1062
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -587,7 +587,7 @@ _EDITORCHOOSER_
 
 _PRINTERRORMSG_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can find improvements and the timr for " "${0##*}" " please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you can improvements for " "${0##*} " "please open an issue and an accompanying pull request.  A PR can assist in shedding more light on an issue."
 }
 
 _PRPREFRESH_() {
