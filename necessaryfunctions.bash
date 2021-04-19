@@ -63,6 +63,7 @@ _ADDprofileusretc_
 fi
 _ADDt_
 _ADDthstartarch_
+_ADDtimings_
 _ADDtools_
 _ADDtour_
 _ADDtrim_
