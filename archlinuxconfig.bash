@@ -112,7 +112,7 @@ EOM
 }
 
 _ADDae_() {
-_CFLHDR_ usr/local/bin/ae "# Contributor https://github.com/cb125"
+_CFLHDR_ usr/local/bin/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
 cat >> usr/local/bin/ae <<- EOM
 watch cat /proc/sys/kernel/random/entropy_avail
 ## ae EOF
