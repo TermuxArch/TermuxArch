@@ -121,9 +121,9 @@ chmod 700 usr/local/bin/ae
 }
 
 _ADDabrowser_() {
-_CFLHDR_ usr/local/bin/abrowser "# contributor https://www.reddit.com/u/DutchOfBurdock"
+_CFLHDR_ usr/local/bin/abrowser "# Developed at https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/ Contributors /u/DutchOfBurdock /u/xeffyr"
 cat >> usr/local/bin/abrowser <<- EOM
-am start -a android.intent.action.OPEN_DOCUMENT -d /storage/emulated/0 -t '*/*'
+am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"
 ## abrowser EOF
 EOM
 chmod 700 usr/local/bin/abrowser
