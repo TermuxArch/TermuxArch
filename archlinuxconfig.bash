@@ -574,10 +574,10 @@ EOM
 _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 cat >> var/binds/bindexample.prs <<- EOM
-# PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
-# PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
-# PROOTSTMNT+="-b /proc/:/proc/ "
-# [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
+## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
+## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
+## PROOTSTMNT+="-b /proc/:/proc/ "
+## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 ## bindexample.prs EOF
 EOM
 }
