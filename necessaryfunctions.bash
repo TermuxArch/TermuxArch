@@ -369,9 +369,18 @@ then
 printf '\033]2; TermuxArch $STARTBIN elogin %s 📲 :DONE 🏁 \007' "\$2"
 set +Eeuo pipefail
 umask 0022
+touch "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/$$elock"
+if [ ! -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
+then
+printf "%s" "Creating file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck': "
+touch "$INSTALLDIR/var/lib/pacman/db.lck"
+printf "%s\\n" "DONE"
+fi
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/$$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck: \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}/$$elock\"" "fi" > "$INSTALLDIR/home/\$2/.bash_logout"
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+"$STARTBIN" c pacmandblock
 set -Eeuo pipefail
 ## [esu user command] Login as user and execute command.
 elif [[ "\${1//-}" = [Ee][Ss]* ]]
