@@ -380,7 +380,6 @@ printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLD
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
-"$STARTBIN" c pacmandblock
 set -Eeuo pipefail
 ## [esu user command] Login as user and execute command.
 elif [[ "\${1//-}" = [Ee][Ss]* ]]
