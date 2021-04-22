@@ -53,6 +53,7 @@ _ADDmakefakeroottcp_
 _ADDmakeyay_
 _ADDorcaconf_
 _ADDpatchmakepkg_
+_ADDpacmandblock_
 _ADDpc_
 _ADDpci_
 _ADDprofile_

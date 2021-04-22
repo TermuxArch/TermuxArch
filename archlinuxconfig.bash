@@ -1026,6 +1026,26 @@ EOM
 chmod 700 usr/local/bin/patchmakepkg
 }
 
+_ADDpacmandblock_() {
+_CFLHDR_ usr/local/bin/pacmandblock "# When using the alternate elogin or euser option to login with $STARTBIN as user 'pacman' does not behave as expected;  Hence 'pacman' is blocked when the alternate login feature is used."
+cat >> usr/local/bin/pacmandblock <<- EOM
+LOCKFILE="/var/lib/pacman/db.lck"
+if [ ! -f "\$LOCKFILE" ]
+then
+printf "%s" "Creating file \$LOCKFILE: "
+touch "\$LOCKFILE"
+printf "%s\\\\n" "DONE"
+elif [ -f "\$LOCKFILE" ]
+then
+printf "%s" "Deleting file \$LOCKFILE: "
+rm -f "\$LOCKFILE"
+printf "%s\\\\n" "DONE"
+fi
+## pacmandblock EOF
+EOM
+chmod 700 usr/local/bin/pacmandblock
+}
+
 _ADDpc_() {
 _CFLHDR_ usr/local/bin/pc "# pacman install packages wrapper without system update"
 cat >> usr/local/bin/pc <<- EOM
