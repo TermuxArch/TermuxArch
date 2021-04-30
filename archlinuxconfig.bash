@@ -1196,6 +1196,7 @@ sleep 1
 time nice -n 20 cat 500KBfile.txt
 sleep 2
 done
+rm -f 500KBfile.txt
 ## timings EOF
 EOM
 chmod 700 usr/local/bin/timings
