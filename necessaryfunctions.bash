@@ -372,7 +372,7 @@ umask 0022
 touch "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
 if [ ! -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
-printf "%s" "Creating file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot after exiting this session: "
+printf "%s" "Creating file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
 
 touch "$INSTALLDIR/var/lib/pacman/db.lck"
 printf "%s\\n" "DONE"
