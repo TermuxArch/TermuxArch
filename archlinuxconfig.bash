@@ -1076,15 +1076,15 @@ then
 printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
 elif [[ "\$1" = "a" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 elif [[ "\$1" = "ae" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "a8" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -S "\$@"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 fi
 ## pc EOF
 EOM
@@ -1113,18 +1113,18 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "e8" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
 elif [[ "\$1" = "e10" ]]
 then
-\$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk10-openjdk "\${@:2}"
 else
-\$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
+nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@"
 fi
 ## pci EOF
 EOM
@@ -1291,7 +1291,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
 _SUTRIM_() {
-\$SUTRIM pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Sc \${0##*/}"
+nice -n 19 \$SUTRIM pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Sc \${0##*/}"
 }
 if [[ "\$UID" -eq 0 ]]
 then
