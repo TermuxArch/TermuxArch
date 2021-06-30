@@ -20,15 +20,15 @@ Thank you for making this project work better and please contribute 🔆  [Cont
 
 [PRoot](https://termuxarch.github.io/docsTermuxArch/PRoot) has more information about Linux on device with Termux.
 
-Share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
+Pleade share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
 
 Install Arch Linux into a Termux PRoot container with [`curl -OL https://TermuxArch.github.io/TermuxArch/setupTermuxArch && bash setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch).  After succesfull installation start the container with `startarch`.
 
-See https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch) on device.
+Please see https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch) on device.
 
-See https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.
+Please see  https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.  If you find any errors, then feel free open both a pull request, and an accomanying issue referencing it in the apropriate repository.
 
-This repository uses submodules.  To get all the pieces of this repository run the following code after cloning in the root directory of this repository:
+This repository uses submodules.  To get all the pieces of this repository you can run the following code after cloning in the root directory of this repository:
 
 [`pullTermuxArchSubmodules.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/pullTermuxArchSubmodules.bash)
 
