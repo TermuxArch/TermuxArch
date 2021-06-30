@@ -26,7 +26,7 @@ Install Arch Linux into a Termux PRoot container with [`curl -OL https://TermuxA
 
 Please see https://TermuxArch.github.io/TermuxArch/docs/install for options how to run [`setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch) on device.
 
-Please see  https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.  If you find any errors, then please feel free open both a pull request, and an accomanying issue referencing it in the apropriate repository.
+Please see  https://TermuxArch.github.io/docsTermuxArch/startingArch for options how to start the Arch Linux container `startarch` on device.  If you find any errors, then please feel free open both a pull request, and an accompanying issue referencing it in the appropriate repository.
 
 This repository uses submodules.  To get all the pieces of this repository you can run the following code after cloning in the root directory of this repository:
 
