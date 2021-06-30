@@ -20,7 +20,7 @@
 
 __Source code goals for this project are:__
 1. That it work as desired and provide the ultimate user experience possible when executed,
-2. Minimum lines and length possible while being obviously legible, clearly readable and understandable, all at the same time.  It.bashould be a pleasure to read.  This includes the documentation too.
+2. Minimum SSD write cycles with the minimum lines and length of the code possible, while still being obviously legible and clearly readable and understandable, all at the same time;  It should be a pleasure to read including the documentation too.
 
 Contributions have helped in the successful development of this script and project immensely.  Understanding the goals and workings of this project.bashall make interacting with this project all the more rewarding.  If you are considering collaborating, help is wanted in:
 1. Coding - Submit modifications in the `scripts/files` directory at [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) Run `/scripts/maintenance/makedownload.bash` to generate checksums and files,
