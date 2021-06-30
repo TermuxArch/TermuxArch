@@ -20,12 +20,16 @@
 
 __Source code goals for this project are:__
 1. That it work as desired and provide the ultimate user experience possible when executed,
-2. Minimum SSD write cycles with the minimum lines and length of the code possible, while still being obviously legible and clearly readable and understandable, all at the same time;  It should be a pleasure to read including the documentation too.
+2. Minimum SSD write cycles with the minimum lines and length of code as possible, while still being obviously legible and clearly readable and understandable, all at the same time;  It should be a pleasure to read including the documentation too.
 
-Contributions have helped in the successful development of this script and project immensely.  Understanding the goals and workings of this project.bashall make interacting with this project all the more rewarding.  If you are considering collaborating, help is wanted in:
+Two code linting aides used to achieve this project goal are:
+1.  https://github.com/anordal/shellharden
+2.  https://github.com/koalaman/shellcheck
+
+Many contributions have helped in the successful development of this script and project immensely.  Understanding the goals and workings of this project can make interacting with this project all the more rewarding.  If you are considering collaborating, help is wanted in:
 1. Coding - Submit modifications in the `scripts/files` directory at [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) Run `/scripts/maintenance/makedownload.bash` to generate checksums and files,
 2. Documentation - Submit modifications at [https://github.com/sdrausty/docsTermuxArch](https://github.com/sdrausty/docsTermuxArch),
-3. Scree.bashots and Animations - Submit modifications at [https://github.com/sdrausty/imgsTermuxArch](https://github.com/sdrausty/imgsTermuxArch).
+3. Animations and Screenshots - Please contribute modifications at [https://github.com/sdrausty/imgsTermuxArch](https://github.com/sdrausty/imgsTermuxArch).
 
 These pages and projects can be altered to our desire. Please think of them as a wiki pages that you have access to change if you want.  Thank you for contributing and collaborating to those who have helped improve this project.
 
