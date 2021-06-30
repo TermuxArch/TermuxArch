@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1092
+VERSIONID=2.0.1098
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -913,7 +913,7 @@ then
 _ARG2DIR_ "$@"
 _PRINTUSAGE_ "$@"
 ## [h [customdir]]  Display verbose builtin help.
-elif [[ "${1//-}" = [Hh]* ]]
+elif [[ "${1//-}" = [?]* ]] || [[ "${1//-}" = [Hh]* ]]
 then
 LCC="1"
 _ARG2DIR_ "$@"
