@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1102
+VERSIONID=2.0.1103
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -26,7 +26,7 @@ _STRPEXIT_() { # run on exit
 local RV="$?"
 rm -rf "$TAMPDIR"
 sleep 0.04
-if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
@@ -183,7 +183,6 @@ for PKG in "${!ATM[@]}"
 do
 if [[ -x $(command -v "${ATM[$PKG]}") ]]
 then
-tm="$PKG"
 printf "\\nFound tar tool '%s': Continuing...\\n" "$PKG"
 break
 fi
@@ -271,7 +270,7 @@ if command -v editor 1>/dev/null
 then
 USEREDIT="editor"
 fi
-elif [[ ! -z "${EDITOR:-}" ]]
+elif [[ -n "${EDITOR:-}" ]]
 then
 USEREDIT="$EDITOR"
 fi
@@ -349,7 +348,7 @@ done
 fi
 if [[ -z "${DIRCHECK:-}" ]]
 then
-printf "‰s\\n" "Variable DIRCHECK is unbound."
+printf "Variable DIRCHECK is unbound.\\n"
 elif [[ "$DIRCHECK" -eq 1 ]]
 then	# delete superfluous tmp dir
 rm -rf "$INSTALLDIR"/tmp
@@ -716,11 +715,11 @@ printf "\\e[1;30m"
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
 EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d || printf "")")
-if [[ ! -z "${EXONSTGE:-}" ]]
+if [[ -n "${EXONSTGE:-}" ]]
 then
 chmod 777 $EXONSTGE
 fi
-if [[ ! -z "${EXONSTGE:-}" ]]
+if [[ -n "${EXONSTGE:-}" ]]
 then
 _DOEXONSTGE_
 fi
@@ -735,7 +734,7 @@ exit 125
 fi
 }
 _TAMATRIXEXIT_() { # run when Matrix presentation ends
-if [[ ! -z "${TAMATRIXENDLCR:-}" ]]
+if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
