@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1099
+VERSIONID=2.0.1100
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -460,7 +460,6 @@ _INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr][Ee]* ]]
 then
 shift
-printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -468,7 +467,6 @@ _INTROREFRESH_ "$@"
 elif [[ "$2" = [Rr]* ]]
 then
 shift
-printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  You can use" "${0##*/} re[fresh]" "for full system refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -486,7 +484,6 @@ _PREPTERMUXARCH_
 elif [[ "$3" = [Ii]* ]]
 then
 shift 2
-printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTRO_ "$@"
@@ -514,7 +511,6 @@ _INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr][Ee]* ]]
 then
 shift 2
-printf "\\n%s\\n" "Setting mode to minimal refresh and refresh user directories."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -522,7 +518,6 @@ _INTROREFRESH_ "$@"
 elif [[ "$3" = [Rr]* ]]
 then
 shift 2
-printf "\\n\\e[1;32m%s\\e[1;34m: \\e[0;32m%s '%s' %s\\n\\e[0m" "Setting mode" "minimal refresh;  Use" "${0##*/} re[fresh]" "for full system refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
