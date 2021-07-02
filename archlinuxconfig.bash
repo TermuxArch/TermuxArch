@@ -431,7 +431,7 @@ _CFLHDR_ usr/local/bin/dfa
 cat >> usr/local/bin/dfa <<- EOM
 DFUNIT="\$(df | awk 'FNR == 1 {print \$2}')"
 DFDATA="\$(df)"
-USRSPACE="\$(df | grep "/data" | awk {'print \$4'} | sort | tail -n 1)"
+USRSPACE="\$(df | grep "/data" | awk {'print \$4'} | sort | tail -n 1 || df | grep -w "/" | awk {'print \$4'} | sort | tail -n 1)"
 ARGS="\$USRSPACE \$DFUNIT"
 printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is available on this device."
 ## dfa EOF

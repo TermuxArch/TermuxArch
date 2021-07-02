@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1106
+VERSIONID=2.0.1111
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -104,7 +104,7 @@ then	# update the working file to newest version
 ## update working file
 cd "$WDIR"
 cp "$TAMPDIR/setupTermuxArch" "$0"
-[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
 ## restart with updated version
 . $0 $ARGS
 fi
