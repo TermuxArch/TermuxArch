@@ -1244,12 +1244,25 @@ elif [[ $EDO01LCR = 0 ]]
 then
 PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find $PREFIX/bin -type f -executable -name termux-)"
 fi
+_CPSTOOL_() {	# copy Termux tool to PRoot installation
+cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..."
+}
 for STOOL in ${PRFXTOLS[@]}
 do
-WHICHSTOOL="$(which $STOOL)"
+WHICHSTOOL="$(which $STOOL || printf "1")"
 if [ ! -f "$INSTALLDIR/usr/local/bin/$STOOL" ]
 then
-printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+_CPSTOOL_
+else
+if [ "$WHICHSTOOL" != 1 ]
+then
+if ! diff "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL"
+then
+_CPSTOOL_
+fi
+else
+printf "System tool \\e[1m'%s'\\e[0m cannot be found: continuing...\\e[1\\n" "$STOOL"
+fi
 fi
 done
 if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
