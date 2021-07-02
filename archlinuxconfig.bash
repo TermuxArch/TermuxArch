@@ -1246,7 +1246,11 @@ PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep 
 fi
 for STOOL in ${PRFXTOLS[@]}
 do
-WHICHSTOOL="$(which $STOOL)" && cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+WHICHSTOOL="$(which $STOOL)"
+if [ ! -f "$INSTALLDIR/usr/local/bin/$STOOL" ]
+then
+printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..." || printf "%s\\n" "System tool $STOOL cannot be found: continuing..."
+fi
 done
 if [ ! -e root/storage ] && [ -e "$HOME/storage" ]
 then
