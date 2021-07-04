@@ -1241,14 +1241,14 @@ PRFXTOLS=(top)
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
-PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find $PREFIX/bin -type f -executable -name termux-)"
+PRFXTOLS="am awk dpkg getprop grep gzip ping ps sed top which $(compgen -c|grep termux- || find "$PREFIX/bin" -type f -executable -name termux-)"
 fi
 _CPSTOOL_() {	# copy Termux tool to PRoot installation
 cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICHSTOOL $INSTALLDIR/usr/local/bin/$STOOL: continuing..."
 }
 for STOOL in ${PRFXTOLS[@]}
 do
-WHICHSTOOL="$(which $STOOL || printf "1")"
+WHICHSTOOL="$(which "$STOOL" || printf "1")"
 if [ ! -f "$INSTALLDIR/usr/local/bin/$STOOL" ]
 then
 _CPSTOOL_
@@ -1532,7 +1532,7 @@ _DOMODdotfiles_() {
 _MODdotfile_() {
 _MODdotfNF_() {
 printf "\\e[0;33mline %s can not be found in %s file \\e[0;34m: adding line %s to %s file \\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME"
-printf "$MODFILEADD\\n" >> "$INSTALLDIR/root/$MODFILENAME"
+printf "%s\\n" "$MODFILEADD" >> "$INSTALLDIR/root/$MODFILENAME"
 }
 # add MODFILEADD to file /root/MODFILENAME
 [[ -f "$INSTALLDIR/root/$MODFILENAME" ]] && (_DOTHRF_ "root/$MODFILENAME" && ! grep -q "$MODFILEADD" "$INSTALLDIR/root/$MODFILENAME" && _MODdotfNF_ || printf "\\e[0;34mline %s found in %s file\\e[0m\\n" "'$MODFILEADD'" "/${INSTALLDIR##*/}/root/$MODFILENAME") || _MODdotfNF_
