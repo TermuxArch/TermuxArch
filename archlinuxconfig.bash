@@ -1323,7 +1323,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
 _SUTRIM_() {
-nice -n 19 \$SUTRIM pacman -Sc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Sc \${0##*/}"
+nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Scc \${0##*/}"
 }
 if [[ "\$UID" -eq 0 ]]
 then
@@ -1339,8 +1339,8 @@ printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
 printf "%s\\\\n" "[4/5] \$SUTRIM"
 _SUTRIM_
-printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*xz"
-rm -f /var/cache/pacman/pkg/*xz || _PMFSESTRING_ "rm -f \${0##*/}"
+printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
+rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
 printf "\\\\n\\\\e[1;32m%s\\\\e[0m\\\\n\\\\n" "\${0##*/} trim \$@: Done"
 ## trim EOF
 EOM
