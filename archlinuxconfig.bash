@@ -1016,9 +1016,8 @@ then
 sed -ie 's/fakeroot -- bash/bash/g' /bin/makepkg
 sed -ir 's/\$(fakeroot -v)/fakeroot -v/g' /bin/makepkg
 # sed append to beginning of lines
-sed -ie 232,234's/.*/# &/' /bin/makepkg
-sed -ie 236's/.*/# &/' /bin/makepkg
-sed -ie 1178,1189's/.*/# &/' /bin/makepkg
+sed -ie 240,241's/.*/# &/' /bin/makepkg
+sed -ie 1195,1199's/.*/# &/' /bin/makepkg
 fi
 # copy makepkg to /usr/local/bin to update proof it (fail safe measure)
 cp /bin/makepkg /usr/local/bin/makepkg
