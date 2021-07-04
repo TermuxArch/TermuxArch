@@ -230,7 +230,7 @@ if [ -e "\$HOME"/.chushlogin ]
 then
 rm -f "\$HOME"/.chushlogin
 fi
-PS1="[\[\e[38;5;148m\]\u\[\e[1;0m\]\A\[\e[1;38;5;112m\]\W\[\e[0m\]]$ "
+PS1="\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ "
 export GPG_TTY="\$(tty)"
 EOM
 for i in "${!LC_TYPE[@]}"
