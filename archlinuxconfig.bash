@@ -1007,7 +1007,7 @@ _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
 [ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
-printf "%s\\\\n" "Attempting to patch makepkg: "
+printf "Patching makepkg: \\\\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
 [ ! -d "\$BKPDIR" ] && mkdir -p "\$BKPDIR"
@@ -1024,7 +1024,7 @@ fi
 cp /bin/makepkg /usr/local/bin/makepkg
 # create lock file to update proof patchmakepkg
 touch "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
-printf "%s\\\\n" "Attempting to patch makepkg: DONE 🏁"
+printf "Patching makepkg: DONE 🏁\\\\n"
 ## patchmakepkg EOF
 EOM
 chmod 700 usr/local/bin/patchmakepkg
