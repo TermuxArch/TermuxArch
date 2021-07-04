@@ -87,7 +87,7 @@ _ADDOPEN4ROOT_() {
 _CFLHDR_ usr/local/bin/open4root "# open TermuxArch programs for root user"
 cat >> usr/local/bin/open4root <<- EOM
 sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
-sed -i 's/EUID\" = 0/EUID\" = -1/g' /usr/local/bin/*
+sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
 EOM
 chmod 700 usr/local/bin/open4root
 }
