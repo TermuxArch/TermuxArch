@@ -134,7 +134,7 @@ then	# add proot bind
 PROOTSTMNT+="-b ${PRSTARR[$PRBIND]}:$PRBIND "
 fi
 done
-PROOTSTMNT+="-w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data "
+PROOTSTMNT+="-b /data/data/com.termux/files/usr/tmp:/tmp -w /root /usr/bin/env -i HOME=/root TERM=\"$TERM\" TMPDIR=/tmp ANDROID_DATA=/data "
 PROOTSTMNTU="${PROOTSTMNT//HOME=\/root/HOME=\/home\/\$2}"
 PROOTSTMNTU="${PROOTSTMNTU//-0 }"
 PROOTSTMNTU="${PROOTSTMNTU//-w \/root/-w \/home\/\$2}" # PRoot user string with link2symlink option enabled
