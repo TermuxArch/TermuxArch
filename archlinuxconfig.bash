@@ -1235,9 +1235,9 @@ if [[ -z "${EDO01LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-PRFXTOLS=(awk top)
+PRFXTOLS="awk top"
 else
-PRFXTOLS=(top)
+PRFXTOLS="top"
 fi
 elif [[ $EDO01LCR = 0 ]]
 then
