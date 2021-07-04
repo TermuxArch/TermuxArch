@@ -104,7 +104,7 @@ if [[ "${QEMUCR:-}" == 0 ]]
 then
 PROOTSTMNT+="-q $PREFIX/bin/qemu-$ARCHITEC "
 fi
-[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex:/apex "
+[[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage "
 ##  Function _PR00TSTRING_ which creates the PRoot init statement PROOTSTMNT uses associative arrays.  Page https://www.gnu.org/software/bash/manual/html_node/Arrays.html has information about BASH arrays and is also available at https://www.gnu.org/software/bash/manual/ this link.
 declare -A PRSTARR # associative array
 # populate writable binds
