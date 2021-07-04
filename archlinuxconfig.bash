@@ -221,7 +221,7 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin\"" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
+printf "%s\\n%s\\n" "PATH=\"\$HOME/bin:\$PATH:/usr/sbin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/system/bin:/system/xbin\"" "[[ -f "\$HOME"/.bashrc ]] && . "\$HOME"/.bashrc" > root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 then
@@ -232,14 +232,28 @@ then
 rm -f "\$HOME"/.chushlogin
 fi
 PS1="\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ "
-export GPG_TTY="\$(tty)"
 EOM
+[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
+cat >> root/.bash_profile <<- EOM
+export ANDROID_ROOT=/system
+EOM
+SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
+for SHELVAR in ${SHELVARS[@]}
+do
+ISHELVAR="$(export | grep $SHELVAR || echo 1)"
+if [[ "$ISHELVAR" != 1 ]]
+then
+printf "export %s\\n" "$(sed 's/declare -x //g' <<< "$ISHELVAR")" >> root/.bash_profile
+fi
+done
 for i in "${!LC_TYPE[@]}"
 do
 printf "%s=\"%s\"\\n" "export ${LC_TYPE[i]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 done
-[[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 cat >> root/.bash_profile <<- EOM
+export GPG_TTY="\$(tty)"
+export MOZ_FAKE_NO_SANDBOX=1
+export PULSE_SERVER=127.0.0.1
 export TZ="$(getprop persist.sys.timezone)"
 ## .bash_profile EOF
 EOM
