@@ -55,13 +55,13 @@ _PRINTDOWNLOADINGFTCH_
 lftpget -c "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
 elif [[ "$DM" = wget ]]
 then
-wget -v -O/dev/null "$CMIRROR" 2>"$TAMPDIR/global2localmirror"
+wget -v -O/dev/null http://"$CMIRROR" 2>"$TAMPDIR/global2localmirror"
 NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $2'})"
 _PRINTDONE_
 _PRINTDOWNLOADINGFTCH_
 wget "$DMVERBOSE" -c --show-progress "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
 else
-curl -v "$CMIRROR" &> "$TAMPDIR/global2localmirror"
+curl -v http://"$CMIRROR" &> "$TAMPDIR/global2localmirror"
 NLCMIRROR="$(grep Location "$TAMPDIR/global2localmirror" | awk {'print $3'})"
 NLCMIRROR="${NLCMIRROR%$'\r'}" # remove trailing carrage return: strip bash variable of non printing characters
 _PRINTDONE_
