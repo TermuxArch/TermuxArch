@@ -29,10 +29,9 @@ MRCOUNTRIESx86_64="("Worldwide" "Australia" "Austria" "Bangladesh" "Belarus" "Be
 
 _BLOOM_() { # Bloom = `setupTermuxArch manual verbose`
 [[ -d "$HOME"/TermuxArchBloom ]] && _RMBLOOMQ_
-mkdir -p "$HOME"/TermuxArchBloom
-cp *sh "$HOME"/TermuxArchBloom
-cp setupTermuxArch "$HOME"/TermuxArchBloom
-cd "$HOME"/TermuxArchBloom
+mkdir -p "$HOME/TermuxArchBloom"
+cp {LICENSE,archlinuxconfig.bash,espritfunctions.bash,getimagefunctions.bash,knownconfigurations.bash,maintenanceroutines.bash,necessaryfunctions.bash,setupTermuxArch,printoutstatements.bash} "$HOME/TermuxArchBloom"
+cd "$HOME/TermuxArchBloom"
 printf "\\e[1;34m%s\\e[1;32m%s\\e[0m 📲\\n\\n" "TermuxArch Bloom option via " "setupTermuxArch bloom"
 ls -agl
 printf "\\n\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m.\\e[0m\\n" "Use " "cd ~/TermuxArchBloom" " to continue.  Edit any of these files;  Then use " "bash ${0##*/} [options]" " to run the files in " "~/TermuxArchBloom"
