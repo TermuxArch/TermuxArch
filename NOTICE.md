@@ -27,16 +27,16 @@ Two BASH source code linting aides used to achieve this project goal are:
 2.  https://github.com/koalaman/shellcheck
 
 Very many contributions have helped in the successful development of this script and project immensely.  Understanding the goals and workings of this project can make interacting with this project all the more rewarding.  If you are considering collaborating, help is wanted in:
-1. Coding - Submit modifications in the `scripts/files` directory at [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) Run `/scripts/maintenance/makedownload.bash` to generate checksums and files,
+1. Coding - Submit modifications in the `scripts/files` directory at [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) Run `.scripts/maintenance/scrips/bash/tgen.bash` to generate checksums and files,
 2. Documentation - Submit modifications at [https://github.com/sdrausty/docsTermuxArch](https://github.com/sdrausty/docsTermuxArch),
 3. Animations and Screenshots - Please contribute modifications at [https://github.com/sdrausty/imgsTermuxArch](https://github.com/sdrausty/imgsTermuxArch).
 
 These pages and projects can be altered to our desire. Please think of them as a wiki pages that you have access to change if you want.  Thank you for contributing and collaborating to those who have helped improve this project.
 
 Additional information:
-* All Termux Arch related issues and pull requests.bashould be addressed through [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) for script changes,
-* All Termux Arch related issues and pull requests.bashould be delivered through [https://github.com/sdrausty/docsTermuxArch](https://github.com/sdrausty/docsTermuxArch) for documentation.
-* All Termux Arch related issues and pull requests.bashould be delivered through [https://github.com/sdrausty/imgsTermuxArch](https://github.com/sdrausty/imgsTermuxArch) for graphics and presentation medium.
+* All Termux Arch related issues and pull requests should be addressed through [https://github.com/sdrausty/TermuxArch](https://github.com/sdrausty/TermuxArch) for script changes,
+* All Termux Arch related issues and pull requests should be delivered through [https://github.com/sdrausty/docsTermuxArch](https://github.com/sdrausty/docsTermuxArch) for documentation.
+* All Termux Arch related issues and pull requests should be delivered through [https://github.com/sdrausty/imgsTermuxArch](https://github.com/sdrausty/imgsTermuxArch) for graphics and presentation medium.
 
 __To avoid "git bloat", these repositories are reset periodically!__  This is also one of the reasons why this project is distributed in these repositories.  If you get a `fatal: refusing to merge unrelated histories` message while working with your current clone, save the important work from your current clone and reclone.
 
