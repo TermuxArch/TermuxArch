@@ -1323,13 +1323,13 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
 _SUTRIM_() {
-nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Scc \${0##*/}"
+nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
 }
 if [[ "\$UID" -eq 0 ]]
 then
 SUTRIM=""
 else
-SUTRIM="sudo "
+SUTRIM="sudo"
 fi
 printf "%s\\\\n" "[1/5] rm -rf /boot/"
 rm -rf /boot/
@@ -1337,7 +1337,7 @@ printf "%s\\\\n" "[2/5] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
-printf "%s\\\\n" "[4/5] \$SUTRIM"
+printf "%s\\\\n" "[4/5] \$SUTRIM pacman -Scc --noconfirm --color=always"
 _SUTRIM_
 printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
 rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
