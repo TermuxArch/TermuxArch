@@ -241,7 +241,7 @@ EOM
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
 do
-ISHELVAR="$(export | grep $SHELVAR || echo 1)"
+ISHELVAR="$(export | grep "$SHELVAR" || echo 1)"
 if [[ "$ISHELVAR" != 1 ]]
 then
 printf "export %s\\n" "$(sed 's/declare -x //g' <<< "$ISHELVAR")" >> root/.bash_profile
