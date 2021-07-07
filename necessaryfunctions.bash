@@ -369,8 +369,10 @@ printf '\033]2; TermuxArch $STARTBIN elogin %s 📲 :DONE 🏁 \007' "\$2"
 set +Eeuo pipefail
 umask 0022
 touch "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
-if [ ! -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
+if [ -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
+printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exista;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  You can use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
+else
 printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
 touch "$INSTALLDIR/var/lib/pacman/db.lck"
 printf "%s\\n" "DONE"
