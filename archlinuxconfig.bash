@@ -1337,7 +1337,7 @@ printf "%s\\\\n" "[2/5] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
-if [ -z "$SUTRIM" ]
+if [ -z "\$SUTRIM" ]
 then
 printf "%s\\\\n" "[4/5] pacman -Scc --noconfirm --color=always" && _SUTRIM_
 else
