@@ -326,7 +326,11 @@ _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in Termux:  EXITING..." && exit 202 ; }
-COMMANDG="\$(command -v getprop)" || _COMMANDGNE_
+COMMANDG="\$(command -v getprop)"
+if [ "\$COMMANDG" = "/usr/local/bin/getprop" ]
+then
+_COMMANDGNE_
+fi
 _PRINTUSAGE_() {
 printf "\\n\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN" "  start Arch Linux in $TXPRQUON with root login.  This account is reserved for system administration.  Please exercise caution when using the system administrator account."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n" "$STARTBIN c[ommand] command" "  run Arch Linux command from Termux as root login.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN c 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please pass commands through the system administrator account with caution."
@@ -371,7 +375,7 @@ umask 0022
 touch "$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
 if [ -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
-printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exista;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  You can use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
+printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exists;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
 else
 printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
 touch "$INSTALLDIR/var/lib/pacman/db.lck"
