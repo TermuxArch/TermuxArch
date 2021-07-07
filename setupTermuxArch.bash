@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1153
+VERSIONID=2.0.1154
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-COMMAND}'!"
@@ -95,7 +95,7 @@ _PRINTSHA512SYSCHKER_
 fi
 }
 _CHKDWN_() {
-sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
 }
 _CHKSELF_() {	# compare setupTermuxArch and file being used
 cd "$WFDIR"	# change directory to working file directory
