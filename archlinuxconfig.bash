@@ -19,11 +19,11 @@ then
 printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: Exiting...\\\\n"
 exit 201
 fi
-if [[ ! -d "/home/\$@" ]]
+if [[ -d "/home/\$@" ]]
 then
-_FUNADDU_ "\$@"
-else
 printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[0;32m: Exiting...\\\\n"
+else
+_FUNADDU_ "\$@"
 fi
 }
 _FUNADDU_() {
