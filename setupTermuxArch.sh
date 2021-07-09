@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1161
+VERSIONID=2.0.1162
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -808,7 +808,7 @@ WFDIR="${WFDIR%/*}"
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and accompanying pull request at GitHub if you would like to have these options amended.
-if [ "$UID" = 0 ]
+if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
 then
 printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated : " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
 fi
