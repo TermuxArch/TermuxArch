@@ -84,26 +84,30 @@ EOM
 }
 
 _ADDOPEN4ROOT_() {
-_CFLHDR_ root/bin/open4root "# open TermuxArch programs for root user"
-cat >> root/bin/open4root <<- EOM
+_CFLHDR_ usr/local/bin/open4root "# open programs in /usr/local/bin/ for root user"
+cat >> usr/local/bin/open4root <<- EOM
 sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
 sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
 ## open4root EOF
 EOM
-chmod 700 root/bin/open4root
+chmod 700 usr/local/bin/open4root
 }
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
 cat > usr/local/bin/README.md <<- EOM
-The HOME/bin directory contains shortcut commands that automate and ease using the command line.  Some of these commands are listed here:
+The /usr/local/bin directory contains shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'keys' installs Arch Linux keys,
 * Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
 * Command 'patchmakepkg' patches the 'makepkg' command,
+* Command 'pc' pacman shortcut command; cat \$(which pc).
+* Command 'pci' pacman shortcut command; cat \$(which pci).
 * Command 'tour' runs a short tour of the Arch Linux system directories,
 * Command 'trim' removes downloaded packages from the Arch Linux system directories.
+* Command 'yt' youtube shortcut command that installs youtube-dl.
+* Command 'v' vim shortcut command that installs youtube-dl.
 
 This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
 
