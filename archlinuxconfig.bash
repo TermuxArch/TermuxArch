@@ -113,7 +113,7 @@ This file can be expanded so the beginning user can get to know the Linux experi
 
 * Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 * Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
-<!--bin/README.md EOF-->
+<!-- /usr/local/bin/README.md EOF -->
 EOM
 }
 
