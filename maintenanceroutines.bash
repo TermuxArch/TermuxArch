@@ -271,6 +271,7 @@ printf "%s\\n" "Device information results:" >> "${WDIR}setupTermuxArchSysInfo$S
 [[ -e /dev/ashmem ]] && printf "%s\n" "/dev/ashmem exists" || printf "%s\n" "/dev/ashmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /dev/ashmem ]] && printf "%s\n" "/dev/ashmem is readable" || printf "%s\n" "/dev/ashmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -w /dev/ashmem ]] && printf "%s\n" "/dev/ashmem is writable" || printf "%s\n" "/dev/ashmem is not writable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s" "Ascertaining system information;  Please wait a moment  "
 [[ -e /dev/shm ]] && printf "%s\n" "/dev/shm exists" || printf "%s\n" "/dev/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /dev/shm ]] && printf "%s\n" "/dev/shm is readable" || printf "%s\n" "/dev/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /proc/stat ]] && printf "%s\n" "/proc/stat exits" || printf "%s\n" "/proc/stat does not exit" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
