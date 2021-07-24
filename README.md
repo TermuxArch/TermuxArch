@@ -20,7 +20,7 @@ Thank you for making this project work better and please contribute 🔆  [Cont
 
 [PRoot](https://termuxarch.github.io/docsTermuxArch/PRoot) has more information about Linux on device with Termux.
 
-Pleade share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
+Please share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
 
 Install Arch Linux into a Termux PRoot container with [`curl -OL https://TermuxArch.github.io/TermuxArch/setupTermuxArch && bash setupTermuxArch`](https://github.com/TermuxArch/TermuxArch/blob/master/setupTermuxArch).  After succesfull installation start the container with `startarch`.
 
