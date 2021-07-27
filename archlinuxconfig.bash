@@ -126,15 +126,6 @@ EOM
 chmod 700 usr/local/bin/ae
 }
 
-_ADDabrowser_() {
-_CFLHDR_ usr/local/bin/abrowser "# Developed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr"
-cat >> usr/local/bin/abrowser <<- EOM
-am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"
-## abrowser EOF
-EOM
-chmod 700 usr/local/bin/abrowser
-}
-
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
@@ -271,7 +262,7 @@ alias ..='cd ../.. && pwd'
 alias ...='cd ../../.. && pwd'
 alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
-alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
+alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"' # Developed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr
 alias aiadial='am start -a android.intent.action.DIAL'
 alias aiasearch='am start -a android.intent.action.SEARCH'
 alias aiaview='am start -a android.intent.action.VIEW'
