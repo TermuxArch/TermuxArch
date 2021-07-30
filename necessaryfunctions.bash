@@ -64,7 +64,7 @@ fi
 _ADDt_
 _ADDthstartarch_
 _ADDtimings_
-_ADDtools_
+# _ADDtools_
 _ADDtour_
 _ADDtrim_
 _ADDv_
