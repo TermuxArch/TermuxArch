@@ -210,7 +210,7 @@ chmod 700 usr/local/bin/makeaurhelpers
 _ADDbash_logout_() {
 cat > root/.bash_logout <<- EOM
 [ ! -f "\$HOME"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
-h # write session history to file HOME/.historyfile
+h
 ## .bash_logout EOF
 EOM
 }
@@ -262,12 +262,12 @@ alias ..='cd ../.. && pwd'
 alias ...='cd ../../.. && pwd'
 alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
-alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"' ## Developed and gleamed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
+alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
 alias aiadial='am start -a android.intent.action.DIAL'
-alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"' ## Developed and gleamed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
+alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
 alias aiasearch='am start -a android.intent.action.SEARCH'
 alias aiaview='am start -a android.intent.action.VIEW'
-alias aiaviewd='am start -a android.intent.action.VIEW -d ' # http://github.com as argument
+alias aiaviewd='am start -a android.intent.action.VIEW -d '
 alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && pwd'
 alias c='cd .. && pwd'
@@ -369,7 +369,7 @@ _CFLHDR_ usr/local/bin/ch "# This script creates .hushlogin and .hushlogout file
 cat >> usr/local/bin/ch <<- EOM
 declare -a ARGS
 
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS[@]"
@@ -505,7 +505,7 @@ PROOTSTMNT+="-b $INSTALLDIR/var/binds/fbindprocshmem:/proc/shmem "
 EOM
 }
 
-_ADDfbindprocstat_() { # Chooses the appropriate four or eight processor stat file.
+_ADDfbindprocstat_() {
 NESSOR="$(grep cessor /proc/cpuinfo)"
 NCESSOR="${NESSOR: -1}"
 if [[ "$NCESSOR" -le "3" ]] 2>/dev/null
@@ -593,7 +593,7 @@ EOM
 _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 cat >> var/binds/bindexample.prs <<- EOM
-## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path " # the space before the last double quote is necessary
+## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "
 ## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
 ## PROOTSTMNT+="-b /proc/:/proc/ "
 ## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
@@ -601,7 +601,7 @@ cat >> var/binds/bindexample.prs <<- EOM
 EOM
 }
 
-_ADDfbinds_() { # Checks if /proc/stat is usable.
+_ADDfbinds_() {
 if [[ ! -r /proc/stat ]]
 then
 _ADDfbindprocstat_
@@ -826,7 +826,7 @@ printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring 
 }
 
 _GENEN_() {	# This for loop generates entropy on device.
-N=16 # Number of loop generations for generating entropy.
+N=16
 for I in "\$(seq 1 "\$N")"; do
 nice -n 20 ls -alR /usr >/dev/null &
 nice -n 20 find /usr >/dev/null &
@@ -843,7 +843,7 @@ _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
 }
 
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$KEYRINGS[@]"
@@ -1069,7 +1069,7 @@ _CFLHDR_ usr/local/bin/pc "# pacman install packages wrapper without system upda
 cat >> usr/local/bin/pc <<- EOM
 declare -g ARGS="\$@"
 umask 0022
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
@@ -1110,7 +1110,7 @@ _CFLHDR_ usr/local/bin/pci "# pacman install packages wrapper with system update
 cat >> usr/local/bin/pci <<- EOM
 declare ARGS="\$@"
 umask 0022
-_TRPET_() { # on exit
+_TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
@@ -1362,7 +1362,7 @@ _CFLHDR_ usr/bin/we "# Watch available entropy on device." "# cat /proc/sys/kern
 cat >> usr/bin/we <<- EOM
 declare -a ARGS
 
-_TRPWE_() { # on exit
+_TRPWE_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS[@]"
@@ -1560,8 +1560,8 @@ _MODdotfile_
 }
 
 _PREPPACMANCONF_() {
-if [ -f "$INSTALLDIR"/etc/pacman.conf ] # file is found
-then # rewrite file for PRoot environment
+if [ -f "$INSTALLDIR"/etc/pacman.conf ]
+then
 sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
 sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
 else
