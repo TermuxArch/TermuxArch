@@ -264,6 +264,7 @@ alias ....='cd ../../../.. && pwd'
 alias .....='cd ../../../../.. && pwd'
 alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"' # Developed and gleamed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr
 alias aiadial='am start -a android.intent.action.DIAL'
+alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"' # Developed and gleamed at [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors DutchOfBurdock xeffyr
 alias aiasearch='am start -a android.intent.action.SEARCH'
 alias aiaview='am start -a android.intent.action.VIEW'
 alias aiaviewd='am start -a android.intent.action.VIEW -d ' # http://github.com as argument
