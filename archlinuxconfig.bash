@@ -959,12 +959,38 @@ EOM
 chmod 700 usr/local/bin/makefakeroottcp
 }
 
+_ADDmakeksh_() {
+_CFLHDR_ usr/local/bin/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
+cat >> usr/local/bin/makeksh <<- EOM
+_PRTERROR_() {
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
+exit 100
+}
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
+printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'ksh':"
+if ( [[ ! "\$(command -v make)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v bison )" ]]) 2>/dev/null
+then
+pci bison base base-devel gcc git || pci bison base base-devel gcc git || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then please return to this session and run '\${0##*/} \${ARGS[@]}' again."
+fi
+cd
+[ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
+( cd ksh && nice -n 20 ./bin/package make ) || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; CONTINUING..."
+( cd ksh/arch/linux.aarch64/bin && ls && pwd ) || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The commands 'nice -n 20 ./ksh/bin/package make && cd ksh/arch/linux.aarch64/bin && ls && pwd' did not run as expected; CONTINUING..."
+fi
+## makeksh EOF
+EOM
+chmod 700 usr/local/bin/makeksh
+}
+
 _ADDmakeyay_() {
 _CFLHDR_ usr/local/bin/makeyay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
 cat >> usr/local/bin/makeyay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) if possible, and run '\${0##*/} \${ARGS[@]}' again."
-exit
+exit 100
 }
 if [ "\$UID" = 0 ]
 then
@@ -977,7 +1003,7 @@ printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then please return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git

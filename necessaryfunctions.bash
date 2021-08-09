@@ -49,6 +49,7 @@ _ADDinfo_
 _ADDinputrc_
 _ADDkeys_
 _ADDmakefakeroottcp_
+_ADDmakeksh_
 _ADDmakeyay_
 _ADDorcaconf_
 _ADDpatchmakepkg_
