@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1226
+VERSIONID=2.0.1227
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -867,7 +867,7 @@ printf "\\nSetting 'aria2c' as download manager.\\n"
 DM=aria2
 _OPT1_ "$@"
 _INTRO_ "$@"
-## [bl[oom]]  Create a local copy of TermuxArch in TermuxArchBloom and create the TermuxArch root tree skeleton and skeleton files.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.  This command only installs TermuxArch components.  It does NOT install the root file system.
+## [bl[oom]]  Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root tree skeleton and skeleton files.  This option does NOT install the complete root file system.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb][Ll]* ]]
 then
 printf "\\nSetting mode to bloom. \\n"
@@ -934,7 +934,7 @@ _INTRO_ "$@"
 ## [matr[ix]]  Print TermuxArch source code as Matrix loop
 elif [[ "${1//-}" = [Mm][Aa][Tt][Rr]* ]]
 then
-printf "\\nSetting mode to matrix loop.\\n"
+printf "Setting mode to matrix loop.\\n"
 MATRIXLCR=0
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"

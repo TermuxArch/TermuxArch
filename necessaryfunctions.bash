@@ -247,11 +247,11 @@ _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=":"
 }
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
+if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
 _DOKEYS_
 LOCGEN="locale-gen || locale-gen"
-elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]]	# LCR equals 1 or 2
+elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
 then
 _DOKYLGEN_
 fi
@@ -283,7 +283,7 @@ fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 3 or 4 or 5 or is undefined
+if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
@@ -460,7 +460,7 @@ _PREPROOTDIR_() {
 local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
-[[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
+( [[ ! -d "$ISDIR" ]] && printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ) || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "'/$ISDIR'" " exists; Continuing:"
 done
 }
 
@@ -474,7 +474,7 @@ _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
 _FIXOWNER_
-[[ $ELCR == 0 ]] && exit ||: ##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.  Commands 'setupTermuxArch b[l[oom]]' can be used to access these features.  These options do NOT install the complete root file system.
+[[ $ELCR == 0 ]] && exit	##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 }
 
 _PREPROOT_() {
