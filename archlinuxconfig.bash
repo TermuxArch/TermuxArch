@@ -973,7 +973,7 @@ else
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'ksh':"
 if ( [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]] )
 then
-pci bison base base-devel gcc git || pci bison base base-devel gcc git || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then please return to this session and run '\${0##*/} \${ARGS[@]}' again." && exit 96 )
+pci bison base base-devel gcc git || pci bison base base-devel gcc git || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as root user.  You might be able to bring this about without closing this session.  Please try running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again." && exit 96 )
 fi
 cd
 [ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
@@ -1003,7 +1003,7 @@ printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
-pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then please return to this session and run '\${0##*/} \${ARGS[@]}' again." && exit 96 )
+pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci base base-devel fakeroot gcc git go' as root user.  You might be able to bring this about without closing this session.  Please try running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again." && exit 96 )
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
