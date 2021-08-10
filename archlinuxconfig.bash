@@ -973,7 +973,7 @@ else
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'ksh':"
 if [[ ! -z "\${PREFIX:-}" ]]
 then
-: # pull requests are requested for install missing packages
+: # pull requests are requested for install missing Termux packages
 else
 if ( [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]] )
 then
@@ -1007,7 +1007,7 @@ printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -irs --n
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'yay':"
 if [[ ! -z "\${PREFIX:-}" ]]
 then
-: # pull requests are requested for install missing packages
+: # pull requests are requested for install missing Termux packages
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
