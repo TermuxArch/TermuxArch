@@ -971,7 +971,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'ksh':"
-if ( [[ ! "\$(command -v make)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v bison )" ]] )
+if ( [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]] )
 then
 pci bison base base-devel gcc git || pci bison base base-devel gcc git || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as root user.  You can do this without closing this session by running command \" $STARTBIN command 'pci base base-devel fakeroot gcc git go' \"in a new Termux PRoot session. Then please return to this session and run '\${0##*/} \${ARGS[@]}' again."
 fi
