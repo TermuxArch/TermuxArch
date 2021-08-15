@@ -57,7 +57,7 @@ _ADDpacmandblock_
 _ADDpc_
 _ADDpci_
 _ADDprofile_
-if [[ ! -z "${VLORALCR:-}" ]]
+if [[ -n "${VLORALCR:-}" ]]
 then
 _ADDprofileetc_
 _ADDprofileusretc_
@@ -192,10 +192,9 @@ _DOPROXY_() {
 
 _KERNID_() {
 declare KID=""
-ur="$(uname -r)"
-declare -i KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$ur")"
-declare -i MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$ur")"
-declare -- TMP="$(awk -F'.' '{print $3}' <<< "$ur")"
+declare -i KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$UNAMER")"
+declare -i MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$UNAMER")"
+declare -- TMP="$(awk -F'.' '{print $3}' <<< "$UNAMER")"
 declare -- MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMP:0:3}")"
 if [[ "$KERNEL_VERSION" -le 2 ]]
 then
@@ -436,7 +435,10 @@ _WAKELOCK_
 _CALLSYSTEM_
 _MD5CHECK_
 _PRINTCU_
-[[ "$KEEP" -ne 0 ]] && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP is set to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' the files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 will not be deleted.
+if [[ "$KEEP" -ne 0 ]]
+then
+rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP is set to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' the files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 will not be deleted.
+fi
 _PRINTDONE_
 _PRINTCONFIGUP_
 _TOUCHUPSYS_
@@ -536,10 +538,10 @@ then
 _EDITFILES_
 fi
 fi
-"$USEREDIT" "$INSTALLDIR/etc/pacman.d/mirrorlist"
+"$USEREDIT" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 fi
 fi
-$INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
+"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
