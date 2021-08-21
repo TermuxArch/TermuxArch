@@ -49,20 +49,6 @@ _PRCS_ () {	# print checksums message and run sha512sum
 cd $WRDR
 if [[ -f sha512.sum ]]
 then
-if grep "conf" sha512.sum
-then
-	echo found
-	echo found
-	echo found
-	echo found
-# sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
-# sed -i '/\.\/\.git\//d' sha512.sum
-# sed -i '/\.\/\docs\//d' sha512.sum
-# sed -i '/\.\/\gen\//d' sha512.sum
-else
-	echo not found
-	echo not found
-fi
 _PRT_ "Checking checksums in direcory $(pwd) with sha512sum: "
 sha512sum -c --quiet sha512.sum 2>/dev/null || printf "%s\\n" "sha512sum -c sha512.sum FAILED!"
 _PRNT_  "DONE"
