@@ -49,10 +49,20 @@ _PRCS_ () {	# print checksums message and run sha512sum
 cd $WRDR
 if [[ -f sha512.sum ]]
 then
-sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
-sed -i '/\.\/\.git\//d' sha512.sum
-sed -i '/\.\/\docs\//d' sha512.sum
-sed -i '/\.\/\gen\//d' sha512.sum
+if grep "conf" sha512.sum
+then
+	echo found
+	echo found
+	echo found
+	echo found
+# sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
+# sed -i '/\.\/\.git\//d' sha512.sum
+# sed -i '/\.\/\docs\//d' sha512.sum
+# sed -i '/\.\/\gen\//d' sha512.sum
+else
+	echo not found
+	echo not found
+fi
 _PRT_ "Checking checksums in direcory $(pwd) with sha512sum: "
 sha512sum -c --quiet sha512.sum 2>/dev/null || printf "%s\\n" "sha512sum -c sha512.sum FAILED!"
 _PRNT_  "DONE"
@@ -72,6 +82,13 @@ printf "%s\\n" "$1"
 }
 
 git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
+if grep '\.\/\.git\/' sha512.sum 1>/dev/null || grep '\.\/\.scripts\/maintenance\/' sha512.sum 1>/dev/null || grep '\.\/docs\/' sha512.sum 1>/dev/null || grep '\.\/gen\/' sha512.sum 1>/dev/null 
+then
+sed -i '/\.\/\.git\//d' sha512.sum
+sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
+sed -i '/\.\/docs\//d' sha512.sum
+sed -i '/\.\/gen\//d' sha512.sum
+fi
 sha512sum -c --quiet sha512.sum || _PRNT_ "WARNING:  Checking checksums in direcory $(pwd) with sha512sum FAILED! "
 SIAD="$(grep url .git/config|cut -d"=" -f 2|head -n 1|cut -d"/" -f 2-3)"
 OUNA="/shlibs"
