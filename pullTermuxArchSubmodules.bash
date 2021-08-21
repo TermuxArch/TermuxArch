@@ -35,7 +35,7 @@ trap _SGSATRPEXIT_ EXIT
 trap _SGSATRPSIGNAL_ HUP INT TERM
 trap _SGSATRPQUIT_ QUIT
 
-RDR="$(pwd)"
+RDR="$PWD"
 _GSA_() { # git repository update modules
 WRDR="$1"
 (git submodule update $3 --depth 1 --init --recursive --remote "$1" && _PRCS_) || _PESTRG_ "$1" update # the command ` git submodule help ` and the book https://git-scm.com/book/en/v2/Git-Tools-Submodules have more information about git submodules
@@ -49,11 +49,11 @@ _PRCS_ () {	# print checksums message and run sha512sum
 cd "$WRDR"
 if [[ -f sha512.sum ]]
 then
-_PRT_ "Checking checksums in direcory $(pwd) with sha512sum: "
+_PRT_ "Checking checksums in direcory $PWD with sha512sum: "
 sha512sum -c --quiet sha512.sum 2>/dev/null || printf "%s\\n" "sha512sum -c sha512.sum FAILED!"
 _PRNT_  "DONE"
 else
-printf "%s\\n" "No 'sha512.sum' file found in directory $(pwd)."
+printf "%s\\n" "No 'sha512.sum' file found in directory $PWD."
 fi
 cd "$RDR"
 sleep 0."$(shuf -i 24-72 -n 1)" # latency support
@@ -75,7 +75,7 @@ sed -i '/\.\/\.scripts\/maintenance\//d' sha512.sum
 sed -i '/\.\/docs\//d' sha512.sum
 sed -i '/\.\/gen\//d' sha512.sum
 fi
-sha512sum -c --quiet sha512.sum || _PRNT_ "WARNING:  Checking checksums in direcory $(pwd) with sha512sum FAILED! "
+sha512sum -c --quiet sha512.sum || _PRNT_ "WARNING:  Checking checksums in direcory $PWD with sha512sum FAILED! "
 SIAD="$(grep url .git/config|cut -d"=" -f 2|head -n 1|cut -d"/" -f 2-3)"
 OUNA="/shlibs"
 _GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance : Continuing..."
