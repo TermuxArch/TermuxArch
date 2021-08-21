@@ -46,7 +46,7 @@ printf "\\n\\n%s\\n" "Cannot $2 module $1 : Continuing..."
 }
 
 _PRCS_ () {	# print checksums message and run sha512sum
-cd $WRDR
+cd "$WRDR"
 if [[ -f sha512.sum ]]
 then
 _PRT_ "Checking checksums in direcory $(pwd) with sha512sum: "
@@ -55,7 +55,7 @@ _PRNT_  "DONE"
 else
 printf "%s\\n" "No 'sha512.sum' file found in directory $(pwd)."
 fi
-cd $RDR
+cd "$RDR"
 sleep 0."$(shuf -i 24-72 -n 1)" # latency support
 }
 
