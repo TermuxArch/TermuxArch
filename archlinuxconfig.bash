@@ -337,6 +337,9 @@ alias PCSS='pacman -Ss --color=always'
 alias pcss='pacman -Ss --color=always'
 alias Q='exit'
 alias q='exit'
+# alias RF='rm -rf'
+# alias Rf='rm -rf'
+# alias rf='rm -rf'
 alias TW='tail \$(which' # use a ) to complete this alias
 alias Tw='tail \$(which' # use a ) to complete this alias
 alias tw='tail \$(which' # use a ) to complete this alias
