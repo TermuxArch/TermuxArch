@@ -183,22 +183,22 @@ then
 SPACEMESSAGE=""
 elif [[ "$USRSPACE" = *M ]]
 then
-usspace="${USRSPACE: : -1}"
+USSPACE="${USRSPACE: : -1}"
 fi
-if [[ "$usspace" < "800" ]] && [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$USSPACE" < "800" ]] && [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
 SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for x86_64 architecture is 800M of free user space.\\e[0m\\n"
 fi
-if [[ "$usspace" < "600" ]] && ([[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]])
+if [[ "$USSPACE" < "600" ]] && ([[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]])
 then
 SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for $CPUABI architecture is 600M of free user space.\\e[0m\\n"
 fi
 elif [[ "$USRSPACE" = *G ]]
 then
-usspace="${USRSPACE: : -1}"
+USSPACE="${USRSPACE: : -1}"
 if [[ "$CPUABI" = "$CPUABI8" ]]
 then
-if [[ "$usspace" < "1.5" ]]
+if [[ "$USSPACE" < "1.5" ]]
 then
 SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 architecture is 1.5G of free user space.\\e[0m\\n"
 else
@@ -206,7 +206,7 @@ SPACEMESSAGE=""
 fi
 elif [[ "$CPUABI" = "$CPUABI7" ]]
 then
-if [[ "$usspace" < "1.23" ]]
+if [[ "$USSPACE" < "1.23" ]]
 then
 SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 architecture is 1.23G of free user space.\\e[0m\\n"
 else
