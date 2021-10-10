@@ -133,14 +133,14 @@ printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIO
 ls "$INSTALLDIR/usr/local/bin/"
 _SHFUNC_ () {
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
-PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
-[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 755 "$PERR" ; done && printf "%s\n" "DONE" ; }
-SDIRS="apex data"
+SDIRS="apex data host-rootfs storage system vendor"
 for SDIR in $SDIRS
 do
 RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && printf "%s" "Deleting $RMDIR: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE"
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting $RMDIR: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE" ; }
 done
+PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
+[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 755 "$PERR" ; done && printf "%s\n" "DONE" ; }
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
 [ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
