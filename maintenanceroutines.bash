@@ -132,7 +132,7 @@ ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
 printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
 ls "$INSTALLDIR/usr/local/bin/"
 _SHFUNC_ () {
-printf "%s\n" "Script '${0##*/}' checking and fixing permissions: STARTED..."
+printf "%s\n" "Script '${0##*/}' checking and fixing permissions in $PWD: STARTED..."
 PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 755 "$PERR" ; done && printf "%s\n" "DONE" ; }
 SDIRS="apex data"
