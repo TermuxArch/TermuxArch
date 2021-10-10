@@ -137,7 +137,7 @@ SDIRS="apex data host-rootfs storage system vendor"
 for SDIR in $SDIRS
 do
 RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting $RMDIR: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE" ; }
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE" ; }
 done
 PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 755 "$PERR" ; done && printf "%s\n" "DONE" ; }
