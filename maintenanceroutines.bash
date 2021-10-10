@@ -131,6 +131,19 @@ ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
 printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
 ls "$INSTALLDIR/usr/local/bin/"
+_SHFUNC_ () {
+printf "%s\n" "Script '${0##*/}' checking and fixing permissions: STARTED..."
+PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
+[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 755 "$PERR" ; done && printf "%s\n" "DONE" ; }
+SDIRS="apex data"
+for SDIR in $SDIRS
+do
+RMDIR="$INSTALLDIR/$SDIR"
+[ -d "$RMDIR" ] && printf "%s" "Deleting $RMDIR: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE"
+done
+printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
+}
+[ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_
