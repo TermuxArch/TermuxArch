@@ -119,10 +119,10 @@ _SETLOCALE_
 printf "\\n"
 _WAKELOCK_
 printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
-$INSTALLDIR/root/bin/setupbin.bash || _PRINTPROOTERROR_
+"$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 rm -f root/bin/finishsetup.bash
 rm -f root/bin/setupbin.bash
-printf "\\n\\e[1;32mFiles updated to the newest version $VERSIONID:\\n\\e[0;32m"
+printf "\\n\\e[1;32mFiles updated to the newest version %s:\\n\\e[0;32m" "$VERSIONID"
 ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
 ls "$INSTALLDIR"/bin/we | cut -f7- -d /
 ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
@@ -132,18 +132,26 @@ ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
 printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
 ls "$INSTALLDIR/usr/local/bin/"
 _SHFUNC_ () {
+_SHFDFUNC_ () {
+SHFD="$(find "$RMDIR" -type d -printf '%03d %p\n' | sort -r -n -k 1 | cut -d" " -f 2)"
+for SHF1D in $SHFD
+do
+rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D'; Continuing..."
+done
+}
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
-SDIRS="apex data host-rootfs storage system vendor"
+SDIRS="apex data host-rootfs sdcard storage system vendor"
 for SDIR in $SDIRS
 do
 RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && rm -rf "${RMDIR:?}" && printf "%s\n" "DONE" ; }
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && ( rmdir "$RMDIR" || _SHFDFUNC_ ) && printf "%s\n" "DONE" ; }
 done
-PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null | sed "s/du: cannot read directory '//g" | sed "s/': Permission denied//g")"
+PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
+PERRS="$( sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
-[ -d "$INSTALLDIR" ] # && _SHFUNC_ "$@"
+[ -d "$INSTALLDIR" ] && _SHFUNC_ "$@"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_
@@ -300,7 +308,7 @@ printf "\\n%s" "Ascertaining system information;  Please wait a moment  "
 [[ -r /sys/ashmmem ]] && printf "%s\\n" "/sys/ashmmem is readable" || printf "%s\\n" "/sys/ashmmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -e /sys/shm ]] && printf "%s\\n" "/sys/shm exists" || printf "%s\\n" "/sys/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 [[ -r /sys/shm ]] && printf "%s\\n" "/sys/shm is readable" || printf "%s\\n" "/sys/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "%s\\n" "getprop results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "getprop results:\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop gsm.sim.operator.iso-country]:" "[$(getprop gsm.sim.operator.iso-country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop net.bt.name]:" "[$(getprop net.bt.name)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "%s %s\\n" "[getprop net.dns1]:" "[$(getprop net.dns1)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
