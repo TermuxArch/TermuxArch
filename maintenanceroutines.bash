@@ -144,10 +144,10 @@ SDIRS="apex data host-rootfs sdcard storage system vendor"
 for SDIR in $SDIRS
 do
 RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && ( rmdir "$RMDIR" || _SHFDFUNC_ ) && printf "%s\n" "DONE" ; }
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && (rmdir "$RMDIR" || _SHFDFUNC_) && printf "%s\n" "DONE" ; }
 done
 PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
-PERRS="$( sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
+PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
 [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
 printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 }
@@ -272,7 +272,7 @@ printf "\\e[38;5;76m"
 printf "%s\\n" "Generating TermuxArch $VERSIONID system information;  Please wait..."
 _TASPINNER_ clock & _SYSTEMINFO_ ; kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
 cat "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n\\e[1mPlease share relevant system information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues and also include the input and output with information which may be quite important when planning issue(s) at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving this script, \'%s\'.\\n\\nIf you believe screenshots will help in a quicker resolution for an issue, also include them as well.  Please include the input as well as the output, along with screenshot(s) relrevant to Xserver on Android device, and similar.\\n\\n" "${0##*/}"
+printf "\\n\\e[1mPlease share relevant system information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues and also include the input and output with information which may be quite important when planning issues at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving this script, \'%s\'.\\n\\nIf you believe screenshots will help in a quicker resolution for an issue, also include them as well.  Please include the input as well as the output, along with screenshots relrevant to Xserver on Android device, and similar.\\n\\n" "${0##*/}"
 exit
 }
 
