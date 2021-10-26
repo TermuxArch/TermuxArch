@@ -290,6 +290,9 @@ alias Cuol='curl -C - --fail --retry 4 -OL'
 alias cuol='curl -C - --fail --retry 4 -OL'
 alias D='nice -n 20 du -hs'
 alias d='nice -n 20 du -hs'
+alias DFA='df | grep storage\/emulated'
+alias Dfa='df | grep storage\/emulated'
+alias dfa='df | grep storage\/emulated'
 alias DFT='df | grep storage\/'
 alias Dft='df | grep storage\/'
 alias dft='df | grep storage\/'
@@ -477,19 +480,6 @@ printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl repla
 ## csystemctl EOF
 EOM
 chmod 700 usr/local/bin/csystemctl
-}
-
-_ADDdfa_() {
-_CFLHDR_ usr/local/bin/dfa
-cat >> usr/local/bin/dfa <<- EOM
-DFUNIT="\$(df | awk 'FNR == 1 {print \$2}')"
-DFDATA="\$(df)"
-USRSPACE="\$(df | grep "/data" | awk {'print \$4'} | sort | tail -n 1 || df | grep -w "/" | awk {'print \$4'})"
-ARGS="\$USRSPACE \$DFUNIT"
-printf "\\\\e[0;33m%s\\\\n\\\\e[0m" "\$USRSPACE \$DFUNIT of free user space is available on this device."
-## dfa EOF
-EOM
-chmod 700 usr/local/bin/dfa
 }
 
 _ADDes_() {
