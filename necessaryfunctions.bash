@@ -11,6 +11,7 @@ TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 
 _ADDADDS_() {
+_ADDCAMS_
 _ADDAUSER_
 _PREPMOTS_
 _ADDMOTA_
