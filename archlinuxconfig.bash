@@ -56,18 +56,18 @@ chmod 700 usr/local/bin/addauser
 }
 
 _ADDCAMS_() {
-_CFLHDR_ usr/local/bin/cams "## Example usage: 'cams 0 255 16 2048 r 90 2'
-## Semantics: [0 [255 [16 [2048 [r[otate] [90 [2]]]]]]]
-## Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
-## VLC APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
-## Options in addition to image rotation can be added by editing this script at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
-## All script arguments are listed below, including their defaults:"
+_CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
+### Semantics: [0 [255 [16 [2048 [r[otate] [90 [2]]]]]]]
+### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
+### VLC APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
+### Options in addition to image rotation can be added by editing this script at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
+### All script arguments are listed below, including their defaults:"
 cat >> usr/local/bin/cams <<- EOM
-[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/Hh]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '%s\n' "Script help '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '%s\n%s\n' "\$(for i in "\${TSFILE[@]}" ; do sed -e "s/##/	/" <<< "\$i" | cut -f 2 ; done | cut -d\) -f1)" "Script help '\${0##*/}': DONE" ; exit ; }
-CAMID=\${1:-0} ## [1] default 0:  One camera 0 1 2 3 4 5 6 7 id,
-FRAMECTOT=\${2:-255} ## [2] default 256:  Video frame count total,
-FRAMERATE=\${3:-16} ## [3] default 16:  Video 2 4 8 16 32 frames per second rendered in the mpg file,
-THRESHOLDSET=\${4:-2048} ## [4] default 2048:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects this argument,
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/Hh]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '%s\n' "Script help '\${0##*/}':" && TSFILE="(\$(grep '###\ ' "\$0"))" && printf '%s\n%s\n' "\$(for i in "\${TSFILE[@]}" ; do sed -e "s/###/	/" <<< "\$i" | cut -f 2 ; done | cut -d\) -f1)" "Script help '\${0##*/}': DONE" ; exit ; }
+CAMID=\${1:-0} ### [1] default 0:  One camera 0 1 2 3 4 5 6 7 id,
+FRAMECTOT=\${2:-255} ### [2] default 256:  Video frame count total,
+FRAMERATE=\${3:-16} ### [3] default 16:  Video 2 4 8 16 32 frames per second rendered in the mpg file,
+THRESHOLDSET=\${4:-2048} ### [4] default 2048:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects this argument,
 _CAMS_ () {
 FRAMECOUNT=0
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
@@ -133,9 +133,9 @@ else
 printf '%s\n' "DONE"
 if [ -n "\${5:-}" ]
 then
-if [[ "\${5//-}" = [Rr]* ]] ## [5] default no rotation:  R|r[otate]: usefull for portrate orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
+if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: usefull for portrate orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
 then
-printf '%s' "I rotating file \$FRAMENAME by \${6:-90}°: " ## [6] default 90°:  Enter desired picture rotation angle in digits if you do not want to use the 90° default rotation,
+printf '%s' "I rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you do not want to use the 90° default rotation,
 nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
 mv "\$FRAMENAME".jpg "\$FRAMENAME"
 printf '%s\n' "DONE"
@@ -149,7 +149,7 @@ _CAMS_ "\$@"
 VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 _MEFFMPEG_ &
-sleep "\${7:-2}.\$(shuf -i 420-640 -n 1)" ## [7] default ~2 seconds:  Time before script exits;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop.
+sleep "\${7:-2}.\$(shuf -i 420-640 -n 1)" ### [7] default ~2 seconds:  Time before script exits;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop.
 ## cams EOF
 EOM
 chmod 700 usr/local/bin/cams
