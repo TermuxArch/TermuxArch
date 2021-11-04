@@ -74,7 +74,7 @@ FRAMECOUNT=0
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\${PWD##*/}\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;36m%s\n\e[0;36m%s\n' "IP \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "ID \$CAMID camid taking picture \$FRAMENAME"
+printf '\e[0;36m%s\n\e[0;36m%s\n' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME"
 sleep 0.0"\$(shuf -i 101-420 -n 1)"
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 _ISZERO_ "\$@"
@@ -87,7 +87,7 @@ THRESHOLD="\$((LASTZERO - ISZERO))"
 THRESHOLD="\${THRESHOLD//-}"
 if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
-printf '\e[0;36m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
+printf '\e[0;35m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
 rm -f "\$FRAMENAME"
 else
 printf '\e[1;32m%s\n' "IS \$THRESHOLD threshold: saving file \$FRAMENAME"
@@ -108,12 +108,13 @@ if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
 then
-printf '\e[1;31m%s\n\e[1;35m%s\n' "ER could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
+printf '\e[1;31m%s\n\e[0;32m%s\n' "ER could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
 rm -f "\$FRAMENAME"
 exit 1
 else
-printf '\e[0;31m%s\n' "ID deleting zero size file \$FRAMENAME"
+printf '\e[0;31m%s\n' "ID deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
+printf '\e[0;32m%s\n' "DONE"
 fi
 else
 _CHECKMOTIONDIFF_
@@ -133,7 +134,7 @@ if grep -i error <<< "\$MAGICKCK"
 then
 rm -f "\$FRAMENAME"
 FRAMECOUNT="\$((FRAMECOUNT - 1))"
-printf '\e[0;33m%s\n\e[0;36m%s\n\e[0;32m%s\n' "DONE" "ID deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
+printf '\e[0;32m%s\n\e[0;35m%s\n\e[0;36m%s\n' "DONE" "ID deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
 else
 printf '\e[0;32m%s\n' "DONE"
 if [ -n "\${5:-}" ]
@@ -152,7 +153,7 @@ fi
 _MEFFMPEG_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM done making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating file \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
 }
 _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
