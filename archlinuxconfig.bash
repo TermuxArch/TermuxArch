@@ -102,13 +102,12 @@ if [ -n "\${ISZERO:-}" ]
 then
 LASTZERO="\$ISZERO"
 fi
-sleep 0.0"\$(shuf -i 420-640 -n 1)"
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s" || ls -al "\$FRAMENAME" | awk '{print \$5}')"
 if [ -z "\${ISZERO:-}" ]
 then
 printf '%s\n' "NOISZERO"
 else
-printf '%s\n' "IF framename \$FRAMENAME size:  \$ISZERO"
+printf '%s\n' "IF framename \$FRAMENAME size: \$ISZERO"
 fi
 if [ "\$ISZERO" -eq 0 ]
 then
