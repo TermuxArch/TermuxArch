@@ -57,23 +57,24 @@ chmod 700 usr/local/bin/addauser
 
 _ADDCAMS_() {
 _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
-### Semantics: [0 [255 [16 [2048 [r[otate] [90 [2]]]]]]]
+### Loop example: 'while true ; do cams ; done'
+### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
 ### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
 ### VLC APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
-### Options in addition to image rotation can be added by editing this script at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
-### All script arguments are listed below, including their defaults:"
+### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
+### All arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
 cat >> usr/local/bin/cams <<- EOM
-[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/Hh]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '%s\n' "Script help '\${0##*/}':" && TSFILE="(\$(grep '###\ ' "\$0"))" && printf '%s\n%s\n' "\$(for i in "\${TSFILE[@]}" ; do sed -e "s/###/	/" <<< "\$i" | cut -f 2 ; done | cut -d\) -f1)" "Script help '\${0##*/}': DONE" ; exit ; }
-CAMID=\${1:-0} ### [1] default 0:  One camera 0 1 2 3 4 5 6 7 id,
-FRAMECTOT=\${2:-255} ### [2] default 256:  Video frame count total,
-FRAMERATE=\${3:-16} ### [3] default 16:  Video 2 4 8 16 32 frames per second rendered in the mpg file,
-THRESHOLDSET=\${4:-2048} ### [4] default 2048:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects this argument,
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do sed -e "s/##/	/" <<< "\$HL" | cut -f 2 ; done | cut -d\) -f1)" "Help for '\${0##*/}': DONE" ; exit ; }
+CAMID=\${1:-2} ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
+FRAMECTOT=\${2:-11} ### [2] default 11:  Video frame count total + 1,
+FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
+THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects argument four,
 _CAMS_ () {
 FRAMECOUNT=0
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\${PWD##*/}\$CAMID" "\$FRAMECOUNT")"
-printf '%s\n%s\n' "I \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "I \$CAMID camid taking picture \$FRAMENAME"
+printf '\e[0;36m%s\n\e[0;36m%s\n' "IP \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "ID \$CAMID camid taking picture \$FRAMENAME"
 sleep 0.0"\$(shuf -i 101-420 -n 1)"
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 _ISZERO_ "\$@"
@@ -86,10 +87,10 @@ THRESHOLD="\$((LASTZERO - ISZERO))"
 THRESHOLD="\${THRESHOLD//-}"
 if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
-printf '%s\n%s\n' "D \$THRESHOLD threshold: deleting file \$FRAMENAME" "I frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
+printf '\e[0;36m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
 rm -f "\$FRAMENAME"
 else
-printf '%s\n' "S \$THRESHOLD threshold: saving file \$FRAMENAME"
+printf '\e[1;32m%s\n' "IS \$THRESHOLD threshold: saving file \$FRAMENAME"
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
 fi
 else
@@ -107,11 +108,11 @@ if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
 then
-printf '%s\n%s\n' "E could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: Exiting..."
+printf '\e[1;31m%s\n\e[1;35m%s\n' "ER could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
 rm -f "\$FRAMENAME"
 exit 1
 else
-printf '%s\n' "W deleting zero size file \$FRAMENAME"
+printf '\e[0;31m%s\n' "ID deleting zero size file \$FRAMENAME"
 rm -f "\$FRAMENAME"
 fi
 else
@@ -119,45 +120,52 @@ _CHECKMOTIONDIFF_
 fi
 _MAGICKCK_ "\$@"
 }
+_MAKEDIRS_ () {
+mkdir -p "\${1}cam"
+cd "\${1}cam"
+}
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
 then
-printf '%s' "I checking file \$FRAMENAME for errors: "
+printf '\e[0;36m%s' "IC checking file \$FRAMENAME for errors: "
 MAGICKCK="\$(nice -n 20 magick identify "\$FRAMENAME" 2>&1 ||:)"
 if grep -i error <<< "\$MAGICKCK"
 then
 rm -f "\$FRAMENAME"
 FRAMECOUNT="\$((FRAMECOUNT - 1))"
-printf '%s\n%s\n%s\n' "DONE" "D deleted file \$FRAMENAME: ERROR" "I redoing file \$FRAMENAME: ERROR"
+printf '\e[0;33m%s\n\e[0;36m%s\n\e[0;32m%s\n' "DONE" "ID deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
 else
-printf '%s\n' "DONE"
+printf '\e[0;32m%s\n' "DONE"
 if [ -n "\${5:-}" ]
 then
-if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: usefull for portrate orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
+if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
 then
-printf '%s' "I rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you do not want to use the 90° default rotation,
+printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you do not want to use the 90° default rotation,
 nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
 mv "\$FRAMENAME".jpg "\$FRAMENAME"
-printf '%s\n' "DONE"
+printf '\e[0;32m%s\n' "DONE"
 fi
 fi
 fi
 fi
 }
-_MEFFMPEG_ () { printf '%s\n' "I making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '%s\n' "I done making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '%s\n' "E creating file \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR" ; }
-_CAMS_ "\$@"
+_MEFFMPEG_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
+printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM done making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating file \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+}
+_MAKEDIRS_ "\${1:-2}"
+_CAMS_ "\$@"
 _MEFFMPEG_ &
-sleep "\${7:-2}.\$(shuf -i 420-640 -n 1)" ### [7] default ~2 seconds:  Time before script exits;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop.
-## cams EOF
+sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop as in the loop example.
+# cams EOF
 EOM
 chmod 700 usr/local/bin/cams
 }
 
 _ADDMOTA_() {
 cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC"
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "\$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "\$MOTTECIRC"
 EOM
 }
 
