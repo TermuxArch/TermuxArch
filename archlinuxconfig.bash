@@ -152,14 +152,14 @@ fi
 fi
 }
 _MAKEDIRS_ () {
-mkdir -p "\${1}cam"
-cd "\${1}cam"
-printf '\e[0;36m%s' "IM removing *.jpg files: " && rm -f "*.jpg" && printf '\e[1;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM creating directory \${1}cam: " && mkdir -p "\${1}cam" && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM cd \${1}cam to directory \${1}cam: " && cd "\${1}cam" && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM removing *.jpg files: " && rm -f "*.jpg" && printf '\e[0;32m%s\n' "DONE"
 }
-_MEFFMPEG_ () {
+_MECONVERT_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$FRAMERATE" -loop 0 "\$VIDEOPREFIX"*.jpg "\$VIDEOPREFIX\$TIMESTAMP".gif && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.gif: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
