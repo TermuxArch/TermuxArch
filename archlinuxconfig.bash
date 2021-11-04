@@ -152,7 +152,7 @@ fi
 fi
 }
 _MAKEDIRS_ () {
-printf '\e[0;36m%s' "IM creating directory \${1}cam: " && mkdir -p "\${1}cam" && printf '\e[0;32m%s\n' "DONE"
+[ -e "\${1}cam" ] || { printf '\e[0;36m%s' "IM creating directory \${1}cam: " && mkdir -p "\${1}cam" && printf '\e[0;32m%s\n' "DONE"; }
 printf '\e[0;36m%s' "IM cd \${1}cam to directory \${1}cam: " && cd "\${1}cam" && printf '\e[0;32m%s\n' "DONE"
 printf '\e[0;36m%s' "IM removing *.jpg files: " && rm -f "*.jpg" && printf '\e[0;32m%s\n' "DONE"
 }
