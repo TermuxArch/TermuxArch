@@ -87,7 +87,7 @@ THRESHOLD="\$((LASTZERO - ISZERO))"
 THRESHOLD="\${THRESHOLD//-}"
 if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
-printf '\e[0;35m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
+printf '\e[1;35m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
 rm -f "\$FRAMENAME"
 else
 printf '\e[1;32m%s\n' "IS \$THRESHOLD threshold: saving file \$FRAMENAME"
