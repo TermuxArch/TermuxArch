@@ -104,6 +104,12 @@ LASTZERO="\$ISZERO"
 fi
 sleep 0.0"\$(shuf -i 420-640 -n 1)"
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s" || ls -al "\$FRAMENAME" | awk '{print \$5}')"
+if [ -z "\${ISZERO:-}" ]
+then
+printf '%s\n' "NOISZERO"
+else
+printf '%s\n%s\n' "ISZERO" "\$ISZERO"
+fi
 if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
@@ -155,8 +161,14 @@ VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
 }
+_MEFFMPEG_ () {
+VIDEOPREFIX="\${FRAMENAME%%.*}."
+TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
+printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+}
 _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
+_MECONVERT_ &
 _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop as in the loop example.
 # cams EOF
