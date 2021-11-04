@@ -126,10 +126,6 @@ _CHECKMOTIONDIFF_
 fi
 _MAGICKCK_ "\$@"
 }
-_MAKEDIRS_ () {
-mkdir -p "\${1}cam"
-cd "\${1}cam"
-}
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
 then
@@ -154,6 +150,11 @@ fi
 fi
 fi
 fi
+}
+_MAKEDIRS_ () {
+mkdir -p "\${1}cam"
+cd "\${1}cam"
+printf '\e[0;36m%s' "IM removing *.jpg files: " && rm -f "*.jpg" && printf '\e[1;32m%s\n' "DONE"
 }
 _MEFFMPEG_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
