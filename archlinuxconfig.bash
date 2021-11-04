@@ -108,7 +108,7 @@ if [ -z "\${ISZERO:-}" ]
 then
 printf '%s\n' "NOISZERO"
 else
-printf '%s\n%s\n' "ISZERO" "\$ISZERO"
+printf '%s\n' "IF framename \$FRAMENAME size:  \$ISZERO"
 fi
 if [ "\$ISZERO" -eq 0 ]
 then
