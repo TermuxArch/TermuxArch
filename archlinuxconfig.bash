@@ -107,11 +107,11 @@ if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
 then
-printf '\e[1;31m%s\n\e[0;32m%s\n' "ER could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
+printf '\e[1;31m%s\n\e[0;32m%s\n' "EE could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
 rm -f "\$FRAMENAME"
 exit 1
 else
-printf '\e[0;31m%s' "ED deleting zero size file \$FRAMENAME: "
+printf '\e[0;31m%s' "E0 deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 fi
