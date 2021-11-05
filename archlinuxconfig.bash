@@ -111,7 +111,7 @@ printf '\e[1;31m%s\n\e[0;32m%s\n' "ER could not begin shoot: ERROR" "Please chec
 rm -f "\$FRAMENAME"
 exit 1
 else
-printf '\e[0;31m%s' "ID deleting zero size file \$FRAMENAME: "
+printf '\e[0;31m%s' "ED deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 fi
@@ -133,7 +133,7 @@ if grep -i error <<< "\$MAGICKCK"
 then
 rm -f "\$FRAMENAME"
 FRAMECOUNT="\$((FRAMECOUNT - 1))"
-printf '\e[0;32m%s\n\e[0;35m%s\n\e[0;36m%s\n' "DONE" "ID deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
+printf '\e[0;32m%s\n\e[0;35m%s\n\e[0;36m%s\n' "DONE" "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
 else
 printf '\e[0;32m%s\n' "DONE"
 if [ -n "\${5:-}" ]
