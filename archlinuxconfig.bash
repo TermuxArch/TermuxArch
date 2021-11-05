@@ -73,7 +73,7 @@ _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;32m%s\n\e[1;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
+printf '\e[0;32m%s\n\e[0;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
@@ -89,6 +89,7 @@ if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
 printf '\e[1;35m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
 rm -f "\$FRAMENAME"
+FRAMECOUNT="\$((FRAMECOUNT - 1))"
 else
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
 fi
@@ -102,7 +103,7 @@ then
 LASTZERO="\$ISZERO"
 fi
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
-printf '\e[1;36m%s\e[1;36m%s\n' "IF framename \$FRAMENAME size: " "\$ISZERO"
+printf '\e[0;36m%s\e[1;36m%s\n' "IF framename \$FRAMENAME size: " "\$ISZERO"
 if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
@@ -163,6 +164,9 @@ _CAMS_ "\$@"
 _MECONVERT_ &
 _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop as in the loop example.
+PSAUX="(\$(ps aux))"
+PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
+printf '\e[0;32m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
