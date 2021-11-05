@@ -66,7 +66,7 @@ _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 cat >> usr/local/bin/cams <<- EOM
 [[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
 CAMID=\${1:-2} ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
-FRAMECTOT=\${2:-11} ### [2] default 11:  Video frame count total + 1,
+FRAMECTOT=\${2:-11} ### [2] default 11:  Total frame count + 1,
 FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
 THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects argument four,
 _CAMS_ () {
