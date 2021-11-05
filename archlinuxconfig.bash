@@ -98,23 +98,15 @@ then
 LASTZERO="\$ISZERO"
 fi
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
-printf '\e[0;36m%s\e[1;36m%s\n' "IF framename \$FRAMENAME size: " "\$ISZERO"
+printf '\e[0;36m%s\e[1;38m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
 if [ "\$ISZERO" -eq 0 ]
 then
-if [ "\$FRAMECOUNT" -eq 0 ]
-then
-printf '\e[1;31m%s\n\e[0;32m%s\n' "EE could not begin shoot: ERROR" "Please check for issues and run '\${0##*/}' again: EXITING..."
-rm -f "\$FRAMENAME"
-exit 1
-else
-printf '\e[0;31m%s' "E0 deleting zero size file \$FRAMENAME: "
+printf '\e[0;33m%s' "E0 deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 fi
-else
 _CHECKMOTIONDIFF_
 _MAGICKCK_ "\$@"
-fi
 }
 _MAKEDIRS_ () {
 [ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM creating directory \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
@@ -133,7 +125,7 @@ printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoi
 else
 printf '\e[0;32m%s\n' "DONE"
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
-printf '\e[1;32m%s\n' "IC file \$FRAMENAME added to que."
+printf '\e[1;32m%s\n' "IF file \$FRAMENAME added to que."
 if [ -n "\${5:-}" ]
 then
 if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
@@ -148,10 +140,10 @@ fi
 fi
 }
 _MECONVERT_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$FRAMERATE" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".mp4 && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".mp4 && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
 }
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
