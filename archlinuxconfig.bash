@@ -125,7 +125,7 @@ printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoi
 else
 printf '\e[0;32m%s\n' "DONE"
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
-printf '\e[1;32m%s\n' "IF file \$FRAMENAME added to que."
+printf '\e[1;32m%s\n' "IF file \$FRAMENAME added to frame que."
 if [ -n "\${5:-}" ]
 then
 if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
