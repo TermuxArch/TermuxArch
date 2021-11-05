@@ -62,7 +62,7 @@ _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
 ### VLC APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
 ### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
-### All arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
+### All seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
 cat >> usr/local/bin/cams <<- EOM
 [[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
 CAMID=\${1:-2} ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
@@ -98,7 +98,7 @@ then
 LASTZERO="\$ISZERO"
 fi
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
-printf '\e[0;36m%s\e[1;38m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
+printf '\e[0;36m%s\e[1;32m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
 if [ "\$ISZERO" -eq 0 ]
 then
 printf '\e[0;33m%s' "E0 deleting zero size file \$FRAMENAME: "
@@ -109,8 +109,8 @@ _CHECKMOTIONDIFF_
 _MAGICKCK_ "\$@"
 }
 _MAKEDIRS_ () {
-[ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM creating directory \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
-printf '\e[0;36m%s' "IM cd \${1}cam/\${1}cam\$TIMESTAMP to directory \${1}cam/\${1}cam\$TIMESTAMP: " && cd "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+[ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
+printf '\e[0;36m%s' "IM cd \${1}cam/\${1}cam\$TIMESTAMP: " && cd "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
 }
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
