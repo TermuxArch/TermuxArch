@@ -75,6 +75,7 @@ do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;32m%s\n\e[0;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
+sleep 0.2
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
