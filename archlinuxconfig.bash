@@ -87,14 +87,9 @@ THRESHOLD="\$((LASTZERO - ISZERO))"
 THRESHOLD="\${THRESHOLD//-}"
 if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
-printf '\e[1;35m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
+printf '\e[0;2m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
 rm -f "\$FRAMENAME"
-FRAMECOUNT="\$((FRAMECOUNT - 1))"
-else
-FRAMECOUNT="\$((FRAMECOUNT + 1))"
 fi
-else
-FRAMECOUNT="\$((FRAMECOUNT + 1))"
 fi
 }
 _ISZERO_ () {
@@ -114,7 +109,6 @@ exit 1
 else
 printf '\e[0;31m%s' "E0 deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
-FRAMECOUNT="\$((FRAMECOUNT - 1))"
 printf '\e[0;32m%s\n' "DONE"
 fi
 else
@@ -133,10 +127,13 @@ printf '\e[0;36m%s' "IC checking file \$FRAMENAME for errors: "
 MAGICKCK="\$(nice -n 20 magick identify "\$FRAMENAME" 2>&1 ||:)"
 if grep -i error <<< "\$MAGICKCK"
 then
+printf '\e[0;31m%s\n' "ERROR"
 rm -f "\$FRAMENAME"
-FRAMECOUNT="\$((FRAMECOUNT - 1))"
-printf '\e[0;32m%s\n\e[0;31m%s\n\e[0;36m%s\n' "DONE" "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME: ERROR"
+printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME..."
 else
+printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;32m%s' "IC adding file \$FRAMENAME to que: "
+FRAMECOUNT="\$((FRAMECOUNT + 1))"
 printf '\e[0;32m%s\n' "DONE"
 if [ -n "\${5:-}" ]
 then
