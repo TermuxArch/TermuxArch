@@ -70,10 +70,9 @@ FRAMECTOT=\${2:-11} ### [2] default 11:  Video frame count total + 1,
 FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
 THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Used for motion detection.  The greater the number, the lesser the motion sensitivity.  Camera resolution also affects argument four,
 _CAMS_ () {
-FRAMECOUNT=0
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
-FRAMENAME="\$(printf '%s.%04d.jpg' "\${PWD##*/}\$CAMID" "\$FRAMECOUNT")"
+FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;36m%s\n\e[0;36m%s\n' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME"
 touch "\$PWD/\$FRAMENAME"
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
@@ -121,6 +120,10 @@ _CHECKMOTIONDIFF_
 fi
 _MAGICKCK_ "\$@"
 }
+_MAKEDIRS_ () {
+[ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM creating directory \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
+printf '\e[0;36m%s' "IM cd \${1}cam/\${1}cam\$TIMESTAMP to directory \${1}cam/\${1}cam\$TIMESTAMP: " && cd "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+}
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
 then
@@ -146,24 +149,17 @@ fi
 fi
 fi
 }
-_MAKEDIRS_ () {
-[ -e "\${1}cam" ] || { printf '\e[0;36m%s' "IM creating directory \${1}cam: " && mkdir -p "\${1}cam" && printf '\e[0;32m%s\n' "DONE"; }
-printf '\e[0;36m%s' "IM cd \${1}cam to directory \${1}cam: " && cd "\${1}cam" && printf '\e[0;32m%s\n' "DONE"
-printf '\e[0;36m%s' "IM removing *.jpg files: " && rm -f "*.jpg" && printf '\e[0;32m%s\n' "DONE"
-}
 _MECONVERT_ () {
-VIDEOPREFIX="\${FRAMENAME%%.*}."
-TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$FRAMERATE" -loop 0 "\$VIDEOPREFIX"*.jpg "\$VIDEOPREFIX\$TIMESTAMP".gif && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.gif: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$FRAMERATE" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-VIDEOPREFIX="\${FRAMENAME%%.*}."
-TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg -movflags +faststart "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".mp4 && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
 }
+FRAMECOUNT=0
+TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
-# _MECONVERT_ &
+_MECONVERT_ &
 _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop as in the loop example.
 # cams EOF
