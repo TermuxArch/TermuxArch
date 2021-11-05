@@ -157,6 +157,7 @@ sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffm
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
 printf '\e[0;32m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
+printf '\e[0;32m%s\n' "IM 'ps aux' shows them running."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
