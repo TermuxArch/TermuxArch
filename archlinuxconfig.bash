@@ -19,9 +19,9 @@ then
 printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: Exiting...\\\\n"
 exit 201
 fi
-if [[ -d "/home/\$@" ]]
+if [[ -d "/home/\$1" ]]
 then
-printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/\$@ exists'\\\\e[0;32m: Exiting...\\\\n"
+printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/%s exists'\\\\e[0;32m: Exiting...\\\\n" "\$1"
 else
 _FUNADDU_ "\$@"
 fi
@@ -46,7 +46,7 @@ sed -i "s/\$1:x/\$1:/g" /etc/passwd
 printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
 }
 _PMFSESTRING_() {
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;32m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1' : Cannot complete task : " "Continuing..."
+printf "\\\\e[1;31m%s\\\\e[0;31m%s\\\\e[0;36m%s\\\\n\\\\n" "Signal generated in '\$1' : " "Cannot complete task : " "Continuing..."
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*}" " and " "\${0##*}" " please open an issue and an accompanying pull request."
 }
 _HUSDIRC_ "\$@"
@@ -64,7 +64,7 @@ _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
 ### All arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
 cat >> usr/local/bin/cams <<- EOM
-[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do sed -e "s/##/	/" <<< "\$HL" | cut -f 2 ; done | cut -d\) -f1)" "Help for '\${0##*/}': DONE" ; exit ; }
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do printf '%s' "\${HL//###/	}" | cut -f 2 ; done | cut -d\) -f1)" "Help for '\${0##*/}': DONE" ; exit ; }
 CAMID=\${1:-2} ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
 FRAMECTOT=\${2:-11} ### [2] default 11:  Video frame count total + 1,
 FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
@@ -75,7 +75,7 @@ while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\${PWD##*/}\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;36m%s\n\e[0;36m%s\n' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME"
-sleep 0.0"\$(shuf -i 101-420 -n 1)"
+touch "\$PWD/\$FRAMENAME"
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 _ISZERO_ "\$@"
 done
@@ -102,13 +102,8 @@ if [ -n "\${ISZERO:-}" ]
 then
 LASTZERO="\$ISZERO"
 fi
-ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s" || ls -al "\$FRAMENAME" | awk '{print \$5}')"
-if [ -z "\${ISZERO:-}" ]
-then
-printf '%s\n' "NOISZERO"
-else
+ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
 printf '%s\n' "IF framename \$FRAMENAME size: \$ISZERO"
-fi
 if [ "\$ISZERO" -eq 0 ]
 then
 if [ "\$FRAMECOUNT" -eq 0 ]
@@ -117,7 +112,7 @@ printf '\e[1;31m%s\n\e[0;32m%s\n' "ER could not begin shoot: ERROR" "Please chec
 rm -f "\$FRAMENAME"
 exit 1
 else
-printf '\e[0;31m%s\n' "ID deleting zero size file \$FRAMENAME: "
+printf '\e[0;31m%s' "ID deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 fi
@@ -164,11 +159,11 @@ printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.gif: This job will com
 _MEFFMPEG_ () {
 VIDEOPREFIX="\${FRAMENAME%%.*}."
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$VIDEOPREFIX"%04d.jpg -movflags +faststart "\$VIDEOPREFIX\$TIMESTAMP".mp4 && { ls -al "\$VIDEOPREFIX\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$VIDEOPREFIX\$TIMESTAMP.mp4: DONE" ; } || printf '\e[0;31m%s\n' "EM creating \$VIDEOPREFIX\$TIMESTAMP.mp4: ERROR"
 }
 _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
-_MECONVERT_ &
+# _MECONVERT_ &
 _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop as in the loop example.
 # cams EOF
@@ -537,7 +532,7 @@ declare -a ARGS
 _TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
-_PRINTTAIL_ "\$ARGS[@]"
+_PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
@@ -998,7 +993,7 @@ printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please correct the error(s)
 _TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
-_PRINTTAIL_ "\$KEYRINGS[@]"
+_PRINTTAIL_ "\${KEYRINGS[@]}"
 }
 
 trap _TRPET_ EXIT
@@ -1388,7 +1383,7 @@ _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#st
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\$@\" || tree \"\$@\"" "## t EOF" >> usr/local/bin/t
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\$@\" ; } || tree \"\$@\"" "## t EOF" >> usr/local/bin/t
 chmod 700 usr/local/bin/t
 }
 
@@ -1480,15 +1475,15 @@ fi
 _ADDtour_() {
 _CFLHDR_ usr/local/bin/tour "# A short tour that shows a few of the new featires of this system."
 cat >> usr/local/bin/tour <<- EOM
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alRr --color=always \$HOME\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alRr --color=always %s\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 ls -alRr --color=always "\$HOME"
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/.bash_profile\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat %s/.bash_profile\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bash_profile
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat \$HOME/.bashrc\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat %s/.bashrc\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bashrc
 sleep 4
@@ -1541,7 +1536,7 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" || vim \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" ; } || vim \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/v
 chmod 700 usr/local/bin/v
 }
 
@@ -1553,7 +1548,7 @@ declare -a ARGS
 _TRPWE_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
-_PRINTTAIL_ "\$ARGS[@]"
+_PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
@@ -1720,7 +1715,7 @@ chmod 700 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "[ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" ; } || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
 chmod 700 usr/local/bin/yt
 }
 
