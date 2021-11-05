@@ -73,7 +73,7 @@ _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;32m%s\n\e[0;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: \${THRESHOLDSET:-} threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
 sleep 0.2
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
@@ -144,7 +144,8 @@ _MECONVERT_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".mp4 && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
+# To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
