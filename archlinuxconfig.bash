@@ -73,9 +73,9 @@ _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT \$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1)) frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
-sleep 0.2
+sleep 0.32 # adjust for device being used
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
@@ -88,8 +88,9 @@ THRESHOLD="\$((LASTZERO - ISZERO))"
 THRESHOLD="\${THRESHOLD//-}"
 if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
 then
-printf '\e[0;2m%s\n\e[0;36m%s\n' "ID \$THRESHOLD threshold: deleting file \$FRAMENAME" "IT frame \$FRAMENAME: Threshold set to \$THRESHOLDSET"
+printf '\e[0;2m%s\n' "ID \$THRESHOLD/\$THRESHOLDSET threshold: deleting file \$FRAMENAME"
 rm -f "\$FRAMENAME"
+OLDISZERO="\$ISZERO"
 fi
 fi
 }
@@ -102,12 +103,19 @@ ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
 printf '\e[0;36m%s\e[1;32m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
 if [ "\$ISZERO" -eq 0 ]
 then
+ISZERO="\${OLDISZERO:-}"
 printf '\e[0;33m%s' "E0 deleting zero size file \$FRAMENAME: "
 rm -f "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
+E0VAR=1
 fi
+if [[ \${E0VAR:-} == 0 ]]
+then
 _CHECKMOTIONDIFF_
 _MAGICKCK_ "\$@"
+else
+E0VAR=0
+fi
 }
 _MAKEDIRS_ () {
 [ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
@@ -147,7 +155,8 @@ _MEFFMPEG_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
-printf '\e[0;32m%s' "Starting Termux Wake Lock: " && { am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '%s\n%s\n' "DONE" "The command 'termux-wake-unlock' can used to stop the wake lock." || printf '%s\\n' "Unable to process am startservice: Continuing..." ; }
+[ -e "\$TMPDIR/\${0##*/}".wake.lock" ] ||{  printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command '" "termux-wake-lock" "': " && printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}.wake.lock" && am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command '" "termux-wake-unlock" "' stops the wake lock." || printf '%s\\n' "Unable to process am startservice: Continuing..." ; }
+E0VAR=0
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 _MAKEDIRS_ "\${1:-2}"
@@ -156,10 +165,10 @@ _MECONVERT_ &
 _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files ends.  This sleep is used so the jpg files can be read by 'convert' and 'ffmpeg' if this script is used within a loop, as in the example above.
 PSAUX="(\$(ps aux))"
-PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
-printf '\e[0;34m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
-printf '\e[0;34m%s\n' "IM 'ps aux' shows processes running."
-printf '\e[0;34m%s\n' "The command 'termux-wake-unlock' can used to stop the wake lock."
+PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
+printf '\e[1;36m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
+printf '\e[0;34m%s\e[1;36m%s\e[1;36m%s\n' "IM '" "ps aux" "' shows processes running."
+printf '\e[0;34m%s\e[1;36m%s\e[1;36m%s\n' "The command " "'termux-wake-unlock'" " stops the wake lock."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
@@ -383,9 +392,9 @@ alias aiaviewd='am start -a android.intent.action.VIEW -d '
 alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && pwd'
 alias c='cd .. && pwd'
-alias CAN='cat -n'
-alias Can='cat -n'
-alias can='cat -n'
+alias CN='cat -n'
+alias Cn='cat -n'
+alias cn='cat -n'
 alias CW='cat \$(which' # use a ) to complete this alias
 alias Cw='cat \$(which' # use a ) to complete this alias
 alias cw='cat \$(which' # use a ) to complete this alias
@@ -470,8 +479,6 @@ alias Pcss='pacman -Ss --color=always'
 alias pcss='pacman -Ss --color=always'
 alias Q='exit'
 alias q='exit'
-# alias RF='rm -rf'
-# alias Rf='rm -rf'
 # alias rf='rm -rf'
 alias TW='tail \$(which' # use a ) to complete this alias
 alias Tw='tail \$(which' # use a ) to complete this alias
