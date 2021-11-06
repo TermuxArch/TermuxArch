@@ -100,7 +100,7 @@ then
 LASTZERO="\$ISZERO"
 fi
 ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
-printf '\e[0;36m%s\e[1;32m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
+printf '\e[0;36m%s\e[1;36m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
 if [ "\$ISZERO" -eq 0 ]
 then
 ISZERO="\${OLDISZERO:-}"
@@ -118,7 +118,9 @@ E0VAR=0
 fi
 }
 _MAKEDIRS_ () {
-[ -e "output/\${1}cam/\${1}cam\$TIMESTAMP" ] || printf '\e[0;36m%s' "IM mkdir -p output/\${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p output/"\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+[ -e "output/\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir -p output/\${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p output/"\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
+[ -e output/gifs ] || { printf '\e[0;36m%s' "IM mkdir -p output/gifs: " && mkdir -p output/gifs && printf '\e[0;32m%s\n' "DONE"; }
+[ -e output/webms ] || { printf '\e[0;36m%s' "IM mkdir -p output/webms: " && mkdir -p output/webms && printf '\e[0;32m%s\n' "DONE"; }
 printf '\e[0;36m%s' "IM cd output/\${1}cam/\${1}cam\$TIMESTAMP: " && cd output/"\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
 }
 _MAGICKCK_ () {
@@ -150,10 +152,12 @@ fi
 }
 _MECONVERT_ () {
 printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "camid\$CAMID."*.jpg "camid\$CAMID.\$TIMESTAMP".gif && { ls -al "camid\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs: " && mv -f camid\$CAMID.\$TIMESTAMP.gif ../../gifs && printf '\e[0;32m%s\n' "DONE"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "camid\$CAMID."%04d.jpg -movflags +faststart "camid\$CAMID.\$TIMESTAMP".webm && { ls -al "camid\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "camid\$CAMID."%04d.jpg -movflags +faststart "camid\$CAMID.\$TIMESTAMP".webm && { ls -al "camid\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs: " && mv -f camid\$CAMID.\$TIMESTAMP.webm ../../webms && printf '\e[0;32m%s\n' "DONE"
 }
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
 printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock
@@ -168,7 +172,7 @@ _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files ends.  This sleep is used so the jpg files can be read by 'convert' and 'ffmpeg' if this script is used within a loop, as in the example above.
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
-printf '\e[1;36m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
+printf '\e[0;34m%s\e[1;36m%s\n\e[1;32m%s\n' "IM " "running background jobs:" "\${PSAUX[@]}"
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command " "termux-wake-unlock" " stops the wake lock."
 # cams EOF
