@@ -75,7 +75,7 @@ do
 FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
-sleep 0.32 # adjust for device being used
+sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
@@ -155,7 +155,7 @@ _MEFFMPEG_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
-[ -e "\$TMPDIR/\${0##*/}".wake.lock" ] ||{  printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command '" "termux-wake-lock" "': " && printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}.wake.lock" && am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command '" "termux-wake-unlock" "' stops the wake lock." || printf '%s\\n' "Unable to process am startservice: Continuing..." ; }
+[ -e "\$TMPDIR/\${0##*/}".wake.lock ] || { printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command '" "termux-wake-lock" "': " ; printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock ; am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command '" "termux-wake-unlock" "' stops the wake lock." || printf '%s\\n' "Unable to process am startservice: Continuing..." ; }
 E0VAR=0
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
