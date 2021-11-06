@@ -126,7 +126,7 @@ printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoi
 else
 printf '\e[0;32m%s\n' "DONE"
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
-printf '\e[1;32m%s\n' "IF file \$FRAMENAME added to frame que."
+printf '\e[1;32m%s\n' "IF frame \$FRAMENAME added to que."
 if [ -n "\${5:-}" ]
 then
 if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
@@ -147,6 +147,7 @@ _MEFFMPEG_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
+printf '\e[0;32m%s' "Starting Termux Wake Lock: " && { am startservice --user 0 -a com.termx.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf "%s\\n" "DONE" || printf "%s\\n" "Unable to process am startservice: Continuing..." ; }
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 _MAKEDIRS_ "\${1:-2}"
@@ -156,8 +157,8 @@ _MEFFMPEG_ &
 sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an webm file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop like in the loop example above.
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
-printf '\e[0;32m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
-printf '\e[0;32m%s\n' "IM 'ps aux' shows them running."
+printf '\e[0;34m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
+printf '\e[0;34m%s\n' "IM 'ps aux' shows processes running."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
