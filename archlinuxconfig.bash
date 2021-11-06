@@ -72,8 +72,8 @@ THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 102
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
-FRAMENAME="\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP \$CAMID camid taking picture \$FRAMENAME: "
+FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP camid \$CAMID taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
 sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
