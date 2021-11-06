@@ -72,7 +72,7 @@ THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 102
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
-FRAMENAME="camids\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
+FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP camid \$CAMID taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
 sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
@@ -118,8 +118,8 @@ E0VAR=0
 fi
 }
 _MAKEDIRS_ () {
-[ -e "\${1}cam/\${1}cam\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir \${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
-printf '\e[0;36m%s' "IM cd \${1}cam/\${1}cam\$TIMESTAMP: " && cd "\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+[ -e "output/\${1}cam/\${1}cam\$TIMESTAMP" ] || printf '\e[0;36m%s' "IM mkdir -p output/\${1}cam/\${1}cam\$TIMESTAMP: " && mkdir -p output/"\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM cd output/\${1}cam/\${1}cam\$TIMESTAMP: " && cd output/"\${1}cam/\${1}cam\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
 }
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
@@ -149,10 +149,10 @@ fi
 fi
 }
 _MECONVERT_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n\e[0m' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n\e[0m' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "camid\$CAMID."*.jpg "camid\$CAMID.\$TIMESTAMP".gif && { ls -al "camid\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n\e[0m' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n\e[0m' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n\e[0m' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
+printf '\e[0;36m%s\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "camid\$CAMID."%04d.jpg -movflags +faststart "camid\$CAMID.\$TIMESTAMP".webm && { ls -al "camid\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n\e[0m' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
@@ -170,7 +170,7 @@ PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
 printf '\e[1;36m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command " "termux-wake-unlock" " stops the wake lock."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n\e[0m' "The command " "termux-wake-unlock" " stops the wake lock."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
