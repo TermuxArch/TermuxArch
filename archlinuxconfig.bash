@@ -128,13 +128,13 @@ printf '\e[0;36m%s' "IC checking file \$FRAMENAME for errors: "
 MAGICKCK="\$(nice -n 20 magick identify "\$FRAMENAME" 2>&1 ||:)"
 if grep -i error <<< "\$MAGICKCK"
 then
-printf '\e[0;31m%s\n\e[0m' "ERROR"
+printf '\e[0;31m%s\e[0m\n' "ERROR"
 rm -f "\$FRAMENAME"
 printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME..."
 else
 printf '\e[0;32m%s\n' "DONE"
 FRAMECOUNT="\$((FRAMECOUNT + 1))"
-printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n' "IF file " "\$FRAMENAME added" " to que."
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n' "IF " "file \$FRAMENAME added" " to que."
 if [ -n "\${5:-}" ]
 then
 if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
@@ -149,10 +149,10 @@ fi
 fi
 }
 _MECONVERT_ () {
-printf '\e[0;36m%s\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "camid\$CAMID."*.jpg "camid\$CAMID.\$TIMESTAMP".gif && { ls -al "camid\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n\e[0m' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n\e[0m' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "camid\$CAMID."*.jpg "camid\$CAMID.\$TIMESTAMP".gif && { ls -al "camid\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "camid\$CAMID."%04d.jpg -movflags +faststart "camid\$CAMID.\$TIMESTAMP".webm && { ls -al "camid\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n\e[0m' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "camid\$CAMID."%04d.jpg -movflags +faststart "camid\$CAMID.\$TIMESTAMP".webm && { ls -al "camid\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
@@ -170,7 +170,7 @@ PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
 printf '\e[1;36m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n\e[0m' "The command " "termux-wake-unlock" " stops the wake lock."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command " "termux-wake-unlock" " stops the wake lock."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
