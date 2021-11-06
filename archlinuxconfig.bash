@@ -129,9 +129,9 @@ FRAMECOUNT="\$((FRAMECOUNT + 1))"
 printf '\e[1;32m%s\n' "IF file \$FRAMENAME added to frame que."
 if [ -n "\${5:-}" ]
 then
-if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The rotation option can also be applied as a 90° rotation preset in arguments 1 and 2 in which case their default values will become presets,
+if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
 then
-printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you do not want to use the 90° default rotation,
+printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you want to use 180° and 270° degree rotation.  Other rotation angles can also be used,
 nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
 mv "\$FRAMENAME".jpg "\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
@@ -144,7 +144,7 @@ _MECONVERT_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMID."*.jpg "\$CAMID.\$TIMESTAMP".gif && { ls -al "\$CAMID.\$TIMESTAMP".gif && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.gif: ERROR"
 }
 _MEFFMPEG_ () {
-printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".mp4 && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.mp4: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.mp4: ERROR"
+printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
 FRAMECOUNT=0
@@ -153,7 +153,7 @@ _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
 _MECONVERT_ &
 _MEFFMPEG_ &
-sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an mp4 file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop like in the loop example above.
+sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an webm file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop like in the loop example above.
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
 printf '\e[0;32m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
