@@ -154,7 +154,7 @@ _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
 _MECONVERT_ &
 _MEFFMPEG_ &
-sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Program ffmpeg will continue to run on in the background until its job of producing an webm file ends.  This sleep is so the jpg files can be read by ffmpeg if this script is used within a loop like in the loop example above.
+sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files ends.  This sleep is used so the jpg files can be read by 'convert' and 'ffmpeg' if this script is used within a loop, as in the example above.
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999)"
 printf '\e[0;34m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
