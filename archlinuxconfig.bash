@@ -155,9 +155,9 @@ _MEFFMPEG_ () {
 printf '\e[0;36m%s\n' "IM making \$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMID."%04d.jpg -movflags +faststart "\$CAMID.\$TIMESTAMP".webm && { ls -al "\$CAMID.\$TIMESTAMP".webm && printf '\e[0;32m%s\n\e[0m' "IM making \$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating \$CAMID.\$TIMESTAMP.webm: ERROR"
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename.%04d.jpg -vframes 400 video.webm
 }
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command '" "termux-wake-lock" "': "
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
 printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock
-am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[1;36m%s\n' "DONE" "Command '" "termux-wake-unlock" "' stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
+am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[1;36m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
 E0VAR=0
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
@@ -169,8 +169,8 @@ sleep "\${7:-2}" ### [7] default of two seconds:  Time before exit;  Programs 'c
 PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
 printf '\e[1;36m%s\n\e[1;32m%s\n' "IM running background jobs:" "\${PSAUX[@]}"
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM '" "ps aux" "' shows processes running."
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command '" "termux-wake-unlock" "' stops the wake lock."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command " "termux-wake-unlock" " stops the wake lock."
 # cams EOF
 EOM
 chmod 700 usr/local/bin/cams
