@@ -60,7 +60,7 @@ _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### Loop example: 'while true ; do cams ; done'
 ### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
 ### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
-### VLC APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
+### VLC media player APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
 ### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
 ### All seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
 cat >> usr/local/bin/cams <<- EOM
@@ -73,7 +73,7 @@ THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 102
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
-[[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ || _CAMSCORE_
+{ [[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ "\$@" ; } || _CAMSCORE_ "\$@"
 done
 }
 _CAMSSENSORS_ () {
@@ -81,7 +81,7 @@ ITSENSOR="\$(termux-sensor -n 1 -s "IN_POCKET" | grep 1|| printf 0)"
 PYSENSOR="\$(termux-sensor -n 1 -s "PROXIMITY" | grep 1|| printf 0)"
 if [ "\${ITSENSOR//,}" -eq 1 ] || [ "\$PYSENSOR" -eq 1 ]
 then
-_CAMSCORE_
+_CAMSCORE_ "\$@"
 else
 printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
 sleep 4
@@ -168,16 +168,16 @@ fi
 }
 _MECONVERT_ () {
 printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMD."*.jpg "\$CAMD.\$TIMESTAMP".gif && { ls -al "\$CAMD.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
-printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs/"\$CAMD": " && mv "\$CAMD.\$TIMESTAMP".gif ../../gifs/\$CAMD && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs/\$CAMD: " && mv "\$CAMD.\$TIMESTAMP".gif ../../gifs/\$CAMD && printf '\e[0;32m%s\n' "DONE"
 }
 _MEFFMPEG_ () {
 # To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename%04d.jpg -vframes 400 video.webm
 printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMD."%04d.jpg -movflags +faststart "\$CAMD.\$TIMESTAMP".webm && { ls -al "\$CAMD.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
-printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/"\$CAMD" : " && mv "\$CAMD.\$TIMESTAMP".webm ../../webms/\$CAMD && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/\$CAMD : " && mv "\$CAMD.\$TIMESTAMP".webm ../../webms/\$CAMD && printf '\e[0;32m%s\n' "DONE"
 }
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
 printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock
-am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[1;36m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
+am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
 E0VAR=0
 FRAMECOUNT=0
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
