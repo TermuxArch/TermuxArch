@@ -167,7 +167,7 @@ fi
 fi
 }
 _MECONVERT_ () {
-printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 10))" -loop 0 "\$CAMD."*.jpg "\$CAMD.\$TIMESTAMP".gif && { ls -al "\$CAMD.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 100))" -loop 0 "\$CAMD."*.jpg "\$CAMD.\$TIMESTAMP".gif && { ls -al "\$CAMD.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
 printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs/\$CAMD: " && mv "\$CAMD.\$TIMESTAMP".gif ../../gifs/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
 }
 _MEFFMPEG_ () {
