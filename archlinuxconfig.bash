@@ -72,6 +72,10 @@ THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 102
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
+ITSENSOR="\$(termux-sensor -n 1 -s "IN_POCKET" | grep 1|| printf 0)"
+PYSENSOR="\$(termux-sensor -n 1 -s "PROXIMITY" | grep 1|| printf 0)"
+if [ "\${ITSENSOR//,}" -eq 1 ] || [ "\$PYSENSOR" -eq 1 ]
+then
 FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP camid \$CAMID taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
@@ -79,6 +83,10 @@ sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
+else
+printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
+sleep 4
+fi
 done
 }
 _CHECKMOTIONDIFF_() {
