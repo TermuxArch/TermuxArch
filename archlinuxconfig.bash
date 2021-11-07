@@ -65,17 +65,29 @@ _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### All seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
 cat >> usr/local/bin/cams <<- EOM
 [[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
-CAMID=\${1:-2} ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [Pp]* ]] && POCKET=0 && CAMID=2 && echo pocket || CAMID=\${1:-2} ; }
+[[ -z "\${1:-}" ]] && CAMID=2 ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
 FRAMECTOT=\${2:-11} ### [2] default 11:  Total frame count + 1,
 FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
 THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Can be used for motion detection.  The greater the number, the lesser the sensitivity.  Camera resolution also affects this argument,
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
+[[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ || _CAMSCORE_
+done
+}
+_CAMSSENSORS_ () {
 ITSENSOR="\$(termux-sensor -n 1 -s "IN_POCKET" | grep 1|| printf 0)"
 PYSENSOR="\$(termux-sensor -n 1 -s "PROXIMITY" | grep 1|| printf 0)"
 if [ "\${ITSENSOR//,}" -eq 1 ] || [ "\$PYSENSOR" -eq 1 ]
 then
+_CAMSCORE_
+else
+printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
+sleep 4
+fi
+}
+_CAMSCORE_ () {
 FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
 printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-}" " threshold set" "IP camid \$CAMID taking picture \$FRAMENAME: "
 touch "\$PWD/\$FRAMENAME"
@@ -83,11 +95,6 @@ sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
-else
-printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
-sleep 4
-fi
-done
 }
 _CHECKMOTIONDIFF_() {
 if [ "\$FRAMECOUNT" -ne 0 ]
