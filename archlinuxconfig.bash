@@ -178,8 +178,8 @@ printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/\$CAMD : " &
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
 printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock
 am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
-E0VAR=0
-FRAMECOUNT=0
+E0VAR=0 # used to process zero size files
+FRAMECOUNT=0 # initial frame count
 TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
 _MAKEDIRS_ "\${1:-2}"
 _CAMS_ "\$@"
