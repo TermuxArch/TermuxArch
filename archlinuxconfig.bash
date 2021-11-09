@@ -183,7 +183,6 @@ printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job wi
 printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/\$CAMD : " && mv "\$CAMD.\$TIMESTAMP".webm ../../webms/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
 }
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
-printf '%s' "Created by \${0##*/}, available at https://github.com/TermuxArch/TermuxArch/blob/master/archlinuxconfig.bash#L58" > "\$TMPDIR/\${0##*/}".wake.lock
 am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
 E0VAR=0 # used to process zero size files
 FRAMECOUNT=0 # initial frame count
@@ -196,7 +195,7 @@ PSAUX="(\$(ps aux))"
 PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
 printf '\e[0;34m%s\e[1;36m%s\n\e[1;32m%s\n' "IM " "running these background jobs:" "\${PSAUX[@]}"
 printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "The command " "termux-wake-unlock" " stops the wake lock."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[0m\n' "The command " "termux-wake-unlock" " stops the wake lock."
 sleep "\${7:-4}" ### [7] default of four seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files end.
 # cams EOF
 EOM
