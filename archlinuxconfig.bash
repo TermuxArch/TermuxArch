@@ -73,7 +73,14 @@ THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 102
 _CAMS_ () {
 while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
 do
+LTSENSOR="\$(termux-sensor -n 1 -s "LIGHT" | grep -w 0 || printf 1)"
+if [ "\$LTSENSOR" -eq 1 ]
+then
 { [[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ "\$@" ; } || _CAMSCORE_ "\$@"
+else
+printf '\e[0;36m%s\e[0m\n' "IM light sensor wait; sleeping."
+sleep 4
+fi
 done
 }
 _CAMSSENSORS_ () {
