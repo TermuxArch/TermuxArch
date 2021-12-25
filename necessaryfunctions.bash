@@ -341,7 +341,7 @@ printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n
 ~ $ startarch+x86 r ksh
 ~ $ startarch+x86_64 r sh
 ~ $ startarch+x86_64 r zsh
-Variable PROOTSTMNT has more PRoot init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot init statement, and the PRoot init statement can also modified on-the-fly simply by using the /var/binds/ directory."
+Variable PROOTSTMNT has more PRoot init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot init statement, and the PRoot init statement can also modified on-the-fly simply by using the /var/binds/ directory once logged into the Termux PRoot environment."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲 : DONE 🏁"
 }
