@@ -52,7 +52,7 @@ if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 3 or 4
 then	# do nothing
 :
 else
-[[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found : file not found : continuing : "
+[[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found; file not found; continuing; "
 fi
 }
 
@@ -191,7 +191,7 @@ then
 SPACEMESSAGE=""
 elif [[ "$USRSPACE" = *M ]]
 then
-USSPACE="${USRSPACE: : -1}"
+USSPACE="${USRSPACE:; -1}"
 fi
 if [[ "$USSPACE" -lt "800" ]] && [[ "$CPUABI" = "$CPUABIX86_64" ]]
 then
@@ -203,7 +203,7 @@ SPACEMESSAGE="\\e[0;33mTermuxArch: \\e[1;33mFREE SPACE WARNING!  \\e[1;30mStart 
 fi
 elif [[ "$USRSPACE" = *G ]]
 then
-USSPACE="${USRSPACE: : -1}"
+USSPACE="${USRSPACE:; -1}"
 if [[ "$CPUABI" = "$CPUABI8" ]]
 then
 if [[ "$USSPACE" < "1.5" ]]

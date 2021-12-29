@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1369
+VERSIONID=2.0.1370
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -539,7 +539,7 @@ _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 _EDITORCHOOSER_
 }
 _PRINTERRORMSG_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1' : Cannot complete task : " "Continuing..."
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1'; Cannot complete task; " "Continuing..."
 printf "\\e[1;34mIf you find improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\e[0m\\n\\n" "${0##*/}"
 }
 _PRPREFRESH_() {
@@ -586,7 +586,7 @@ _PRINTINTRO_() {
 printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again with options.  Please check the wireless connection if you do not see one o'clock 🕐 below and ensure background data is not restricted.  The command \\e[1;32mbash %s help \\e[1;34mhas additional information about \\e[1;32m%s\\e[1;34m.  \\e[0;34m" "$VERSIONID" "${0##*/}" "${0##*/}"
 }
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m : \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
+printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
 }
 _QEMU_() {
 _INST_() { # check for neccessary commands
@@ -810,7 +810,7 @@ WFDIR="${WFDIR%/*}"
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
 if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
 then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated : " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
 fi
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
@@ -958,7 +958,7 @@ elif [[ "${1//-}" = [Oo]* ]]
 then
 printf "\\nSetting mode to option.\\n"
 EDO01LCR=0
-printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh with refresh user directories\\e[1;34m :\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} ref[resh]" "command"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
@@ -1013,11 +1013,11 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [u[pdateTermuxTools] [refresh] [customdir]]  Developing implementation : Update installation with Termux tools.
+## [u[pdateTermuxTools] [refresh] [customdir]]  Developing implementation; Update installation with Termux tools.
 elif [[ "${1//-}" = [Uu]* ]]
 then
 EDO01LCR=0
-printf "\\n\\e[0;32mSetting mode\\e[1;34m : \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m :\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} refresh" "command"
+printf "\\n\\e[0;32mSetting mode\\e[1;34m; \\e[1;32mupdate Termux tools with minimal refresh including user directories\\e[1;34m :\\e[0;32m For a full system refresh you can use the%s \\e[1;32m'%s' \\e[0;32m%s\\e[1;34m...\\n\\e[0m" "" "${0##*/} refresh" "command"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"

@@ -42,7 +42,7 @@ WRDR="$1"
 }
 
 _PESTRG_() {
-printf "\\n\\n%s\\n" "Cannot $2 module $1 : Continuing..."
+printf "\\n\\n%s\\n" "Cannot $2 module $1; Continuing..."
 }
 
 _PRCS_ () {	# print checksums message and run sha512sum
@@ -67,7 +67,7 @@ _PRNT_ () {	# print message with one trialing newline
 printf "%s\\n" "$1"
 }
 
-git pull || printf "\\n\\n%s\\n" "Cannot git pull : Continuing..."
+git pull || printf "\\n\\n%s\\n" "Cannot git pull; Continuing..."
 if grep '\.\/\.git\/' sha512.sum 1>/dev/null || grep '\.\/\.scripts\/maintenance\/' sha512.sum 1>/dev/null || grep '\.\/docs\/' sha512.sum 1>/dev/null || grep '\.\/gen\/' sha512.sum 1>/dev/null
 then
 sed -i '/\.\/\.git\//d' sha512.sum
@@ -76,8 +76,8 @@ sed -i '/\.\/docs\//d' sha512.sum
 sed -i '/\.\/gen\//d' sha512.sum
 fi
 sha512sum -c --quiet sha512.sum || _PRNT_ "WARNING:  Checking checksums in directory $PWD with sha512sum FAILED! "
-_GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance : Continuing..."
-_GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs : Continuing..."
-_GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen : Continuing..."
-_GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts : Continuing..."
+_GSA_ ".scripts/maintenance" maintenance "" || printf "\\n\\n%s\\n" "Cannot add or update module .scripts/maintenance; Continuing..."
+_GSA_ docs docsTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module docs; Continuing..."
+_GSA_ gen genTermuxArch "" || printf "\\n\\n%s\\n" "Cannot add or update module gen; Continuing..."
+_GSA_ scripts "scripts.TermuxArch" "" || printf "\\n\\n%s\\n" "Cannot add or update module scripts; Continuing..."
 # pullTermuxArchSubmodules.bash EOF
