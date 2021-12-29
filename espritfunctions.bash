@@ -212,7 +212,7 @@ SPINNERL="🌑🌒🌓🌔🌕🌖🌗🌘"
 fi
 SPINDLAY="0.$(shuf -i 1-4 -n 1)"
 printf "\\e[?25l"
-while;
+while :
 do
 printf "  \\b\\b\\b%s\\b" "${SPINNERL:INCREMNT++%${#SPINNERL}:1}"
 sleep $SPINDLAY
@@ -243,7 +243,7 @@ IFS=';' read -ra TAMATARR <<< "$(tr -d '\n' < $0)"
 if [[ ! -z "${MATRIXLCR:-}" ]]
 then
 TAMATRIXENDLCR=0
-while;
+while :
 do
 _DOTAMSTRIX_
 done
