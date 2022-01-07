@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1372
+VERSIONID=2.0.1373
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -765,9 +765,9 @@ ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
-## 1) Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
+## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2) Sets timezone and locales from device,
-## 3) Tests for correct OS,
+## 3)  Tests for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\e[0m\\n\\n" "TermuxArch WARNING:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
@@ -785,7 +785,7 @@ printf "\\e[1;38;5;124mCommand \\e[1;38;5;148m%s\\e[1;38;5;124m not found: \\e[1
 fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
-## 4) Generates pseudo random number to create uniq strings,
+## 4)  Generates pseudo random number to create uniq strings,
 SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
 if [[ -r /proc/sys/kernel/random/uuid ]]
 then
@@ -796,14 +796,14 @@ fi
 ONESA="${SDATE: -1}"
 FTIME="$(date +%F%H%M%S)"
 STIME="$ONESA$STIME"
-## 5) Gets device information via the 'getprop' command,
-## 6) Determines its own name and location of invocation,
+## 5)  Gets device information via the 'getprop' command,
+## 6)  Determines its own name and location of invocation,
 WDIR="$PWD/" && WFDIR="$(realpath "$0")" || _PSGI1ESTRING_ "please try using an absolute PATH or prepending your PATH to file '${0##*/}' with a tilda ~ for file '$0'."
 WFDIR="${WFDIR%/*}"
-## 7) Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
-## 8) Installs emulated computer architectures with QEMU in your smartphone with two taps,
-## 9) Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeyay' and more (read /usr/local/bin/README.md for details),
-## 10) All options are are optional for installing Arch Linux!
+## 7)  Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
+## 8)  Installs emulated computer architectures with QEMU in your smartphone with two taps,
+## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeyay' and more (read /usr/local/bin/README.md for details),
+## 10)  And all options are are optional for installing Arch Linux!
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
