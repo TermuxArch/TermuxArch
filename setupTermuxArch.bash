@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1377
+VERSIONID=2.0.1378
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -116,8 +116,8 @@ then
 ARCHITEC="i386"
 CPUABI="x86"
 else
-ARCHITEC="x86_64"
-CPUABI="x86_64"
+ARCHITEC="x86-64"
+CPUABI="x86-64"
 fi
 }
 _CHOOSEABIx86_(){
@@ -614,7 +614,7 @@ _QEMUCFCK_
 if [[ -z "${ARCHITEC:-}" ]]
 then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86_64 exit;
+select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86-64 exit;
 do
 CPUABI="$ARCHITECTURE"
 if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
@@ -626,14 +626,14 @@ ARCHITEC="aarch64"
 elif [[ "$ARCHITECTURE" == x86 ]]
 then
 ARCHITEC="i386"
-elif [[ "$ARCHITECTURE" == x86_64 ]]
+elif [[ "$ARCHITECTURE" == x86-64 ]]
 then
-ARCHITEC="x86_64"
+ARCHITEC="x86-64"
 elif [[ "$ARCHITECTURE" == exit ]]
 then
 exit
 fi
-[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-${ARCHITEC/_/-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
+[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-${ARCHITEC/-/_}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
 done
 else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
@@ -750,14 +750,14 @@ declare -A EMPARIAS	# declare associative array for empty variables
 EMPARIAS=([APTIN]="# apt install string" [COMMANDIF]="" [COMMANDG]="" [CPUABI]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 declare -a LC_TYPE	# declare array for locale types
-ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX86_64 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
+ECLAVARR=(ARGS APTIN BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT ROOTDIR WDIR SDATE STI STIME STRING1 STRING2)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
 CPUABIX86="x86"		# used for development
-CPUABIX86_64="x86_64"	# used for development
+CPUABIX8664="x86-64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
 [[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""

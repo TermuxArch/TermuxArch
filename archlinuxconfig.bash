@@ -338,7 +338,7 @@ printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please correct 
 
 [ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
 UNAMEM="\$(uname -m)"
-if [ "\$UNAMEM" = x86_64 ]
+if [ "\$UNAMEM" = x86-64 ]
 then
 AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
 elif [ "\$UNAMEM" = i386 ]
@@ -773,7 +773,7 @@ _ADDbindexample_() {
 _CFLHDRS_ var/binds/bindexample.prs "# Before regenerating the start script with \`setupTermuxArch re[fresh]\`, first copy this file to another name such as \`fbinds.prs\`.  Then add as many proot statements as you want; The init script will parse file \`fbinds.prs\` at refresh adding these proot options to \`$STARTBIN\`.  The space before the last double quote is necessary.  Examples are included for convenience:"
 cat >> var/binds/bindexample.prs <<- EOM
 ## PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "
-## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86_64 "
+## PROOTSTMNT+="-q $PREFIX/bin/qemu-x86-64 "
 ## PROOTSTMNT+="-b /proc/:/proc/ "
 ## [[ ! -r /dev/shm ]] && PROOTSTMNT+="-b $INSTALLDIR/tmp:/dev/shm "
 ## bindexample.prs EOF
@@ -986,7 +986,7 @@ rm -f /etc/ssl/certs/ca-certificates.crt
 pacman -Su --noconfirm || pacman -Su --noconfirm"
 X86IPT=" "
 X86INK=":"
-else	# Arch Linux architectures armv5, armv7, aarch64 and x86_64 use these options
+else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
 X86INT=":"
 X86IPT="(1/2)"
 X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\${ARGS[@]} \"
@@ -1040,7 +1040,7 @@ then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinux32-keyring"
 KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$1" = x86_64 ]]
+elif [[ "\$1" = x86-64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
@@ -1785,7 +1785,7 @@ fi
 }
 
 _PREPMOTS_() {
-if [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 MOTTECBBS="BBS: bbs.archlinux.org"
 MOTTECGIT="github.com/archlinux"

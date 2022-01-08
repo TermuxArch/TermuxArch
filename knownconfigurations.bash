@@ -66,7 +66,7 @@ LSTYPE="Arch Linux 32"
 _MAKESYSTEM_
 }
 
-_X86_64_() { # IFILE is read from md5sums.txt
+_X86-64_() { # IFILE is read from md5sums.txt
 CMIRROR="mirror.rackspace.com"
 RPATH="archlinux/iso/latest"
 LSTYPE="Arch Linux"

@@ -75,7 +75,7 @@ _ADDyt_
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
 then
 _GETIMAGE_ ||:
 else
@@ -124,9 +124,9 @@ _DETECTSYSTEM64_
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _I686_
-elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
-_X86_64_
+_X86-64_
 else
 _PRINTMISMATCH_
 fi
@@ -235,9 +235,9 @@ _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 DOKYSKEY="keys x86"
-elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
-DOKYSKEY="keys x86_64"
+DOKYSKEY="keys x86-64"
 else
 DOKYSKEY="keys"
 fi
@@ -284,7 +284,7 @@ $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
-if [[ "$CPUABI" = "$CPUABIX86_64" ]]
+if [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
@@ -339,8 +339,8 @@ printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n
 ~ $ startarch r dash
 ~ $ startarch+x86 r csh
 ~ $ startarch+x86 r ksh
-~ $ startarch+x86_64 r sh
-~ $ startarch+x86_64 r zsh
+~ $ startarch+x86-64 r sh
+~ $ startarch+x86-64 r zsh
 Variable PROOTSTMNT has more PRoot init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot init statement, and the PRoot init statement can also modified on-the-fly simply by using the /var/binds/ directory once logged into the Termux PRoot environment."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  login as user and execute command.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲; DONE 🏁"
@@ -490,7 +490,7 @@ fi
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX86_64" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
 then
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
 else
@@ -511,7 +511,7 @@ AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirr
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
-elif [[ "$CPUABI" = "$CPUABIX86_64" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
