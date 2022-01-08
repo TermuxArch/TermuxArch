@@ -328,7 +328,7 @@ done
 
 _MAKEAURHELPER_() {
 cd "\$HOME/aurhelpers/\$AURHELPER"
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
 }
 
@@ -1014,7 +1014,7 @@ done
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\${ARGS[@]}" "\$VERSIONID" "DONE 📱"
+printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\${ARGS[@]}" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\${0##*/} \${ARGS[@]}'"
 }
 
@@ -1049,7 +1049,7 @@ KEYRINGS=""
 fi
 ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \${ARGS[@]}'"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \${ARGS[@]}" "v\$VERSIONID"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \${ARGS[@]}" "version \$VERSIONID"
 _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
@@ -1104,7 +1104,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
-printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} $VERSIONID: "
+printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then you can return to this session and run '\${0##*/} \${ARGS[@]}' again."
@@ -1123,14 +1123,14 @@ touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock"
 }
 cd fakeroot-tcp
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 touch "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock"
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} $VERSIONID."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
 ## makefakeroottcp EOF
 EOM
 chmod 700 usr/local/bin/makefakeroottcp
@@ -1291,14 +1291,14 @@ _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 }
 
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\${0##*/} \$ARGS"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 if [[ -z "\${1:-}" ]]
 then
@@ -1332,14 +1332,14 @@ _PRINTTAIL_ "\$ARGS"
 }
 
 _PRINTTAIL_() {
-printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "\$VERSIONID" "DONE 📱"
+printf "\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/} \$ARGS"
 }
 
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
 [ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "v\$VERSIONID"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
 nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu
@@ -1584,7 +1584,7 @@ _PRINTTAIL_ "\${ARGS[@]}"
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\${0##*/}" "\$ARGS"  "\$VERSIONID" "DONE 📱"
+printf "\\\\n\\\\e[0m%s \\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch" "\${0##*/}" "\$ARGS"  "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\${0##*/}"
 }
 

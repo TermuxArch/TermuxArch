@@ -269,7 +269,7 @@ _SYSINFO_() {
 _NAMESTARTARCH_
 _SPACEINFO_
 printf "\\e[38;5;76m"
-printf "%s\\n" "Generating TermuxArch $VERSIONID system information;  Please wait..."
+printf "%s\\n" "Generating TermuxArch version $VERSIONID system information;  Please wait..."
 _TASPINNER_ clock & _SYSTEMINFO_ ; kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
 cat "${WDIR}setupTermuxArchSysInfo$STIME".log
 printf "\\n\\e[1mPlease share relevant system information along with an issue and pull request at https://github.com/TermuxArch/TermuxArch/issues and also include the input and output with information which may be quite important when planning issues at https://github.com/TermuxArch/TermuxArch/issues with the hope of improving this script, \'%s\'.\\n\\nIf you believe screenshots will help in a quicker resolution for an issue, also include them as well.  Please include the input as well as the output, along with screenshots relrevant to Xserver on Android device, and similar.\\n\\n" "${0##*/}"
@@ -335,7 +335,7 @@ du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||
 printf "\\n%s\\n\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log 2>/dev/null ||:
 printf "\\n%s\\n" "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' version $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
 }
 
 _USERSPACE_() {
