@@ -502,7 +502,6 @@ alias Pcss='pacman -Ss --color=always'
 alias pcss='pacman -Ss --color=always'
 alias Q='exit'
 alias q='exit'
-# alias rf='rm -rf'
 alias TO='termux-open'
 alias To='termux-open'
 alias to='termux-open'
@@ -1473,7 +1472,7 @@ cp "$WHICHSTOOL" "$INSTALLDIR/usr/local/bin/$STOOL" && printf "%s\\n" "cp $WHICH
 }
 for STOOL in ${PRFXTOLS[@]}
 do
-WHICHSTOOL="$(which "$STOOL" || printf "1")"
+WHICHSTOOL="$(command -v "$STOOL" || printf "1")"
 if [ ! -f "$INSTALLDIR/usr/local/bin/$STOOL" ]
 then
 _CPSTOOL_
