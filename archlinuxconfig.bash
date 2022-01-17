@@ -1383,20 +1383,20 @@ touch root/.profile
 _ADDresolvconf_() {
 [ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
 cat > run/systemd/resolve/resolv.conf <<- EOM
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+nameserver 1.1.1.1
+nameserver 1.0.0.1
 EOM
 _ADDTORESOLVE_() {
 cat >> etc/resolv.conf <<- EOM
-nameserver 8.8.8.8
-nameserver 8.8.4.4
+nameserver 1.1.1.1
+nameserver 1.0.0.1
 EOM
 }
 _CHECKRESOLVE_() {
 [ ! -d etc ] && mkdir -p etc
 if [ -f etc/resolv.conf ]
 then
-if ! grep -q 'nameserver 8.8.8.8' etc/resolv.conf
+if ! grep -q 'nameserver 1.1.1.1' etc/resolv.conf
 then
 _ADDTORESOLVE_
 fi
