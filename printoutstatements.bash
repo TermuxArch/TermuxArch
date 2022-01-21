@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.0.1387"
+FLHDR1[5]="VERSIONID=2.0.1389"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -122,7 +122,7 @@ printf "\\e[0;34m 🕛 > 🕞 \\e[1;34mContacting worldwide mirror \\e[0;32m%s\\
 
 _PRINTCU_() {
 printf '\033]2; 🕛 > 🕙 Cleaning up installation files: \007'
-printf "\\n\\e[0;34m 🕛 > 🕘 \\e[1;34mCleaning up installation files: "
+printf "\\n\\e[0;34m 🕛 > 🕙 \\e[1;34mCleaning up installation files: "
 }
 
 _PRINTDETECTEDSYSTEM_() {
@@ -176,6 +176,15 @@ printf "\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed. 
 _PRINTMAX_() {
 printf "\033]2;%s\007" "Please run 'bash ${0##*/}' again."
 printf "\\n\\e[07;1m\\e[31;1m 🔆 WARNING: Maximum amount of attempts exceeded.\\e[34;1m\\e[30;1m\\n\\nPlease run 'bash %s' again.  See 'bash %s help' to resolve download errors.  If this keeps repeating, copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n\\nUser configurable variables are in 'setupTermuxArchConfigs.bash'.  To create this file from 'knownconfigurations.bash' in the working directory the command 'bash %s manual' can be used to create and edit 'setupTermuxArchConfigs.bash'.\\n\\nPlease run 'bash %s' again.\\n\\e[0;0m\\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+}
+
+_PRINTKEEPEXIT_() {
+printf "\\n\\e[0;34m 🕛 > 🕕 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\e[37;1mPlease run '%s' again to continue a partial download.  Otherwise remove '%s' and restart the installation from scratch if the download is complete, but this error continues.  You can also reset KEEP=1 to disable the keep download image feature that is disabled by default as after downloading the root image file should no longer be needed by the end user.  The command 'bash %s help' has more information.  \\e[1;33m" "${0##*/}" "$INSTALLDIR" "${0##*/}"
+exit 203
+}
+
+_PRINTKEEP_() {
+printf "\\n\\e[0;34m 🕛 > 🕙 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\e[37;1mThis may take a little while  \\e[1;33m"
 }
 
 _PRINTMD5CHECK_() {

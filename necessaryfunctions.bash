@@ -441,9 +441,11 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
 _MD5CHECK_
-_PRINTCU_
-if [[ "$KEEP" -ne 0 ]]
+if [[ "$KEEP" -eq 0 ]]
 then
+_PRINTKEEP_
+else
+_PRINTCU_
 rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP is set to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' the files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 will not be deleted.
 fi
 _PRINTDONE_
@@ -459,8 +461,13 @@ _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
 _TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
+if [[ "$KEEP" -eq 0 ]]
+then
+_PRINTKEEPEXIT_
+else
 rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
 _PRINTMD5ERROR_
+fi
 fi
 }
 
