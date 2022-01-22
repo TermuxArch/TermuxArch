@@ -51,6 +51,11 @@ _ADDkeys_
 _ADDmakefakeroottcp_
 _ADDmakeksh_
 _ADDmakeyay_
+_ADDmemav_
+_ADDmemfree_
+_ADDmeminfo_
+_ADDmemmem_
+_ADDmemtot_
 _ADDorcaconf_
 _ADDpatchmakepkg_
 _ADDpacmandblock_

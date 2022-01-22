@@ -481,16 +481,12 @@ alias LR='ls -alR --color=always'
 alias lr='ls -alR --color=always'
 alias MEMAV='grep -i available /proc/meminfo'
 alias Memav='grep -i available /proc/meminfo'
-alias memav='grep -i available /proc/meminfo'
 alias MEMFREE='grep -i free /proc/meminfo'
 alias Memfree='grep -i free /proc/meminfo'
-alias memfree='grep -i free /proc/meminfo'
 alias MEMINFO='cat /proc/meminfo'
 alias Meminfo='cat /proc/meminfo'
-alias meminfo='cat /proc/meminfo'
 alias MEMTOT='grep -i total /proc/meminfo'
 alias Memtot='grep -i total /proc/meminfo'
-alias memtot='grep -i total /proc/meminfo'
 alias MKDIP='mkdir -p'
 alias Mkdip='mkdir -p'
 alias mkdip='mkdir -p'
@@ -1750,6 +1746,36 @@ _PRINTTAIL_
 ## we EOF
 EOM
 chmod 700 usr/bin/we
+}
+
+_ADDmemav_() {
+_CFLHDR_ usr/local/bin/memav
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i available /proc/meminfo" "## memav EOF" >> usr/local/bin/memav
+chmod 700 usr/local/bin/memav
+}
+
+_ADDmemfree_() {
+_CFLHDR_ usr/local/bin/memfreet
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i free /proc/meminfo" "## memfree EOF" >> usr/local/bin/memfree
+chmod 700 usr/local/bin/memfree
+}
+
+_ADDmeminfo_() {
+_CFLHDR_ usr/local/bin/meminfo
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "cat /proc/meminfo" "## meminfo EOF" >> usr/local/bin/meminfo
+chmod 700 usr/local/bin/meminfo
+}
+
+_ADDmemmem_() {
+_CFLHDR_ usr/local/bin/memmem
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i mem /proc/meminfo" "## memmem EOF" >> usr/local/bin/memmem
+chmod 700 usr/local/bin/memmem
+}
+
+_ADDmemtot_() {
+_CFLHDR_ usr/local/bin/memtot
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i total /proc/meminfo" "## memtot EOF" >> usr/local/bin/memtot
+chmod 700 usr/local/bin/memtot
 }
 
 _ADDyt_() {
