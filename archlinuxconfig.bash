@@ -856,7 +856,7 @@ git init
 git remote add origin "\$@" ||:
 git checkout -b main || git checkout main
 git add .
-git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
+git pull --no-rebase --depth 1 "\$@" master || git pull --no-rebase --depth 1 "\$@" main
 git add .
 }
 if [[ ! -x "\$(command -v wget)" ]] && [[ ! -x "\$(command -v unzip)" ]]
