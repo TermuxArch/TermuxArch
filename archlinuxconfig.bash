@@ -1344,15 +1344,15 @@ then
 printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument: exiting..."
 elif [[ "\$1" = "a" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
 elif [[ "\$1" = "ae" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "a8" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 fi
 ## pc EOF
 EOM
@@ -1381,18 +1381,18 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Su || nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Su || base base-devel emacs "\${@:2}" || nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "e8" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
-elif [[ "\$1" = "e10" ]]
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}"
+elif [[ "\$1" = "e11" ]]
 then
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}"
 else
-nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Su || nice -n 19 \$SUDOCONF pacman --noconfirm --color=always -Syu
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu
 fi
 ## pci EOF
 EOM
