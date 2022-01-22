@@ -847,29 +847,24 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..."
 exit 101
 fi
-BASENAME="\${@%/}" # strip trailing slash
+_GCLONEMAIN_() {
+BASENAME="\${*%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 REPONAME="\${BASENAME##*/}" # strip before last slash
+( [ -e "\$REPONAME-master" ] && cd "\$REPONAME-master" ) || ( ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-main" ) || ( [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ) )
+git init
+git remote add origin "\$@" ||:
+git checkout -b main || git checkout main
+git add .
+git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
+git add .
+}
 if [[ ! -x "\$(command -v wget)" ]] && [[ ! -x "\$(command -v unzip)" ]]
 then
-pci wget unzip
-[ -e "\$REPONAME-main" ] || ( wget -c -m -O "\$REPONAME.zip" "\$@"/archive/main.zip && unzip "\$REPONAME.zip" )
-cd "\$REPONAME-main"
-git init
-git remote add origin "\$@" ||:
-git checkout -b main || git checkout main
-git add .
-git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
-git add .
+pci wget unzip || au wget unzip
+_GCLONEMAIN_ "\$@"
 else
-[ -e "\$REPONAME-main" ] || ( wget -c -m -O "\$REPONAME.zip" "\$@"/archive/main.zip && unzip "\$REPONAME.zip" )
-cd "\$REPONAME-main"
-git init
-git remote add origin "\$@" ||:
-git checkout -b main || git checkout main
-git add .
-git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
-git add .
+_GCLONEMAIN_ "\$@"
 fi
 fi
 ## gclone EOF
