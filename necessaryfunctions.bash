@@ -41,6 +41,7 @@ _ADDfbinds_
 _ADDfibs_
 _ADDga_
 _ADDgcl_
+_ADDgclone_
 _ADDgcm_
 _ADDgitconfig_
 _ADDgp_

@@ -835,6 +835,43 @@ EOM
 chmod 700 usr/local/bin/gcl
 }
 
+_ADDgclone_() {
+_CFLHDR_ usr/local/bin/gclone "# Usefull for cloning over very slow and sketchy Internet connections."
+cat >> usr/local/bin/gclone <<- EOM
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
+BASENAME="\${@%/}" # strip trailing slash
+BASENAME="\${BASENAME#*//}" # strip before double slash
+REPONAME="\${BASENAME##*/}" # strip before last slash
+if [[ ! -x "\$(command -v wget)" ]] && [[ ! -x "\$(command -v unzip)" ]]
+then
+pci wget unzip
+[ -e "\$REPONAME-main" ] || ( wget -c -m -O "\$REPONAME.zip" "\$@"/archive/main.zip && unzip "\$REPONAME.zip" )
+cd "\$REPONAME-main"
+git init
+git remote add origin "\$@" ||:
+git checkout -b main || git checkout main
+git add .
+git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
+git add .
+else
+[ -e "\$REPONAME-main" ] || ( wget -c -m -O "\$REPONAME.zip" "\$@"/archive/main.zip && unzip "\$REPONAME.zip" )
+cd "\$REPONAME-main"
+git init
+git remote add origin "\$@" ||:
+git checkout -b main || git checkout main
+git add .
+git pull --no-rebase --depth 1 "\$@" main || git pull --no-rebase --depth 1 "\$@" master
+git add .
+fi
+fi
+## gclone EOF
+EOM
+chmod 700 usr/local/bin/gclone
+}
+
 _ADDgcm_() {
 _CFLHDR_ usr/local/bin/gcm
 cat >> usr/local/bin/gcm <<- EOM
