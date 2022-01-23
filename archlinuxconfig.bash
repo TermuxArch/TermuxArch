@@ -1794,7 +1794,6 @@ _ADDmemfree_() {
 _CFLHDR_ usr/local/bin/memfree
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i free /proc/meminfo" "## memfree EOF" >> usr/local/bin/memfree
 chmod 700 usr/local/bin/memfree
-rm -f usr/local/bin/memfreet
 }
 
 _ADDmeminfo_() {

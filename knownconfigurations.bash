@@ -22,7 +22,6 @@ _AARCH64ANDROID_() {
 IFILE="ArchLinuxARM-aarch64-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -30,7 +29,6 @@ _AARCH64CHROME_() {
 IFILE="ArchLinuxARM-aarch64-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -38,7 +36,6 @@ _ARMV5L_() {
 IFILE="ArchLinuxARM-armv5-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -53,7 +50,6 @@ _ARMV7CHROME_() {
 IFILE="ArchLinuxARM-armv7-chromebook-latest.tar.gz"
 CMIRROR="os.archlinuxarm.org"
 RPATH="os"
-LSTYPE="Arch Linux ARM"
 _MAKESYSTEM_
 }
 
@@ -62,14 +58,12 @@ _MAKESYSTEM_
 _I686_() { # IFILE is read from md5sums.txt
 CMIRROR="archive.archlinux.org"
 RPATH="iso/2017.03.01"
-LSTYPE="Arch Linux 32"
 _MAKESYSTEM_
 }
 
 _X86-64_() { # IFILE is read from md5sums.txt
 CMIRROR="mirror.rackspace.com"
 RPATH="archlinux/iso/latest"
-LSTYPE="Arch Linux"
 _MAKESYSTEM_
 }
 
