@@ -449,14 +449,19 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
 _MD5CHECK_
-if [[ "$KEEP" -eq 0 ]]
+echo KEEP
+echo KEEP
+echo $KEEP
+echo KEEP
+echo KEEP
+if [ "$KEEP" = 0 ]
 then
 _PRINTKEEP_
 else
 _PRINTCU_
-rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP is set to 0 in file 'knownconfigurations.bash' after using either 'setupTermuxArch bloom' or 'setupTermuxArch manual' the files INSTALLDIR/*.tar.gz and INSTALLDIR/*.tar.gz.md5 will not be deleted.
-fi
+rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ##  When KEEP=0 files *.tar.gz and *.tar.gz.md5 will remain on the system.
 _PRINTDONE_
+fi
 _PRINTCONFIGUP_
 _TOUCHUPSYS_
 }
@@ -469,7 +474,7 @@ _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
 _TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
-if [[ "$KEEP" -eq 0 ]]
+if [ "$KEEP" = 0 ]
 then
 _PRINTKEEPEXIT_
 else
@@ -498,9 +503,9 @@ _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
 _FIXOWNER_
-if [[ $ELCR == 0 ]]
+if [ $ELCR = 0 ]
 then
-exit	##	Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
+exit	## Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 fi
 }
 
@@ -511,6 +516,8 @@ proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERR
 else
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*} necessaryfunctions.bash"
 fi
+## Please create a 'files/archlinux/var/cache' directory in order to use this feature which can save bandwidth and device space if using multiple proot system installations in Termux of one type of architecture.
+[ -e /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache ] && [ $(ls -F "$INSTALLDIR"/var/cache/pacman/pkg) = "pkg@" ] || ( [ ! -e /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI" ] && cd /storage/emulated/0/Android/data/com.termux/ && mkdir -p files/archlinux/var/cache/"$CPUABI"/pacman/pkg && cd "$INSTALLDIR" && rmdir var/cache/pacman/pkg && rmdir var/cache/pacman && ln -s /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI"/pacman/pkg var/cache/pacman/pkg ) || ln -s /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI"/pacman/pkg var/cache/pacman/pkg
 }
 
 _RUNFINISHSETUP_() {

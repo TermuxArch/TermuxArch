@@ -52,7 +52,7 @@ printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0
 _HUSDIRC_ "\$@"
 ## addauser EOF
 EOM
-chmod 700 usr/local/bin/addauser
+chmod 755 usr/local/bin/addauser
 }
 
 _ADDCAMS_() {
@@ -199,7 +199,7 @@ printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[0m\n' "The command " "termux-wake-unloc
 sleep "\${7:-4}" ### [7] default of four seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files end.
 # cams EOF
 EOM
-chmod 700 usr/local/bin/cams
+chmod 755 usr/local/bin/cams
 }
 
 _ADDMOTA_() {
@@ -237,7 +237,7 @@ sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
 sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
 ## open4root EOF
 EOM
-chmod 700 usr/local/bin/open4root
+chmod 755 usr/local/bin/open4root
 }
 
 _ADDREADME_() {
@@ -272,7 +272,7 @@ cat >> usr/local/bin/ae <<- EOM
 watch cat /proc/sys/kernel/random/entropy_avail
 ## ae EOF
 EOM
-chmod 700 usr/local/bin/ae
+chmod 755 usr/local/bin/ae
 }
 
 _ADDmakeaurhelpers_() {
@@ -353,7 +353,7 @@ echo _DONEAURHELPER_ pikaur
 # _DOAURHELPERS_
 ## makeaurhelpers EOF
 EOM
-chmod 700 usr/local/bin/makeaurhelpers
+chmod 755 usr/local/bin/makeaurhelpers
 }
 
 _ADDbash_logout_() {
@@ -536,7 +536,7 @@ cat > usr/local/bin/cdtd <<- EOM
 cd "$HOME/storage/downloads" && pwd
 ## cdtd EOF
 EOM
-chmod 700 usr/local/bin/cdtd
+chmod 755 usr/local/bin/cdtd
 }
 
 _ADDcdth_() {
@@ -546,7 +546,7 @@ cat > usr/local/bin/cdth <<- EOM
 cd "$HOME" && pwd
 ## cdth EOF
 EOM
-chmod 700 usr/local/bin/cdth
+chmod 755 usr/local/bin/cdth
 }
 
 _ADDcdtmp_() {
@@ -556,7 +556,7 @@ cat > usr/local/bin/cdtmp <<- EOM
 cd "$PREFIX/tmp" && pwd
 ## cdtmp EOF
 EOM
-chmod 700 usr/local/bin/cdtmp
+chmod 755 usr/local/bin/cdtmp
 }
 
 _ADDch_() {
@@ -598,7 +598,7 @@ printf "%s\\\\n" "Hushed login and logout: ON"
 fi
 ## ch EOF
 EOM
-chmod 700 usr/local/bin/ch
+chmod 755 usr/local/bin/ch
 }
 
 _ADDchperms.cache+gnupg_() {
@@ -607,7 +607,7 @@ cat >> usr/local/bin/chperms.cache+gnupg <<- EOM
 [[ -d "\$HOME/.cache" ]] && find "\$HOME/.cache" -type d -exec chmod 777 {} \; && find "\$HOME/.cache" -type f -exec chmod 666 {} \;
 [[ -d "\$HOME/.gnupg" ]] && find "\$HOME/.gnupg" -type d -exec chmod 777 {} \; && find "\$HOME/.gnupg" -type f -exec chmod 666 {} \;
 EOM
-chmod 700 usr/local/bin/chperms.cache+gnupg
+chmod 755 usr/local/bin/chperms.cache+gnupg
 }
 
 _ADDcsystemctl_() {
@@ -628,12 +628,12 @@ printf "%s\\\\n" "Getting replacement systemctl from https://raw.githubuserconte
 # Arch Linux package 'systemctl' updates will mot halt functioning as /usr/local/bin precedes /usr/bin in the PATH
 # download and copy to both directories /usr/local/bin and /usr/bin
 curl --fail --retry 2 https://raw.githubusercontent.com/TermuxArch/docker-systemctl-replacement/master/files/docker/systemctl3.py | tee /usr/bin/systemctl /usr/local/bin/systemctl >/dev/null
-chmod 700 /usr/bin/systemctl /usr/local/bin/systemctl
+chmod 755 /usr/bin/systemctl /usr/local/bin/systemctl
 touch "/run/lock/${INSTALLDIR##*/}/csystemctl.lock"
 printf "\\\\e[38;5;148m%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Installing systemctl replacement in /usr/local/bin and /usr/bin: " "DONE 🏁"
 ## csystemctl EOF
 EOM
-chmod 700 usr/local/bin/csystemctl
+chmod 755 usr/local/bin/csystemctl
 }
 
 _ADDes_() {
@@ -647,7 +647,7 @@ ARGS=("\$@")
 fi
 EOM
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ ! -x \"\$(command -v emacs)\" ] && pci emacs && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/es
-chmod 700 usr/local/bin/es
+chmod 755 usr/local/bin/es
 }
 
 _ADDexd_() {
@@ -656,7 +656,7 @@ cat >> usr/local/bin/exd <<- EOM
 export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 ## exd EOF
 EOM
-chmod 700 usr/local/bin/exd
+chmod 755 usr/local/bin/exd
 }
 
 _ADDfbindprocpcidevices.prs_() {
@@ -746,7 +746,7 @@ cpu4 3063160 288232 4291656 58418 27 940 146236 0 0 0
 cpu5 2418517 277690 3105779 60431 48 751 67052 0 0 0
 cpu6 1671400 189460 2302016 61521 23 402 49717 0 0 0
 cpu7 1333612 159940 2005777 61961 9 346 43043 0 0 0
-intr 607306752 0 0 113 0 109 0 0 26 0 0 4 0 0 0 0 0 0 0 0 0 67750564 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 51073258 0 0 0 0 0 0 0 160 0 0 0 0 0 0 0 0 0 51831 2 5 0 24598 0 0 0 15239501 0 0 0 0 0 0 0 0 0 0 1125885 0 0 0 0 5966 3216 120 2 0 0 5990 0 24741 0 37 0 0 0 0 0 0 0 0 0 0 0 0 15262980 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42742 16829690 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 19844763 0 8873762 0 0 0 0 0 0 0 0 6 0 0 0 49937 0 0 0 2768306 5 0 3364052 3700518 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 41435584 0 0 3939101 0 0 0 0 0 0 0 0 0 0 0 1894201 0 0 0 0 0 0 864195 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 8961077 3996222 0 0 0 0 0 0 0 0 0 0 0 0 66386 0 0 0 0 0 0 87497 0 285431 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 11217187 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3578 0 0 0 0 0 301 300 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 117 14 0 0 0 0 0 95 0 0 0 0 0 0 0 27 0 2394 0 0 0 0 62 0 0 0 0 0 857124 0 1 0 0 0 0 20 3990685 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5021 481 4
+intr 607306752 0 0 113 0 109 0 0 26 0 0 4 0 0 0 0 0 0 0 0 0 67750564 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 51073258 0 0 0 0 0 0 0 160 0 0 0 0 0 0 0 0 0 51831 2 5 0 24598 0 0 0 15239501 0 0 0 0 0 0 0 0 0 0 1125885 0 0 0 0 5966 3216 120 2 0 0 5990 0 24741 0 37 0 0 0 0 0 0 0 0 0 0 0 0 15262980 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42742 16829690 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 19844763 0 8873762 0 0 0 0 0 0 0 0 6 0 0 0 49937 0 0 0 2768306 5 0 3364052 3755518 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 41435584 0 0 3939101 0 0 0 0 0 0 0 0 0 0 0 1894201 0 0 0 0 0 0 864195 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 8961077 3996222 0 0 0 0 0 0 0 0 0 0 0 0 66386 0 0 0 0 0 0 87497 0 285431 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 11217187 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3578 0 0 0 0 0 301 300 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 117 14 0 0 0 0 0 95 0 0 0 0 0 0 0 27 0 2394 0 0 0 0 62 0 0 0 0 0 857124 0 1 0 0 0 0 20 3990685 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5021 481 4
 ctxt 1589697753
 btime 1528042653
 processes 1400085
@@ -797,7 +797,7 @@ cat >> usr/local/bin/fibs <<- EOM
 find /proc/ -name maps 2>/dev/null | xargs awk '{print \$6}' 2>/dev/null | grep '\.so' | sort | uniq && exit
 ## fibs EOF
 EOM
-chmod 700 usr/local/bin/fibs
+chmod 755 usr/local/bin/fibs
 }
 
 _ADDga_() {
@@ -812,7 +812,7 @@ git add .
 fi
 ## ga EOF
 EOM
-chmod 700 usr/local/bin/ga
+chmod 755 usr/local/bin/ga
 }
 
 _ADDgcl_() {
@@ -832,7 +832,7 @@ fi
 fi
 ## gcl EOF
 EOM
-chmod 700 usr/local/bin/gcl
+chmod 755 usr/local/bin/gcl
 }
 
 _ADDgclone_() {
@@ -869,7 +869,7 @@ fi
 fi
 ## gclone EOF
 EOM
-chmod 700 usr/local/bin/gclone
+chmod 755 usr/local/bin/gclone
 }
 
 _ADDgcm_() {
@@ -884,7 +884,7 @@ git commit
 fi
 ## gcm EOF
 EOM
-chmod 700 usr/local/bin/gcm
+chmod 755 usr/local/bin/gcm
 }
 
 _ADDgitconfig_() {
@@ -914,7 +914,7 @@ git pull
 fi
 ## gpl EOF
 EOM
-chmod 700 usr/local/bin/gpl
+chmod 755 usr/local/bin/gpl
 }
 
 _ADDgp_() {
@@ -929,13 +929,13 @@ git push
 fi
 ## gp EOF
 EOM
-chmod 700 usr/local/bin/gp
+chmod 755 usr/local/bin/gp
 }
 
 _ADDinfo_ () {
 _CFLHDR_ usr/local/bin/info
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ ! -x \"/bin/info\" ] && pci texinfo && /bin/info \"\$@\" || /bin/info \"\$@\"" "## info EOF" >> usr/local/bin/info
-chmod 700 usr/local/bin/info
+chmod 755 usr/local/bin/info
 }
 
 _ADDinputrc_() {
@@ -1110,7 +1110,7 @@ _DOKPI_ || _DOKPI_
 umask 000
 chmod 4777 /usr/bin/newgidmap
 chmod 4777 /usr/bin/newuidmap
-chmod 700 /etc/pacman.d/gnupg
+chmod 755 /etc/pacman.d/gnupg
 umask 022
 _DOPP_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ]
@@ -1128,7 +1128,7 @@ $X86INT
 $X86INK
 ## keys EOF
 EOM
-chmod 700 usr/local/bin/keys
+chmod 755 usr/local/bin/keys
 }
 
 _ADDmakefakeroottcp_() {
@@ -1172,7 +1172,7 @@ printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
 ## makefakeroottcp EOF
 EOM
-chmod 700 usr/local/bin/makefakeroottcp
+chmod 755 usr/local/bin/makefakeroottcp
 }
 
 _ADDmakeksh_() {
@@ -1203,7 +1203,7 @@ find arch/*/bin -type f -executable || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" 
 fi
 ## makeksh EOF
 EOM
-chmod 700 usr/local/bin/makeksh
+chmod 755 usr/local/bin/makeksh
 }
 
 _ADDmakeyay_() {
@@ -1238,7 +1238,7 @@ printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can b
 fi
 ## makeyay EOF
 EOM
-chmod 700 usr/local/bin/makeyay
+chmod 755 usr/local/bin/makeyay
 }
 
 _ADDorcaconf_() {
@@ -1254,7 +1254,7 @@ csystemctl || printf "\\e[1;31m%s\\e[0m\\n" "command 'csystemctl' did not comple
 orcarun || printf "\\e[1;31m%s\\e[0m\\n" "command 'orcarun' did not completed as expected"
 ## orcaconf EOF
 EOM
-chmod 700 usr/local/bin/orcaconf
+chmod 755 usr/local/bin/orcaconf
 _ADDorcarun_() {
 _CFLHDR_ usr/local/bin/orcarun "# Contributor https://github.com/JanuszChmiel " "# Reference https://github.com/SDRausty/termux-archlinux/issues/66 Let's expand setupTermuxArch so users can install Orca screen reader (assistive technology) and also have VNC support added easily."
 cat >> usr/local/bin/orcarun <<- EOM
@@ -1266,7 +1266,7 @@ Xvnc -localhost -geometry 1024x768 -depth 24 -SecurityTypes=None
 fi
 ## orcarun EOF
 EOM
-chmod 700 usr/local/bin/orcarun
+chmod 755 usr/local/bin/orcarun
 }
 _ADDorcarun_
 }
@@ -1295,7 +1295,7 @@ touch "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock"
 printf "Patching makepkg: DONE 🏁\\\\n"
 ## patchmakepkg EOF
 EOM
-chmod 700 usr/local/bin/patchmakepkg
+chmod 755 usr/local/bin/patchmakepkg
 }
 
 _ADDpacmandblock_() {
@@ -1315,7 +1315,7 @@ printf "%s\\\\n" "DONE"
 fi
 ## pacmandblock EOF
 EOM
-chmod 700 usr/local/bin/pacmandblock
+chmod 755 usr/local/bin/pacmandblock
 }
 
 _ADDpc_() {
@@ -1356,7 +1356,7 @@ nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
 fi
 ## pc EOF
 EOM
-chmod 700 usr/local/bin/pc
+chmod 755 usr/local/bin/pc
 }
 
 _ADDpci_() {
@@ -1396,7 +1396,7 @@ nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUD
 fi
 ## pci EOF
 EOM
-chmod 700 usr/local/bin/pci
+chmod 755 usr/local/bin/pci
 }
 
 _ADDprofileusretc_() {
@@ -1450,12 +1450,12 @@ fi
 _CHECKRESOLVE_
 }
 
-_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## striphtmlcodefromfile EOF" >> usr/local/bin/striphtmlcodefromfile ; chmod 700 usr/local/bin/striphtmlcodefromfile ; }
+_ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## striphtmlcodefromfile EOF" >> usr/local/bin/striphtmlcodefromfile ; chmod 755 usr/local/bin/striphtmlcodefromfile ; }
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v tree)\" ] && pci tree && tree \"\$@\" ; } || tree \"\$@\"" "## t EOF" >> usr/local/bin/t
-chmod 700 usr/local/bin/t
+chmod 755 usr/local/bin/t
 }
 
 _ADDtimings_() {
@@ -1471,7 +1471,7 @@ done
 rm -f 500KBfile.txt
 ## timings EOF
 EOM
-chmod 700 usr/local/bin/timings
+chmod 755 usr/local/bin/timings
 }
 
 _ADDthstartarch_() {
@@ -1496,7 +1496,7 @@ $STARTBIN su user "pwd && whoami" || _PRTERROR_
 printf "%s\\n" "th$STARTBIN done"
 ## th"$STARTBIN" EOF
 EOM
-chmod 700 usr/local/bin/th"$STARTBIN"
+chmod 755 usr/local/bin/th"$STARTBIN"
 }
 
 _ADDtools_() {	# developing implementaion; working system tools that work can be added to array PRFXTOLS
@@ -1564,7 +1564,7 @@ cat /usr/local/bin/pci
 printf "\\\\e[1;32m\\\\n%s \\\\e[38;5;121m%s \\\\n\\\\n\\\\e[4;38;5;129m%s\\\\e[0m\\\\n\\\\n\\\\e[1;34m%s \\\\e[38;5;135m%s\\\\e[0m\\\\n\\\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
 ## tour EOF
 EOM
-chmod 700 usr/local/bin/tour
+chmod 755 usr/local/bin/tour
 }
 
 _ADDtrim_() {
@@ -1594,7 +1594,7 @@ printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
 rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
 ## trim EOF
 EOM
-chmod 700 usr/local/bin/trim
+chmod 755 usr/local/bin/trim
 }
 
 _ADDv_() {
@@ -1608,7 +1608,7 @@ ARGS=("\$@")
 fi
 EOM
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" ; } || vim \"\${ARGS[@]}\"" "## v EOF" >> usr/local/bin/v
-chmod 700 usr/local/bin/v
+chmod 755 usr/local/bin/v
 }
 
 _ADDwe_() {
@@ -1781,43 +1781,43 @@ fi
 _PRINTTAIL_
 ## we EOF
 EOM
-chmod 700 usr/bin/we
+chmod 755 usr/bin/we
 }
 
 _ADDmemav_() {
 _CFLHDR_ usr/local/bin/memav
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i available /proc/meminfo" "## memav EOF" >> usr/local/bin/memav
-chmod 700 usr/local/bin/memav
+chmod 755 usr/local/bin/memav
 }
 
 _ADDmemfree_() {
 _CFLHDR_ usr/local/bin/memfree
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i free /proc/meminfo" "## memfree EOF" >> usr/local/bin/memfree
-chmod 700 usr/local/bin/memfree
+chmod 755 usr/local/bin/memfree
 }
 
 _ADDmeminfo_() {
 _CFLHDR_ usr/local/bin/meminfo
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "cat /proc/meminfo" "## meminfo EOF" >> usr/local/bin/meminfo
-chmod 700 usr/local/bin/meminfo
+chmod 755 usr/local/bin/meminfo
 }
 
 _ADDmemmem_() {
 _CFLHDR_ usr/local/bin/memmem
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i mem /proc/meminfo" "## memmem EOF" >> usr/local/bin/memmem
-chmod 700 usr/local/bin/memmem
+chmod 755 usr/local/bin/memmem
 }
 
 _ADDmemtot_() {
 _CFLHDR_ usr/local/bin/memtot
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i total /proc/meminfo" "## memtot EOF" >> usr/local/bin/memtot
-chmod 700 usr/local/bin/memtot
+chmod 755 usr/local/bin/memtot
 }
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" ; } || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
-chmod 700 usr/local/bin/yt
+chmod 755 usr/local/bin/yt
 }
 
 _DOMODdotfiles_() {
