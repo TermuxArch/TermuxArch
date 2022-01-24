@@ -449,11 +449,6 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 _CALLSYSTEM_
 _MD5CHECK_
-echo KEEP
-echo KEEP
-echo $KEEP
-echo KEEP
-echo KEEP
 if [ "$KEEP" = 0 ]
 then
 _PRINTKEEP_
