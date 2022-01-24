@@ -5,12 +5,12 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache.var/archlinux/$CPUABI/pacman/pkg/"
-CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache.var/archlinux/$CPUABI/"
-CACHEDIRSUFIX="cache.var/archlinux/$CPUABI/pacman/pkg/"
+CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/var/archlinux/$CPUABI/pacman/pkg/"
+CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/var/archlinux/$CPUABI/"
+PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
+CACHEDIRSUFIX="files/cache/var/archlinux/$CPUABI/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
-PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/files/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 
@@ -293,7 +293,7 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '%s\n\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+printf '\n%s\n\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
 EOM
 fi
@@ -461,10 +461,7 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
-cd "$PREFIXDATAFILES" || exit
-if [ -d "$CACHEDIRSUFIX" ]
-then
-cd "$CACHEDIR" || exit
+cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s\n\n' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR" ; }
 if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
 then
 printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
@@ -472,18 +469,7 @@ else
 cd "$INSTALLDIR" || exit
 _CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
 fi
-else
-mkdir -p "CACHEDIRSUFIX"
-cd "$INSTALLDIR" || exit
-_CALLSYSTEM_
-_MD5CHECK_
 fi
-else
-cd "$INSTALLDIR" || exit
-_CALLSYSTEM_
-_MD5CHECK_
-fi
-cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
