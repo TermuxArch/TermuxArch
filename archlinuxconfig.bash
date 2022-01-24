@@ -1382,10 +1382,10 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "e8" ]]
 then
 nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}"
@@ -1393,7 +1393,7 @@ elif [[ "\$1" = "e11" ]]
 then
 nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@"
 fi
 ## pci EOF
 EOM
