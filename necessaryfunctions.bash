@@ -470,6 +470,7 @@ cd "$INSTALLDIR" || exit
 _CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
 fi
 fi
+cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
