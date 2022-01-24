@@ -170,12 +170,6 @@ fi
 fi
 }
 
-_PREPROOTSE_() {
-## This feature can be usefull to save bandwidth and space for multiple proot intallations.
-## Please create a 'files/archlinux/var/cache' directory in order to use this feature which can save bandwidth and device space if using multiple proot system installations in Termux of one type of architecture.
-[ -e /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache ] && [ $(ls -F "$INSTALLDIR"/var/cache/pacman/pkg) = "pkg@" ] || ( [ ! -e /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI" ] && cd /storage/emulated/0/Android/data/com.termux/ && mkdir -p files/archlinux/var/cache/"$CPUABI"/pacman/pkg && cd "$INSTALLDIR" && rmdir var/cache/pacman/pkg && rmdir var/cache/pacman && ln -s /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI"/pacman/pkg var/cache/pacman/pkg ) || ln -s /storage/emulated/0/Android/data/com.termux/files/archlinux/var/cache/"$CPUABI"/pacman/pkg var/cache/pacman/pkg
-}
-
 _RMBLOOMQ_() {
 if [[ -d "$HOME"/TermuxArchBloom ]]
 then

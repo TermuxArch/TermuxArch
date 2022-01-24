@@ -286,6 +286,11 @@ printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --nocon
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
+# use cache dir
+printf '%s\n' "cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
+echo done
+echo done
 $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
@@ -447,7 +452,18 @@ chmod 700 "$STARTBIN"
 
 _MAKESYSTEM_() {
 _WAKELOCK_
+if [ USECACHEDIR=0 ]
+then
+	if [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+	then
+printf '%s\n' "cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR/"
+cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR/"
+else
 _CALLSYSTEM_
+fi
+else
+_CALLSYSTEM_
+fi
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
 then

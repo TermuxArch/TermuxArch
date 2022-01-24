@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1414
+VERSIONID=2.0.1415
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -1014,6 +1014,13 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
+## [us[e_cache_dir] [install] [customdir]]  Use cache directory for install files.  This feature can be usefull to save bandwidth and space for multiple proot intallations.
+elif [[ "${1//-}" = [Uu][Ss]* ]]
+then
+USECACHEDIR=0
+printf "\\nSetting mode use to cache dir [u[se_cache_dir] [install] [customdir]].\\n"
+_OPT1_ "$@"
+_INTRO_ "$@"
 ## [u[pdateTermuxTools] [refresh] [customdir]]  Developing implementation; Update installation with Termux tools.
 elif [[ "${1//-}" = [Uu]* ]]
 then
