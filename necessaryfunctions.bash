@@ -185,7 +185,7 @@ DOMIRLCR=0
 }
 if [[ -f "$INSTALLDIR/run/lock/${INSTALLDIR##*/}/domirror.lock" ]]
 then
-printf "Lockfile '%s' exists;  Continuing..." "~/${INSTALLDIR##*/}/run/lock/${INSTALLDIR##*/}/domirror.lock"
+printf "Lockfile '%s' exists;  Continuing..." "$HOME/${INSTALLDIR##*/}/run/lock/${INSTALLDIR##*/}/domirror.lock"
 else
 if ! grep ^Server "$INSTALLDIR/etc/pacman.d/mirrorlist"
 then
@@ -200,33 +200,34 @@ _DOPROXY_() {
 [[ -f "$HOME"/.profile ]] && grep -s "proxy" "$HOME"/.profile | grep -s "export" >> root/bin/"$BINFNSTP" ||:
 }
 
-_KERNID_() {
-declare KID=""
-declare -i KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$UNAMER")"
-declare -i MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$UNAMER")"
-declare -- TMP="$(awk -F'.' '{print $3}' <<< "$UNAMER")"
-declare -- MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMP:0:3}")"
+_MAINBLOCK_() {
+declare KID
+declare -i KERNEL_VERSION
+declare -i MAJOR_REVISION
+declare -- MINOR_REVISION
+declare -- TMPKERN
+export KID=1
+KERNEL_VERSION="$(awk -F'.' '{print $1}' <<< "$UNAMER")"
+MAJOR_REVISION="$(awk -F'.' '{print $2}' <<< "$UNAMER")"
+TMPKERN="$(awk -F'.' '{print $3}' <<< "$UNAMER")"
+MINOR_REVISION="$(sed 's/[^0-9]*//g' <<< "${TMPKERN:0:3}")"
 if [[ "$KERNEL_VERSION" -le 2 ]]
 then
-KID=0
+export KID=0
 else
 if [[ "$KERNEL_VERSION" -eq 3 ]]
 then
 if [[ "$MAJOR_REVISION" -lt 2 ]]
 then
-KID=0
+export KID=0
 else
 if [[ "$MAJOR_REVISION" -eq 2 ]] && [[ "$MINOR_REVISION" -eq 0 ]]
 then
-KID=0
+export KID=0
 fi
 fi
 fi
 fi
-}
-_KERNID_
-
-_MAINBLOCK_() {
 _NAMESTARTARCH_
 _SPACEINFO_
 _PREPINSTALLDIR_
@@ -534,7 +535,7 @@ _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
 _FIXOWNER_
-if [ $ELCR = 0 ]
+if [ "$ELCR" = 0 ]
 then
 exit	## Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 fi
