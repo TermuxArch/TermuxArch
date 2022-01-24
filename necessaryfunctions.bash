@@ -289,12 +289,14 @@ then
 printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && touch "/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
-cat >> root/bin/"$BINFNSTP" <<- EOM
-if [ "\$USECACHEDIR" = 0 ]
+if [ "$USECACHEDIR" = 0 ]
 then
+fi
+cat >> root/bin/"$BINFNSTP" <<- EOM
 printf '%s\n' "cp $CACHEDIRPKG/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp $CACHEDIRPKG/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
-fi
+EOM
+cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
@@ -464,7 +466,7 @@ then
 cd "$CACHEDIR"
 if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
 then
-printf '%s\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
+printf '%s\\n\\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
 else
 cd "$INSTALLDIR"
 _CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
