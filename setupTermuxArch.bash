@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1418
+VERSIONID=2.0.1419
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -816,7 +816,7 @@ fi
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
 then
-_PREPTERMUXARCH_
+_OPT1_ "$@"
 _INTRO_ "$@"
 ## [./path/systemimage.tar.gz [customdir]]  Install directory argument is optional.  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch festure.  Download and configuration is not presently implemented, and hopefully will be in the future.  Create an issue and pull request at GitHub to implement these features.
 elif [[ "${ARGS:0:1}" = . ]]
@@ -1014,13 +1014,6 @@ printf "\\n\\e[0;32mSetting mode\\e[1;34m: \\e[1;32mminimal refresh; Directory '
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-## [us[e_cache_dir] [install] [customdir]]  Use cache directory for install files.  This feature can be usefull to save bandwidth and space for multiple proot intallations.
-elif [[ "${1//-}" = [Uu][Ss]* ]]
-then
-USECACHEDIR=0
-printf "\\nSetting mode use to cache dir [u[se_cache_dir] [install] [customdir]].\\n"
-_OPT1_ "$@"
-_INTRO_ "$@"
 ## [u[pdateTermuxTools] [refresh] [customdir]]  Developing implementation; Update installation with Termux tools.
 elif [[ "${1//-}" = [Uu]* ]]
 then

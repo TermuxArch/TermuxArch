@@ -5,8 +5,12 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
+CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache.var/archlinux/$CPUABI/pacman/pkg/"
+CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache.var/archlinux/$CPUABI/"
+CACHEDIRSUFIX="cache.var/archlinux/$CPUABI/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
+PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/files/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 
@@ -286,9 +290,11 @@ printf "%s\\n" "_PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --nocon
 fi
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
-# use cache dir
-printf '%s\n' "cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
-cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
+if [ "\$USECACHEDIR" = 0 ]
+then
+printf '%s\n' "cp $CACHEDIRPKG/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+cp $CACHEDIRPKG/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
+fi
 $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
@@ -450,18 +456,32 @@ chmod 700 "$STARTBIN"
 
 _MAKESYSTEM_() {
 _WAKELOCK_
-if [ USECACHEDIR=0 ]
+if [ "$USECACHEDIR" = 0 ]
 then
-if [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+cd "$PREFIXDATAFILES"
+if [ -d "$CACHEDIRSUFIX" ]
 then
-printf '%s\n' "cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR/"
-cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR/"
+cd "$CACHEDIR"
+if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+then
+printf '%s\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
 else
-_CALLSYSTEM_
+cd "$INSTALLDIR"
+_CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
 fi
 else
+mkdir -p "CACHEDIRSUFIX"
+cd "$INSTALLDIR"
 _CALLSYSTEM_
+_MD5CHECK_
 fi
+else
+cd "$INSTALLDIR"
+_CALLSYSTEM_
+_MD5CHECK_
+fi
+cd "$INSTALLDIR"
+_CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
 then
