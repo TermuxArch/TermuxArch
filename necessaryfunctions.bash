@@ -289,8 +289,6 @@ cat >> root/bin/"$BINFNSTP" <<- EOM
 # use cache dir
 printf '%s\n' "cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp /storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
-echo done
-echo done
 $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
