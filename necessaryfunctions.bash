@@ -452,8 +452,8 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ USECACHEDIR=0 ]
 then
-	if [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
-	then
+if [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+then
 printf '%s\n' "cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR/"
 cp "${CACHE_DIR:-/storage/emulated/0/Android/data/com.termux/cache.var.archlinux/pacman/pkg/}"ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR/"
 else
