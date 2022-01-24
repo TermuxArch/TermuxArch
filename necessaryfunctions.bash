@@ -461,29 +461,29 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
-cd "$PREFIXDATAFILES"
+cd "$PREFIXDATAFILES" || exit
 if [ -d "$CACHEDIRSUFIX" ]
 then
-cd "$CACHEDIR"
+cd "$CACHEDIR" || exit
 if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
 then
 printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
 else
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit
 _CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
 fi
 else
 mkdir -p "CACHEDIRSUFIX"
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 fi
 else
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 fi
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
@@ -526,7 +526,7 @@ done
 }
 
 _PREPINSTALLDIR_() {
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit
 _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
