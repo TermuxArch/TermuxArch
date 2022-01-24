@@ -4,14 +4,14 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-##  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and file 'knownconfigurations.bash' is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
-# DM=aria2c		##  uncomment to use this download tool
-# DM=axel 		##  uncomment to use this download tool
-# DM=curl		##  uncomment to use this download tool
-# DM=lftp 		##  uncomment to use this download tool
-# DM=wget		##  uncomment to use this download tool
-# DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
-USECACHEDIR=0		##  change to 0 to use cache dir
+#  Running 'setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' from this file in the working directory.  Run 'setupTermuxArch' and file 'setupTermuxArchConfigs.bash' loads automaticaly once created, and file 'knownconfigurations.bash' is ignored at runtime; 'setupTermuxArch help' has additional information.  The mirror (information at https://wiki.archlinux.org/index.php/Mirrors and https://archlinuxarm.org/about/mirrors) can be changed to a desired geographic location in 'setupTermuxArchConfigs.bash' to resolve download, 404 and checksum issues should these take place.  User configurable variables are present in this file for your convenience:
+## DM=aria2c		##  uncomment to use this download tool
+## DM=axel 		##  uncomment to use this download tool
+## DM=curl		##  uncomment to use this download tool
+## DM=lftp 		##  uncomment to use this download tool
+## DM=wget		##  uncomment to use this download tool
+## DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
+USECACHEDIR=1		##  change to 0 to use cache dir
 ECHOEXEC=""		##  insert 'echo' to supress most 'pacman' instructions from 'keys' file during runtime
 ECHOSYNC=""		##  insert 'echo' to only supress 'pacman' syncing instructions from 'keys' file during runtime
 KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwith and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse if desired.  The root file system image and md5 files can be saved and used again on subsequent installs when testing the install feature with this and similar fragments of code.
