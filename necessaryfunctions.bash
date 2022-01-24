@@ -291,11 +291,11 @@ fi
 fi
 if [ "$USECACHEDIR" = 0 ]
 then
-fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf '%s\n' "cp $CACHEDIRPKG/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp $CACHEDIRPKG/*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
 EOM
+fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
@@ -466,7 +466,7 @@ then
 cd "$CACHEDIR"
 if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
 then
-printf '%s\\n\\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
+printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
 else
 cd "$INSTALLDIR"
 _CALLSYSTEM_ && _MD5CHECK_ && cp ArchLinuxARM-aarch64-latest.tar.gz* "$CACHEDIR"
