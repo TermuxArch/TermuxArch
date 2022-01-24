@@ -292,7 +292,7 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '%s\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+printf '%s\n\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
 EOM
 fi
