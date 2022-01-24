@@ -416,11 +416,9 @@ alias aiasearch='am start -a android.intent.action.SEARCH'
 alias aiaview='am start -a android.intent.action.VIEW'
 alias aiaviewd='am start -a android.intent.action.VIEW -d '
 alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
-alias C='cd .. && pwd'
-alias c='cd .. && pwd'
-alias CN='cat -n'
-alias Cn='cat -n'
-alias cn='cat -n'
+alias CN'cat -n \$(command -v' # use a ) to complete this alias
+alias Cn='cat -n \$(command -v' # use a ) to complete this alias
+alias cn='cat -n \$(command -v' # use a ) to complete this alias
 alias CW='cat \$(command -v' # use a ) to complete this alias
 alias Cw='cat \$(command -v' # use a ) to complete this alias
 alias cw='cat \$(command -v' # use a ) to complete this alias
