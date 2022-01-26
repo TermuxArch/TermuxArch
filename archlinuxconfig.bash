@@ -268,7 +268,7 @@ _ADDcams_() {
 _CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
 ### Loop example: 'while true ; do cams ; done'
 ### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
-### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
+### Please run 'au ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
 ### VLC media player APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
 ### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
 ### Seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
@@ -442,7 +442,7 @@ chmod 755 usr/local/bin/cdtmp
 }
 
 _ADDch_() {
-_CFLHDR_ usr/local/bin/ch "# This script creates .hushlogin and .hushlogout files."
+_CFLHDR_ usr/local/bin/ch "# This script creates and deletes the .hushlogin and .hushlogout files."
 cat >> usr/local/bin/ch <<- EOM
 declare -a ARGS
 
