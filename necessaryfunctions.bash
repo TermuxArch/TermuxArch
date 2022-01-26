@@ -15,20 +15,13 @@ TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 
 _ADDADDS_() {
-_ADDCAMS_
-_ADDAUSER_
-_PREPMOTS_
-_ADDMOTA_
-_ADDMOTD_
-_ADDMOTO_
-_ADDOPEN4ROOT_
 _ADDREADME_
-_ADDresolvconf_
 _ADDae_
-_ADDmakeaurhelpers_
+_ADDauser_
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
+_ADDcams_
 _ADDcdtd_
 _ADDcdth_
 _ADDcdtmp_
@@ -53,6 +46,7 @@ _ADDgpl_
 _ADDinfo_
 _ADDinputrc_
 _ADDkeys_
+_ADDmakeaurhelpers_
 _ADDmakefakeroottcp_
 _ADDmakeksh_
 _ADDmakeyay_
@@ -61,6 +55,7 @@ _ADDmemfree_
 _ADDmeminfo_
 _ADDmemmem_
 _ADDmemtot_
+_ADDopen4root_
 _ADDorcaconf_
 _ADDpatchmakepkg_
 _ADDpacmandblock_
@@ -72,6 +67,11 @@ then
 _ADDprofileetc_
 _ADDprofileusretc_
 fi
+_ADDresolvconf_
+_PREPMOTS_
+_ADDmota_
+_ADDmotd_
+_ADDmoto_
 _ADDt_
 _ADDthstartarch_
 _ADDtimings_
@@ -654,4 +654,4 @@ _RUNFINISHSETUP_
 rm -f root/bin/$BINFNSTP
 rm -f root/bin/setupbin.bash
 }
-# necessaryfunctions.bash EOF
+# necessaryfunctions.bash FE

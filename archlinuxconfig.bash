@@ -4,7 +4,33 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_ADDAUSER_() {
+_ADDREADME_() {
+_CFLHDR_ usr/local/bin/README.md
+cat > usr/local/bin/README.md <<- EOM
+The /usr/local/bin directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
+
+* Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
+* Command 'keys' installs Arch Linux keys,
+* Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
+* Command 'patchmakepkg' patches the 'makepkg' command,
+* Command 'pc' pacman shortcut command; cat \$(which pc),
+* Command 'pci' pacman shortcut command; cat \$(which pci),
+* Command 'tour' runs a short tour of the Arch Linux system directories,
+* Command 'trim' removes downloaded packages from the Arch Linux system directories and frees up space on device,
+* Command 'yt' youtube shortcut command that installs and runs the command 'youtube-dl',
+* Command 'v' is a vim editor shortcut command that  installs and runs the vim editor.
+
+This command; 'ls /usr/local/bin && cat ~/.bashrc' will show the installed TermuxArch commands.
+
+This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
+
+* Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
+* Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
+<!-- /usr/local/bin/README.md EOF -->
+EOM
+}
+
+_ADDauser_() {
 _CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
 cat >> usr/local/bin/addauser <<- EOM
 _HUSDIRC_() {
@@ -55,217 +81,6 @@ EOM
 chmod 755 usr/local/bin/addauser
 }
 
-_ADDCAMS_() {
-_CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
-### Loop example: 'while true ; do cams ; done'
-### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
-### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
-### VLC media player APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
-### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
-### Seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
-cat >> usr/local/bin/cams <<- EOM
-[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
-[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [Pp]* ]] && POCKET=0 && CAMID=2 && echo pocket || CAMID=\${1:-2} ; }
-[[ -z "\${1:-}" ]] && CAMID=2 ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
-FRAMECTOT=\${2:-11} ### [2] default 11:  Total frame count + 1,
-FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
-THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Can be used for motion detection.  The greater the number, the lesser the sensitivity.  Camera resolution also affects this argument,
-_CAMS_ () {
-while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
-do
-LTSENSOR="\$(termux-sensor -n 1 -s "LIGHT" | grep -w 0 || printf 1)"
-if [ "\$LTSENSOR" -eq 1 ]
-then
-{ [[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ "\$@" ; } || _CAMSCORE_ "\$@"
-else
-printf '\e[0;36m%s\e[0m\n' "IM light sensor wait; sleeping."
-sleep 4
-fi
-done
-}
-_CAMSSENSORS_ () {
-ITSENSOR="\$(termux-sensor -n 1 -s "IN_POCKET" | grep 1|| printf 0)"
-PYSENSOR="\$(termux-sensor -n 1 -s "PROXIMITY" | grep 1|| printf 0)"
-if [ "\${ITSENSOR//,}" -eq 1 ] || [ "\$PYSENSOR" -eq 1 ]
-then
-_CAMSCORE_ "\$@"
-else
-printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
-sleep 4
-fi
-}
-_CAMSCORE_ () {
-FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
-printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-} threshold" " set" "IP camid \$CAMID taking picture \$FRAMENAME: "
-touch "\$PWD/\$FRAMENAME"
-sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
-"\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
-printf '\e[0;32m%s\n' "DONE"
-_ISZERO_ "\$@"
-}
-_CHECKMOTIONDIFF_() {
-if [ "\$FRAMECOUNT" -ne 0 ]
-then
-THRESHOLD="\$((LASTZERO - ISZERO))"
-THRESHOLD="\${THRESHOLD//-}"
-if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
-then
-printf '\e[0;2m%s\n' "ID \$THRESHOLD/\$THRESHOLDSET threshold: deleting file \$FRAMENAME"
-rm -f "\$FRAMENAME"
-OLDISZERO="\$ISZERO"
-fi
-fi
-}
-_ISZERO_ () {
-if [ -n "\${ISZERO:-}" ]
-then
-LASTZERO="\$ISZERO"
-fi
-ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
-printf '\e[0;36m%s\e[1;36m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
-if [ "\$ISZERO" -eq 0 ]
-then
-ISZERO="\${OLDISZERO:-}"
-printf '\e[0;33m%s' "E0 deleting zero size file \$FRAMENAME: "
-rm -f "\$FRAMENAME"
-printf '\e[0;32m%s\n' "DONE"
-E0VAR=1
-fi
-if [[ \${E0VAR:-} == 0 ]]
-then
-_CHECKMOTIONDIFF_
-_MAGICKCK_ "\$@"
-else
-E0VAR=0
-fi
-}
-_MAKEDIRS_ () {
-CAMD="camid\$CAMID"
-[ -e "output/\$CAMD/\$CAMD\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir -p output/\$CAMD/\$CAMD\$TIMESTAMP: " && mkdir -p output/"\$CAMD/\$CAMD\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
-[ -e output/gifs/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/gifs/\$CAMD: " && mkdir -p output/gifs/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
-[ -e output/webms/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/webms/\$CAMD: " && mkdir -p output/webms/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
-printf '\e[0;36m%s' "IM cd output/\$CAMD/\$CAMD\$TIMESTAMP: " && cd output/"\$CAMD/\$CAMD\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
-}
-_MAGICKCK_ () {
-if [ -e "\$FRAMENAME" ]
-then
-printf '\e[0;36m%s' "IC checking file \$FRAMENAME for errors: "
-MAGICKCK="\$(nice -n 20 magick identify "\$FRAMENAME" 2>&1 ||:)"
-if grep -i error <<< "\$MAGICKCK"
-then
-printf '\e[0;31m%s\e[0m\n' "ERROR"
-rm -f "\$FRAMENAME"
-printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME..."
-else
-printf '\e[0;32m%s\n' "DONE"
-FRAMECOUNT="\$((FRAMECOUNT + 1))"
-printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n' "IF " "file \$FRAMENAME added" " to que."
-if [ -n "\${5:-}" ]
-then
-if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
-then
-printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you want to use 180° and 270° degree rotation.  Other rotation angles can also be used,
-nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
-mv "\$FRAMENAME".jpg "\$FRAMENAME"
-printf '\e[0;32m%s\n' "DONE"
-fi
-fi
-fi
-fi
-}
-_MECONVERT_ () {
-printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 100))" -loop 0 "\$CAMD."*.jpg "\$CAMD.\$TIMESTAMP".gif && { ls -al "\$CAMD.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
-printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs/\$CAMD: " && mv "\$CAMD.\$TIMESTAMP".gif ../../gifs/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
-}
-_MEFFMPEG_ () {
-# To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename%04d.jpg -vframes 400 video.webm
-printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMD."%04d.jpg -movflags +faststart -c:v libvpx-vp9 -g 1 "\$CAMD.\$TIMESTAMP".webm && { ls -al "\$CAMD.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
-printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/\$CAMD; " && mv "\$CAMD.\$TIMESTAMP".webm ../../webms/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
-}
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
-am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
-E0VAR=0 # used to process zero size files
-FRAMECOUNT=0 # initial frame count
-TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
-_MAKEDIRS_ "\${1:-2}"
-_CAMS_ "\$@"
-_MECONVERT_ &
-_MEFFMPEG_ &
-PSAUX="(\$(ps aux))"
-PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
-printf '\e[0;34m%s\e[1;36m%s\n\e[1;32m%s\n' "IM " "running these background jobs:" "\${PSAUX[@]}"
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
-printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[0m\n' "The command " "termux-wake-unlock" " stops the wake lock."
-sleep "\${7:-4}" ### [7] default of four seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files end.
-# cams EOF
-EOM
-chmod 755 usr/local/bin/cams
-}
-
-_ADDMOTA_() {
-cat > etc/mota <<- EOM
-printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC"
-EOM
-}
-
-_ADDMOTD_() {
-cat > etc/motd <<- EOM
-Welcome to Arch Linux in Termux PRoot!
-Install a package: pacman -S package
-More  information: pacman -[D|F|Q|R|S|T|U]h
-Search   packages: pacman -Ss query
-Upgrade  packages: pacman -Syu
-
-$MOTTECBBS
-Chat:	wiki.termux.com/wiki/Community
-Help:	info query and man query
-GitHub:	$MOTTECGIT
-IRC:	$MOTTECIRC
-EOM
-}
-
-_ADDMOTO_() {
-cat > etc/moto <<- EOM
-printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mHelp:	\\\\e[0;34mhelp man \\\\e[1;34mand \\\\e[0;34minfo man\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
-EOM
-}
-
-_ADDOPEN4ROOT_() {
-_CFLHDR_ usr/local/bin/open4root "# open programs in /usr/local/bin/ for root user"
-cat >> usr/local/bin/open4root <<- EOM
-sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
-sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
-## open4root EOF
-EOM
-chmod 755 usr/local/bin/open4root
-}
-
-_ADDREADME_() {
-_CFLHDR_ usr/local/bin/README.md
-cat > usr/local/bin/README.md <<- EOM
-The /usr/local/bin directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
-
-* Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
-* Command 'keys' installs Arch Linux keys,
-* Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
-* Command 'patchmakepkg' patches the 'makepkg' command,
-* Command 'pc' pacman shortcut command; cat \$(which pc),
-* Command 'pci' pacman shortcut command; cat \$(which pci),
-* Command 'tour' runs a short tour of the Arch Linux system directories,
-* Command 'trim' removes downloaded packages from the Arch Linux system directories and frees up space on device,
-* Command 'yt' youtube shortcut command that installs and runs the command 'youtube-dl',
-* Command 'v' is a vim editor shortcut command that  installs and runs the vim editor.
-
-This command; 'ls /usr/local/bin && cat ~/.bashrc' will show the installed TermuxArch commands.
-
-This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you do want to expand this file to enhance this experience, visit these links:
-
-* Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
-* Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
-<!-- /usr/local/bin/README.md EOF -->
-EOM
-}
-
 _ADDae_() {
 _CFLHDR_ usr/local/bin/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
 cat >> usr/local/bin/ae <<- EOM
@@ -273,87 +88,6 @@ watch cat /proc/sys/kernel/random/entropy_avail
 ## ae EOF
 EOM
 chmod 755 usr/local/bin/ae
-}
-
-_ADDmakeaurhelpers_() {
-_CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
-cat >> usr/local/bin/makeaurhelpers <<- EOM
-_CLONEAURHELPER_() {
-cd "\$HOME/aurhelpers"
-if [[ ! -d "\$AURHELPER" ]]
-then
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
-else
-printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ || _PRTERROR_
-fi
-}
-
-_DONEAURHELPER_(){
-#command "\$1" || _DOAURHELPERS_
-if ! command "\$1"
-then
-printf '%s\n' "Found command \$1"
-if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
-then
-printf '%s\n' "\$1"
-fi
-fi
-}
-
-_DOAURHELPERS_(){
-for AURHELPER in \${AURHELPERS[@]}
-do
-if [ "\$AURHELPER" = stack-static ]
-then
-gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
-fi
-if [ "\$AURHELPER" = pacaur ]
-then
-pci expac
-AURHELPER=auracle-git
-_CLONEAURHELPER_
-fi
-if [ "\$AURHELPER" = bauerbill ]
-then
-pci python-pyxdg
-BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
-for AURHELPER in \${BAUERBILLDEPS[@]}
-do
-_CLONEAURHELPER_
-done
-fi
-_CLONEAURHELPER_
-done
-}
-
-_MAKEAURHELPER_() {
-cd "\$HOME/aurhelpers/\$AURHELPER"
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
-}
-
-_PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
-}
-
-[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
-UNAMEM="\$(uname -m)"
-if [ "\$UNAMEM" = x86-64 ]
-then
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-elif [ "\$UNAMEM" = i386 ]
-then
-AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-else
-AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
-fi
-# command yay || makeyay
-echo _DONEAURHELPER_ pikaur
-# _DONEAURHELPER_ pikaur
-# _DOAURHELPERS_
-## makeaurhelpers EOF
-EOM
-chmod 755 usr/local/bin/makeaurhelpers
 }
 
 _ADDbash_logout_() {
@@ -528,6 +262,153 @@ EOM
 cat >> root/.bashrc <<- EOM
 ## .bashrc EOF
 EOM
+}
+
+_ADDcams_() {
+_CFLHDR_ usr/local/bin/cams "### Example usage: 'cams 0 255 16 2048 r 90 2'
+### Loop example: 'while true ; do cams ; done'
+### Semantics: [camid [totalframes+1 [framespersecond [threshold [r[otate] [degrees [exitwait]]]]]]]
+### Please run 'pkg install ffmpeg imagemagick termux-api' before running this script.  Also ensure that Termux-api is installed, which is available at this https://github.com/termux/termux-api/actions/workflows/debug_build.yml webpage.
+### VLC media player APK can be downloaded from these https://www.videolan.org/vlc/download-android.html and https://get.videolan.org/vlc-android/3.3.4/ webpages.
+### More options in addition to image checking and rotation can be added by editing this file at the magick rotation command;  The command line options for magick are listed at this https://imagemagick.org/script/command-line-options.php webpage.
+### Seven arguments are listed below, including their default values;  If run with no arguments, the default values will be used:"
+cat >> usr/local/bin/cams <<- EOM
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [\/]* ]] || [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\e[1;32m%s\n' "Help for '\${0##*/}':" && TSFILE="(\$(grep '##\ ' "\$0"))" && printf '\e[0;32m%s\e[1;32m\n%s\n' "\$(for HL in "\${TSFILE[@]}" ; do cut -d\) -f1 <<< "\${HL//###/	}" | cut -f 2 ; done )" "Help for '\${0##*/}': DONE" ; exit ; }
+[[ -n "\${1:-}" ]] && { [[ "\${1//-}" = [Pp]* ]] && POCKET=0 && CAMID=2 && echo pocket || CAMID=\${1:-2} ; }
+[[ -z "\${1:-}" ]] && CAMID=2 ### [1] default 2:  One camera 0 1 2 3 4 5 6 7 id,
+FRAMECTOT=\${2:-11} ### [2] default 11:  Total frame count + 1,
+FRAMERATE=\${3:-1} ### [3] default 1:  Video 0.5 1 2 4 8 16 32 frames per second rendered in the mpg file,
+THRESHOLDSET=\${4:-256} ### [4] default 256:  Byte difference 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 between last two picture frames taken;  Can be used for motion detection.  The greater the number, the lesser the sensitivity.  Camera resolution also affects this argument,
+_CAMS_ () {
+while [ "\$FRAMECOUNT" -le "\$FRAMECTOT" ]
+do
+LTSENSOR="\$(termux-sensor -n 1 -s "LIGHT" | grep -w 0 || printf 1)"
+if [ "\$LTSENSOR" -eq 1 ]
+then
+{ [[ "\${POCKET:-}" == 0 ]] && _CAMSSENSORS_ "\$@" ; } || _CAMSCORE_ "\$@"
+else
+printf '\e[0;36m%s\e[0m\n' "IM light sensor wait; sleeping."
+sleep 4
+fi
+done
+}
+_CAMSSENSORS_ () {
+ITSENSOR="\$(termux-sensor -n 1 -s "IN_POCKET" | grep 1|| printf 0)"
+PYSENSOR="\$(termux-sensor -n 1 -s "PROXIMITY" | grep 1|| printf 0)"
+if [ "\${ITSENSOR//,}" -eq 1 ] || [ "\$PYSENSOR" -eq 1 ]
+then
+_CAMSCORE_ "\$@"
+else
+printf '\e[0;36m%s\e[0m\n' "IM sensors wait; sleeping."
+sleep 4
+fi
+}
+_CAMSCORE_ () {
+FRAMENAME="camid\$(printf '%s.%04d.jpg' "\$CAMID" "\$FRAMECOUNT")"
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\$((FRAMECOUNT + 1))/\$((FRAMECTOT + 1))" " frame count: " "\${THRESHOLDSET:-} threshold" " set" "IP camid \$CAMID taking picture \$FRAMENAME: "
+touch "\$PWD/\$FRAMENAME"
+sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
+"\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
+printf '\e[0;32m%s\n' "DONE"
+_ISZERO_ "\$@"
+}
+_CHECKMOTIONDIFF_() {
+if [ "\$FRAMECOUNT" -ne 0 ]
+then
+THRESHOLD="\$((LASTZERO - ISZERO))"
+THRESHOLD="\${THRESHOLD//-}"
+if [ "\$THRESHOLD" -le "\$THRESHOLDSET" ]
+then
+printf '\e[0;2m%s\n' "ID \$THRESHOLD/\$THRESHOLDSET threshold: deleting file \$FRAMENAME"
+rm -f "\$FRAMENAME"
+OLDISZERO="\$ISZERO"
+fi
+fi
+}
+_ISZERO_ () {
+if [ -n "\${ISZERO:-}" ]
+then
+LASTZERO="\$ISZERO"
+fi
+ISZERO="\$(find . -type f -name "\$FRAMENAME" -printf "%s")"
+printf '\e[0;36m%s\e[1;36m%s\n' "IS framename \$FRAMENAME size: " "\$ISZERO"
+if [ "\$ISZERO" -eq 0 ]
+then
+ISZERO="\${OLDISZERO:-}"
+printf '\e[0;33m%s' "E0 deleting zero size file \$FRAMENAME: "
+rm -f "\$FRAMENAME"
+printf '\e[0;32m%s\n' "DONE"
+E0VAR=1
+fi
+if [[ \${E0VAR:-} == 0 ]]
+then
+_CHECKMOTIONDIFF_
+_MAGICKCK_ "\$@"
+else
+E0VAR=0
+fi
+}
+_MAKEDIRS_ () {
+CAMD="camid\$CAMID"
+[ -e "output/\$CAMD/\$CAMD\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir -p output/\$CAMD/\$CAMD\$TIMESTAMP: " && mkdir -p output/"\$CAMD/\$CAMD\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
+[ -e output/gifs/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/gifs/\$CAMD: " && mkdir -p output/gifs/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
+[ -e output/webms/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/webms/\$CAMD: " && mkdir -p output/webms/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
+printf '\e[0;36m%s' "IM cd output/\$CAMD/\$CAMD\$TIMESTAMP: " && cd output/"\$CAMD/\$CAMD\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"
+}
+_MAGICKCK_ () {
+if [ -e "\$FRAMENAME" ]
+then
+printf '\e[0;36m%s' "IC checking file \$FRAMENAME for errors: "
+MAGICKCK="\$(nice -n 20 magick identify "\$FRAMENAME" 2>&1 ||:)"
+if grep -i error <<< "\$MAGICKCK"
+then
+printf '\e[0;31m%s\e[0m\n' "ERROR"
+rm -f "\$FRAMENAME"
+printf '\e[0;31m%s\n\e[0;36m%s\n' "ED deleted file \$FRAMENAME: ERROR" "IR redoing file \$FRAMENAME..."
+else
+printf '\e[0;32m%s\n' "DONE"
+FRAMECOUNT="\$((FRAMECOUNT + 1))"
+printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n' "IF " "file \$FRAMENAME added" " to que."
+if [ -n "\${5:-}" ]
+then
+if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
+then
+printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you want to use 180° and 270° degree rotation.  Other rotation angles can also be used,
+nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
+mv "\$FRAMENAME".jpg "\$FRAMENAME"
+printf '\e[0;32m%s\n' "DONE"
+fi
+fi
+fi
+fi
+}
+_MECONVERT_ () {
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: This job will complete in the background..." && nice -n 20 convert -delay "\$((FRAMERATE * 100))" -loop 0 "\$CAMD."*.jpg "\$CAMD.\$TIMESTAMP".gif && { ls -al "\$CAMD.\$TIMESTAMP".gif && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.gif: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.gif: ERROR"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.gif ../../gifs/\$CAMD: " && mv "\$CAMD.\$TIMESTAMP".gif ../../gifs/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
+}
+_MEFFMPEG_ () {
+# To start at frame 20 and finish at frame 420: ffmpeg -start_number 20 -i filename%04d.jpg -vframes 400 video.webm
+printf '\e[0;36m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: This job will complete in the background..." && nice -n 20 ffmpeg -framerate "\$FRAMERATE" -i "\$CAMD."%04d.jpg -movflags +faststart -c:v libvpx-vp9 -g 1 "\$CAMD.\$TIMESTAMP".webm && { ls -al "\$CAMD.\$TIMESTAMP".webm && printf '\e[0;32m%s\e[0m\n' "IM making camid\$CAMID.\$TIMESTAMP.webm: DONE" ; } || printf '\e[1;31m%s\e[0m\n' "EM creating camid\$CAMID.\$TIMESTAMP.webm: ERROR"
+printf '\e[0;36m%s' "IM mv camid\$CAMID.\$TIMESTAMP.webm ../../webm/\$CAMD; " && mv "\$CAMD.\$TIMESTAMP".webm ../../webms/\$CAMD && printf '\e[0;32m%s\e[0m\n' "DONE"
+}
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s' "Starting command " "termux-wake-lock" ": "
+am startservice --user 0 -a com.termux.service_wake_lock com.termux/com.termux.app.TermuxService 1>/dev/null && printf '\e[0;32m%s\n\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "DONE" "Command " "termux-wake-unlock" " stops the wake lock." || printf '\e[0;33m%s\e[0m\n' "UTP am startservice: Continuing..."
+E0VAR=0 # used to process zero size files
+FRAMECOUNT=0 # initial frame count
+TIMESTAMP="\$(date +%Y%m%d%H%M%S)"
+_MAKEDIRS_ "\${1:-2}"
+_CAMS_ "\$@"
+_MECONVERT_ &
+_MEFFMPEG_ &
+PSAUX="(\$(ps aux))"
+PSAUX="\$(grep -e convert -e ffmpeg <<< "\${PSAUX[@]}" | cut -d":" -f 2-9999 | cut -d " " -f 2-9999 ||:)"
+printf '\e[0;34m%s\e[1;36m%s\n\e[1;32m%s\n' "IM " "running these background jobs:" "\${PSAUX[@]}"
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\n' "IM " "ps aux" " shows processes running."
+printf '\e[0;34m%s\e[1;36m%s\e[0;34m%s\e[0m\n' "The command " "termux-wake-unlock" " stops the wake lock."
+sleep "\${7:-4}" ### [7] default of four seconds:  Time before exit;  Programs 'convert' and 'ffmpeg' will continue to run in the background until their jobs of producing animated gif and webm files end.
+# cams EOF
+EOM
+chmod 755 usr/local/bin/cams
 }
 
 _ADDcdtd_() {
@@ -1132,6 +1013,87 @@ EOM
 chmod 755 usr/local/bin/keys
 }
 
+_ADDmakeaurhelpers_() {
+_CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
+cat >> usr/local/bin/makeaurhelpers <<- EOM
+_CLONEAURHELPER_() {
+cd "\$HOME/aurhelpers"
+if [[ ! -d "\$AURHELPER" ]]
+then
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
+else
+printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ || _PRTERROR_
+fi
+}
+
+_DONEAURHELPER_(){
+#command "\$1" || _DOAURHELPERS_
+if ! command "\$1"
+then
+printf '%s\n' "Found command \$1"
+if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
+then
+printf '%s\n' "\$1"
+fi
+fi
+}
+
+_DOAURHELPERS_(){
+for AURHELPER in \${AURHELPERS[@]}
+do
+if [ "\$AURHELPER" = stack-static ]
+then
+gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
+fi
+if [ "\$AURHELPER" = pacaur ]
+then
+pci expac
+AURHELPER=auracle-git
+_CLONEAURHELPER_
+fi
+if [ "\$AURHELPER" = bauerbill ]
+then
+pci python-pyxdg
+BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
+for AURHELPER in \${BAUERBILLDEPS[@]}
+do
+_CLONEAURHELPER_
+done
+fi
+_CLONEAURHELPER_
+done
+}
+
+_MAKEAURHELPER_() {
+cd "\$HOME/aurhelpers/\$AURHELPER"
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
+}
+
+_PRTERROR_() {
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
+}
+
+[ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
+UNAMEM="\$(uname -m)"
+if [ "\$UNAMEM" = x86-64 ]
+then
+AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+elif [ "\$UNAMEM" = i386 ]
+then
+AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+else
+AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
+fi
+# command yay || makeyay
+echo _DONEAURHELPER_ pikaur
+# _DONEAURHELPER_ pikaur
+# _DOAURHELPERS_
+## makeaurhelpers EOF
+EOM
+chmod 755 usr/local/bin/makeaurhelpers
+}
+
 _ADDmakefakeroottcp_() {
 _CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makefakeroottcp <<- EOM
@@ -1240,6 +1202,74 @@ fi
 ## makeyay EOF
 EOM
 chmod 755 usr/local/bin/makeyay
+}
+
+_ADDmemav_() {
+_CFLHDR_ usr/local/bin/memav
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i available /proc/meminfo" "## memav EOF" >> usr/local/bin/memav
+chmod 755 usr/local/bin/memav
+}
+
+_ADDmemfree_() {
+_CFLHDR_ usr/local/bin/memfree
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i free /proc/meminfo" "## memfree EOF" >> usr/local/bin/memfree
+chmod 755 usr/local/bin/memfree
+}
+
+_ADDmeminfo_() {
+_CFLHDR_ usr/local/bin/meminfo
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "cat /proc/meminfo" "## meminfo EOF" >> usr/local/bin/meminfo
+chmod 755 usr/local/bin/meminfo
+}
+
+_ADDmemmem_() {
+_CFLHDR_ usr/local/bin/memmem
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i mem /proc/meminfo" "## memmem EOF" >> usr/local/bin/memmem
+chmod 755 usr/local/bin/memmem
+}
+
+_ADDmemtot_() {
+_CFLHDR_ usr/local/bin/memtot
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i total /proc/meminfo" "## memtot EOF" >> usr/local/bin/memtot
+chmod 755 usr/local/bin/memtot
+}
+
+_ADDmota_() {
+cat > etc/mota <<- EOM
+printf "\\\\n\\\\e[1;34m%s\\\\n%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\n\\\\e[1;34m%s\\\\e[0m%s\\\\n\\\\n" "Welcome to Arch Linux in Termux PRoot!" "Install a package: " "pacman -S package" "More  information: " "pacman -[D|F|Q|R|S|T|U]h" "Search   packages: " "pacman -Ss query" "Upgrade  packages: " "pacman -Syu" "Chat:	" "wiki.termux.com/wiki/Community" "GitHub:	" "$MOTTECGIT" "Help:	" "help man " "and " "info man" "IRC:	" "$MOTTECIRC"
+EOM
+}
+
+_ADDmotd_() {
+cat > etc/motd <<- EOM
+Welcome to Arch Linux in Termux PRoot!
+Install a package: pacman -S package
+More  information: pacman -[D|F|Q|R|S|T|U]h
+Search   packages: pacman -Ss query
+Upgrade  packages: pacman -Syu
+
+$MOTTECBBS
+Chat:	wiki.termux.com/wiki/Community
+Help:	info query and man query
+GitHub:	$MOTTECGIT
+IRC:	$MOTTECIRC
+EOM
+}
+
+_ADDmoto_() {
+cat > etc/moto <<- EOM
+printf "\\\\n\\\\e[1;34mPlease share your Arch Linux in Termux PRoot experience!\\\\n\\\\n\\\\e[1;34mChat:	\\\\e[0mwiki.termux.com/wiki/Community\\\\n\\\\e[1;34mGitHub:	\\\\e[0m%s\\\\n\\\\e[1;34mHelp:	\\\\e[0;34mhelp man \\\\e[1;34mand \\\\e[0;34minfo man\\\\n\\\\e[1;34mIRC:	\\\\e[0m%s\\\\n\\\\n\\\\e[0m" "$MOTTECGIT" "$MOTTECIRC"
+EOM
+}
+
+_ADDopen4root_() {
+_CFLHDR_ usr/local/bin/open4root "# open programs in /usr/local/bin/ for root user"
+cat >> usr/local/bin/open4root <<- EOM
+sed -i 's/UID\" = 0/UID\" = -1/g' /usr/local/bin/*
+sed -i 's/EUID == 0/EUID == -1/g' /usr/local/bin/*
+## open4root EOF
+EOM
+chmod 755 usr/local/bin/open4root
 }
 
 _ADDorcaconf_() {
@@ -1785,36 +1815,6 @@ EOM
 chmod 755 usr/bin/we
 }
 
-_ADDmemav_() {
-_CFLHDR_ usr/local/bin/memav
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i available /proc/meminfo" "## memav EOF" >> usr/local/bin/memav
-chmod 755 usr/local/bin/memav
-}
-
-_ADDmemfree_() {
-_CFLHDR_ usr/local/bin/memfree
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i free /proc/meminfo" "## memfree EOF" >> usr/local/bin/memfree
-chmod 755 usr/local/bin/memfree
-}
-
-_ADDmeminfo_() {
-_CFLHDR_ usr/local/bin/meminfo
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "cat /proc/meminfo" "## meminfo EOF" >> usr/local/bin/meminfo
-chmod 755 usr/local/bin/meminfo
-}
-
-_ADDmemmem_() {
-_CFLHDR_ usr/local/bin/memmem
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i mem /proc/meminfo" "## memmem EOF" >> usr/local/bin/memmem
-chmod 755 usr/local/bin/memmem
-}
-
-_ADDmemtot_() {
-_CFLHDR_ usr/local/bin/memtot
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "grep -i total /proc/meminfo" "## memtot EOF" >> usr/local/bin/memtot
-chmod 755 usr/local/bin/memtot
-}
-
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" ; } || youtube-dl \"\$@\" " "## yt EOF" >> usr/local/bin/yt
@@ -1844,16 +1844,6 @@ MODFILEADD='set belloff=all'
 _MODdotfile_
 }
 
-_PREPPACMANCONF_() {
-if [ -f "$INSTALLDIR"/etc/pacman.conf ]
-then
-sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
-sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
-else
-_PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
-fi
-}
-
 _PREPMOTS_() {
 if [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
@@ -1871,4 +1861,14 @@ MOTTECGIT="github.com/archlinuxarm"
 MOTTECIRC="archlinuxarm.org/about/contact"
 fi
 }
-# archlinuxconfig.bash EOF
+
+_PREPPACMANCONF_() {
+if [ -f "$INSTALLDIR"/etc/pacman.conf ]
+then
+sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf"
+sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf"
+else
+_PSGI1ESTRING_ "Cannot find file $INSTALLDIR/etc/pacman.conf; _PREPPACMANCONF_ archlinuxconfig.bash ${0##*/}"
+fi
+}
+# archlinuxconfig.bash FE
