@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1440
+VERSIONID=2.0.1441
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -990,16 +990,16 @@ _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 # Refresh modes usefull for debugging the Arch Linux in Termux PRoot refresh feature.
-# elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
-# then
-# _PRPREFRESH_ "4"
-# _ARG2DIR_ "$@"
-# _INTROREFRESH_ "$@"
-# elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
-# then
-# _PRPREFRESH_ "3"
-# _ARG2DIR_ "$@"
-# _INTROREFRESH_ "$@"
+elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
+then
+_PRPREFRESH_ "4"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
+elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
+then
+_PRPREFRESH_ "3"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [re [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr][Ee] ]]
 then
