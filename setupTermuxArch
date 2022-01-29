@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1451
+VERSIONID=2.0.1452
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -886,6 +886,16 @@ DM=curl
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
+## [cmi] [customdir]  Install Arch Linux with manual install using 'curl'.
+elif [[ "${1//-}" = [Cc][Mm][Ii]* ]]
+then
+printf "\\nSetting 'curl' as download manager.\\n"
+printf "\\nSetting mode to manual install.\\n"
+DM=curl
+OPT=MANUAL
+_OPT1_ "$@"
+_ARG2DIR_ "$@"
+_INTRO_ "$@"
 ## [c[url] [customdir]|ci [customdir]]  Install Arch Linux with 'curl'.
 elif [[ "${1//-}" = [Cc][Ii]* ]] || [[ "${1//-}" = [Cc]* ]]
 then
@@ -948,7 +958,7 @@ printf "\\nSetting mode to matrix.\\n"
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
-## [ma[nual]]  Manual Arch Linux install, useful for resolving download issues.
+## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
 elif [[ "${1//-}" = [Mm][Ii]* ]] || [[ "${1//-}" = [Mm]* ]]
 then
 printf "\\nSetting mode to manual.\\n"
