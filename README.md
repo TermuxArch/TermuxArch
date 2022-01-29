@@ -43,4 +43,5 @@ File `setupTermuxArch` downloads as files `setupTermuxArch.[bin,\ \(1\),\ \(2\),
 These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command `git pull && git submodule update --init --remote --recursive` and `pullTermuxArchSubmodules.bash` to update to the newest version published.
 
 #### Many very hardy thank yous to contributors who are helping and have worked very hard to make this open source resource better!  Please accept a wholehearted THANK YOU, and please enjoy using [our product](https://github.com/TermuxArch/)!
+
 <!-- TermuxArch/TermuxArch README.md EOF -->
