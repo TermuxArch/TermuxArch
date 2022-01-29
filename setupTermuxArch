@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1450
+VERSIONID=2.0.1451
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -892,6 +892,7 @@ then
 printf "\\nSetting 'curl' as download manager.\\n"
 DM=curl
 _OPT1_ "$@"
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [d[ebug]|s[ysinfo]]  Generate system information.
 elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]]
@@ -948,11 +949,12 @@ _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
 ## [ma[nual]]  Manual Arch Linux install, useful for resolving download issues.
-elif [[ "${1//-}" = [Mm]* ]]
+elif [[ "${1//-}" = [Mm][Ii]* ]] || [[ "${1//-}" = [Mm]* ]]
 then
 printf "\\nSetting mode to manual.\\n"
 OPT=MANUAL
 _OPT1_ "$@"
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
