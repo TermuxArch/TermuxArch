@@ -293,7 +293,7 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp ${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+printf '\n%s\n\n' "cp $CACHEDIRPKG${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
 EOM
 fi
@@ -651,7 +651,9 @@ _ADDmotd_
 _PREPPACMANCONF_
 _SETLOCALE_
 _RUNFINISHSETUP_
-rm -f root/bin/$BINFNSTP
+rm -f root/bin/"$BINFNSTP"
 rm -f root/bin/setupbin.bash
+[ -f home/user/"$BINFNSTP" ] && rm -f home/user/"$BINFNSTP"
+[ -f home/user/setupbin.bash ] && rm -f home/user/setupbin.bash
 }
 # necessaryfunctions.bash FE

@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1454
+VERSIONID=2.0.1455
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -154,7 +154,7 @@ printf "\\e[?25l\\e[0m"
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
-. knownconfigurations.bash
+_LOADCONF_
 . maintenanceroutines.bash
 . necessaryfunctions.bash
 . printoutstatements.bash
