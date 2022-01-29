@@ -468,8 +468,6 @@ printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchL
 elif [ -f ArchLinuxARM-armv7-latest.tar.gz ] && [ -f ArchLinuxARM-armv7-latest.tar.gz.md5 ]
 then
 printf '%s\n\n' "cp ArchLinuxARM-armv7-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-armv7-latest.tar.gz* "$INSTALLDIR"
-cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit
-_CALLSYSTEM_ && _MD5CHECK_
 fi
 fi
 cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit
@@ -649,7 +647,7 @@ sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 }
 
 _TOUCHUPSYS_() {
-_ADDMOTD_
+_ADDmotd_
 _PREPPACMANCONF_
 _SETLOCALE_
 _RUNFINISHSETUP_
