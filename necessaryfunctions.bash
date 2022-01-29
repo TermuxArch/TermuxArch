@@ -293,7 +293,7 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp $CACHEDIR${CACHEDIRPKG}*xz* $INSTALLDIR/var/cache/pacman/pkg/"
+printf '\n%s\n\n' "cp $CACHEDIRPKG/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
 cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
 EOM
 fi
@@ -462,15 +462,13 @@ _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
 cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; }
-if [ -f ArchLinuxARM-aarch64-latest.tar.gz ] && [ -f ArchLinuxARM-aarch64-latest.tar.gz.md5 ]
+if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
 then
-printf '%s\n\n' "cp ArchLinuxARM-aarch64-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-aarch64-latest.tar.gz* "$INSTALLDIR"
-elif [ -f ArchLinuxARM-armv7-latest.tar.gz ] && [ -f ArchLinuxARM-armv7-latest.tar.gz.md5 ]
-then
-printf '%s\n\n' "cp ArchLinuxARM-armv7-latest.tar.gz* $INSTALLDIR" && cp ArchLinuxARM-armv7-latest.tar.gz* "$INSTALLDIR"
+printf '%s\n\n' "cp $IFILE* $INSTALLDIR" && cp "$IFILE"* "$INSTALLDIR"
 fi
 fi
-cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit
+printf '%s\n\n' "cp $IFILE* $INSTALLDIR" && cp "$IFILE"* "$INSTALLDIR"
+cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
@@ -513,7 +511,7 @@ done
 }
 
 _PREPINSTALLDIR_() {
-cd "$INSTALLDIR" || exit
+cd "$INSTALLDIR" || exit 196
 _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
