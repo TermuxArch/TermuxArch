@@ -18,9 +18,12 @@ _ADDADDS_() {
 _ADDREADME_
 _ADDae_
 _ADDauser_
+printf '%s\n' "Generating dot files;  BEGUN"
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
+printf '\e[1;32m%s\n' "Generating dot files;  DONE"
+_ADDbindexample_
 _ADDcams_
 _ADDcdtd_
 _ADDcdth_
@@ -30,7 +33,6 @@ _ADDchperms.cache+gnupg_
 _ADDcsystemctl_
 _ADDes_
 _ADDexd_
-_ADDbindexample_
 _ADDfbindprocpcidevices.prs_
 _ADDfbindprocshmem.prs_
 _ADDfbindprocuptime_
@@ -48,8 +50,11 @@ _ADDinputrc_
 _ADDkeys_
 _ADDmakeaurhelpers_
 _ADDmakefakeroottcp_
+_ADDmakeghcup-hs_
 _ADDmakeksh_
 _ADDmakeyay_
+_ADDmakerustup_
+_ADDmakeshellcheck-bin_
 _ADDmemav_
 _ADDmemfree_
 _ADDmeminfo_
@@ -85,7 +90,7 @@ _ADDyt_
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
 _GETIMAGE_ ||:
 else
@@ -134,10 +139,15 @@ _DETECTSYSTEM64_
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 _I686_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 _X86-64_
 else
+echo elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+echo echo
+echo echo
+echo echo
+echo echo
 _PRINTMISMATCH_
 fi
 }
@@ -246,7 +256,7 @@ _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 DOKYSKEY="keys x86"
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 DOKYSKEY="keys x86-64"
 else
@@ -293,8 +303,8 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp $CACHEDIRPKG/*xz* $INSTALLDIR/var/cache/pacman/pkg/"
-cp "${CACHEDIRPKG}"*xz* "$INSTALLDIR"/var/cache/pacman/pkg/
+printf '\n%s\n\n' "find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;"
+find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -302,7 +312,7 @@ $DOKYSKEY
 EOM
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
-if [[ "$CPUABI" = "$CPUABIX8664" ]]
+if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 printf "%s\\n" "pacman -Su glibc grep gzip sed sudo --noconfirm --color=always || pacman -Su glibc grep gzip sed sudo  --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
@@ -462,13 +472,20 @@ _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
 cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; }
+if [ -n "${IFILE:-}" ]
+then
 if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
 then
-printf '%s\n\n' "cp $IFILE* $INSTALLDIR" && cp "$IFILE"* "$INSTALLDIR"
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE.md5 -exec cp {} $INSTALLDIR \;"
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE -exec cp {} $INSTALLDIR \;"
+find . -maxdepth 1 -type f -name "$IFILE.md5" -exec cp {} "$INSTALLDIR" \;
+find . -maxdepth 1 -type f -name "$IFILE" -exec cp {} "$INSTALLDIR" \;
 fi
+else
+exit 196
 fi
-printf '%s\n\n' "cp $IFILE* $INSTALLDIR" && cp "$IFILE"* "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
+fi
 _CALLSYSTEM_
 _MD5CHECK_
 if [ "$KEEP" = 0 ]
@@ -527,7 +544,7 @@ fi
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
 else
@@ -548,7 +565,7 @@ AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirr
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
 curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
-elif [[ "$CPUABI" = "$CPUABIX8664" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
