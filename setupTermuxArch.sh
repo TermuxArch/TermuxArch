@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1465
+VERSIONID=2.0.1467
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -964,12 +964,18 @@ _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
 ## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
-elif [[ "${1//-}" = [Mm][Ii]* ]] || [[ "${1//-}" = [Mm]* ]]
+elif [[ "${1//-}" = [Mm][Ii]* ]]
 then
 printf "\\nSetting mode to manual.\\n"
 OPT=MANUAL
 _OPT1_ "$@"
 _ARG2DIR_ "$@"
+_INTRO_ "$@"
+elif [[ "${1//-}" = [Mm]* ]]
+then
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_OPT1_ "$@"
 _INTRO_ "$@"
 ## [o[ption]]  Option under development.
 elif [[ "${1//-}" = [Oo]* ]]
