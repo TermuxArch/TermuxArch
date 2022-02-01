@@ -18,11 +18,11 @@ _ADDADDS_() {
 _ADDREADME_
 _ADDae_
 _ADDauser_
-printf '%s\n' "Generating dot files;  BEGUN"
+printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
-printf '\e[1;32m%s\n' "Generating dot files;  DONE"
+printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _ADDbindexample_
 _ADDcams_
 _ADDcdtd_
