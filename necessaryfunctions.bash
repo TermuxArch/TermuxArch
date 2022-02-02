@@ -375,12 +375,16 @@ Variable PROOTSTMNT has more information about PRoot init statement options 'gre
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲; DONE 🏁"
 }
-if [[ -z "\${1:-}" ]]
+## [? | help] Displays usage information.
+if [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
 then
 _PRINTUSAGE_
-fi
+elif [[ -z "\${2:-}" ]]
+then
+_PRINTUSAGE_
+printf "\\e[1;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m\\n\\n" "Please use one more argument to continue" ";" "  Exiting" "..."
 ## [] Default Arch Linux in Termux PRoot root login.
-if [[ -z "\${1:-}" ]]
+elif [[ -z "\${1:-}" ]]
 then
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲"
 set +Eeuo pipefail
@@ -389,10 +393,6 @@ printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲; DONE 🏁"
 set -Eeuo pipefail
-## [? | help] Displays usage information.
-elif [[ "\${1//-}" = [?]* ]] || [[ "\${1//-}" = [Hh]* ]]
-then
-_PRINTUSAGE_
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
