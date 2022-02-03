@@ -1487,6 +1487,12 @@ _ADDprofile_() {
 :>root/.profile
 }
 
+_ADDpingtest_() {
+_CFLHDR_ usr/local/bin/pingtest
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRTSYG_() { printf '%s\\n' \"Signal received:  Continuing...\" ; }" "ISCOMCAR=\"\$(command -v ping)\"" "printf '%s\\n' \"\$ISCOMCAR\"" "/system/bin/ping -c 2 1.1.1.1 || _PRTSYG_" "$PREFIX/bin/ping -c 2 1.1.1.1 || _PRTSYG_" "/bin/ping -c 2 1.1.1.1 || _PRTSYG_" "/usr/bin/ping -c 2 1.1.1.1 || _PRTSYG_" "## pingtest FE" >> usr/local/bin/pingtest
+chmod 755 usr/local/bin/pingtest
+}
+
 _ADDresolvconf_() {
 [ ! -d run/systemd/resolve ] && mkdir -p run/systemd/resolve
 cat > run/systemd/resolve/resolv.conf <<- EOM
