@@ -1528,7 +1528,7 @@ chmod 755 usr/local/bin/t
 
 _ADDtop_() {
 _CFLHDR_ usr/local/bin/top
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && printf \"%s\\n\" \"Running command 'ps aux | cut -d:  -f2- | grep -v TIME | sort':\" &&  ps aux | cut -d:  -f2- | grep -v TIME | sort && exit" "## top FE" >> usr/local/bin/top
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit" "## top FE" >> usr/local/bin/top
 chmod 755 usr/local/bin/top
 }
 
@@ -1679,7 +1679,8 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "ISCOMCAR=\"\$(command -v vim)\"" "{ [ -z \"\${ISCOMCAR//*local*}\" ] && { pc vim && vim \"\${ARGS[@]}\" || pci vim && vim \"\${ARGS[@]}\" ;} ; } || vim \"\${ARGS[@]}\"" "## v FE" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "/usr/bin/vim \"\${ARGS[@]}\" || ( pci vim && /usr/bin/vim \"\${ARGS[@]}\" )" "## v EOF" >> usr/local/bin/v
+
 chmod 755 usr/local/bin/v
 }
 
@@ -1858,7 +1859,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "ISCOMCAR=\"\$(command -v vim)\"" "{ [ -z \"\${ISCOMCAR//*local*}\" ] && { pc youtube-dl && youtube-dl \"\$@\" || pci youtube-dl && youtube-dl \"\$@\" ; } ; } || youtube-dl \"\$@\" " "## yt FE" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information : \" \"exiting...\" && exit" "youtube-dl \"\${ARGS[@]}\" || ( pci youtube-dl && youtube-dl \"\${ARGS[@]}\" )" "## yt EOF" >> usr/local/bin/yt
 chmod 755 usr/local/bin/yt
 }
 
