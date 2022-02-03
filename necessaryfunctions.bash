@@ -66,7 +66,7 @@ _ADDpatchmakepkg_
 _ADDpacmandblock_
 _ADDpc_
 _ADDpci_
-_ADDpingtest_
+_ADDpinghelp_
 _ADDprofile_
 if [[ -n "${VLORALCR:-}" ]]
 then
