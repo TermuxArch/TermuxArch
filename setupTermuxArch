@@ -309,11 +309,6 @@ STRNGB="\\e[1;38;5;146m%s\\e[0m\\n"
 STRNGC="\\e[1;38;5;124m%s\\e[0m\\n"
 if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
-echo echo
-echo echo
-echo echo
-echo echo
-echo echo
 # au "${PKGS[@]}" || printf ""$STRNGC "$STRING2"
 elif [[ "$COMMANDIF" = pkg ]]
 then	# use 'pkg' to install missing packages
