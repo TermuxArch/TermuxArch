@@ -1638,21 +1638,19 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n\\\\n" "Signal generated in '\$1'; Cannot
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "setupTermuxArch" " and " "\$0" " please open an issue and accompanying pull request."
 }
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
-printf "%s\\\\n" "[1/5] rm -rf /boot/"
-rm -rf /boot/
-printf "%s\\\\n" "[2/5] rm -rf /usr/lib/firmware"
+printf "%s\\\\n" "[1/4] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
-printf "%s\\\\n" "[3/5] rm -rf /usr/lib/modules"
+printf "%s\\\\n" "[2/4] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
 if [ -z "\$SUTRIM" ]
 then
-printf "%s\\\\n" "[4/5] pacman -Scc --noconfirm --color=always"
+printf "%s\\\\n" "[3/4] pacman -Scc --noconfirm --color=always"
 pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
 else
-printf "%s\\\\n" "[4/5] \$SUTRIM pacman -Scc --noconfirm --color=always"
+printf "%s\\\\n" "[3/4] \$SUTRIM pacman -Scc --noconfirm --color=always"
 "\$SUTRIM" pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
 fi
-printf "%s\\\\n" "[5/5] rm -f /var/cache/pacman/pkg/*pkg*"
+printf "%s\\\\n" "[4/4] rm -f /var/cache/pacman/pkg/*pkg*"
 rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
 ## trim FE
 EOM
@@ -1669,7 +1667,7 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v vim)\" ] && pci vim && vim \"\${ARGS[@]}\" ; } || vim \"\${ARGS[@]}\"" "## v FE" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "ISCOMCAR=\"\$(command -v vim)\"" "{ [ -z \"\${ISCOMCAR//*local*}\" ] && { pc vim && vim \"\${ARGS[@]}\" || pci vim && vim \"\${ARGS[@]}\" ;} ; } || vim \"\${ARGS[@]}\"" "## v FE" >> usr/local/bin/v
 chmod 755 usr/local/bin/v
 }
 
@@ -1848,7 +1846,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ ! -x \"\$(command -v youtube-dl)\" ] && pci youtube-dl && youtube-dl \"\$@\" ; } || youtube-dl \"\$@\" " "## yt FE" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "ISCOMCAR=\"\$(command -v vim)\"" "{ [ -z \"\${ISCOMCAR//*local*}\" ] && { pc youtube-dl && youtube-dl \"\$@\" || pci youtube-dl && youtube-dl \"\$@\" ; } ; } || youtube-dl \"\$@\" " "## yt FE" >> usr/local/bin/yt
 chmod 755 usr/local/bin/yt
 }
 

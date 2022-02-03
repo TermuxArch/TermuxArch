@@ -392,7 +392,7 @@ _PRINTUSAGE_
 elif [[ -z "\${2:-}" ]]
 then
 _PRINTUSAGE_
-printf "\\e[1;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m\\n\\n" "Please use one more argument to continue" ";" "  Exiting" "..."
+printf "\\e[0;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m\\n\\n" "Please use one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "..."
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
