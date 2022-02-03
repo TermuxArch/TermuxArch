@@ -146,10 +146,7 @@ then
 _X86-64_
 else
 echo elif [[ "$CPUABI" = "$CPUABIX8664" ]]
-echo echo
-echo echo
-echo echo
-echo echo
+then
 _PRINTMISMATCH_
 fi
 }
