@@ -349,6 +349,7 @@ _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
+_CHCKUSER_() { [ -e "$INSTALLDIR/home/\$2/.profile" ] || _PRNTUSGE_ "\$@" ; }
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in vanilla Termux:  EXITING..." && exit 202 ; }
 if [ -w /root ]
 then
@@ -372,6 +373,7 @@ Variable PROOTSTMNT has more information about PRoot init statement options 'gre
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲; DONE 🏁"
 }
+_PRNTUSGE_() { printf "\\e[0;33m%s\\e[0;32m%s\\e[1;32m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "It appears that user '\$2' does not exist!  " "You can create the Arch Linux in Termux PRoot user '\$2' with this command " "\${0##*/} command 'addauser \$2'" ";" "  Exiting" "...  " ; exit 169 ; }
 ## [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
 then
@@ -389,7 +391,7 @@ _PRINTUSAGE_
 elif [[ -z "\${2:-}" ]]
 then
 _PRINTUSAGE_
-printf "\\e[0;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m\\n\\n" "Please use one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "..."
+printf "\\e[0;33m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "Please use one more argument to continue.  The command '\${0##*/} help' has more information" ";" "  Exiting" "...  "
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
@@ -405,6 +407,7 @@ rm -f "$INSTALLDIR/root/.chushlogin"
 ## [e[login|user] user] Login as user.
 elif [[ "\${1//-}" = e* ]]
 then
+_CHCKUSER_ "\$@"
 printf '\033]2; TermuxArch $STARTBIN elogin %s 📲\007' "\$2"
 set +Eeuo pipefail
 :>"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock"
@@ -426,6 +429,7 @@ rm -f "$INSTALLDIR/home/\$2/.chushlogin"
 ## [l[ogin]|u[ser] user] Login as user.
 elif [[ "\${1//-}" = [Ll]* ]] || [[ "\${1//-}" = [Uu]* ]]
 then
+_CHCKUSER_ "\$@"
 printf '\033]2; TermuxArch $STARTBIN login %s 📲\007' "\$2"
 set +Eeuo pipefail
 EOM
@@ -446,6 +450,7 @@ set -Eeuo pipefail
 ## [su user command] Login as user and execute command.
 elif [[ "\${1//-}" = [Ss]* ]]
 then
+_CHCKUSER_ "\$@"
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲"
 if [[ "\$2" = root ]]
 then
