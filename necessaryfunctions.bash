@@ -301,8 +301,8 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $CACHEDIRPKG \;"
-find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $CACHEDIRPKG \; || printf '%s' "Signal generated;  Continuing..."
+printf '\n%s\n\n' "find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $INSTALLDIR/var/pacman/pkg/ \;"
+find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $INSTALLDIR/var/pacman/pkg/ \; || printf '%s' "Signal generated;  Continuing..."
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
