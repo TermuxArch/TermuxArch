@@ -301,8 +301,8 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp -f $INSTALLDIR/var/pacman/pkg/*" || printf '%s' "Signal generated;  Continuing..."
-cp -f $INSTALLDIR/var/pacman/pkg/* || printf '%s' "Signal generated;  Continuing..."
+printf '\n%s\n\n' "cp -f $CACHEDIRPKG $INSTALLDIR/var/pacman/pkg/*" || printf '%s' "Signal generated;  Continuing..."
+cp -f $CACHEDIRPKG $INSTALLDIR/var/pacman/pkg/* || printf '%s' "Signal generated;  Continuing..."
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
