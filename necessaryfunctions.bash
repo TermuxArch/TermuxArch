@@ -5,10 +5,10 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/var/archlinux/$CPUABI/pacman/pkg/"
-CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/var/archlinux/$CPUABI/"
+CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CPUABI/var/pacman/pkg/"
+CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CPUABI/"
 PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-CACHEDIRSUFIX="files/cache/var/archlinux/$CPUABI/pacman/pkg/"
+CACHEDIRSUFIX="files/cache/archlinux/$CPUABI/var/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
 TXPRQUON="Termux PRoot with QEMU"
@@ -301,8 +301,8 @@ fi
 if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;"
-find $CACHEDIRPKG/ -maxdepth 1 -type f -name *xz* -exec cp {} $INSTALLDIR/var/cache/pacman/pkg/ \;
+printf '\n%s\n\n' "find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $CACHEDIRPKG \;"
+find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $CACHEDIRPKG \; || printf '%s' "Signal generated;  Continuing..."
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -373,7 +373,7 @@ Variable PROOTSTMNT has more information about PRoot init statement options 'gre
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeyay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN $@ 📲; DONE 🏁"
 }
-_PRNTUSGE_() { printf "\\e[0;33m%s\\e[0;32m%s\\e[1;32m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "It appears that user '\$2' does not exist!  " "You can create the Arch Linux in Termux PRoot user '\$2' with this command " "\${0##*/} command 'addauser \$2'" ";" "  Exiting" "...  " ; exit 169 ; }
+_PRNTUSGE_() { _PRINTUSAGE_ && printf "\\e[0;33m%s\\e[1;30m%s\\e[1;32m%s\\e[1;30m%s\\e[1;31m%s\\e[1;30m%s\\e[0m" "It appears that user '\$2' does not exist in the Arch Linux in Termux PRoot system!  " "You can create user '\$2' with the command " "\${0##*/} command 'addauser \$2'" " then rerun this comnand to login with user '\$2';" "  Exiting" "...  " ; exit 169 ; }
 ## [] Default Arch Linux in Termux PRoot root login.
 if [[ -z "\${1:-}" ]]
 then
@@ -482,8 +482,8 @@ if [ -n "${IFILE:-}" ]
 then
 if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
 then
-printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE.md5 -exec cp {} $INSTALLDIR \;"
-printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE -exec cp {} $INSTALLDIR \;"
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE.md5 -exec cp -f {} $INSTALLDIR \;"
+printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE -exec cp -f {} $INSTALLDIR \;"
 find . -maxdepth 1 -type f -name "$IFILE.md5" -exec cp {} "$INSTALLDIR" \;
 find . -maxdepth 1 -type f -name "$IFILE" -exec cp {} "$INSTALLDIR" \;
 fi

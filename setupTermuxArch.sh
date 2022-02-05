@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1495
+VERSIONID=2.0.1496
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -380,7 +380,6 @@ printf '\033]2; bash setupTermuxArch manual 📲 \007'
 if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
 then
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
-_LOADCONF_
 else
 cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
 sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change CMIRROR (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
