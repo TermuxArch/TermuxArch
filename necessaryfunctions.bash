@@ -302,7 +302,8 @@ if [ "$USECACHEDIR" = 0 ]
 then
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf '\n%s\n\n' "find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $INSTALLDIR/var/pacman/pkg/ \;"
-find $CACHEDIRPKG -maxdepth 1 -type f -name *xz* -exec cp -f {} $INSTALLDIR/var/pacman/pkg/ \; || printf '%s' "Signal generated;  Continuing..."
+echo cp -f {} $INSTALLDIR/var/pacman/pkg/* \; || printf '%s' "Signal generated;  Continuing..."
+cp -f {} $INSTALLDIR/var/pacman/pkg/* \; || printf '%s' "Signal generated;  Continuing..."
 EOM
 fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
@@ -482,10 +483,10 @@ if [ -n "${IFILE:-}" ]
 then
 if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
 then
-printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE.md5 -exec cp -f {} $INSTALLDIR \;"
-printf '%s\n' "find . -maxdepth 1 -type f -name $IFILE -exec cp -f {} $INSTALLDIR \;"
-find . -maxdepth 1 -type f -name "$IFILE.md5" -exec cp {} "$INSTALLDIR" \;
-find . -maxdepth 1 -type f -name "$IFILE" -exec cp {} "$INSTALLDIR" \;
+printf '%s\n' "cp -f $IFILE.md5 $INSTALLDIR"
+cp -f "$IFILE.md5" "$INSTALLDIR"
+printf '%s\n' "cp -f $IFILE $INSTALLDIR"
+cp -f "$IFILE" "$INSTALLDIR"
 fi
 else
 exit 196
