@@ -321,9 +321,6 @@ printf "%s\\n" "addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
 printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
-echo echo
-echo echo chmod 700 root/bin/"$BINFNSTP"
-echo echo
 EOM
 chmod 700 root/bin/"$BINFNSTP"
 }
@@ -336,9 +333,6 @@ EOM
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set -Eeuo pipefail
-echo echo
-echo echo chmod 700 root/bin/setupbin.bash
-echo echo
 EOM
 chmod 700 root/bin/setupbin.bash
 }
@@ -475,12 +469,10 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
-set -x
-cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; }
+{ cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 printf '%s\n' "cp -fr * $INSTALLDIR"
 cp -fr * "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
-set +x
 fi
 _CALLSYSTEM_
 _MD5CHECK_
@@ -599,11 +591,11 @@ fi
 fi
 fi
 echo echo
-echo _RUNFINISHSETUP_
+echo 0RUNFINISHSETUP_
 echo echo
 "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 echo echo
-echo _RUNFINISHSETUP_
+echo 9RUNFINISHSETUP_
 echo echo
 }
 
@@ -672,15 +664,15 @@ echo _SETLOCALE_
 echo echo
 _RUNFINISHSETUP_
 echo echo
-echo _RUNFINISHSETUP_
+echo 5RUNFINISHSETUP_
 echo echo
 rm -f root/bin/"$BINFNSTP"
-echo echo
+echo 1cho
 rm -f root/bin/setupbin.bash
-echo echo
+echo 2cho
 [ -f home/user/"$BINFNSTP" ] && rm -f home/user/"$BINFNSTP"
-echo echo
+echo 3cho
 [ -f home/user/setupbin.bash ] && rm -f home/user/setupbin.bash
-echo echo
+echo 4cho
 }
 # necessaryfunctions.bash FE
