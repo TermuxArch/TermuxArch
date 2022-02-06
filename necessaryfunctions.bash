@@ -336,6 +336,9 @@ EOM
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set -Eeuo pipefail
+echo echo
+echo echo chmod 700 root/bin/setupbin.bash
+echo echo
 EOM
 chmod 700 root/bin/setupbin.bash
 }
@@ -595,7 +598,13 @@ fi
 "$USEREDIT" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 fi
 fi
+echo echo
+echo _RUNFINISHSETUP_
+echo echo
 "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
+echo echo
+echo _RUNFINISHSETUP_
+echo echo
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
@@ -658,10 +667,20 @@ _TOUCHUPSYS_() {
 _ADDmotd_
 _PREPPACMANCONF_
 _SETLOCALE_
+echo echo
+echo _SETLOCALE_
+echo echo
 _RUNFINISHSETUP_
+echo echo
+echo _RUNFINISHSETUP_
+echo echo
 rm -f root/bin/"$BINFNSTP"
+echo echo
 rm -f root/bin/setupbin.bash
+echo echo
 [ -f home/user/"$BINFNSTP" ] && rm -f home/user/"$BINFNSTP"
+echo echo
 [ -f home/user/setupbin.bash ] && rm -f home/user/setupbin.bash
+echo echo
 }
 # necessaryfunctions.bash FE
