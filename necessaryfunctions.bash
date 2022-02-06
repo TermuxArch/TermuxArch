@@ -534,9 +534,9 @@ fi
 _PREPROOT_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]] || [[ "$CPUABI" = i386 ]]
 then
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*/} necessaryfunctions.bash"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 2>/dev/null ||:
 else
-proot --link2symlink -0 bsdtar -p -xf "$IFILE" || _PRINTERRORMSG_ "proot _PREPROOT_ ${0##*} necessaryfunctions.bash"
+proot --link2symlink -0 bsdtar -p -xf "$IFILE" 2>/dev/null ||:
 fi
 }
 
@@ -590,13 +590,7 @@ fi
 "$USEREDIT" "$INSTALLDIR"/etc/pacman.d/mirrorlist
 fi
 fi
-echo echo
-echo 0RUNFINISHSETUP_
-echo echo
 "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
-echo echo
-echo 9RUNFINISHSETUP_
-echo echo
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
@@ -659,20 +653,11 @@ _TOUCHUPSYS_() {
 _ADDmotd_
 _PREPPACMANCONF_
 _SETLOCALE_
-echo echo
-echo _SETLOCALE_
-echo echo
 _RUNFINISHSETUP_
-echo echo
-echo 5RUNFINISHSETUP_
-echo echo
 rm -f root/bin/"$BINFNSTP"
-echo 1cho
 rm -f root/bin/setupbin.bash
-echo 2cho
 [ -f home/user/"$BINFNSTP" ] && rm -f home/user/"$BINFNSTP"
-echo 3cho
 [ -f home/user/setupbin.bash ] && rm -f home/user/setupbin.bash
-echo 4cho
+echo echo
 }
 # necessaryfunctions.bash FE
