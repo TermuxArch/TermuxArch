@@ -145,7 +145,6 @@ elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 _X86-64_
 else
-echo elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 _PRINTMISMATCH_
 fi
 }
@@ -298,13 +297,6 @@ then
 printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && :>"/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ; } || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
-if [ "$USECACHEDIR" = 0 ]
-then
-cat >> root/bin/"$BINFNSTP" <<- EOM
-printf '\n%s\n\n' "cp -f $CACHEDIRPKG $INSTALLDIR/var/pacman/pkg/*" || printf '%s' "Signal generated;  Continuing..."
-cp -f $CACHEDIRPKG $INSTALLDIR/var/pacman/pkg/* || printf '%s' "Signal generated;  Continuing..."
-EOM
-fi
 cat >> root/bin/"$BINFNSTP" <<- EOM
 $DOKYSKEY
 EOM
@@ -329,6 +321,9 @@ printf "%s\\n" "addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*
 cat >> root/bin/"$BINFNSTP" <<- EOM
 printf "\\n\\e[1;34m%s  \\e[0m" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
 printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
+echo echo
+echo echo chmod 700 root/bin/"$BINFNSTP"
+echo echo
 EOM
 chmod 700 root/bin/"$BINFNSTP"
 }
@@ -336,7 +331,7 @@ chmod 700 root/bin/"$BINFNSTP"
 _MAKESETUPBIN_() {
 _CFLHDR_ root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
-set +Eeuo pipefail
+set +Eeuox pipefail
 EOM
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
@@ -477,20 +472,12 @@ _MAKESYSTEM_() {
 _WAKELOCK_
 if [ "$USECACHEDIR" = 0 ]
 then
+set -x
 cd "$CACHEDIR" 2>/dev/null || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; }
-if [ -n "${IFILE:-}" ]
-then
-if [ -f "$IFILE" ] && [ -f "$IFILE".md5 ]
-then
-printf '%s\n' "cp -f $IFILE.md5 $INSTALLDIR"
-cp -f "$IFILE.md5" "$INSTALLDIR"
-printf '%s\n' "cp -f $IFILE $INSTALLDIR"
-cp -f "$IFILE" "$INSTALLDIR"
-fi
-else
-exit 196
-fi
+printf '%s\n' "cp -fr * $INSTALLDIR"
+cp -fr * "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n\n' "cd $INSTALLDIR" || exit 196
+set +x
 fi
 _CALLSYSTEM_
 _MD5CHECK_
@@ -574,7 +561,7 @@ _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
-printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
+_RUNFINISHSETUP_printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
 curl -L --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 fi
