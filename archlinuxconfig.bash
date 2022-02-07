@@ -59,6 +59,7 @@ printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
 sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" /etc/sudoers
 sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" /etc/sudoers
+printf '%s\\n' "\$1    ALL=(ALL) ALL" >> /etc/sudoers
 grep -q 'ftp_proxy' /etc/sudoers || printf "%s\\\\n" 'Defaults env_keep += "ftp_proxy http_proxy https_proxy"' >> /etc/sudoers
 sed -i "s/required/sufficient/g" /etc/pam.d/su
 sed -i "s/^#auth/auth/g" /etc/pam.d/su
@@ -248,9 +249,9 @@ alias Px='ps aux'
 alias px='ps aux'
 alias Q='exit'
 alias q='exit'
-# alias RF='rm -rf'
-# alias Rf='rm -rf'
-# alias rf='rm -rf'
+alias RMD='rmdir -p'
+alias Rmd='rmdir -p'
+alias rmd='rmdir -p'
 alias TO='termux-open'
 alias To='termux-open'
 alias to='termux-open'
