@@ -835,6 +835,7 @@ _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
 X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} \$TMPDIR
 cd /var/cache/pacman/pkg/ || exit 196
 _DWLDFILE_() { printf \"%s\\n\\n\" \"Downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" && { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG || curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ; } && printf \"%s\\n\\n\" \"Finished downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" || _PRTERROR_ ; }
 printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
@@ -893,6 +894,7 @@ pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEP5_ 9 10 11 12 13 2
 _PMUEOEP4_ 2 3 7 8 3
 _PMUEOEP3_ 4 5 6 4
+mv -f \$TMPDIR/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
