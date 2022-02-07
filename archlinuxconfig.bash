@@ -1492,7 +1492,7 @@ elif [[ "\$1" = "e11" ]]
 then
 nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" \$DEV2NULL || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@"
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/pci FE
 EOM
