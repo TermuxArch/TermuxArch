@@ -32,7 +32,7 @@ This repository uses submodules.  To get all the pieces of this repository you c
 
 [`pullTermuxArchSubmodules.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/pullTermuxArchSubmodules.bash)
 
-## FACTS ABOUT THIS PROJECT:
+#### FACTS ABOUT THIS PROJECT:
 
 The core dataset can be viewed and tooled to your wish and desire with command `setupTermuxArch bloom` which should download all the components of TermuxArch into directory HOME/TermuxArchBloom in the Termux HOME directory.  The command `setupTermuxArch bloom` is much like the command `setupTermuxArch manual`;  The bloom option is more expansive than `setupTermuxArch manual` which is primarily used for mirror selection, and can be used to tune the PRoot init statement.  Bloom is a much more verbose option in that it provides the CLI user the entire code dataset.  Please feel free to use the commands `setupTermuxArch h[e[lp]]` for additional information how to use `setupTermuxArch`.
 
