@@ -893,7 +893,6 @@ pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEP5_ 9 10 11 12 13 2
 _PMUEOEP4_ 2 3 7 8 3
 _PMUEOEP3_ 4 5 6 4
-mv -f /tmp/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
