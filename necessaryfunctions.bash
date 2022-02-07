@@ -553,7 +553,7 @@ _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
 AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
-_RUNFINISHSETUP_printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
+printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
 curl -L --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 fi
