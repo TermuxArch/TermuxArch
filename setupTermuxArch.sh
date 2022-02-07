@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1512
+VERSIONID=2.0.1513
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -412,24 +412,31 @@ if [[ -z "${2:-}" ]]
 then
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$2" = [Bb]* ]]
+elif [[ "${2//-}" = [Bb]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to bloom."
 _INTROBLOOM_ "$@"
-elif [[ "$2" = [Dd]* ]] || [[ "$2" = [Ss]* ]]
+elif [[ "${2//-}" = [Dd]* ]] || [[ "${2//-}" = [Ss]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to sysinfo."
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
-elif [[ "$2" = [Ii]* ]]
+elif [[ "${2//-}" = [Ii]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to install."
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$2" = [Mm]* ]]
+elif [[ "${2//-}" = [Mm][Ii]* ]]
+then
+shift
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_ARG2DIR_ "$@"
+_PREPTERMUXARCH_
+elif [[ "${2//-}" = [Mm]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to manual."
@@ -456,14 +463,14 @@ _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$2" = [Rr][Ee]* ]]
+elif [[ "${2//-}" = [Rr][Ee]* ]]
 then
 shift
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$2" = [Rr]* ]]
+elif [[ "${2//-}" = [Rr]* ]]
 then
 shift
 _PRPREFRESH_ "1"
@@ -480,12 +487,25 @@ then
 shift
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
-elif [[ "$3" = [Ii]* ]]
+elif [[ "${3//-}" = [Ii]* ]]
 then
 shift 2
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTRO_ "$@"
+elif [[ "${3//-}" = [Mm][Ii]* ]]
+then
+shift 2
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_ARG2DIR_ "$@"
+_PREPTERMUXARCH_
+elif [[ "${3//-}" = [Mm]* ]]
+then
+shift 2
+printf "%s\\n" "Setting mode to manual."
+OPT=MANUAL
+_OPT2_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift 2
@@ -507,14 +527,14 @@ _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$3" = [Rr][Ee]* ]]
+elif [[ "${3//-}" = [Rr][Ee]* ]]
 then
 shift 2
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
 _INTROREFRESH_ "$@"
-elif [[ "$3" = [Rr]* ]]
+elif [[ "${3//-}" = [Rr]* ]]
 then
 shift 2
 _PRPREFRESH_ "1"
