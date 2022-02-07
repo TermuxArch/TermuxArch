@@ -13,7 +13,7 @@
 ## DMVERBOSE="-v" 	##  uncomment for verbose download tool output with curl and wget;  For verbose output throughout runtime change this setting in file 'setupTermuxArch' also.
 KEEP=1			##  change to 0 to keep downloaded image;  Testing the installation process repeatedly can be made easier and lighter on your Internet bandwidth and SAR with 'KEEP=0' and this fragment of code  'mkdir ~/arch; cp ~/ArchLinux*.tar.gz* ~/arch/' and similar.  The variable KEEP when changed to 0 (true) will keep the downloaded image and md5 files instead of deleting them for later reuse.  The root file system image and md5 files can be saved and used again on subsequent installs.
 USECACHEDIR=1		##  change to 0 to use cache directory;  When changed to 0 this installation script uses a cache directory defined in `necessaryfunctions.bash` that is used as to cache all installation files in order to save wireless bandwidth.  Variable `KEEP=1`  should be changed to 0 also in order to keep the downloaded image and to populate the cache. The downloaded image and md5 files should be moved to CACHEDIR in order to avoid subsequent redownloading of these files for reinstalling the entire system.  If the cache is being populated for the first time, simply uncomment the next line of code:
-## USECACHEDIR=1 ; KEEP=1
+## KEEP=0 ; USECACHEDIR=0
 ECHOEXEC=""		##  insert 'echo' to suppress most 'pacman' instructions from 'keys' file during runtime
 ECHOSYNC=""		##  insert 'echo' to only suppress 'pacman' syncing instructions from 'keys' file during runtime
 KOE=0			##  do not change, not user configurable;  Was previously used for testing, and variable KOE lingers here for retesting if desired.  Change to 1 to change the PRoot init statement.
