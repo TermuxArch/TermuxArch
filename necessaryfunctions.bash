@@ -124,7 +124,7 @@ else
 BPATH="$PREFIX"/bin
 fi
 cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[0m.\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
+printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[1;34m.\\e[0m\\n\\n" " 🕛 > 🕦 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
