@@ -327,7 +327,7 @@ _CFLHDR_ root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set +Eeuox pipefail
 EOM
-printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP || printf \"%s\\n\" \"Signal generated; continuing...\"" >> root/bin/setupbin.bash
+printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
 cat >> root/bin/setupbin.bash <<- EOM
 set -Eeuo pipefail
 EOM
@@ -369,7 +369,7 @@ then
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲"
 set +Eeuo pipefail
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||: " >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/bash -l ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN 📲; DONE 🏁"
 set -Eeuo pipefail
@@ -432,7 +432,7 @@ then
 printf '\033]2; TermuxArch $STARTBIN raw %s 📲\007' "\$@"
 set +Eeuo pipefail
 EOM
-printf "%s\\n" "$PROOTSTMNT /bin/\"\${@:2}\"" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNT /bin/\"\${@:2}\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 printf '\033]2; TermuxArch $STARTBIN raw %s 📲;DONE 🏁 \007' "\$@"
 set -Eeuo pipefail
@@ -449,7 +449,7 @@ fi
 :>"$INSTALLDIR/home/\$2/.chushlogin"
 set +Eeuo pipefail
 EOM
-printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\${@:3}\"" >> "$STARTBIN"
+printf "%s\\n" "$PROOTSTMNTU /bin/su - \"\$2\" -c \"\${@:3}\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 printf '\\033]2;%s\\007' "TermuxArch $STARTBIN su \$2 \${@:3} 📲; DONE 🏁"
 set -Eeuo pipefail
