@@ -169,7 +169,8 @@ fi
 
 _DOMIRROR_() { # partial implementaion: choose the corrrect mirror and test this mirror website
 _DOCEMIRROR_() {
-USERCOUNTRYCODE="$(getprop gsm.operator.iso-country)"
+COUNTRYCODEISO="$(getprop gsm.operator.iso-country)"
+USERCOUNTRYCODE="${USERCOUNTRYCODE%%[\ \,]*}"
 if [[ -z "${USERCOUNTRYCODE:-}" ]]
 then
 USERCOUNTRYCODE="$(getprop gsm.sim.operator.iso-country)"
