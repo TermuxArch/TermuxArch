@@ -50,11 +50,12 @@ _ADDinputrc_
 _ADDkeys_
 _ADDmakeaurhelpers_
 _ADDmakefakeroottcp_
-_ADDmakeghcup-hs_
+_ADDmakeghcuphs_
 _ADDmakeksh_
 _ADDmakeyay_
 _ADDmakerustup_
-_ADDmakeshellcheck-bin_
+_ADDmakeshellcheckbin_
+_ADDmaketllocalmgr_
 _ADDmemav_
 _ADDmemfree_
 _ADDmeminfo_

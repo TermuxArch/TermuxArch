@@ -1145,20 +1145,20 @@ EOM
 chmod 755 usr/local/bin/makefakeroottcp
 }
 
-_ADDmakeghcup-hs_() {
-_CFLHDR_ usr/local/bin/makeghcup-hs
-cat >> usr/local/bin/makeghcup-hs <<- EOM
+_ADDmakeghcuphs_() {
+_CFLHDR_ usr/local/bin/makeghcuphs
+cat >> usr/local/bin/makeghcuphs <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup' instead:  Exiting..." && exit 169
 pc numactl || pci numactl || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
-yay ghcup-hs --noconfirm || ( [ ! \$(command -v yay) ] && makeyay && yay ghcup-hs --noconfirm )
+yay ghcup-hs --noconfirm || { [ ! \$(command -v yay) ] && makeyay && yay ghcup-hs --noconfirm ; }
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeghcup-hs FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeghcuphs FE
 EOM
-chmod 755 usr/local/bin/makeghcup-hs
+chmod 755 usr/local/bin/makeghcuphs
 }
 
 _ADDmakeksh_() {
@@ -1200,26 +1200,41 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup' instead:  Exiting..." && exit 169
-yay rustup --noconfirm || ([ ! \$(command -v yay) ] && makeyay && yay rustup --noconfirm )
+yay rustup --noconfirm || { [ ! \$(command -v yay) ] && makeyay && yay rustup --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/rustup FE
 EOM
 chmod 755 usr/local/bin/makerustup
 }
 
-_ADDmakeshellcheck-bin_() {
-_CFLHDR_ usr/local/bin/makeshellcheck-bin
-cat >> usr/local/bin/makeshellcheck-bin <<- EOM
+_ADDmakeshellcheckbin_() {
+_CFLHDR_ usr/local/bin/makeshellcheckbin
+cat >> usr/local/bin/makeshellcheckbin <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck' instead:  Exiting..." && exit 169
-yay shellcheck-bin --noconfirm || ( [ ! \$(command -v yay) ] && makeyay && yay shellcheck-bin --noconfirm )
+yay shellcheck-bin --noconfirm || { [ ! \$(command -v yay) ] && makeyay && yay shellcheck-bin --noconfirm ; }
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeshellcheck-bin FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeshellcheckbin FE
 EOM
-chmod 755 usr/local/bin/makeshellcheck-bin
+chmod 755 usr/local/bin/makeshellcheckbin
+}
+
+_ADDmaketllocalmgr_() {
+_CFLHDR_ usr/local/bin/maketllocalmgr
+cat >> usr/local/bin/maketllocalmgr <<- EOM
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
+else
+[ -x /usr/bin/tllocalmgr ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr' instead:  Exiting..." && exit 169
+yay tllocalmgr --noconfirm || { [ ! \$(command -v yay) ] && makeyay && yay tllocalmgr --noconfirm ; }
+fi
+## ~/${INSTALLDIR##*/}/usr/local/bin/maketllocalmgr FE
+EOM
+chmod 755 usr/local/bin/maketllocalmgr
 }
 
 _ADDmakeyay_() {
@@ -1250,7 +1265,7 @@ fi
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
-cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; " "EXITING..." && exit 124 )
+cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeyay FE
@@ -1466,7 +1481,7 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu 2>/dev/null || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu 2>/dev/null
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
 nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
@@ -1477,7 +1492,7 @@ elif [[ "\$1" = "e11" ]]
 then
 nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" 2>/dev/null || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@" 2>/dev/null
+nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" \$DEV2NULL || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/pci FE
 EOM
