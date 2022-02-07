@@ -477,10 +477,10 @@ rm -f "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 printf "%s\\\\n" "Hushed login and logout: OFF"
 elif [[ -f "\$HOME"/.hushlogin ]] || [[ -f "\$HOME"/.hushlogout ]]
 then
-:>"\$HOME"/.hushlogin "\$HOME"/.hushlogout
+touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 printf "%s\\\\n" "Hushed login and logout: ON"
 else
-:>"\$HOME"/.hushlogin "\$HOME"/.hushlogout
+touch "\$HOME"/.hushlogin "\$HOME"/.hushlogout
 printf "%s\\\\n" "Hushed login and logout: ON"
 fi
 ## $INSTALLDIR/ch FE
