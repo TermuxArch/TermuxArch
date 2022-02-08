@@ -4,6 +4,9 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/$2 ||: ; } && cd $2 && _PRNTWAIT_ && makepkg -fsri ; $1 ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeauryaah FE" >> $3
+}
+
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
 cat > usr/local/bin/README.md <<- EOM
@@ -1270,10 +1273,66 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
+_PREPFILEFTN0_() {
+_CFLHDR_ usr/local/bin/makeaur$3
+_PREPFILEFCTN_ $1 $2  usr/local/bin/makeaur$3
+chmod 755 usr/local/bin/makeaur$3
+}
+
+_ADDmakeaurpopularpackages_() {
+_PREPFILEFTN0_ popular-packages popular-packages popularpackages
+}
+
+_ADDmakeaurpackagequery_() {
+_PREPFILEFTN0_ package-query package-query packagequery
+}
+
+_ADDmakeauryaah_() {
+_PREPFILEFTN0_ yaah yaah yaah
+}
+
 _ADDmakeauryayim_() {
-_CFLHDR_ usr/local/bin/makeauryayim
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/yayim ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/yayim ||: ; } && cd yayim && _PRNTWAIT_ && makepkg -fsri ; yayim ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeauryayim FE" >> usr/local/bin/makeauryayim
-chmod 755 usr/local/bin/makeauryayim
+_PREPFILEFTN0_ yayim yayim yayim
+}
+
+_ADDmakeaurbauerbill_() {
+_PREPFILEFTN0_ bauerbill bauerbill bauerbill
+}
+
+_ADDmakeaurpacaur_() {
+_PREPFILEFTN0_ pacaur pacaur pacaur
+}
+
+_ADDmakeaurpakku_() {
+_PREPFILEFTN0_ pakku pakku pakku
+}
+
+_ADDmakeaurparu_() {
+_PREPFILEFTN0_ paru paru paru
+}
+
+_ADDmakeaurpbget_() {
+_PREPFILEFTN0_ pbget pbget pbget
+}
+
+_ADDmakeaurpikaur-git_() {
+_PREPFILEFTN0_ pikaur-git pikaur-git pikaur-git
+}
+
+_ADDmakeaurpkgbuilder_() {
+_PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder
+}
+
+_ADDmakeaurpuyo_() {
+_PREPFILEFTN0_ puyo puyo puyo
+}
+
+_ADDmakeaurrepoctl_() {
+_PREPFILEFTN0_ repoctl repoctl repoctl
+}
+
+_ADDmakeaurrepofish_() {
+_PREPFILEFTN0_ repofish repofish repofish
 }
 
 _ADDmakeksh_() {
