@@ -101,7 +101,7 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n" "PATH=\"\$HOME/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"" > root/.bash_profile
+printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" > root/.bash_profile
 printf "%s\\n%s\\n" "[ -d /system/bin ] && PATH=\"\$PATH:/system/bin\"" "[ -d /system/xbin ] && PATH=\"\$PATH:/system/xbin\"" >> root/.bash_profile
 printf "%s\\n%s\\n" "PATH=\"\$PATH:$PREFIX/usr/bin\"" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
 cat >> root/.bash_profile <<- EOM
@@ -1569,7 +1569,7 @@ chmod 755 usr/local/bin/t
 
 _ADDtop_() {
 _CFLHDR_ usr/local/bin/top
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '\-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit" "## ~/${INSTALLDIR##*/}/usr/local/bin/top FE" >> usr/local/bin/top
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ -f /system/bin/top ] && /system/bin/top && exit ; } || { printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '\-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/top FE" >> usr/local/bin/top
 chmod 755 usr/local/bin/top
 }
 
