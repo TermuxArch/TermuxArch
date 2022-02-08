@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1529
+VERSIONID=2.0.1530
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -821,7 +821,7 @@ WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
 ## 7)  Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8)  Installs emulated computer architectures with QEMU in your smartphone with two taps,
-## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeyay' and more (read /usr/local/bin/README.md for details),
+## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read /usr/local/bin/README.md for details,
 ## 10)  And all options are are optional for installing Arch Linux!
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>

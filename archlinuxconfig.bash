@@ -11,7 +11,7 @@ The /usr/local/bin directory contains TermuxArch shortcut commands that automate
 
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'keys' installs Arch Linux keys,
-* Command 'makeyay' creates the 'yay' command, and also patches the 'makepkg' command,
+* Command 'makeauryay' creates the 'yay' command, and also patches the 'makepkg' command,
 * Command 'patchmakepkg' patches the 'makepkg' command,
 * Command 'pc' pacman shortcut command; cat \$(command -v pc),
 * Command 'pci' pacman shortcut command; cat \$(command -v pci),
@@ -379,7 +379,7 @@ FRAMECOUNT="\$((FRAMECOUNT + 1))"
 printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\n' "IF " "file \$FRAMENAME added" " to que."
 if [ -n "\${5:-}" ]
 then
-if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle instead of the preset 90° rotation,
+if [[ "\${5//-}" = [Rr]* ]] ### [5] default no rotation:  R|r[otate]: useful for portrait orientation.  You can use R or r to activate rotation which is preset to 90° rotation.  The sixth argument can be used to enter a rotation angle to change the preset 90° rotation,
 then
 printf '\e[0;36m%s' "IR rotating file \$FRAMENAME by \${6:-90}°: " ### [6] default 90°:  Enter desired picture rotation angle in digits if you want to use 180° and 270° degree rotation.  Other rotation angles can also be used,
 nice -n 20 magick "\$FRAMENAME" -rotate "\${6:-90}" "\$FRAMENAME".jpg
@@ -1096,7 +1096,7 @@ AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pk
 else
 AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
 fi
-# command yay || makeyay
+# command yay || makeauryay
 # _DONEAURHELPER_ pikaur
 # _DOAURHELPERS_
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurhelpers FE
@@ -1104,9 +1104,9 @@ EOM
 chmod 755 usr/local/bin/makeaurhelpers
 }
 
-_ADDmakefakeroottcp_() {
-_CFLHDR_ usr/local/bin/makefakeroottcp "# build and install fakeroot-tcp"
-cat >> usr/local/bin/makefakeroottcp <<- EOM
+_ADDmakeaurfakeroottcp_() {
+_CFLHDR_ usr/local/bin/makeaurfakeroottcp "# build and install fakeroot-tcp"
+cat >> usr/local/bin/makeaurfakeroottcp <<- EOM
 _DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\${0##*/} \${ARGS[@]}' again." && exit 104
@@ -1115,7 +1115,7 @@ if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" ] && patchmakeaurpkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
@@ -1131,37 +1131,37 @@ sed -i 's/pkgver=1.24/pkgver=1.25.3/g' PKGBUILD
 sed -i 's/ftp.debian.org\/debian/http.kali.org\/kali/g' PKGBUILD
 sed -i '/^md5sums=/{n;d}' PKGBUILD
 sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
-:>"/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock"
+:>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock"
 }
 cd fakeroot-tcp || exit 196
-[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
 printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -irs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
-:>"/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock"
+:>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
-[ ! -f "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makefakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
-## ~/${INSTALLDIR##*/}/usr/local/bin/makefakeroottcp FE
+[ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurfakeroottcp FE
 EOM
-chmod 755 usr/local/bin/makefakeroottcp
+chmod 755 usr/local/bin/makeaurfakeroottcp
 }
 
-_ADDmakeghcuphs_() {
-_CFLHDR_ usr/local/bin/makeghcuphs
-cat >> usr/local/bin/makeghcuphs <<- EOM
+_ADDmakeaurghcuphs_() {
+_CFLHDR_ usr/local/bin/makeaurghcuphs
+cat >> usr/local/bin/makeaurghcuphs <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup' instead:  Exiting..." && exit 169
+[ -x /usr/bin/ghcup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit 169
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
-yay ghcup-hs --noconfirm 2>/dev/null || { [ -f /usr/bin/yay ] || set +x && makeyay && yay ghcup-hs --noconfirm && set -x ; }
+yay ghcup-hs --noconfirm 2>/dev/null || { [ -f /usr/bin/yay ] || set +x && makeauryay && yay ghcup-hs --noconfirm && set -x ; }
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeghcuphs FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurghcuphs FE
 EOM
-chmod 755 usr/local/bin/makeghcuphs
+chmod 755 usr/local/bin/makeaurghcuphs
 }
 
 _ADDmakeksh_() {
@@ -1195,54 +1195,54 @@ EOM
 chmod 755 usr/local/bin/makeksh
 }
 
-_ADDmakerustup_() {
-_CFLHDR_ usr/local/bin/makerustup
-cat >> usr/local/bin/makerustup <<- EOM
+_ADDmakeaurrustup_() {
+_CFLHDR_ usr/local/bin/makeaurrustup
+cat >> usr/local/bin/makeaurrustup <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup' instead:  Exiting..." && exit 169
-pci rustup --noconfirm || yay rustup --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeyay && yay rustup --noconfirm ; }
+[ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit 169
+pci rustup --noconfirm || yay rustup --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeauryay && yay rustup --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/rustup FE
 EOM
-chmod 755 usr/local/bin/makerustup
+chmod 755 usr/local/bin/makeaurrustup
 }
 
-_ADDmakeshellcheckbin_() {
-_CFLHDR_ usr/local/bin/makeshellcheckbin
-cat >> usr/local/bin/makeshellcheckbin <<- EOM
+_ADDmakeaurshellcheckbin_() {
+_CFLHDR_ usr/local/bin/makeaurshellcheckbin
+cat >> usr/local/bin/makeaurshellcheckbin <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck' instead:  Exiting..." && exit 169
-yay shellcheck-bin --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeyay && yay shellcheck-bin --noconfirm ; }
+[ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck':  Exiting..." && exit 169
+yay shellcheck-bin --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeauryay && yay shellcheck-bin --noconfirm ; }
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeshellcheckbin FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurshellcheckbin FE
 EOM
-chmod 755 usr/local/bin/makeshellcheckbin
+chmod 755 usr/local/bin/makeaurshellcheckbin
 }
 
-_ADDmaketllocalmgr_() {
-_CFLHDR_ usr/local/bin/maketllocalmgr
-cat >> usr/local/bin/maketllocalmgr <<- EOM
+_ADDmakeaurtllocalmgr_() {
+_CFLHDR_ usr/local/bin/makeaurtllocalmgr
+cat >> usr/local/bin/makeaurtllocalmgr <<- EOM
 if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ -x /usr/bin/tllocalmgr ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr' instead:  Exiting..." && exit 169
-yay tllocalmgr --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeyay && yay tllocalmgr --noconfirm ; }
+[ -x /usr/bin/tllocalmgr ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr':  Exiting..." && exit 169
+yay tllocalmgr --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeauryay && yay tllocalmgr --noconfirm ; }
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/maketllocalmgr FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtllocalmgr FE
 EOM
-chmod 755 usr/local/bin/maketllocalmgr
+chmod 755 usr/local/bin/makeaurtllocalmgr
 }
 
-_ADDmakeyay_() {
-_CFLHDR_ usr/local/bin/makeyay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
-cat >> usr/local/bin/makeyay <<- EOM
+_ADDmakeauryay_() {
+_CFLHDR_ usr/local/bin/makeauryay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
+cat >> usr/local/bin/makeauryay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31mERROR: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct thiserror the error(s) and/or warning(s), and run '\${0##*/}' again."
 exit 100
@@ -1251,7 +1251,7 @@ if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ -x /usr/bin/yay ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'yay' is already installed!  Please use the command 'yay' instead:  Exiting..." && exit 169
+[ -x /usr/bin/yay ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit 169
 _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
 }
@@ -1260,7 +1260,7 @@ if [[ ! -z "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
-[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" ] && patchmakeaurpkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
@@ -1271,9 +1271,9 @@ cd
 cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
-## ~/${INSTALLDIR##*/}/usr/local/bin/makeyay FE
+## ~/${INSTALLDIR##*/}/usr/local/bin/makeauryay FE
 EOM
-chmod 755 usr/local/bin/makeyay
+chmod 755 usr/local/bin/makeauryay
 }
 
 _ADDmemav_() {
@@ -1560,6 +1560,12 @@ _CHECKRESOLVE_
 }
 
 _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#strip html code from file" ; printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ ! -x \"\$(command -v tree)\" ] && pci sed && sed || sed -n '/^$/!{s/<[^>]*>//g;p;}' \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/striphtmlcodefromfile FE" >> usr/local/bin/striphtmlcodefromfile ; chmod 755 usr/local/bin/striphtmlcodefromfile ; }
+
+_ADDmakeaurpikaur_() {
+_CFLHDR_ usr/local/bin/makeaurpikaur
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "[ -x /usr/bin/makeaurpikaur ] || { gcl https://github.com/actionless/pikaur && cd pikaur && makepkg -fsri && pikaur \"\$@\" ; } || pikaur \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurpikaur FE" >> usr/local/bin/makeaurpikaur
+chmod 755 usr/local/bin/makeaurpikaur
+}
 
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
