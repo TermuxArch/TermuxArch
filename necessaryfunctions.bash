@@ -50,6 +50,7 @@ _ADDgpl_
 _ADDinfo_
 _ADDinputrc_
 _ADDkeys_
+_ADDmakeauraclegit_
 _ADDmakeaurfakeroottcp_
 _ADDmakeaurhelpers_
 _ADDmakeaurghcuphs_
@@ -57,7 +58,10 @@ _ADDmakeaurpikaur_
 _ADDmakeaurrustup_
 _ADDmakeaurshellcheckbin_
 _ADDmakeaurtllocalmgr_
+_ADDmakeaurtrizen_
 _ADDmakeauryay_
+_ADDmakeauryayim_
+_ADDmakeaurutils_
 _ADDmakeksh_
 _ADDmemav_
 _ADDmemfree_
