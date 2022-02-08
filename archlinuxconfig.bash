@@ -105,8 +105,8 @@ EOM
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
 printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" > root/.bash_profile
-printf "%s\\n" "[ -d /system/bin ] && PATH=\"\$PATH:/system/bin\"" "[ -d /system/xbin ] && PATH=\"\$PATH:/system/xbin\"" >> root/.bash_profile
-printf "%s\\n%s\\n" "PATH=\"\$PATH:$PREFIX/usr/bin\"" >> root/.bash_profile
+# printf "%s\\n" "[ -d /system/bin ] && PATH=\"\$PATH:/system/bin\"" "[ -d /system/xbin ] && PATH=\"\$PATH:/system/xbin\"" >> root/.bash_profile
+# printf "%s\\n%s\\n" "PATH=\"\$PATH:$PREFIX/usr/bin\"" >> root/.bash_profile
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
