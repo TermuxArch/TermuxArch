@@ -1316,7 +1316,7 @@ _PREPFILEFTN0_ pbget pbget pbget
 }
 
 _ADDmakeaurpikaur-git_() {
-_PREPFILEFTN0_ pikaur-git pikaur-git pikaur-git
+_PREPFILEFTN0_ pikaur pikaur-git pikaur-git
 }
 
 _ADDmakeaurpkgbuilder_() {
