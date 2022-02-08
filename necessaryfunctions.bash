@@ -5,10 +5,12 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CPUABI/var/pacman/pkg/"
-CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CPUABI/"
+[ "$CPUABI" = i386 ] && CPUABI="x86"
+CACHECPBI="${CPUABI/_/-}"
+CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/var/pacman/pkg/"
+CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
 PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
-CACHEDIRSUFIX="files/cache/archlinux/$CPUABI/var/pacman/pkg/"
+CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
 TXPRQUON="Termux PRoot with QEMU"
