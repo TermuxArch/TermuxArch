@@ -4,7 +4,7 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/$2 ||: ; } && cd $2 && _PRNTWAIT_ && makepkg -ifrs ; $1 ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur$3 FE" >> $3 ; }
+_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || pci base base-devel" "{ cd && [ -x $2 ] || gcl https://aur.archlinux.org/$2 ; } && cd $2 && _PRNTWAIT_ && makepkg -firs --noconfirm ; $1 --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur$3 FE" >> $3 ; }
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
@@ -1029,13 +1029,15 @@ chmod 755 usr/local/bin/keys
 
 _ADDmakeauraclegit_() {
 _CFLHDR_ usr/local/bin/makeauraclegit
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -fsri ; auracle ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -firs --noconfirm ; auracle --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
 chmod 755 usr/local/bin/makeauraclegit
 }
 
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
+printf "%s\\n" "Command ${0##*/} is depreciated;  Exiting..."
+exit 0
 _CLONEAURHELPER_() {
 cd "\$HOME/aurhelpers" || exit 196
 if [[ ! -d "\$AURHELPER" ]]
@@ -1086,8 +1088,8 @@ done
 
 _MAKEAURHELPER_() {
 cd "\$HOME/aurhelpers/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs --noconfirm || nice -n 20 makepkg -irs --noconfirm || _PRTERROR_
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -firs --noconfirm || nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
 }
 
 _PRTERROR_() {
@@ -1124,7 +1126,7 @@ if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" ] && patchmakeaurpkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" found;  Continuing..."
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
@@ -1144,8 +1146,8 @@ sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 }
 cd fakeroot-tcp || exit 196
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -irs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -irs || _PRTERROR_
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
 fi
@@ -1175,13 +1177,13 @@ chmod 755 usr/local/bin/makeaurghcuphs
 
 _ADDmakeaurutils_() {
 _CFLHDR_ usr/local/bin/makeaurutils
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -fsri ; aur ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -firs --noconfirm ; aur --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
 chmod 755 usr/local/bin/makeaurutils
 }
 
 _ADDmakeaurpikaur_() {
 _CFLHDR_ usr/local/bin/makeaurpikaur
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/pikaur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'pikaur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/actionless/pikaur ||: ; } && cd pikaur && _PRNTWAIT_ && makepkg -fsri ; pikaur ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurpikaur FE" >> usr/local/bin/makeaurpikaur
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ -x /usr/bin/pikaur ] && printf \"\\e[0;31m%s\\n\" \"The command 'pikaur' is installed;  Exiting...\" && exit ; } || _PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "[ -x /usr/bin/fakeroot ] || pci base base-devel" "{ cd && [ -x pikaur ] || gcl https://github.com/actionless/pikaur ; } && cd pikaur && _PRNTWAIT_ && makepkg -fisr --noconfirm ; pikaur --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurpikaur FE" >> usr/local/bin/makeaurpikaur
 chmod 755 usr/local/bin/makeaurpikaur
 }
 
@@ -1193,7 +1195,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit 169
-pci rustup --noconfirm || yay rustup --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeauryay && yay rustup --noconfirm ; }
+pci rustup --noconfirm || yay rustup --noconfirm
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/rustup FE
 EOM
@@ -1232,7 +1234,7 @@ chmod 755 usr/local/bin/makeaurtllocalmgr
 
 _ADDmakeaurtrizen_() {
 _CFLHDR_ usr/local/bin/makeaurtrizen
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/trizen ] && printf \"\\e[0;31m%s\\n\" \"The comman 'trizen' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/trizen/trizen ||: ; } && cd trizen/archlinux/ && _PRNTWAIT_ && makepkg -fsri ; trizen ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtrizen FE" >> usr/local/bin/makeaurtrizen
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/trizen ] && printf \"\\e[0;31m%s\\n\" \"The comman 'trizen' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/trizen/trizen ||: ; } && cd trizen/archlinux/ && _PRNTWAIT_ && makepkg -firs --noconfirm; trizen --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurtrizen FE" >> usr/local/bin/makeaurtrizen
 chmod 755 usr/local/bin/makeaurtrizen
 }
 
@@ -1249,14 +1251,14 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script
 else
 [ -x /usr/bin/yay ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit 169
 _PRMAKE_() {
-printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -irs --noconfirm\\\\e[1;37m...\\\\n"
+printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -firs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'yay':"
 if [[ ! -z "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
-[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakeaurpkg.lock" ] && patchmakeaurpkg
+[ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
@@ -1264,7 +1266,7 @@ fi
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
-cd yay && _PRMAKE_ && nice -n 20 makepkg -irs --noconfirm || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -irs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+cd yay && _PRMAKE_ && nice -n 20 makepkg -firs --noconfirm || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -firs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeauryay FE
