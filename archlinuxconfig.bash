@@ -144,6 +144,16 @@ EOM
 _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
+function git-branch() {
+if [ -d .git ]
+then
+printf "%s" "(\$(git branch 2> /dev/null | awk '/\*/{print \$2}'))";
+fi
+}
+function em() {
+[ -x /usr/bin/make ] || pci base base-devel
+[ -x \$HOME/bin/uemacs ] && \$HOME/bin/uemacs "\$@" || { { cd && [ -e uemacs ] || gcl https://github.com/torvalds/uemacs ; } && cd uemacs 2>/dev/null && printf '%s\\n' "making uemacs" && make && mv em \$HOME/bin/uemacs && \$HOME/bin/uemacs "\$@" ; }
+}
 alias ..='cd ../.. && pwd'
 alias ...='cd ../../.. && pwd'
 alias ....='cd ../../../.. && pwd'
@@ -184,9 +194,6 @@ alias dft='df | grep storage\/'
 alias EE='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
 alias Ee='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
 alias ee='am startservice --user 0 -a com.termux.service_wake_unlock com.termux/com.termux.app.TermuxService > /dev/null ; exit'
-alias EM='emacs'
-alias Em='emacs'
-alias em='emacs'
 alias E='exit'
 alias e='exit'
 alias F='nice -n 20 grep -in --color=always'
@@ -1328,7 +1335,7 @@ fi
 cd
 [ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
 ( cd ksh && nice -n 20 ./bin/package make ) || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 )
-find arch/*/bin -type f -executable || printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
+find \$HOME/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeksh FE
 EOM
