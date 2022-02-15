@@ -359,7 +359,7 @@ _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
-_CHCKUSER_() { [ -e "$INSTALLDIR/home/\$2/.profile" ] || _PRNTUSGE_ "\$@" ; }
+_CHCKUSER_() { [ -d "$INSTALLDIR/home/\$2" ] || _PRNTUSGE_ "\$@" ; }
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit 202 ; }
 if [ -w /root ]
 then
