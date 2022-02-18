@@ -916,7 +916,7 @@ if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
 _KEYSGENMSG_
-pacman -S archlinux-keyring archlinux32-keyring --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" || _PRTERROR_
+{ pacman -S archlinux-keyring archlinux32-keyring --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ; } || _PRTERROR_
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -932,7 +932,7 @@ X86INK=":"
 else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
 X86INT=":"
 X86IPT="(1/2)"
-X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\${ARGS[@]} \"
+X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\"
 pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always
 printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
 $ECHOEXEC pacman-key --populate
@@ -957,12 +957,12 @@ done
 }
 
 _PRINTTAIL_() {
-printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\${ARGS[@]}" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\${0##*/} \${ARGS[@]}'"
+printf "\\\\n\\\\e[0;32m%s %s %s\\\\e[1;34m: \\\\e[1;32m%s\\\\e[0m 🏁  \\\\n\\\\n\\\\e[0m" "TermuxArch \${0##*/}" "\$ARGS" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s: DONE 📱 \007'  "'\${0##*/} \$ARGS'"
 }
 
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \$ARGS' again."
 }
 
 _TRPET_() {
@@ -991,8 +991,8 @@ else
 KEYRINGS=""
 fi
 ARGS="\${KEYRINGS[@]}"
-printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \${ARGS[@]}'"
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \${ARGS[@]}" "version \$VERSIONID"
+printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
@@ -1004,7 +1004,7 @@ _DOKPI_() {
 if [ ! -f "/run/lock/${INSTALLDIR##*/}/kpi.lock" ]
 then
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
-$ECHOEXEC pacman-key --init && :>"/run/lock/${INSTALLDIR##*/}/kpi.lock" || _PRTERROR_
+{ $ECHOEXEC pacman-key --init && :>"/run/lock/${INSTALLDIR##*/}/kpi.lock" ; } || _PRTERROR_
 else
 printf "\\\\e[1;32m==> \\\\e[1;37mAlready initialized with command \\\\e[1;32mpacman-key --init\\\\e[1;37m...\\\\n"
 fi
@@ -1019,7 +1019,7 @@ _DOPP_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ]
 then
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
-$ECHOEXEC pacman-key --populate && :>"/var/run/lock/${INSTALLDIR##*/}/kpp.lock" || _PRTERROR_
+{ $ECHOEXEC pacman-key --populate && :>"/var/run/lock/${INSTALLDIR##*/}/kpp.lock"; } || _PRTERROR_
 else
 printf "\\\\e[1;32m==> \\\\e[1;37mAlready populated with command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n"
 fi
@@ -1051,7 +1051,7 @@ if [[ ! -d "\$AURHELPER" ]]
 then
 printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
 else
-printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ || _PRTERROR_
+{ printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
 fi
 }
 
@@ -1100,7 +1100,7 @@ nice -n 20 makepkg -firs --noconfirm || nice -n 20 makepkg -firs --noconfirm || 
 }
 
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \${ARGS[@]}' again."
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\${0##*/} \$ARGS' again."
 }
 
 [ ! -d "\$HOME/aurhelpers" ] && mkdir -p "\$HOME/aurhelpers"
@@ -1127,7 +1127,7 @@ _CFLHDR_ usr/local/bin/makeaurfakeroottcp "# build and install fakeroot-tcp"
 cat >> usr/local/bin/makeaurfakeroottcp <<- EOM
 _DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\${0##*/} \${ARGS[@]}' again." && exit 104
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\${0##*/} \$ARGS' again." && exit 104
 }
 if [ "\$UID" = 0 ]
 then
@@ -1137,7 +1137,7 @@ else
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if ([[ ! "\$(command -v automake)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v gcc -v)" ]] || [[ ! "\$(command -v libtool)" ]] || [[ ! "\$(command -v po4a)" ]]) 2>/dev/null
 then
-pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\${0##*/} \${ARGS[@]}' again."
+pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\${0##*/} \$ARGS' again."
 fi
 cd
 [ ! -d fakeroot-tcp ] && gcl https://aur.archlinux.org/fakeroot-tcp.git
@@ -1167,7 +1167,7 @@ chmod 755 usr/local/bin/makeaurfakeroottcp
 }
 
 _ADDmakeaurghcuphs_() {
-_CFLHDR_ usr/local/bin/makeaurghcuphs
+_CFLHDR_ usr/local/bin/makeaurghcuphs "# install Haskell language ghcup-hs installer with the Arch Linux aur installer yay"
 cat >> usr/local/bin/makeaurghcuphs <<- EOM
 if [ "\$UID" = 0 ]
 then
@@ -1183,13 +1183,13 @@ chmod 755 usr/local/bin/makeaurghcuphs
 }
 
 _ADDmakeaurutils_() {
-_CFLHDR_ usr/local/bin/makeaurutils
+_CFLHDR_ usr/local/bin/makeaurutils "# install Arch Linux aurutils aur installer"
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' is continuing...\" ; }" "{ [ -x /usr/bin/aur ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://github.com/AladW/aurutils ||: ; } && cd aurutils/makepkg && _PRNTWAIT_ && makepkg -firs --noconfirm ; aur --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurutils FE" >> usr/local/bin/makeaurutils
 chmod 755 usr/local/bin/makeaurutils
 }
 
 _ADDmakeaurpikaur_() {
-_CFLHDR_ usr/local/bin/makeaurpikaur
+_CFLHDR_ usr/local/bin/makeaurpikaur "# install Arch Linux pikaur aur installer"
 printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ -x /usr/bin/pikaur ] && printf \"\\e[0;31m%s\\n\" \"The command 'pikaur' is installed;  Exiting...\" && exit ; } || _PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "[ -x /usr/bin/fakeroot ] || pci base base-devel" "{ cd && [ -x pikaur ] || gcl https://github.com/actionless/pikaur ; } && cd pikaur && _PRNTWAIT_ && makepkg -fisr --noconfirm ; pikaur --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurpikaur FE" >> usr/local/bin/makeaurpikaur
 chmod 755 usr/local/bin/makeaurpikaur
 }
@@ -1217,7 +1217,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/shellcheck ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'shellcheck' is already installed!  Please use the command 'shellcheck':  Exiting..." && exit 169
-yay shellcheck-bin --noconfirm 2>/dev/null || { [ ! \$(command -v yay) ] && makeauryay && yay shellcheck-bin --noconfirm ; }
+yay shellcheck-bin --noconfirm 2>/dev/null || { [ ! "\$(command -v yay)" ] && makeauryay && yay shellcheck-bin --noconfirm ; }
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurshellcheckbin FE
 EOM
@@ -1261,19 +1261,19 @@ _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -firs --noconfirm\\\\e[1;37m...\\\\n"
 }
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'yay':"
-if [[ ! -z "\${PREFIX:-}" ]]
+if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
-if ([[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]]) 2>/dev/null
+if { [[ ! "\$(command -v fakeroot)" ]] || [[ ! "\$(command -v git)" ]] || [[ ! "\$(command -v go)" ]] ; } 2>/dev/null
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
 fi
 fi
 cd
 [ ! -d yay ] && gcl https://aur.archlinux.org/yay.git
-cd yay && _PRMAKE_ && nice -n 20 makepkg -firs --noconfirm || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -firs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+{ cd yay && _PRMAKE_ && nice -n 20 makepkg -firs --noconfirm ; } || { printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The command 'nice -n 20 makepkg -firs --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\\\e[0;32m%s\\\\n%s\\\\n%s\\\\e[1;32m%s\\\\e[0m\\\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeauryay FE
@@ -1315,7 +1315,7 @@ _ADDmakeksh_() {
 _CFLHDR_ usr/local/bin/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
 cat >> usr/local/bin/makeksh <<- EOM
 _PRTERROR_() {
-printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\${0##*/} \${ARGS[@]}' again."
+printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\${0##*/} \$ARGS' again."
 exit 100
 }
 if [ "\$UID" = 0 ]
@@ -1323,11 +1323,11 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'ksh':"
-if [[ ! -z "\${PREFIX:-}" ]]
+if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
-if ( [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]] )
+if [[ ! -f /usr/bin/make ]] || [[ ! -f /usr/bin/git ]] || [[ ! -f /usr/bin/bison ]]
 then
 pc bison base base-devel gcc git || pci bison base base-devel gcc git || ( printf "\\n\\e[1;31mERROR: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 )
 fi
@@ -1335,7 +1335,7 @@ fi
 cd
 [ ! -d ksh ] && gcl https://github.com/ksh-community/ksh
 ( cd ksh && nice -n 20 ./bin/package make ) || ( printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\n" "ERROR: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " "EXITING..." && exit 124 )
-find \$HOME/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
+find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\n" "ERROR: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/makeksh FE
 EOM
@@ -1630,12 +1630,12 @@ _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#st
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" >> usr/local/bin/t
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \${PREFIX:-}/bin/tree ]" "then" "tree \"\$@\"" "else" "pci tree && tree \"\$@\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/t FE" >> usr/local/bin/t
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \"\${PREFIX:-}\"/bin/tree ]" "then" "tree \"\$@\"" "else" "pci tree && tree \"\$@\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/t FE" >> usr/local/bin/t
 chmod 755 usr/local/bin/t
 }
 
 _ADDtlmgrinstaller_() {
-_CFLHDR_ usr/local/bin/tlmgrinstaller
+_CFLHDR_ usr/local/bin/tlmgrinstaller "# install TexLive installer"
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "_GETINSTALLER_() { mkdir -p \"\$HOME\"/install-tl/output && cd \"\$HOME\"/install-tl && { [ -f install-tl-unx.tar.gz ] || curl -C - --fail --retry 4 -OL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar xf install-tl-unx.tar.gz -C output ; } && CDDIR=\"\$(find output -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && perl install-tl ; }" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}' begun.  \"" "if [ -x /usr/bin/perl ] || [ -x /usr/bin/wget ]" "then" "_GETINSTALLER_" "else" "{ pc perl wget || pci perl wget ; } && _GETINSTALLER_" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
@@ -1796,7 +1796,7 @@ ARGS=("\$@")
 fi
 EOM
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" >> usr/local/bin/v
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \${PREFIX:-}/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "pci vim && vim \"\${ARGS[@]}\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/v FE" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \"\${PREFIX:-}\"/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "pci vim && vim \"\${ARGS[@]}\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/v FE" >> usr/local/bin/v
 chmod 755 usr/local/bin/v
 }
 
