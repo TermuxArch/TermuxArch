@@ -1634,6 +1634,14 @@ printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \$
 chmod 755 usr/local/bin/t
 }
 
+_ADDtlmgrinstaller_() {
+_CFLHDR_ usr/local/bin/tlmgrinstaller
+printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "_GETINSTALLER_() { mkdir -p \"\$HOME\"/install-tl/output && cd \"\$HOME\"/install-tl && { [ -f install-tl-unx.tar.gz ] || curl -C - --fail --retry 4 -OL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar xf install-tl-unx.tar.gz -C output ; } && CDDIR=\"\$(find output -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && perl install-tl ; }" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}' begun.  \"" "if [ -x /usr/bin/perl ] || [ -x /usr/bin/wget ]" "then" "_GETINSTALLER_" "else" "{ pc perl wget || pci perl wget ; } && _GETINSTALLER_" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
+chmod 755 usr/local/bin/tlmgrinstaller
+}
+
 _ADDtop_() {
 _CFLHDR_ usr/local/bin/top
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" "{ [ -f /system/bin/top ] && /system/bin/top && exit ; } || { printf \"%s\\n\" \"The command '\${0##*/}' is currently disabled in Termux PRoot.   Please open an issue and PR should a better resolution for '\${0##*/}' in Termux PRoot be found.  Running command 'ps aux':\" && ps aux && printf \"%s\\n\" \"Running command 'nproc':\" && nproc && printf \"%s\\n\" \"Running command 'nproc --all':\" && nproc --all && ps aux | cut -d:  -f2- | grep -v TIME | grep -v '\-bash' | grep -v cut | grep -v ps\ aux | grep -v sort | cut -c 4- | sort && exit ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/top FE" >> usr/local/bin/top
