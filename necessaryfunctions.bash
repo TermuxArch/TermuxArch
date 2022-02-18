@@ -426,11 +426,11 @@ if [ -f "$INSTALLDIR/var/lib/pacman/db.lck" ]
 then
 printf "%s" "File ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck exists;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
 else
-printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in Arch Linux in Termux PRoot: "
+printf "%s" "Creating file ~/${INSTALLDIR##*/}/var/lib/pacman/db.lck;  You can use the TermuxArch 'pacmandblock' command to alter the lock state.  Please use '$STARTBIN' and '$STARTBIN l[ogin] username' to install software in the Arch Linux in Termux PRoot environment:  "
 :>"$INSTALLDIR/var/lib/pacman/db.lck"
-printf "%s\\n" "DONE"
+printf "%s\\n" "Continuing..."
 fi
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the TermuxArch 'pacmandblock' command to alter this lock state.  Please use 'startarch' and 'startarch l[ogin] username' to install software in Arch Linux in Termux PRoot: \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*/}/\$\$elock\" ]" "then" "if [ -f \"$INSTALLDIR/var/lib/pacman/db.lck\" ]" "then" "printf \"%s\" \"Deleting file '~/${INSTALLDIR##*/}/var/lib/pacman/db.lck';  You can use the TermuxArch 'pacmandblock' command to alter this lock state.  Please use 'startarch' and 'startarch l[ogin] username' to install software in the Arch Linux in Termux PRoot environment:  \"" "rm -f \"$INSTALLDIR/var/lib/pacman/db.lck\"" "printf \"%s\\\\n\" \"DONE\"" "fi" "rm -f \"$INSTALLDIR/var/lock/${INSTALLDIR##*}\$\$elock\"" "fi" "[ ! -f "$INSTALLDIR/home/\$2/.hushlogout" ] && [ ! -f "$INSTALLDIR/home/\$2/.chushlogout" ] && . /etc/moto" "h # write session history to file HOME/.historyfile" "## .bash_logout FE" > "$INSTALLDIR/home/\$2/.bash_logout"
 EOM
 printf "%s\\n" "$PROOTSTMNTEU /bin/su - \"\$2\" ||:" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
