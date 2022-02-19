@@ -144,7 +144,7 @@ EOM
 _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
-function _SHWPWD_() {
+function _PWD_() {
 printf '%s\n' "\$PWD"
 }
 function git-branch() {
@@ -157,10 +157,10 @@ function em() {
 [ -x /usr/bin/make ] || pci base base-devel
 [ -x \$HOME/bin/uemacs ] && \$HOME/bin/uemacs "\$@" || { { cd && [ -e uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { cd uemacs || exit 169 ; } && printf '%s\\n' "making uemacs" && make && mv em \$HOME/bin/uemacs && \$HOME/bin/uemacs "\$@" ; }
 }
-alias ..='cd ../.. && _SHWPWD_'
-alias ...='cd ../../.. && _SHWPWD_'
-alias ....='cd ../../../.. && _SHWPWD_'
-alias .....='cd ../../../../.. && _SHWPWD_'
+alias ..='cd ../.. && _PWD_'
+alias ...='cd ../../.. && _PWD_'
+alias ....='cd ../../../.. && _PWD_'
+alias .....='cd ../../../../.. && _PWD_'
 alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
 alias aiachrome='am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
 alias aiadial='am start -a android.intent.action.DIAL'
@@ -169,8 +169,8 @@ alias aiasearch='am start -a android.intent.action.SEARCH'
 alias aiaview='am start -a android.intent.action.VIEW'
 alias aiaviewd='am start -a android.intent.action.VIEW -d '
 alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
-alias C='cd .. && _SHWPWD_'
-alias c='cd .. && _SHWPWD_'
+alias C='cd .. && _PWD_'
+alias c='cd .. && _PWD_'
 alias CN='cat -n \$(command -v' # use a ) to complete this alias
 alias Cn='cat -n \$(command -v' # use a ) to complete this alias
 alias cn='cat -n \$(command -v' # use a ) to complete this alias
@@ -245,8 +245,8 @@ alias Mkdip='mkdir -p'
 alias mkdip='mkdir -p'
 alias N2='nice -n -20'
 alias n2='nice -n -20'
-alias P='_SHWPWD_'
-alias p='_SHWPWD_'
+alias P='_PWD_'
+alias p='_PWD_'
 alias PACMAN='pacman --color=always'
 alias Pacman='pacman --color=always'
 alias pacman='pacman --color=always'
@@ -1641,7 +1641,7 @@ _ADDtlmgrinstaller_() {
 _CFLHDR_ usr/local/bin/tlmgrinstaller "# install TexLive installer"
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information; \" \"exiting...\" && exit" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "_GETINSTALLER_() { mkdir -p \"\$HOME\"/install-tl/output && cd \"\$HOME\"/install-tl && { [ -f install-tl-unx.tar.gz ] || curl -C - --fail --retry 4 -OL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar xf install-tl-unx.tar.gz -C output ; } && CDDIR=\"\$(find output -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && perl install-tl ; }" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}' begun.  \"" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "if [ -x /usr/bin/perl ] || [ -x /usr/bin/wget ]" "then" "_GETINSTALLER_" "else" "{ pc perl wget || pci perl wget ; } && _GETINSTALLER_" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}' begun.  \"" "[ -x /usr/bin/make ] || { pc make || pci make ; }" "if [ -x /usr/bin/perl ] || [ -x /usr/bin/wget ]" "then" "_GETINSTALLER_" "else" "{ pc perl wget || pci perl wget ; } && _GETINSTALLER_" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
 chmod 755 usr/local/bin/tlmgrinstaller
 }
 
