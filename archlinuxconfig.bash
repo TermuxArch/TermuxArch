@@ -103,8 +103,7 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n" "PPATH=\"\$PATH\"" > root/.bash_profile
-printf "%s\\n%s\\n" "[ -d /system/bin ] && PATH=\"/system/bin\"" "[ -d /system/xbin ] && PATH=\"/system/xbin:\$PATH\"" >> root/.bash_profile
+printf "%s\\n%s\\n%s\\n%s\\n" "PPATH=\"\$PATH\"" "[ -d /system/xbin ] && PATH=\"/system/xbin\"" "[ -d /system/sbin ] && PATH=\"/system/sbin:\$PATH\"" "[ -d /system/bin ] && PATH=\"/system/bin:\$PATH\"" > root/.bash_profile
 if [ -d "$INSTALLDIR"/usr/local/texlive ]
 then
 TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/2021/bin/ -maxdepth 1 | tail -n 1)"
