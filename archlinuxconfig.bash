@@ -963,9 +963,10 @@ _KEYSGENMSG_() {
 printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  You can use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\e[0m\\\\n" "$X86IPT" "$DARCH"
 }
 
-_GENEN_() {	# This for loop generates entropy on device.
-N=16
-for I in "\$(seq 1 "\$N")"; do
+_GENEN_() {
+printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m" "Generating entropy on device;  " "Continuing...  "
+GENENN=16
+for INT in \$(seq 1 \$GENENN); do
 nice -n 20 ls -alR /usr >/dev/null &
 nice -n 20 find /usr >/dev/null &
 nice -n 20 cat /dev/urandom >/dev/null &
