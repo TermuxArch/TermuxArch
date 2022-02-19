@@ -5,9 +5,17 @@
 ################################################################################
 set -Eeuo pipefail
 shopt -s nullglob globstar
+if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
+then
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." && exit 164
+fi
+if [ -w /root ]
+then
+printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 165
+fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.0.1578
+VERSIONID=2.0.1579
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -827,10 +835,6 @@ WFDIR="${WFDIR%/*}"
 ## >> HELP OPTIONS >>
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
-if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
-then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." & exit 164
-fi
 ## []  Run default Arch Linux install.
 if [[ -z "${1:-}" ]]
 then
