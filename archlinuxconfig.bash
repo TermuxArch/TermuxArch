@@ -103,8 +103,15 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n%s\\n" "[ -d /system/bin ] && PATH=\"/system/bin:\$PATH\"" "[ -d /system/xbin ] && PATH=\"/system/xbin:\$PATH\"" > root/.bash_profile
-printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" >> root/.bash_profile
+printf "%s\\n" "PPATH=\"\$PATH\"" > root/.bash_profile
+printf "%s\\n%s\\n" "[ -d /system/bin ] && PATH=\"/system/bin\"" "[ -d /system/xbin ] && PATH=\"/system/xbin:\$PATH\"" >> root/.bash_profile
+if [ -d "$INSTALLDIR"/usr/local/texlive ]
+then
+TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/2021/bin/ -maxdepth 1 | tail -n 1)"
+TEXLIVEPATH="${TEXLIVEPATH#*${INSTALLDIR##*/}}"
+printf "%s\\n" "PATH=\"\$PATH:$TEXLIVEPATH\"" >> root/.bash_profile
+fi
+printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:\$PPATH\"" >> root/.bash_profile
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
@@ -131,13 +138,20 @@ for LCTE in "${!LC_TYPE[@]}"
 do
 printf "%s=\"%s\"\\n" "export ${LC_TYPE[LCTE]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 done
-cat >> root/.bash_profile <<- EOM
-export GPG_TTY="\$(tty)"
-export MOZ_FAKE_NO_SANDBOX=1
-export PULSE_SERVER=127.0.0.1
-export TZ="$(getprop persist.sys.timezone)"
-## .bash_profile FE
-EOM
+printf "%s\\n" "export GPG_TTY=\"\$(tty)\"" >> root/.bash_profile
+printf "%s\\n" "export MOZ_FAKE_NO_SANDBOX=1" >> root/.bash_profile
+printf "%s\\n" "export PULSE_SERVER=127.0.0.1" >> root/.bash_profile
+if [ -n ${TEXLIVEPATH:-} ]
+then
+printf "%s\\n" "[ -d /usr/local/texlive/2021 ] && export TEXDIR=\"/usr/local/texlive/2021\"" >> root/.bash_profile
+printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-config ] && export TEXMFCONFIG=\"\$HOME/.texlive2021/texmf-config\"" >> root/.bash_profile
+printf "%s\\n" "[ -d \"\$HOME\"/texmf ] && export TEXMFHOME=\"\$HOME/texmf\"" >> root/.bash_profile
+printf "%s\\n" "[ -d /usr/local/texlive/texmf-local ] && export TEXMFLOCAL=\"/usr/local/texlive/texmf-local\"" >> root/.bash_profile
+printf "%s\\n" "[ -d /usr/local/texlive/2021/texmf-config ] && export TEXMFSYSCONFIG=\"/usr/local/texlive/2021/texmf-config\"" >> root/.bash_profile
+printf "%s\\n" "[ -d /usr/local/texlive/2021/texmf-var ] && export TEXMFSYSVAR=\"/usr/local/texlive/2021/texmf-var\"" >> root/.bash_profile
+printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-var ] && export TEXMFVAR=\"\$HOME/.texlive2021/texmf-var\"" >> root/.bash_profile
+printf "%s\\n## .bash_profile FE\\n" "export TZ=\"$(getprop persist.sys.timezone)\"" >> root/.bash_profile
+fi
 }
 
 _ADDbashrc_() {
