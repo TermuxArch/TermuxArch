@@ -4,7 +4,7 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || pci base base-devel" "{ cd && [ -x $2 ] || gcl https://aur.archlinux.org/$2 ; } && cd $2 && _PRNTWAIT_ && makepkg -firs --noconfirm ; $1 --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur$3 FE" >> $3 ; }
+_PREPFILEFCTN_() { printf '%s\n%s\n%s\n%s\n' "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Please wait a moment;  Command '\${0##*/}' is attempting to make the command '$1';  Continuing...\" ; }" "{ [ -x /usr/bin/$1 ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "{ cd && [ -x $2 ] || gcl https://aur.archlinux.org/$2 ; } && cd $2 && _PRNTWAIT_ && makepkg -firs --noconfirm ; $1 --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur$3 FE" >> $3 ; }
 
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
@@ -103,12 +103,14 @@ EOM
 
 _ADDbash_profile_() {
 [ -e root/.bash_profile ] && _DOTHRF_ "root/.bash_profile"
-printf "%s\\n%s\\n%s\\n%s\\n" "PPATH=\"\$PATH\"" "[ -d /system/xbin ] && PATH=\"/system/xbin\"" "[ -d /system/sbin ] && PATH=\"/system/sbin:\$PATH\"" "[ -d /system/bin ] && PATH=\"/system/bin:\$PATH\"" > root/.bash_profile
+printf "%s\\n%s\\n%s\\n%s\\n" "PPATH=\"\$PATH\"" "# [ -d /system/xbin ] && PATH=\"/system/xbin\"" "# [ -d /system/sbin ] && PATH=\"/system/sbin:\$PATH\"" "# [ -d /system/bin ] && PATH=\"/system/bin:\$PATH\"" > root/.bash_profile
 if [ -d "$INSTALLDIR"/usr/local/texlive ]
 then
-TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/2021/bin/ -maxdepth 1 | tail -n 1)"
+TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/*/bin/ -maxdepth 1 | tail -n 1)"
 TEXLIVEPATH="${TEXLIVEPATH#*${INSTALLDIR##*/}}"
-printf "%s\\n" "PATH=\"\$PATH:$TEXLIVEPATH\"" >> root/.bash_profile
+TEXDIR="${TEXLIVEPATH%/*}"
+TEXDIR="${TEXDIR%/*}"
+printf "%s\\n" "PATH=\"$TEXLIVEPATH\"" >> root/.bash_profile
 fi
 printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:\$PPATH\"" >> root/.bash_profile
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
@@ -142,12 +144,12 @@ printf "%s\\n" "export MOZ_FAKE_NO_SANDBOX=1" >> root/.bash_profile
 printf "%s\\n" "export PULSE_SERVER=127.0.0.1" >> root/.bash_profile
 if [ -n ${TEXLIVEPATH:-} ]
 then
-printf "%s\\n" "[ -d /usr/local/texlive/2021 ] && export TEXDIR=\"/usr/local/texlive/2021\"" >> root/.bash_profile
+printf "%s\\n" "[ -d "$TEXDIR" ] && export TEXDIR=\"$TEXDIR\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-config ] && export TEXMFCONFIG=\"\$HOME/.texlive2021/texmf-config\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/texmf ] && export TEXMFHOME=\"\$HOME/texmf\"" >> root/.bash_profile
 printf "%s\\n" "[ -d /usr/local/texlive/texmf-local ] && export TEXMFLOCAL=\"/usr/local/texlive/texmf-local\"" >> root/.bash_profile
-printf "%s\\n" "[ -d /usr/local/texlive/2021/texmf-config ] && export TEXMFSYSCONFIG=\"/usr/local/texlive/2021/texmf-config\"" >> root/.bash_profile
-printf "%s\\n" "[ -d /usr/local/texlive/2021/texmf-var ] && export TEXMFSYSVAR=\"/usr/local/texlive/2021/texmf-var\"" >> root/.bash_profile
+printf "%s\\n" "[ -d $TEXDIR/texmf-config ] && export TEXMFSYSCONFIG=\"$TEXDIR/texmf-config\"" >> root/.bash_profile
+printf "%s\\n" "[ -d $TEXDIR/texmf-var ] && export TEXMFSYSVAR=\"$TEXDIR/texmf-var\"" >> root/.bash_profile
 printf "%s\\n" "[ -d \"\$HOME\"/.texlive2021/texmf-var ] && export TEXMFVAR=\"\$HOME/.texlive2021/texmf-var\"" >> root/.bash_profile
 printf "%s\\n%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"" "## .bash_profile FE" >> root/.bash_profile
 fi
@@ -166,7 +168,7 @@ printf "%s" "(\$(git branch 2> /dev/null | awk '/\*/{print \$2}'))";
 fi
 }
 function em() {
-[ -x /usr/bin/make ] || pci base base-devel
+[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }
 [ -x \$HOME/bin/uemacs ] && \$HOME/bin/uemacs "\$@" || { { cd && [ -e uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { cd uemacs || exit 169 ; } && printf '%s\\n' "making uemacs" && make && mv em \$HOME/bin/uemacs && \$HOME/bin/uemacs "\$@" ; }
 }
 alias ..='cd ../.. && _PWD_'
@@ -534,7 +536,7 @@ printf "\\\\e[38;5;148m%s\\\\e[0m\\\\n" "Installing /usr/bin/systemctl replaceme
 [ -f "/run/lock/${INSTALLDIR##*/}/csystemctl.lock" ] && printf "%s\\\\n" "Already installed /usr/local/bin/systemctl replacement: DONE 🏁" && exit
 declare COMMANDP
 COMMANDP="\$(command -v python3)" || printf "%s\\\\n" "Command python3 can not be found: continuing..."
-[[ "\${COMMANDP:-}" == *python3* ]] || pci python3
+[[ "\${COMMANDP:-}" == *python3* ]] || { pc python3 || pci python3 ; }
 SDATE="\$(date +%s)"
 # path is /usr/local/bin because updates overwrite /usr/bin/systemctl and may make systemctl-replacement obsolete
 # backup original binary
@@ -562,7 +564,7 @@ else
 ARGS=("\$@")
 fi
 EOM
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"\$(command -v emacs)\" ] && pci emacs && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/es FE" >> usr/local/bin/es
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"\$(command -v emacs)\" ] && { pc emacs || pci emacs ; } && emacs \"\${ARGS[@]}\" || emacs \"\${ARGS[@]}\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/es FE" >> usr/local/bin/es
 chmod 755 usr/local/bin/es
 }
 
@@ -721,7 +723,7 @@ _CFLHDR_ usr/local/bin/ga
 cat >> usr/local/bin/ga <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pci git
+{ pc git || pci git ; }
 git add .
 else
 git add .
@@ -740,7 +742,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script
 else
 if [[ ! -x "\$(command -v git)" ]]
 then
-pci git
+{ pc git || pci git ; }
 git clone --depth 1 "\$@" --single-branch
 else
 git clone --depth 1 "\$@" --single-branch
@@ -777,7 +779,7 @@ git add .
 }
 if [[ ! -x "\$(command -v wget)" ]] && [[ ! -x "\$(command -v unzip)" ]]
 then
-pci wget unzip || au wget unzip
+{ pc wget unzip || pci wget unzip || au wget unzip ; }
 _GCLONEMAIN_ "\$@"
 else
 _GCLONEMAIN_ "\$@"
@@ -793,7 +795,7 @@ _CFLHDR_ usr/local/bin/gcm
 cat >> usr/local/bin/gcm <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pci git
+{ pc git || pci git ; }
 git commit
 else
 git commit
@@ -823,7 +825,7 @@ _CFLHDR_ usr/local/bin/gpl
 cat >> usr/local/bin/gpl <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pci git
+{ pc git || pci git ; }
 git pull
 else
 git pull
@@ -838,7 +840,7 @@ _CFLHDR_ usr/local/bin/gp "# git push https://username:password@github.com/usern
 cat >> usr/local/bin/gp <<- EOM
 if [[ ! -x "\$(command -v git)" ]]
 then
-pci git
+{ pc git || pci git ; }
 git push
 else
 git push
@@ -850,7 +852,7 @@ chmod 755 usr/local/bin/gp
 
 _ADDinfo_ () {
 _CFLHDR_ usr/local/bin/info
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"/usr/bin/info\" ] && pci texinfo && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/info FE" >> usr/local/bin/info
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "[ ! -x \"/usr/bin/info\" ] && { pc texinfo || pci texinfo ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## ~/${INSTALLDIR##*/}/usr/local/bin/info FE" >> usr/local/bin/info
 chmod 755 usr/local/bin/info
 }
 
@@ -1092,13 +1094,13 @@ gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
 fi
 if [ "\$AURHELPER" = pacaur ]
 then
-pci expac
+{ pc expac  || pci expac ; }
 AURHELPER=auracle-git
 _CLONEAURHELPER_
 fi
 if [ "\$AURHELPER" = bauerbill ]
 then
-pci python-pyxdg
+{ pc python-pyxdg || pci python-pyxdg ; }
 BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
 for AURHELPER in \${BAUERBILLDEPS[@]}
 do
@@ -1218,7 +1220,7 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ERROR:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
 [ -x /usr/bin/rustup ] && printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit 169
-pci rustup --noconfirm || yay rustup --noconfirm
+{ pc rustup --noconfirm || pci rustup --noconfirm ; } || yay rustup --noconfirm
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/rustup FE
 EOM
@@ -1646,7 +1648,7 @@ _ADDstriphtmlcodefromfile_() { _CFLHDR_ usr/local/bin/striphtmlcodefromfile "#st
 _ADDt_() {
 _CFLHDR_ usr/local/bin/t
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" >> usr/local/bin/t
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \"\${PREFIX:-}\"/bin/tree ]" "then" "tree \"\$@\"" "else" "pci tree && tree \"\$@\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/t FE" >> usr/local/bin/t
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/tree ] || [ -x \"\${PREFIX:-}\"/bin/tree ]" "then" "tree \"\$@\"" "else" "{ pc tree || pci tree ; } && tree \"\$@\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/t FE" >> usr/local/bin/t
 chmod 755 usr/local/bin/t
 }
 
@@ -1821,7 +1823,7 @@ ARGS=("\$@")
 fi
 EOM
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" >> usr/local/bin/v
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \"\${PREFIX:-}\"/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "pci vim && vim \"\${ARGS[@]}\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/v FE" >> usr/local/bin/v
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "if [ -x /usr/bin/vim ] || [ -x \"\${PREFIX:-}\"/bin/vim ]" "then" "vim \"\${ARGS[@]}\"" "else" "{ pc vim || pci vim ; } && vim \"\${ARGS[@]}\"" "fi" "## ~/${INSTALLDIR##*/}/usr/local/bin/v FE" >> usr/local/bin/v
 chmod 755 usr/local/bin/v
 }
 
@@ -1905,7 +1907,7 @@ abcif=\$(command -v bc) ||:
 if [[ \$abcif = "" ]]
 then
 printf "\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m...\\\\n\\\\n\\\\e[1;32m"
-pci bc
+{ pc bc || pci bc ; }
 printf "\\\\n\\\\e[1;34mInstalling \\\\e[0;32mbc\\\\e[1;34m: \\\\e[1;32mDONE 🏁\\\\n\\\\e[0m"
 fi
 else
@@ -2000,7 +2002,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ usr/local/bin/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" \"Exiting...\" && exit" "youtube-dl \"\${ARGS[@]}\" 2>/dev/null || { pci youtube-dl && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/yt FE" >> usr/local/bin/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" \"Exiting...\" && exit" "youtube-dl \"\${ARGS[@]}\" 2>/dev/null || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/yt FE" >> usr/local/bin/yt
 chmod 755 usr/local/bin/yt
 }
 
