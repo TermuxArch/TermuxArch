@@ -1533,15 +1533,15 @@ then
 printf "\\\\e[1;31m%s \\\\e[0m\\\\n" "Run command '\${0##*/}' with at least one argument;  Exiting..."
 elif [[ "\$1" = "a" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel "\${@:2}"
 elif [[ "\$1" = "ae" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "a8" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -S "\$@"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/pc FE
 EOM
@@ -1570,18 +1570,18 @@ trap _TRPET_ EXIT
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning TermuxArch command \\\\e[1;32m%s \\\\e[0;32m%s\\\\e[1;37m...\\\\n" "\${0##*/} \$ARGS" "version \$VERSIONID"
 if [[ -z "\${1:-}" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu
 elif [[ "\$1" = "e" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
 elif [[ "\$1" = "e8" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}"
 elif [[ "\$1" = "e11" ]]
 then
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --noconfirm --color=always -Su "\$@"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su "\$@"
 fi
 ## ~/${INSTALLDIR##*/}/usr/local/bin/pci FE
 EOM
@@ -1658,9 +1658,9 @@ chmod 755 usr/local/bin/t
 _ADDtlmgrinstaller_() {
 _CFLHDR_ usr/local/bin/tlmgrinstaller "# install TexLive installer"
 printf "%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n" "_GETINSTALLER_() { { [ -d \"\$HOME\"/install-tl ] || mkdir -p \"\$HOME\"/install-tl ; } && { { [ -f \"\$HOME\"/install-tl/install-tl.zip ] || wget -P \"\$HOME\"/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && cd \"\$HOME\"/install-tl && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...\" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && printf \"%s\\n\" \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" > \"\$HOME\"/install-tl/dir.pth ; } ; }" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n" "_GETINSTALLER_() { { [ -d \"\$HOME\"/install-tl ] || mkdir -p \"\$HOME\"/install-tl ; } && { { [ -f \"\$HOME\"/install-tl/install-tl.zip ] && [ -f \"\$HOME\"/install-tl/install-tl.zip.sha512 ] || wget -c -P \"\$HOME\"/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && cd \"\$HOME\"/install-tl && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...\" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf \"%s\\n\" \"\$PWD\" && ls && printf \"%s\\n\" \"Please wait;  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" > \"\$HOME\"/install-tl/dir.pth ; } ; }" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "_PRINTHELP_() { printf '\\n%s\\n' \"The command '${0##*/} re' adds TEX environment variables automatically to BASH init files in the Arch Linux in Termux PRoot environment.  Please exit this shell and login again.  If logging in again does not add TEX environment variables, then please run command '${0##*/} re' in order to add TEX environment variables to the BASH init files in Termux PRoot.  Command '${0##*/} h' has more information.  \" ; }" >> usr/local/bin/tlmgrinstaller
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is already installed;  Exiting...\" ; } || if [ -x /usr/bin/perl ] || [ -x /usr/bin/wget ] || [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> usr/local/bin/tlmgrinstaller
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf \"%s\\n\" \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is already installed;  Exiting...\" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "[ -f \"\$HOME\"/install-tl/dir.pth ] && DIRPATH=\"\$(cat \$HOME/install-tl/dir.pth)\"  && _PRINTHELP1_() { printf '%s\\n' \"Alternatively, the command '\${DIRPATH}/install-tl' can be run again;  Exiting...  \" ; } && _PRINTHELP1_" >> usr/local/bin/tlmgrinstaller
 printf "%s\\n" "## ~/${INSTALLDIR##*/}/usr/local/bin/tlmgrinstaller FE" >> usr/local/bin/tlmgrinstaller
 chmod 755 usr/local/bin/tlmgrinstaller
