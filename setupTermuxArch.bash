@@ -11,11 +11,11 @@ printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\\n" "Signal 164 generated; " "Do NO
 fi
 if [ -w /root ]
 then
-printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 165
+printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 68
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.16
+VERSIONID=2.1.17
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -986,7 +986,7 @@ printf "\\nSetting mode to matrix.\\n"
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
-## [m[anual]]  Manual Arch Linux install, useful for resolving download issues.
+## [m[anual]]  Manual Arch Linux install, can be useful for resolving download and proot init statement issues.
 elif [[ "${1//-}" = [Mm][Ii]* ]]
 then
 printf "\\nSetting mode to manual.\\n"
@@ -1035,7 +1035,7 @@ then
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
-# Refresh modes usefull for debugging the Arch Linux in Termux PRoot refresh feature.
+# Refresh modes that can be usefull for debugging the Arch Linux in Termux PRoot refresh features.
 # elif [[ "${1//-}" = [Rr][Ee][Ff][Dd][Gg]* ]]
 # then
 # _PRPREFRESH_ "4"
