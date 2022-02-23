@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.17
+VERSIONID=2.1.18
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -196,9 +196,9 @@ break
 fi
 done
 }
-_DEPENDIFDM_() { # check if download tool is set and set install if available
-for PKG in "${!ADM[@]}" # check from available toolset and set one for install if available
-do #	check for both set DM and if tool exists on device.
+_DEPENDIFDM_() { # check if download tool is available and set for install
+for PKG in "${!ADM[@]}" # check from available toolset and set one for install
+do #	check for both set DM and if tool exists on device
 if [[ "$DM" = "$PKG" ]] && [[ ! -x $(command -v "${ADM[$PKG]}") ]]
 then	#	sets both download tool for install and exception check.
 APTIN+="$PKG "
