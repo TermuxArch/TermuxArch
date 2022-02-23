@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.15
+VERSIONID=2.1.16
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -440,7 +440,7 @@ _PREPTERMUXARCH_
 elif [[ "${2//-}" = [Mm][Ii]* ]]
 then
 shift
-printf "\\nSetting mode to manual.\\n"
+printf "%s\\n" "Setting mode to manual install."
 OPT=MANUAL
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -453,6 +453,7 @@ _OPT2_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift
+printf "%s\\n" "Setting mode to full refresh."
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -474,6 +475,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee]* ]]
 then
 shift
+printf "%s\\n" "Setting mode to refresh."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -481,6 +483,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr]* ]]
 then
 shift
+printf "%s\\n" "Setting mode to refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -504,7 +507,7 @@ _INTRO_ "$@"
 elif [[ "${3//-}" = [Mm][Ii]* ]]
 then
 shift 2
-printf "\\nSetting mode to manual.\\n"
+printf "%s\\n" "Setting mode to manual install."
 OPT=MANUAL
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -524,6 +527,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 shift 2
+printf "%s\\n" "Setting mode to full refresh."
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -538,6 +542,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee]* ]]
 then
 shift 2
+printf "%s\\n" "Setting mode to refresh."
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -545,6 +550,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr]* ]]
 then
 shift 2
+printf "%s\\n" "Setting mode to refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
