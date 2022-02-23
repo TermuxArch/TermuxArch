@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.22
+VERSIONID=2.1.23
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -1124,4 +1124,4 @@ fi
 ## USAGE[1]: 'setupTermuxArch wget sysinfo' will use wget as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
 ## USAGE[2]: 'setupTermuxArch wget manual customdir' will install the installation in customdir with wget and use manual mode during instalation.
 ## USAGE[3]: 'setupTermuxArch wget refresh customdir' will refresh this installation using wget as the download manager.
-## Very many hardy thank yous to contributors who are helping and have worked very hard, some for many long years and more to make this open source resource much better for all of us!  Please accept a wholehearted thank you, and please enjoy using TermuxArch on handheld and sim.
+## Very many hardy thank yous to contributors who are helping and have worked very hard, some for many long years and more to make this open source resource much better for all of us!  Please accept a wholehearted thank you, and please enjoy using TermuxArch on handheld and similar.
