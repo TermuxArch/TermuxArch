@@ -539,10 +539,10 @@ _PREPROOTDIR_
 _SETLANGUAGE_
 _ADDADDS_
 _DOMODdotfiles_
+printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _MAKEFINISHSETUP_
 _MAKESETUPBIN_
 _MAKESTARTBIN_
-printf '\e[0;32mGenerating dot files;  \e[1;32mDONE\n'
 _FIXOWNER_
 if [ "$ELCR" = 0 ]
 then
