@@ -572,7 +572,7 @@ if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
-curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
+curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN" || curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
 _DOMIRROR_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then

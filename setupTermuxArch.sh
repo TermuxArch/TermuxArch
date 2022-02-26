@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.36
+VERSIONID=2.1.38
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -649,9 +649,10 @@ _QEMUCFCK_
 if [[ -z "${ARCHITEC:-}" ]]
 then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86-64 exit;
+select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86-64 exit ;
 do
 CPUABI="$ARCHITECTURE"
+[ "$CPUABI" = exit ] && exit 0
 if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
 then
 ARCHITEC="arm"
@@ -663,17 +664,16 @@ then
 ARCHITEC="i386"
 elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
 then
-ARCHITEC="x86_64"
+ARCHITEC="x86-64"
 fi
 [[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI ($ARCHITEC) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI ($ARCHITEC):  " && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
 done
 else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
 fi
-INCOMM="${INCOMM//-user}"
 if ! command -v "${INCOMM//-user}"
 then
-_INST_ "${INCOMM//-user}" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
+_INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"
 fi
 }
 _QEMUCFCK_() {
