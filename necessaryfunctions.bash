@@ -492,7 +492,7 @@ printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 printf '%s\n' "cp -fr * $INSTALLDIR"
 cp -fr * "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
-printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n'
+printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 fi
 _CALLSYSTEM_
 _MD5CHECK_
