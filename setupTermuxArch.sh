@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.32
+VERSIONID=2.1.33
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -104,18 +104,18 @@ _PRINTSHA512SYSCHKER_
 fi
 }
 _CHKDWN_() {
-sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz || _PRINTSHA512SYSCHKER_
+{ sha512sum -c setupTermuxArch.sha512 1>/dev/null && printf "\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\n" " 🕛 > 🕐 " "TermuxArch download: " "OK" && bsdtar -x -p -f setupTermuxArch.tar.gz ; } || _PRINTSHA512SYSCHKER_
 }
 _CHKSELF_() {	# compare setupTermuxArch and file being used
 cd "$WFDIR"	# change directory to working file directory
-if [[ "$(<$TAMPDIR/setupTermuxArch)" != "$(<${0##*/})" ]] # differ
+if [[ "$(<"$TAMPDIR"/setupTermuxArch)" != "$(<"${0##*/}")" ]] # differ
 then	# update the working file to newest version
 ## update working file
 cd "$WDIR"
 cp "$TAMPDIR/setupTermuxArch" "$0"
 [[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n\\e[0m" "${0##*/}" "${0##*/} $ARGS" "${0##*/} $ARGS" "${0##*/} $ARGS"
 ## restart with updated version
-. $0 $ARGS
+. "$0" "$ARGS"
 fi
 cd "$TAMPDIR"
 }
@@ -246,7 +246,7 @@ printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mD
 }
 _DEPENDSBLOCK_() {
 _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
-_COREFILESDO_
+_COREFILESDO_ "$@"
 }
 _DWNL_() { # download TermuxArch from Github
 FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
@@ -318,16 +318,15 @@ STRNGB="\\e[1;38;5;146m%s\\e[0m\\n"
 STRNGC="\\e[1;38;5;124m%s\\e[0m\\n"
 if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
-au ${PKGS[@]} && printf "$STRNGB" "$STRING1" || printf "$STRNGC" "$STRING2"
-# au "${PKGS[@]}" || printf ""$STRNGC "$STRING2"
+au "${PKGS[@]}" && printf '%s' "$STRNGB $STRING1" || printf '%s' "$STRNGC $STRING2"
 elif [[ "$COMMANDIF" = pkg ]]
 then	# use 'pkg' to install missing packages
-pkg install ${PKGS[@]} && printf "$STRNGB" "$STRING1" || printf "$STRNGC" "$STRING2"
+pkg install "${PKGS[@]}" && printf '%s' "$STRNGB $STRING1" || printf '%s' "$STRNGC $STRING2"
 elif [[ "$COMMANDIF" = apt ]]
 then	# use 'apt' to install missing packages
-apt install "${PKGS[@]}" --yes && printf "$STRNGC" "$STRING1" || printf "$STRNGC" "$STRING2"
+apt install "${PKGS[@]}" --yes && printf '%s' "$STRNGC $STRING1" || printf '%s' "$STRNGC $STRING2"
 else
-printf ""$STRNGC "$STRING1" && printf "$STRNGC" "$STRING2"
+printf '%s' "$STRNGC $STRING1" && printf '%s' "$STRNGC $STRING2"
 fi
 }
 _INTROSYSINFO_() {
@@ -574,7 +573,7 @@ _PREPTMPDIR_ || _PSGI1ESTRING_ "_PREPTMPDIR_ _PREPTERMUXARCH_ ${0##*/}"
 _EDITORCHOOSER_
 }
 _PRINTERRORMSG_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1'; Cannot complete task; " "Continuing..."
+printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '$1'; Cannot complete task; " "Continuing..."
 printf "\\e[1;34mIf you find improvements for \\e[0;34m'%s' \\e[1;34mplease open an issue and an accompanying pull request.  A pull request can assist in shedding more light on an issue.\\e[0m\\n\\n" "${0##*/}"
 }
 _PRPREFRESH_() {
@@ -622,7 +621,7 @@ _PRINTINTRO_() {
 printf "\\n\\e[0;34m 🕛 > 🕛 \\e[1;34mＴｅｒｍｕｘＡｒｃｈ %s $1\\e[1;32m$2\\e[1;34m$3.  You can use '!!' to run this BASH script again with options.  Please check the wireless connection if you do not see one o'clock 🕐 below and ensure background data is not restricted.  The command \\e[1;32mbash %s help \\e[1;34mhas additional information about \\e[1;32m%s\\e[1;34m.  \\e[0;34m" "version $VERSIONID" "${0##*/}" "${0##*/}"
 }
 _PSGI1ESTRING_() {	# print signal generated in arg 1 format
-printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\e[0;32m%s\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'setupTermuxArch b'" "'setupTermuxArch help'" "'${0##*/}'"
+printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;34mExecuting \\e[0;32m%s\\e[0;34m in the native shell once the installation and configuration process completes will attempt to finish the autoconfiguration and installation if the installation and configuration processes were not completely successful.  Should better solutions for \\e[0;32m%s\\e[0;34m be found, please open an issue and accompanying pull request if possible.\\nThe entire script can be reviewed by creating a \\e[0;32m%s\\e[0;34m directory with the command \\e[0;32m%s\\e[0;34m which can be used to access the entire installation script.  This option does NOT configure and install the root file system.  This command transfers the entire script into the home directory for hacking, modification and review.  The command \\e[0;32m%s\\e[0;34m has more information about how to use use \\e[0;32m%s\\e[0;34m.\\e[0m\\n" "'$1'" "'bash ${0##*/} refresh'" "'${0##*/}'" "'~/TermuxArchBloom/'" "'${0##*/} b'" "'${0##*/} help'" "'${0##*/}'"
 }
 _QEMU_() {
 _INST_() { # check for neccessary commands
@@ -742,7 +741,7 @@ _DOEXONSTGE_() {	# remove empty storage directories
 printf "\\e[0;35m"
 for EXONSTGEM in ${EXONSTGE[@]:-}
 do
-find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" || (printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206)
+{ find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" ; } || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
 done
 printf "\\e[1;30m"
 }
@@ -807,9 +806,9 @@ COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
 if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
 then
-curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" || _PSGI1ESTRING_ "curl SCMD to HOME/bin setupTermuxArch ${0##*/}"
+{ curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$HOME/bin/$SCMD" && chmod 700 "$HOME/bin/$SCMD" ; } || _PSGI1ESTRING_ "curl SCMD to HOME/bin setupTermuxArch ${0##*/}"
 else
-curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" || _PSGI1ESTRING_ "curl SCMD to PREFIX/bin setupTermuxArch ${0##*/}"
+{ curl -L "https://raw.githubusercontent.com/WAE/au/master/$SCMD" -o "$PREFIX/bin/$SCMD" && chmod 700 "$PREFIX/bin/$SCMD" ; } || _PSGI1ESTRING_ "curl SCMD to PREFIX/bin setupTermuxArch ${0##*/}"
 fi
 }
 SCMD="au"
@@ -901,7 +900,7 @@ _INTRO_ "$@"
 elif [[ "${1//-}" = [Bb][Ll]* ]]
 then
 printf "\\nSetting mode to bloom. \\n"
-_BLOOMSKEL_
+_BLOOMSKEL_ "$@"
 ## [b[loom]]  Create a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb]* ]]
 then
