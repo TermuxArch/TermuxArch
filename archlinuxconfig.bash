@@ -1301,7 +1301,7 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur$3 && _PREPFILEFCTN_ $1 $2  usr/local/bin/makeaur$3 && chmod 755 usr/local/bin/makeaur$3 ; }
+_PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages ; }
 
@@ -1612,7 +1612,7 @@ fi
 }
 
 _ADDprofile_() {
-[ -e "$HOME"/.profile ] && ([ -e root/.profile ] && _DOTHRF_ "root/.profile") && (grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile) ||:
+[ -e "$HOME"/.profile ] && { [ -e root/.profile ] && _DOTHRF_ "root/.profile" ; } && grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile ||:
 :>root/.profile
 }
 
