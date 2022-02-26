@@ -672,7 +672,8 @@ sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 
 _TOUCHUPSYS_() {
 _ADDmotd_
-_PREPPACMANCONF_
+_PREPPACMANCONF_ || :
+echo echo
 _SETLOCALE_
 _RUNFINISHSETUP_
 rm -f root/bin/"$BINFNSTP"

@@ -90,7 +90,7 @@ exit
 
 _FIXOWNER_() { # fix owner of INSTALLDIR/home/USER, PR9 by @petkar
 _DOFIXOWNER_() {
-printf "\\e[1;32m%s\\e[0m\\n" "Adjusting ownership and permissions..."
+printf "\\e[0;32m%s" "Adjusting ownership and permissions:  "
 FXARR="$(ls "$INSTALLDIR/home")"
 for USER in ${FXARR[@]}
 do
@@ -100,6 +100,7 @@ $STARTBIN c "chmod 777 $INSTALLDIR/home/$USER"
 $STARTBIN c "chown -R $USER:$USER $INSTALLDIR/home/$USER"
 fi
 done
+printf "\\e[0;32m%s\\e[0m\\n" "DONE"
 }
 _DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
