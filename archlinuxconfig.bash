@@ -884,9 +884,6 @@ else
 printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
 fi
 done
-_PMUEOEP1bad_() {
-{ set +x ; [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ] && printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\" ; } && { printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" && pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ; }
-}
 
 _PMUEOEP1_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ]
@@ -936,9 +933,7 @@ printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command 
 fi
 }
 
-echo ech0
 _PMUEOEP1_ 1 1
-echo ech1
 _KEYSGENMSG_
 printf \"\\e[1;32m==> \\e[1;37mRunning %s \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\" \"\${0##*/}\"
 pacman -Ss keyring --color=always || _PRTERROR_
