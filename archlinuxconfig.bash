@@ -966,7 +966,7 @@ rm -f /etc/ssl/certs/ca-certificates.crt
 sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 pacman -Sy || pacman -Sy || sudo pacman -Sy
-pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm"
+pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm || sudo pacman -Su --needed --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
@@ -1065,7 +1065,7 @@ _GENEN_ ; kill \$! &
 _KEYSGENMSG_
 _DOPSY_() {
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Sy\\\\e[1;37m...\\\\n"
-$ECHOEXEC $ECHOSYNC pacman -Sy || $ECHOEXEC $ECHOSYNC pacman -Sy
+$ECHOEXEC $ECHOSYNC pacman -Sy || $ECHOEXEC $ECHOSYNC pacman -Sy || sudo $ECHOEXEC $ECHOSYNC pacman -Sy
 }
 _DOPSY_ || _DOPSY_ || _PRTERROR_
 _DOKPI_() {
