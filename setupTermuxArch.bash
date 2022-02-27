@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.38
+VERSIONID=2.1.40
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -626,11 +626,13 @@ printf "\\e[1;33mSIGNAL GENERATED in %s\\e[1;34m; \\e[1;32mCONTINUING...  \\e[0;
 _QEMU_() {
 _INST_() { # check for neccessary commands
 COMMS="$1"
-COMMANDR="$(command -v au)" || (printf "%s\\n\\n" "$STRING1")
+[ "$COMMS" = "qemu-user-x86-64"  ] && COMMS="qemu-x86_64"
+COMMANDR="$(command -v au)" || printf "%s\\n\\n" "$STRING1"
 COMMANDIF="${COMMANDR##*/}"
-STRING1="COMMAND \`au\` enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING2="Cannot update ~/${0##*/} prerequisite: Continuing..."
 PKG="$2"
+[ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86-64"
 _INPKGS_() {
 printf "%s\\n" "Beginning qemu '$ARCHITEC' setup:"
 if [ "$COMMANDIF" = au ]
@@ -1023,6 +1025,14 @@ printf "\\nSetting mode to quick purge.\\n"
 _ARG2DIR_ "$@"
 _RMARCHQ_
 ## [q[emu] [m[anual]] [i[nstall]|r[e[f[resh]]]] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
+elif [[ "${1//-}" = [Qq][Mm][Ii]* ]]
+then
+printf "\\nSetting mode to manual.\\n"
+OPT=MANUAL
+_OPT1_ "$@"
+_QEMU_
+_ARG2DIR_ "$@"
+_INTRO_ "$@"
 elif [[ "${1//-}" = [Qq]* ]]
 then
 printf "\\nSetting mode to QEMU [install|refresh] [customdir].\\n"

@@ -885,7 +885,7 @@ printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
 fi
 done
 _PMUEOEP1bad_() {
-	{ set +x ; [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ] && printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\" ; } && { printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" && pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ; }
+{ set +x ; [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ] && printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\" ; } && { printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" && pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ; }
 }
 
 _PMUEOEP1_() {
@@ -985,7 +985,7 @@ printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring 
 }
 
 _GENEN_() {
-printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m" "Generating entropy on device;  " "Continuing...  "
+printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0m\\\\n\\\\e[0m" "Generating entropy on device;  " "Please wait...  "
 GENENN=16
 for INT in \$(seq 1 \$GENENN); do
 nice -n 20 ls -alR /usr >/dev/null &
