@@ -100,7 +100,7 @@ _ADDmotd_
 _ADDmoto_
 _ADDt_
 _ADDtlmgrinstaller_
-_ADDtop_
+[ -f usr/local/bin/top ] ||  _ADDtop_
 _ADDthstartarch_
 _ADDtimings_
 # _ADDtools_

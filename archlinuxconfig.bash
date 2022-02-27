@@ -867,7 +867,7 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="_CURLDWND_() { { [ \"\${CURLDWNDVAR_:-}\" = 0 ] && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } || { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" || { CURLDWNDVAR_=0 && printf '%s\\n' \"Running command 'curl --insecure';  Continuing...\" ; } ; } ; }
+X86INT="_CURLDWND_() { { [ \"\${CURLDWNDVAR_:-}\" = 0 ] && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } || { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" || { CURLDWNDVAR_=0 && printf '%s\\n' \"Running command 'curl --insecure';  Continuing...\" && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } ; } ; }
 
 UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
 
@@ -932,7 +932,7 @@ else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 }
-
+sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 _PMUEOEP1_ 1 1
 _KEYSGENMSG_
 printf \"\\e[1;32m==> \\e[1;37mRunning %s \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\" \"\${0##*/}\"
@@ -953,19 +953,21 @@ else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
-pacman -Rdd libutil-linux --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --noconfirm\"
-pacman -S curl glibc gpgme libarchive pacman --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --noconfirm ; Starting full system upgrade\"
+pacman -Rdd libutil-linux --needed --noconfirm || _PRTERROR_
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm\"
+pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm || _PRTERROR_
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --needed --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
-pacman -Su --noconfirm || pacman -Su --noconfirm"
+sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Required/' /etc/pacman.conf
+sed -i '/^SigLevel/s/.*/SigLevel    = Required/' /etc/pacman.conf
+pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm"
 X86IPT=" "
 X86INK=":"
 else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
 X86INT=":"
 X86IPT="(1/2)"
-X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\"
-pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --noconfirm --color=always
+X86INK="printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -S %s --needed --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\"
+pacman -S \"\${KEYRINGS[@]}\" --needed --noconfirm --color=always || pacman -S \"\${KEYRINGS[@]}\" --needed --noconfirm --color=always
 printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring master key\\\\e[0;34m appears on the screen, the installation process can be accelerated.  The system desires a lot of entropy at this part of the install procedure.  To generate as much entropy as possible quickly, watch and listen to a file on your device.  \\\\n\\\\nThe program \\\\e[1;32mpacman-key\\\\e[0;34m will want as much entropy as possible when generating keys.  Entropy is also created through tapping, sliding, one, two and more fingers tapping with short and long taps.  When \\\\e[1;37mAppending keys from archlinux.gpg\\\\e[0;34m appears on the screen, use any of these simple methods to accelerate the installation process if it is stalled.  Put even simpler, just do something on device.  Browsing files will create entropy on device.  Slowly swiveling the device in space and time will accelerate the installation process.  This method alone might not generate enough entropy (a measure of randomness in a closed system) for the process to complete quickly.  Use \\\\e[1;32mbash ~%s/bin/we \\\\e[0;34min a new Termux session to watch entropy on device.\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n\" \"$DARCH\"
 $ECHOEXEC pacman-key --populate
 printf \"\\\\e[1;32m==>\\\\e[1;37m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n\"
@@ -1006,6 +1008,13 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 
 trap _TRPET_ EXIT
 ## keys begin ##################################################################
+if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln.lock ]
+then
+cd root/bin/ || exit 196
+{ printf 'Creating symlinks to '/system/bin/toybox' in '%s';  Please wait a moment...\n' \"\$PWD\" && set -x ; for STOYTOOL in \$(/system/bin/toybox) ; do ln -fs /system/bin/toybox "\$STOYTOOL" ; done && set -x && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln.lock ; printf 'Creating symlinks to '/system/bin/toybox' in '%s';  DONE\n' \"\$PWD\" ; } || _PRTERROR_
+rm -f cat
+cd \"\$INSTALLDIR\" || exit 196
+fi
 if [[ -z "\${1:-}" ]]
 then
 KEYRINGS[0]="archlinux-keyring"
