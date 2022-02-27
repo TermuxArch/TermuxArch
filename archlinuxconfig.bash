@@ -1015,7 +1015,7 @@ trap _TRPET_ EXIT
 
 _TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub/sh-spinner and https://github.com/vozdev/termux-setup
 INCREMNT=1
-SPINNERT="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+SPINNERT="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 SPINDLAY="0.0\$(shuf -i 1-4 -n 1)"
 printf "\\e[?25l"
 while :
@@ -1033,7 +1033,7 @@ if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxl
 then
 cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
 {
-printf 'Creating symlinks in '%s' to '/system/bin/toybox';  BEGUN\n' "\$PWD"
+printf 'Creating symlinks in '%s' to '/system/bin/toybox';  BEGUN...  \n' "\$PWD"
 for TOYBOXTOOL in \$(/system/bin/toybox)
 do
 if [ "\$TOYBOXTOOL" = cat ] || [ "\$TOYBOXTOOL" = uname ]
@@ -1042,7 +1042,7 @@ then
 else
 _TASPINNER_ & ln -fs /system/bin/toybox "\$TOYBOXTOOL" ; kill \$! || _PRTERROR_
 fi
-done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE\n' "\$PWD" ; } || _PRTERROR_
+done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
 cd "$INSTALLDIR" || exit 196
 fi
 if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
