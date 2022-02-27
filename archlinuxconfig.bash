@@ -1033,7 +1033,7 @@ if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxl
 then
 cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
 {
-printf 'Creating symlinks in '%s' to '/system/bin/toybox';  BEGUN...  \n' "\$PWD"
+printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 for TOYBOXTOOL in \$(/system/bin/toybox)
 do
 if [ "\$TOYBOXTOOL" = cat ] || [ "\$TOYBOXTOOL" = uname ]
