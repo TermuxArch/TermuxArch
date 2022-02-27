@@ -964,6 +964,7 @@ printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0#
 rm -f /etc/ssl/certs/ca-certificates.crt
 sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
+pacman -Sy || pacman -Sy
 pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm"
 X86IPT=" "
 X86INK=":"
