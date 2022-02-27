@@ -1015,12 +1015,12 @@ trap _TRPET_ EXIT
 
 _TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub/sh-spinner and https://github.com/vozdev/termux-setup
 INCREMNT=1
-SPINNERL="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
+SPINNERT="🌑🌒🌓🌔🌕🌖🌗🌘"
 SPINDLAY="0.\$(shuf -i 1-4 -n 1)"
 printf "\\e[?25l"
 while :
 do
-printf "  \\b\\b\\b%s\\b" "\${SPINNERL:INCREMNT++%\${#SPINNERL}:1}"
+printf "  \\b\\b\\b%s\\b" "\${SPINNERT:INCREMNT++%\${#SPINNERT}:1}"
 sleep "\$SPINDLAY"
 done
 }
