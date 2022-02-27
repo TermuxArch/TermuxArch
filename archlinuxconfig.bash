@@ -926,6 +926,7 @@ printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command 
 else
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\"
 pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock
+fi
 }
 
 _PMUEOEP5_() {
@@ -1017,7 +1018,6 @@ _TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub
 INCREMNT=1
 SPINNERT="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
 SPINDLAY="0.0\$(shuf -i 1-4 -n 1)"
-printf "\\e[?25l"
 while :
 do
 printf "  \\b\\b\\b%s\\b" "\${SPINNERT:INCREMNT++%\${#SPINNERT}:1}"
@@ -1093,7 +1093,6 @@ fi
 }
 _DOKPI_ || _DOKPI_
 umask 000
-chmod 4777 /usr/bin/newgidmap
 chmod 4777 /usr/bin/newuidmap
 chmod 755 /etc/pacman.d/gnupg
 umask 022
