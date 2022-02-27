@@ -1011,19 +1011,7 @@ printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\${KEYRINGS[@]}"
 }
-
 trap _TRPET_ EXIT
-
-_TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub/sh-spinner and https://github.com/vozdev/termux-setup
-INCREMNT=1
-SPINNERT="🕛🕐🕑🕓🕔🕕🕖🕗🕘🕙🕚"
-SPINDLAY="0.0\$(shuf -i 1-4 -n 1)"
-while :
-do
-printf "  \\b\\b\\b%s\\b" "\${SPINNERT:INCREMNT++%\${#SPINNERT}:1}"
-sleep "\$SPINDLAY"
-done
-}
 
 ## keys begin ##################################################################
 [ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /etc/pacman.conf.bkp
@@ -1036,11 +1024,9 @@ cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
 printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 for TOYBOXTOOL in \$(/system/bin/toybox)
 do
-if [ "\$TOYBOXTOOL" = cat ] || [ "\$TOYBOXTOOL" = uname ]
+if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ]
 then
-:
-else
-_TASPINNER_ & ln -fs /system/bin/toybox "\$TOYBOXTOOL" ; kill \$! || _PRTERROR_
+ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
 fi
 done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
 cd "$INSTALLDIR" || exit 196
