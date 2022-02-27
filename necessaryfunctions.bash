@@ -376,8 +376,8 @@ printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n
 ~ $ startarch r dash
 ~ $ startarch+x86 r csh
 ~ $ startarch+x86 r ksh
-~ $ startarch+x86+64 r sh
-~ $ startarch+x86+64 r zsh
+~ $ startarch+x864 r sh
+~ $ startarch+x864 r zsh
 
 Variable PROOTSTMNT has more information about PRoot init statement options 'grep -h PROOTSTMNT ~/TermuxArchBloom/* | grep \=' if you wish to modify the PRoot init statement extensively.  The PRoot init statement can also be modified on-the-fly simply by using the /var/binds/ directory once logged into the Arch Linux in Termux PRoot environment."
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\\n\\e[0m" "$STARTBIN s[u] user command" "  executes commands as Arch Linux user from the Termux shell.  This option is preferred when installing software from a user account with the 'sudo' command, and when using commands such as 'makeaurhelpers', 'makepkg' and 'makeauryay'.  Quoting multiple commands can assit when passing multiple arguments:  " "$STARTBIN s user 'whoami ; cat -n /etc/pacman.d/mirrorlist'" ".  Please use " "$STARTBIN c 'addauser user'" " first to create a login and the login's home directory."
@@ -673,7 +673,6 @@ sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen
 _TOUCHUPSYS_() {
 _ADDmotd_
 _PREPPACMANCONF_ || :
-echo echo
 _SETLOCALE_
 _RUNFINISHSETUP_
 rm -f root/bin/"$BINFNSTP"

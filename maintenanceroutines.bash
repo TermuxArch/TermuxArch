@@ -27,7 +27,7 @@ _DOFUNLCR2_() {
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$USER"
 _BKPTHF_() { # backup the user files
 [[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
-cd "$INSTALLDIR/home/$USER"
+cd "$INSTALLDIR/home/$USER" || exit 169
 [[ -f $1 ]] && printf "\\e[1;32m==>\\e[0;32m %s" "File '/${INSTALLDIR##*/}/home/$USER/$1' backed up to /${INSTALLDIR##*/}/var/backups/${INSTALLDIR##*/}/home/$USER/$1.$SDATE.bkp" && cp "$1" "$BKPDIR/$1.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$1' if found maintenanceroutines.bash ${0##*/}"
 }
 if [ -d "$INSTALLDIR/home" ]
@@ -44,7 +44,7 @@ printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "/${INSTAL
 done
 fi
 fi
-cd "$INSTALLDIR/root"
+cd "$INSTALLDIR/root" || exit 169
 }
 
 _DOTHRF_() { # do the root user files
@@ -109,7 +109,8 @@ _REFRESHSYS_() { # refresh installation
 printf '\033]2; setupTermuxArch refresh 📲 \007'
 _NAMESTARTARCH_
 _SPACEINFO_
-cd "$INSTALLDIR"
+cd "$INSTALLDIR" || exit 169
+_PR00TSTRING_
 _SETLANGUAGE_
 _PREPROOTDIR_ || _PSGI1ESTRING_ "_PREPROOTDIR_ _REFRESHSYS_ maintenanceroutines.bash ${0##*/}"
 _ADDADDS_

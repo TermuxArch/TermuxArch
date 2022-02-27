@@ -472,7 +472,7 @@ _ADDcdtmp_() {
 _CFLHD_ usr/local/bin/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 cat > usr/local/bin/cdtmp <<- EOM
 #!/usr/bin/env bash
-cd "$TMPDIR" && pwd
+cd "$TMPDIR" && pwd || exit 169
 ## ~/${INSTALLDIR##*/}/usr/local/bin/cdtmp FE
 EOM
 chmod 755 usr/local/bin/cdtmp
@@ -771,7 +771,7 @@ _GCLONEMAIN_() {
 BASENAME="\${*%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 REPONAME="\${BASENAME##*/}" # strip before last slash
-( [ -e "\$REPONAME-master" ] && cd "\$REPONAME-master" ) || ( ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-main" ) || ( [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ) )
+[ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 169 : } || { ( [ -e "\$REPONAME-main" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip" ) && { cd "\$REPONAME-main" || exit 169 : } ; } || { [ -e "\$REPONAME-master" ] || ( wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ) && cd "\$REPONAME-master" ; }
 git init
 git remote add origin "\$@" ||:
 git checkout -b main || git checkout main
@@ -867,26 +867,42 @@ EOM
 _ADDkeys_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then	# set customized commands for Arch Linux 32 architecture
-X86INT="UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+X86INT="_CURLDWND_() { { [ \${CURLDWNDVAR_:-} = 0 ] && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG.sig -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ; } || { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG.sig -OL https://archive.archlinux32.org/packages/\$UPGDPAKG || { CURLDWNDVAR_=0 && printf '%s\\n' \"Using insecure download.\" ; } ; } ; }
+
+UPGDPKGS=(\"a/archlinux-keyring/archlinux-keyring-20191219-1.0-any.pkg.tar.xz\" \"a/archlinux32-keyring/archlinux32-keyring-20191230-1.0-any.pkg.tar.xz\" \"g/glibc/glibc-2.28-1.1-i686.pkg.tar.xz\" \"l/linux-api-headers/linux-api-headers-5.3.1-2.0-any.pkg.tar.xz\" \"l/libarchive/libarchive-3.3.3-1.0-i686.pkg.tar.xz\" \"o/openssl/openssl-1.1.1.d-2.0-i686.pkg.tar.xz\" \"p/pacman/pacman-5.2.1-1.4-i686.pkg.tar.xz\" \"z/zstd/zstd-1.4.4-1.0-i686.pkg.tar.xz\" \"/c/coreutils/coreutils-8.31-3.0-i686.pkg.tar.xz\" \"w/which/which-2.21-5.0-i686.pkg.tar.xz\" \"g/grep/grep-3.3-3.0-i686.pkg.tar.xz\" \"g/gzip/gzip-1.10-3.0-i686.pkg.tar.xz\" \"l/less/less-551-3.0-i686.pkg.tar.xz\" \"s/sed/sed-4.7-3.0-i686.pkg.tar.xz\" \"u/unzip/unzip-6.0-13.1-i686.pkg.tar.xz\")
+
 cp -f /usr/lib/{libcrypto.so.1.0.0,libssl.so.1.0.0} \$TMPDIR
 cd /var/cache/pacman/pkg/ || exit 196
-_DWLDFILE_() { printf \"%s\\n\\n\" \"Downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" && { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG || curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\$UPGDPAKG ; } && printf \"%s\\n\\n\" \"Finished downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" || _PRTERROR_ ; }
+_DWLDFILE_() { printf \"%s\\n\\n\" \"Downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" && _CURLDWND_ && printf \"%s\\n\\n\" \"Finished downloading file '\${UPGDPAKG##*/}' from https://archive.archlinux32.org.\" || _PRTERROR_ ; }
 printf \"%s\\n\" \"Downloading files: '\$(printf \"%s \" \"\${UPGDPKGS[@]##*/}\")' from https://archive.archlinux32.org.\"
 for UPGDPAKG in \${UPGDPKGS[@]}
 do
-if [[ ! -f \"\${UPGDPAKG##*/}\" ]]
+if [[ ! -f /var/cache/pacman/pkg/\"\${UPGDPAKG##*/}\" ]]
 then
 _DWLDFILE_ || _DWLDFILE_
 else
 printf \"%s\\n\" \"File '\${UPGDPAKG##*/}' is already downloaded.\"
 fi
 done
+_PMUEOEP1bad_() {
+	{ set +x ; [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ] && printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\" ; } && { printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" && pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ; }
+}
 
-_PMUEOEP2_() {
+_PMUEOEP1_() {
+if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ]
+then
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\"  --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock"
+else
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+fi
+}
+
+_PMUEOEP2_() { # depreciated
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock" ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock"
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -896,7 +912,7 @@ _PMUEOEP3_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock" ]
 then
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\"
-pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock"
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -905,7 +921,7 @@ fi
 _PMUEOEP4_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock"
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
@@ -914,20 +930,22 @@ fi
 _PMUEOEP5_() {
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U \"\${UPGDPKGS[\$1]##*/}\" \"\${UPGDPKGS[\$2]##*/}\" \"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 }
 
-_PMUEOEP2_ 0 1 1
+echo ech0
+_PMUEOEP1_ 1 1
+echo ech1
 _KEYSGENMSG_
-printf \"\\e[1;32m==> \\e[1;37mRunning \${0##*/} \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\"
+printf \"\\e[1;32m==> \\e[1;37mRunning %s \\e[1;32mpacman -Ss keyring --color=always\\e[1;37m...\\n\" \"\${0##*/}\"
 pacman -Ss keyring --color=always || _PRTERROR_
 _PMUEOEP5_ 9 10 11 12 13 2
 _PMUEOEP4_ 2 3 7 8 3
 _PMUEOEP3_ 4 5 6 4
-mv -f \$TMPDIR/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
+mv -f \"\$TMPDIR\"/{libcrypto.so.1.0.0,libssl.so.1.0.0} /usr/lib/
 sed -i '/^Architecture/s/.*/Architecture = i686/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
@@ -1046,7 +1064,7 @@ fi
 }
 _DOPP_ || _DOPP_
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n"
-pacman -Ss keyring --color=always || _PRTERROR_
+pacman -Ss keyring --color=always || pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT
 $X86INK
 ## ~/${INSTALLDIR##*/}/usr/local/bin/keys FE
