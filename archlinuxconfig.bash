@@ -936,7 +936,6 @@ else
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
 fi
 }
-
 { [ -x /system/bin/sed ] && /system/bin/sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf ; } || sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 _PMUEOEP1_ 1 1
 _KEYSGENMSG_
@@ -963,8 +962,8 @@ printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0#
 pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm || _PRTERROR_
 printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [7/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --needed --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
-sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Required/' /etc/pacman.conf
-sed -i '/^SigLevel/s/.*/SigLevel    = Required/' /etc/pacman.conf
+sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
+sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 pacman -Su --needed --noconfirm || pacman -Su --needed --noconfirm"
 X86IPT=" "
 X86INK=":"
@@ -1026,6 +1025,7 @@ done
 }
 
 ## keys begin ##################################################################
+[ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /etc/pacman.conf.bkp
 [ -z "\${USER:-}" ] && USER=root
 KEYSUNAM_="\$(uname -m)"
 if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
