@@ -1008,12 +1008,13 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 
 trap _TRPET_ EXIT
 ## keys begin ##################################################################
-if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln.lock ]
+[ -z "\${USER:-}" ] && USER=root
+if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
 then
-cd root/bin/ || exit 196
-{ printf 'Creating symlinks to '/system/bin/toybox' in '%s';  Please wait a moment...\n' \"\$PWD\" && set -x ; for STOYTOOL in \$(/system/bin/toybox) ; do ln -fs /system/bin/toybox "\$STOYTOOL" ; done && set -x && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln.lock ; printf 'Creating symlinks to '/system/bin/toybox' in '%s';  DONE\n' \"\$PWD\" ; } || _PRTERROR_
+cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
+{ printf 'Creating symlinks to '/system/bin/toybox' in '%s';  Please wait a moment...\n' "\$PWD" && set -x ; for STOYTOOL in \$(/system/bin/toybox) ; do ln -fs /system/bin/toybox "\$STOYTOOL" ; done && set +x && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln.lock ; printf 'Creating symlinks to '/system/bin/toybox' in '%s';  DONE\n' "\$PWD" ; } || _PRTERROR_
 rm -f cat
-cd \"\$INSTALLDIR\" || exit 196
+cd "$INSTALLDIR" || exit 196
 fi
 if [[ -z "\${1:-}" ]]
 then
