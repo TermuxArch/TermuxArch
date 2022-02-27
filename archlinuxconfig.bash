@@ -886,52 +886,53 @@ fi
 done
 
 _PMUEOEP1_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ]
+if [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\"
-pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\"  --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep1.lock"
 fi
 }
 
 _PMUEOEP2_() { # depreciated
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock" ]
+if [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\"
-pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep2.lock"
 fi
 }
 
 _PMUEOEP3_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock" ]
+if [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\"
-pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep3.lock"
 fi
 }
 
 _PMUEOEP4_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock" ]
+if [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep4.lock"
 fi
 }
 
 _PMUEOEP5_() {
-if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock" ]
+if [ -f "/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" ; pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kpmueoep5.lock"
 fi
 }
+
 { [ -x /system/bin/sed ] && /system/bin/sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf ; } || sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 _PMUEOEP1_ 1 1
 _KEYSGENMSG_
@@ -946,11 +947,11 @@ sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
 if [ ! -f "/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\"
 _KEYSGENMSG_
-{ pacman -S archlinux-keyring archlinux32-keyring --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ; } || _PRTERROR_
+{ pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm && :>"/var/run/lock/${INSTALLDIR##*/}/kkeyring.lock" ; } || _PRTERROR_
 else
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --noconfirm\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
 sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf
 pacman -Rdd libutil-linux --noconfirm || _PRTERROR_
@@ -1009,6 +1010,7 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 trap _TRPET_ EXIT
 ## keys begin ##################################################################
 [ -z "\${USER:-}" ] && USER=root
+KEYSUNAM_="\$(uname -m)"
 # if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
 if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
 then
@@ -1024,7 +1026,7 @@ fi
 done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ; printf 'Creating symlinks to '/system/bin/toybox' in '%s';  DONE\n' "\$PWD" ; } || _PRTERROR_
 cd "$INSTALLDIR" || exit 196
 fi
-if [[ -z "\${1:-}" ]]
+if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinuxarm-keyring"
@@ -1040,6 +1042,16 @@ KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
 else
 KEYRINGS=""
+fi
+if [[ "\$KEYSUNAM_" = x86 ]]
+then
+KEYRINGS[0]="archlinux-keyring"
+KEYRINGS[1]="archlinux32-keyring"
+KEYRINGS[2]="ca-certificates-utils"
+elif [[ "\$KEYSUNAM_" = x86-64 ]]
+then
+KEYRINGS[0]="archlinux-keyring"
+KEYRINGS[1]="ca-certificates-utils"
 fi
 ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\${0##*/} \$ARGS'"
