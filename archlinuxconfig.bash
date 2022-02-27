@@ -1015,7 +1015,7 @@ trap _TRPET_ EXIT
 
 _TASPINNER_() {	# print spinner; derivation based on https://github.com/ringohub/sh-spinner and https://github.com/vozdev/termux-setup
 INCREMNT=1
-SPINNERT="🌑🌒🌓🌔🌕🌖🌗🌘"
+SPINNERT="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
 SPINDLAY="0.\$(shuf -i 1-4 -n 1)"
 printf "\\e[?25l"
 while :
@@ -1039,7 +1039,7 @@ if [ "\$TOYBOXTOOL" = cat ] || [ "\$TOYBOXTOOL" = uname ]
 then
 :
 else
-_TASPINNER_ clock & ln -fs /system/bin/toybox "\$TOYBOXTOOL" ; kill \$! || _PRTERROR_
+_TASPINNER_ & ln -fs /system/bin/toybox "\$TOYBOXTOOL" ; kill \$! || _PRTERROR_
 fi
 done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE\n' "\$PWD" ; } || _PRTERROR_
 cd "$INSTALLDIR" || exit 196
