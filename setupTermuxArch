@@ -15,7 +15,7 @@ printf "\n\e[1;48;5;138mScript %s\e[0m\n\n" "${0##*/} WARNING:  Please run '${0#
 fi
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.46
+VERSIONID=2.1.47
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -1033,11 +1033,12 @@ _OPT1_ "$@"
 _QEMU_
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
-elif [[ "${1//-}" = [Qq]* ]]
+elif [[ "${1//-}" = [Qq]* ]] || [[ "${1//-}" = [Qq][Mm][Ii]* ]]
 then
 printf "\\nSetting mode to QEMU [install|refresh] [customdir].\\n"
 _OPT1_ "$@"
 _QEMU_
+_ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [refresh [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
