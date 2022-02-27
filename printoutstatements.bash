@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.1.73"
+FLHDR1[5]="VERSIONID=2.1.74"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -184,7 +184,7 @@ exit 203
 }
 
 _PRINTKEEP_() {
-printf "\\n\\e[0;34m 🕛 > 🕗 \\e[1;34mNot removing files after checking download integrity with md5sum.  "
+printf "\\n\\e[0;34m 🕛 > 🕗 \\e[1;34mNot removing files after checking download integrity with md5sum.  \\n"
 }
 
 _PRINTMD5CHECK_() {
