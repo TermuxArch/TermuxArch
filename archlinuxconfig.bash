@@ -754,7 +754,7 @@ printf "%s\\n" "Getting branch \$RBRANCH from git repository \$@..."
 { cd "\$WDIR_" && git clone --depth 1 --branch \$RBRANCH --single-branch "\$@"
 }
 }
-[ -d "\${@##*/}" ] && printf "Directory %s exits;  Exiting...\\n" "\${@##*/}" && exit 
+[ -d "\${@##*/}" ] && printf "Directory %s exits;  Exiting...\\n" "\${@##*/}" && exit
 if [[ ! -x "\$(command -v git)" ]]
 then
 { pc git || pci git ; }
