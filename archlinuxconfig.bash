@@ -116,6 +116,7 @@ else
 printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" >> root/.bash_profile
 fi
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
+printf "%s\\n" "[[ -f \"\$HOME\"/.profile ]] && . \"\$HOME\"/.profile " >> root/.bash_profile
 cat >> root/.bash_profile <<- EOM
 if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
 then
@@ -296,6 +297,7 @@ alias UM='uname -m'
 alias Um='uname -m'
 alias um='uname -m'
 EOM
+printf "%s\\n" "export TMPDIR=\"/tmp\"" >> root/.bashrc
 [ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
 cat >> root/.bashrc <<- EOM
 ## .bashrc FE
@@ -1658,6 +1660,7 @@ fi
 }
 
 _ADDprofile_() {
+printf "%s\\n" "export TMPDIR=\"/tmp\"" >> root/.profile
 [ -e "$HOME"/.profile ] && { [ -e root/.profile ] && _DOTHRF_ "root/.profile" ; } && grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile ||:
 :>root/.profile
 }
