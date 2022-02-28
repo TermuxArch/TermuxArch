@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.85
+VERSIONID=2.1.86
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -24,7 +24,7 @@ exit 201
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
-rm -rf "$TAMPDIR"
+rm -rf "${TAMPDIR:-}"
 sleep 0.04
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
@@ -45,7 +45,7 @@ exit
 _STRPSIGNAL_() { # run on signal
 printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
 printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
-rm -rf "$TAMPDIR"
+rm -rf "${TAMPDIR:-}"
 exit 211
 }
 _STRPQUIT_() { # run on quit
