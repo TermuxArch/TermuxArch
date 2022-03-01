@@ -360,4 +360,4 @@ fi
 EOM
 chmod 700 "$STARTBIN"
 }
-# keyinitfunctions.bash FE
+# initkeyfunctions.bash FE
