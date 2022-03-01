@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.88
+VERSIONID=2.1.89
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -58,11 +58,11 @@ trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
 then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "Signal 164 generated; " "Do NOT use UID 0 for PRoot " ": Exiting..." && exit 164
+printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "Signal 164 generated;" "  Please do not use the root login for PRoot:" "  Exiting..." && exit 164
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mScript %s\e[0m\\n\\n" "${0##*/} WARNING:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  Exiting..." && exit 68
+printf "\\e[1;48;5;138mScript %s\e[0m\\n\\n" "${0##*/} WARNING:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  Exiting..." "${0##*/}" && exit 68
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -144,7 +144,7 @@ _INTRO_ "$@"
 fi
 }
 _COREFILES_() {
-[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch ]]
+[[ -f archlinuxconfig.bash ]] && [[ -f espritfunctions.bash ]] && [[ -f fbindsfunctions.bash ]] && [[ -f getimagefunctions.bash ]] && [[ -f initkeyfunctions.bash ]] && [[ -f knownconfigurations.bash ]] && [[ -f maintenanceroutines.bash ]] && [[ -f necessaryfunctions.bash ]] && [[ -f printoutstatements.bash ]] && [[ -f setupTermuxArch ]]
 }
 _COREFILESDO_() {
 cd "$WFDIR" || exit 169	# change directory to working file directory
@@ -162,7 +162,9 @@ _COREFILESLOAD_() {
 printf "\\e[?25l\\e[0m"
 . archlinuxconfig.bash
 . espritfunctions.bash
+. fbindsfunctions.bash
 . getimagefunctions.bash
+. initkeyfunctions.bash
 _LOADCONF_
 . maintenanceroutines.bash
 . necessaryfunctions.bash
