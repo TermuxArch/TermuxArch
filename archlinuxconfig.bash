@@ -32,58 +32,6 @@ This file can be expanded so the beginning user can get to know the Linux experi
 EOM
 }
 
-_ADDauser_() {
-_CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
-cat >> usr/local/bin/addauser <<- EOM
-_HUSDIRC_() {
-if [ "\$UID" != 0 ]
-then
-WHOAMI="\$(whoami)"
-printf "\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;32m: Exiting...\\\\e[0m\\\\n" "Script '\${0##*/}' should be run using the root account, not the '\$WHOAMI' account.  Alternatively '\${0##*/}' can be used with the 'sudo' command;  'sudo \${0##*/} user'."
-exit 202
-fi
-if [ \$# = 0 ]
-then
-printf "\\\\e[1;31mUSAGE: \\\\e[1;37m'addauser username'\\\\e[1;32m: Exiting...\\\\n"
-exit 201
-fi
-if [[ -d "/home/\$1" ]]
-then
-printf "\\\\e[1;33mDirectory: \\\\e[1;37m'/home/%s exists'\\\\e[0;32m: Exiting...\\\\n" "\$1"
-else
-_FUNADDU_ "\$@"
-fi
-}
-_FUNADDU_() {
-[[ ! "\$(command -v sudo)" ]] 2>/dev/null && (pc sudo || pc sudo)
-printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
-[[ ! -f /etc/sudoers ]] && :>/etc/sudoers
-sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
-sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" /etc/sudoers
-sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" /etc/sudoers
-printf '%s\\n' "\$1    ALL=(ALL) ALL" >> /etc/sudoers
-grep -q 'ftp_proxy' /etc/sudoers || printf "%s\\\\n" 'Defaults env_keep += "ftp_proxy http_proxy https_proxy"' >> /etc/sudoers
-sed -i "s/required/sufficient/g" /etc/pam.d/su
-sed -i "s/^#auth/auth/g" /etc/pam.d/su
-useradd -k /root -m -s /bin/bash "\$1" -U
-usermod "\$1" -aG wheel
-chage -I -1 -m 0 -M -1 -E -1 "\$1"
-passwd -d "\$1"
-chmod 775 "/home/\$1"
-chown -R "\$1:\$1" "/home/\$1"
-sed -i "s/\$1:x/\$1:/g" /etc/passwd
-printf "\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[1;32m%s\\\\e[0;32m%s\\\\e[0m\\\\n" "Added Arch Linux in Termux PRoot user " "'\$1'" " and configured user '\$1' for use with the Arch Linux command 'sudo'.  Created Arch Linux user \$1's home directory in /home/\$1.  To use this account run " "'$STARTBIN login \$1'" " from the shell in Termux.  To add user accounts you can use " "'addauser \$1'" " in Arch Linux and " "'$STARTBIN c[ommand] addauser \$1'" " in the default Termux shell.  Please do not nest proot in proot by using '$STARTBIN' in '$STARTBIN' as this is known to cause issues for users of PRoot."
-}
-_PMFSESTRING_() {
-printf "\\\\e[1;31m%s\\\\e[0;31m%s\\\\e[0;36m%s\\\\n\\\\n" "Signal generated in '\$1'; " "Cannot complete task; " "Continuing..."
-printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*}" " and " "\${0##*}" " please open an issue and an accompanying pull request."
-}
-_HUSDIRC_ "\$@"
-## ~/${INSTALLDIR##*/}/usr/local/bin/addauser FE
-EOM
-chmod 755 usr/local/bin/addauser
-}
-
 _ADDae_() {
 _CFLHDR_ usr/local/bin/ae "# Developed at [pacman-key --populate archlinux hangs](https://github.com/SDRausty/TermuxArch/issues/33) Contributor cb125"
 cat >> usr/local/bin/ae <<- EOM
