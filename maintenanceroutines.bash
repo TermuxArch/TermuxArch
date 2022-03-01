@@ -24,27 +24,27 @@ IFILE="${GFILE##*/}"
 }
 
 _DOFUNLCR2_() {
-_BKPTHF_() { # backup the user files
-_CPYTHF_  && printf "\\e[1;32m==>\\e[0;32m %s" "File '$INSTALLDIR/home/$TALUSER_/$DOFLNAME' backed up to $BKPDIR/$TALUSER_.$SDATE.bkp" && _CPYTHF_ || : #_PSGI1ESTRING_ "_CPYTHF_ maintenanceroutines.bash ${0##*/}"
+_BKPTHF_() { # backup the user's file
+_CPYTHF_ && printf "\\e[1;32m==>\\e[0;32m %s" "File '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' backed up to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_.$SDATE.bkp" || : #_PSGI1ESTRING_ "_CPYTHF_ maintenanceroutines.bash ${0##*/}"
 }
-_CPYTHF_() { # copy file to user file backup
-cp "$INSTALLDIR/home/$TALUSER_/$DOFLNAME" "$BKPDIR/$DOFLNAME.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$INSTALLDIR/home/$TALUSER_/$DOFLNAME' '$BKPDIR/$DOFLNAME.$SDATE.bkp' maintenanceroutines.bash ${0##*/}"
+_CPYTHF_() { # copy file to user backup files directory
+cp "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" "$BKPDIR_/$DOFLNAME_.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' '$BKPDIR_/$DOFLNAME_.$SDATE.bkp' maintenanceroutines.bash ${0##*/}"
 }
-BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_"
-[[ ! -d "$BKPDIR/" ]] && mkdir -p "$BKPDIR/"
+BKPDIR_="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_"
+[[ ! -d "$BKPDIR_" ]] && mkdir -p "$BKPDIR_"
 if [[ "$TALUSER_" != alarm ]]
 then
-DOFLIST=(.bash_profile .bashrc .cshrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
-for DOFLNAME in "${DOFLIST[@]}"
+DOFLIST_=(.bash_profile .bashrc .cshrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
+for DOFLNAME_ in "${DOFLIST_[@]}"
 do
-if [ ! -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME" ]
+if [ ! -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" ]
 then
-cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER_/"
+cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/"
 else
-if [[ "$(<$INSTALLDIR/root/$DOFLNAME)" != "$(<$INSTALLDIR/home/$TALUSER_/$DOFLNAME)" ]] # files differ
-then	# update file from root login to the newest version
+if [[ "$(<$INSTALLDIR/root/$DOFLNAME_)" != "$(<$INSTALLDIR/home/$TALUSER_/$DOFLNAME_)" ]] # files differ
+then	# update file to the newest version from the root login
 _BKPTHF_
-cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER_/" && printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "${INSTALLDIR##*/}/root/$DOFLNAME" "${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME"
+cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/" && printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "${INSTALLDIR##*/}/root/$DOFLNAME_" "${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_"
 fi
 fi
 done
