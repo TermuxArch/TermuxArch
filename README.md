@@ -30,7 +30,7 @@ Please see  https://TermuxArch.github.io/docsTermuxArch/startingArch for options
 
 This repository uses submodules.  To get all the pieces of this repository you can run the following code after cloning in the root directory of this repository:
 
-[`pullTermuxArchSubmodules.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/pullTermuxArchSubmodules.bash)
+[`pullTermuxArchmods.bash`](https://github.com/TermuxArch/TermuxArch/blob/master/pullTermuxArchmods.bash)
 
 #### FACTS ABOUT THIS PROJECT:
 
@@ -40,7 +40,7 @@ Files `setupTermuxArch.{bash,sh}` are held for backward compatibility;  Please r
 
 File `setupTermuxArch` downloads as files `setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]`' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command `bash ~/storage/downloads/setupTermuxArch.bin` and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 
-These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command `git pull && git submodule update --init --remote --recursive` and `pullTermuxArchSubmodules.bash` to update to the newest version published.
+These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use either command `git pull && git submodule update --init --remote --recursive` and `pullTermuxArchmods.bash` to update to the newest version published.
 
 #### Many very hardy thank yous to contributors who are helping and have worked very hard to make this open source resource better!  Please accept a wholehearted THANK YOU, and please [enjoy using this open source product!](https://github.com/TermuxArch/)
 
