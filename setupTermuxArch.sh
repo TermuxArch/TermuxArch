@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.97
+VERSIONID=2.1.98
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -1134,7 +1134,7 @@ fi
 ## SYNTAX[2]: [DO (help|install|manual|purge|refresh|sysinfo (default: install))]
 ## SYNTAX[3]: [WHERE (default: arch)]  Install in userspace, not external storage.
 ## EXAMPLE USAGE:
-## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch ws' and 'setupTermuxArch w s'.
+## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
 ## After installing Arch Linux on device, file '/arch/usr/local/bin/README.md' has more information.  The TermuxArch files in directory '/arch/usr/local/bin' have more information as well.
