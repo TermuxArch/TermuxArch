@@ -4,6 +4,103 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+_ADDADDS_() {
+_ADDREADME_
+_ADDae_
+_ADDauser_
+printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
+_ADDbash_logout_
+_ADDbash_profile_
+_ADDbashrc_
+_ADDbindexample_
+_ADDcams_
+_ADDcshrc_
+_ADDcdtd_
+_ADDcdth_
+_ADDcdtmp_
+_ADDch_
+_ADDchperms.cache+gnupg_
+_ADDcsystemctl_
+_ADDes_
+_ADDexd_
+_ADDfbindprocpcidevices.prs_
+_ADDfbindprocshmem.prs_
+_ADDfbindprocuptime_
+_ADDfbinds_
+_ADDfibs_
+_ADDga_
+_ADDgcl_
+_ADDgclone_
+_ADDgcm_
+_ADDgitconfig_
+_ADDgp_
+_ADDgpl_
+_ADDinfo_
+_ADDinitrc_
+_ADDinputrc_
+_ADDkeys_
+_ADDmakeaurbauerbill_
+_ADDmakeaurpacaur_
+_ADDmakeaurpakku_
+_ADDmakeaurparu_
+_ADDmakeaurpbget_
+_ADDmakeaurpikaur-git_
+_ADDmakeaurpkgbuilder_
+_ADDmakeaurpuyo_
+_ADDmakeaurrepoctl_
+_ADDmakeaurrepofish_
+_ADDmakeauraclegit_
+_ADDmakeaurfakeroottcp_
+_ADDmakeaurhelpers_
+_ADDmakeaurghcuphs_
+_ADDmakeaurpikaur_
+_ADDmakeaurpopularpackages_
+_ADDmakeaurpackagequery_
+_ADDmakeaurrustup_
+_ADDmakeaurshellcheckbin_
+_ADDmakeaurtllocalmgr_
+_ADDmakeaurtrizen_
+_ADDmakeauryaah_
+_ADDmakeauryay_
+_ADDmakeauryayim_
+_ADDmakeaurutils_
+_ADDmakeksh_
+_ADDmemav_
+_ADDmemfree_
+_ADDmeminfo_
+_ADDmemmem_
+_ADDmemtot_
+_ADDopen4root_
+_ADDorcaconf_
+_ADDpatchmakepkg_
+_ADDpacmandblock_
+_ADDpc_
+_ADDpci_
+_ADDpinghelp_
+_ADDprofile_
+if [[ -n "${VLORALCR:-}" ]]
+then
+_ADDprofileetc_
+_ADDprofileusretc_
+fi
+_ADDresolvconf_
+_PREPMOTS_
+_ADDmota_
+_ADDmotd_
+_ADDmoto_
+_ADDt_
+_ADDtlmgrinstaller_
+[ -f usr/local/bin/top ] ||  _ADDtop_
+_ADDthstartarch_
+_ADDtimings_
+# _ADDtools_
+_ADDtour_
+_ADDtrim_
+_ADDv_
+_ADDwe_
+_ADDyt_
+_ADDzshrc_
+}
 _ADDauser_() {
 _CFLHDR_ usr/local/bin/addauser "# add Arch Linux in Termux PRoot user"
 cat >> usr/local/bin/addauser <<- EOM
@@ -205,20 +302,20 @@ trap _TRPET_ EXIT
 
 ## keys begin ##################################################################
 [ -f /etc/pacman.conf.bkp ] || cp /etc/pacman.conf /etc/pacman.conf.bkp
-[ -z "\${USER:-}" ] && USER=root
+[ -z "\${TALUSER_:-}" ] && TALUSER_=root
 KEYSUNAM_="\$(uname -m)"
-if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock ]
+if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock ]
 then
-cd "\$USER"/bin 2>/dev/null || cd bin || exit 196
+cd "\$TALUSER_"/bin 2>/dev/null || cd bin || exit 196
 {
 printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 for TOYBOXTOOL in \$(/system/bin/toybox)
 do
-if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ]
+if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ] || [ "\$TOYBOXTOOL" != vi ]
 then
 ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
 fi
-done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$USER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
+done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
 cd "$INSTALLDIR" || exit 196
 fi
 if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
@@ -284,6 +381,10 @@ $X86INK
 EOM
 chmod 755 usr/local/bin/keys
 }
+
+_ADDcshrc_() { :>root/.cshrc ; }
+_ADDinitrc_() { :>root/.initrc ; }
+_ADDzshrc_() { :>root/.zshrc ; }
 
 _MAKESTARTBIN_() {
 _CFLHDR_ "$STARTBIN"
