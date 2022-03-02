@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.108
+VERSIONID=2.1.109
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -904,6 +904,7 @@ _INTRO_ "$@"
 elif [[ "${1//-}" = [Bb][Ll]* ]]
 then
 printf "\\nSetting mode to bloom. \\n"
+_ARG2DIR_ "$@"
 _BLOOMSKEL_ "$@"
 ## [b[loom]]  Create a local copy of TermuxArch in TermuxArchBloom.  Useful for running a customized setupTermuxArch locally and for developing and hacking TermuxArch.
 elif [[ "${1//-}" = [Bb]* ]]
