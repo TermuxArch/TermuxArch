@@ -58,24 +58,21 @@ TEXLIVEPATH="$(find "$INSTALLDIR"/usr/local/texlive/*/bin/ -maxdepth 1 | tail -n
 TEXLIVEPATH="${TEXLIVEPATH#*"${INSTALLDIR##*/}"}"
 TEXDIR="${TEXLIVEPATH%/*}"
 TEXDIR="${TEXDIR%/*}"
-printf "%s\\n" "PATH=\"$TEXLIVEPATH\"" >> root/.bash_profile
-printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH:\$PPATH\"" >> root/.bash_profile
+printf "%s\\n" "PATH=\"\$HOME/bin:$TEXLIVEPATH:\$PPATH\"" >> root/.bash_profile
 else
-printf "%s\\n" "PATH=\"\$HOME/bin:\$PATH\"" >> root/.bash_profile
+printf "%s\\n" "PATH=\"\$HOME/bin:\$PPATH\"" >> root/.bash_profile
 fi
 printf "%s\\n" "[[ -f \"\$HOME\"/.bashrc ]] && . \"\$HOME\"/.bashrc" >> root/.bash_profile
-printf "%s\\n" "[[ -f \"\$HOME\"/.profile ]] && . \"\$HOME\"/.profile " >> root/.bash_profile
-cat >> root/.bash_profile <<- EOM
-if [ ! -e "\$HOME"/.hushlogin ] && [ ! -e "\$HOME"/.chushlogin ]
+printf "%s\\n" "[[ -f \"\$HOME\"/.profile ]] && . \"\$HOME\"/.profile" >> root/.bash_profile
+printf "%s\\n" "if [ ! -e \"\$HOME\"/.hushlogin ] && [ ! -e \"\$HOME\"/.chushlogin ]
 then
 [ -e /etc/mota ] && . /etc/mota
 fi
-if [ -e "\$HOME"/.chushlogin ]
+if [ -e \"\$HOME\"/.chushlogin ]
 then
-rm -f "\$HOME"/.chushlogin
+rm -f \"\$HOME\"/.chushlogin
 fi
-PS1="\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ "
-EOM
+PS1=\"\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ \"" >> root/.bash_profile
 [[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
@@ -85,10 +82,6 @@ if [[ "$ISHELVAR" != 1 ]]
 then
 printf "export %s\\n" "${ISHELVAR/declare -x }" >> root/.bash_profile
 fi
-done
-for LCTE in "${!LC_TYPE[@]}"
-do
-printf "%s=\"%s\"\\n" "export ${LC_TYPE[LCTE]}" "$ULANGUAGE.UTF-8" >> root/.bash_profile
 done
 printf "%s\\n" "export GPG_TTY=\"\$(tty)\"" >> root/.bash_profile
 printf "%s\\n" "export MOZ_FAKE_NO_SANDBOX=1" >> root/.bash_profile
@@ -680,31 +673,6 @@ printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\
 chmod 755 usr/local/bin/info
 }
 
-_ADDinputrc_() {
-cat > root/.inputrc <<- EOM
-set bell-style none
-set colored-stats on
-set colored-completion-prefix on
-set completion-ignore-case on
-set completion-prefix-display-length 3
-set completion-query-items 32
-set editing-mode vi
-set enable-keypad on
-set enable-meta-key on
-set expand-tilde off
-set horizontal-scroll-mode on
-set input-meta on
-set match-hidden-files off
-set mark-symlinked-directories on
-set output-meta on
-set print-completions-horizontally on
-set show-all-if-ambiguous on
-set show-all-if-unmodified on
-set show-mode-in-prompt on
-set visible-stats on
-EOM
-}
-
 _ADDmakeauraclegit_() {
 _CFLHDR_ usr/local/bin/makeauraclegit
 printf "%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit" "_PRNTWAIT_() { printf \"\\e[0;32m%s\\n\" \"Please wait a moment;  Command '\${0##*/}' continuing...\" ; }" "{ [ -x /usr/bin/auracle ] && printf \"\\e[0;31m%s\\n\" \"The comman 'aur' is installed;  Exiting...\" ; } || { { cd && gcl https://aur.archlinux.org/auracle-git ||: ; } && cd auracle-git && _PRNTWAIT_ && makepkg -firs --noconfirm ; auracle --help ; }" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaurracle FE" >> usr/local/bin/makeauraclegit
@@ -1260,12 +1228,6 @@ unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER" >> "$INSTALLDIR/etc/profile"
 fi
 fi
-}
-
-_ADDprofile_() {
-printf "%s\\n" "export TMPDIR=\"/tmp\"" >> root/.profile
-[ -e "$HOME"/.profile ] && { [ -e root/.profile ] && _DOTHRF_ "root/.profile" ; } && grep -s proxy "$HOME"/.profile | grep -s "export" > root/.profile ||:
-:>root/.profile
 }
 
 _ADDpinghelp_() {

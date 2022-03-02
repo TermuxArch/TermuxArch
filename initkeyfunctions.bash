@@ -383,7 +383,37 @@ chmod 755 usr/local/bin/keys
 }
 
 _ADDcshrc_() { :>root/.cshrc ; }
-_ADDinitrc_() { :>root/.initrc ; }
+_ADDinitrc_() { printf '%s\n' "" > root/.inputrc ; }
+_ADDinputrc_() { printf '%s\n' "set bell-style none
+set colored-stats on
+set colored-completion-prefix on
+set completion-ignore-case on
+set completion-prefix-display-length 3
+set completion-query-items 32
+set editing-mode vi
+set enable-keypad on
+set enable-meta-key on
+set expand-tilde off
+set horizontal-scroll-mode on
+set input-meta on
+set match-hidden-files off
+set mark-symlinked-directories on
+set output-meta on
+set print-completions-horizontally on
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+set show-mode-in-prompt on
+set visible-stats on
+" > root/.inputrc ; }
+
+_ADDprofile_() {
+printf '%s\n' "export TMPDIR=\"/tmp\"" > root/.profile
+for LCTE in "${!LC_TYPE[@]}"
+do
+printf "%s=\"%s\"\\n" "export ${LC_TYPE[LCTE]}" "$ULANGUAGE.UTF-8" >> root/.profile
+done
+}
+
 _ADDzshrc_() { :>root/.zshrc ; }
 
 _MAKESTARTBIN_() {
