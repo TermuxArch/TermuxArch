@@ -401,7 +401,6 @@ LANGIN+=([4]="$(getprop persist.sys.locale)")
 LANGIN+=([5]="$(getprop ro.product.locale)")
 LANGIN+=([6]="$(getprop ro.product.locale.language)")
 LANGIN+=([7]="$(getprop ro.product.locale.region)")
-:>"$INSTALLDIR"/etc/locale.gen
 ULANGUAGE="${LANGIN[0]:-C}_${LANGIN[1]:-C}"
 if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
 then
