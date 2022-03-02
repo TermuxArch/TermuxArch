@@ -224,9 +224,7 @@ then
 printf "%s\\n" "{ _PMGPSSTRING_ && pacman -Rc linux-aarch64 linux-firmware --noconfirm --color=always && :>"/run/lock/${INSTALLDIR##*/}/pacmanRc.lock" ; } || _PMFSESTRING_ \"pacman -Rc linux-aarch64 linux-firmware $BINFNSTP \${0##/*}\"" >> root/bin/"$BINFNSTP"
 fi
 fi
-cat >> root/bin/"$BINFNSTP" <<- EOM
-$DOKYSKEY
-EOM
+printf "%s\\n" "$DOKYSKEY" >> root/bin/"$BINFNSTP"
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]
 then
 if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
@@ -250,13 +248,9 @@ chmod 700 root/bin/"$BINFNSTP"
 
 _MAKESETUPBIN_() {
 _CFLHDR_ root/bin/setupbin.bash
-cat >> root/bin/setupbin.bash <<- EOM
-set +Eeuox pipefail
-EOM
+printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
-cat >> root/bin/setupbin.bash <<- EOM
-set -Eeuo pipefail
-EOM
+printf "%s\\n" "set -Eeuo pipefail" >> root/bin/setupbin.bash
 chmod 700 root/bin/setupbin.bash
 }
 
