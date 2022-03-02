@@ -319,6 +319,7 @@ _MAKESTARTBIN_
 _FIXOWNER_
 if [ "$ELCR" = 0 ]
 then
+tree 2>/dev/null || find . -type f -print | sed 's@.*/@@' | sort
 exit	## Create ~/TermuxArchBloom directory and Arch Linux in Termux PRoot root directory skeleton.
 fi
 }
