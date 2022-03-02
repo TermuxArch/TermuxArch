@@ -37,14 +37,17 @@ then
 DOFLIST_=(.bash_profile .bashrc .cshrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
 for DOFLNAME_ in "${DOFLIST_[@]}"
 do
-if [ ! -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" ]
+if [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
 then
 cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/"
 else
+if [ -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" ] && [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
+then
 if [[ "$(<$INSTALLDIR/root/$DOFLNAME_)" != "$(<$INSTALLDIR/home/$TALUSER_/$DOFLNAME_)" ]] # files differ
 then	# update file to the newest version from the root login
 _BKPTHF_
 cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/" && printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "${INSTALLDIR##*/}/root/$DOFLNAME_" "${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_"
+fi
 fi
 fi
 done
