@@ -387,7 +387,6 @@ fi
 }
 
 _SETLANGUAGE_() { # This function uses device system settings to set locale.  To generate locales in a preferred language, you can use "Settings > Language & Keyboard > Language" in Android; Then run 'setupTermuxArch r' for a quick system refresh to regenerate locales in your preferred language.
-ULANGUAGE="C"
 LANGIN=([0]="$(getprop user.language)")
 LANGIN+=([1]="$(getprop user.region)")
 LANGIN+=([2]="$(getprop persist.sys.country)")
@@ -396,40 +395,15 @@ LANGIN+=([4]="$(getprop persist.sys.locale)")
 LANGIN+=([5]="$(getprop ro.product.locale)")
 LANGIN+=([6]="$(getprop ro.product.locale.language)")
 LANGIN+=([7]="$(getprop ro.product.locale.region)")
-:>"$INSTALLDIR"/etc/locale.gen
 ULANGUAGE="${LANGIN[0]:-C}_${LANGIN[1]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="${LANGIN[3]:-C}_${LANGIN[2]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-fi
-for i in "${!LANGIN[@]}"
+for LANGSET in "${!LANGIN[@]}"
 do
-if [[ "${LANGIN[i]}" = *-* ]]
+if [[ "${LANGIN[LANGSET]}" = *-* ]]
 then
-ULANGUAGE="${LANGIN[i]//-/_}"
+ULANGUAGE="${LANGIN[LANGSET]//-/_}"
 break
 fi
 done
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="${LANGIN[6]:-C}_${LANGIN[7]:-C}"
-if ! grep -q "$ULANGUAGE" "$INSTALLDIR"/etc/locale.gen
-then
-ULANGUAGE="C"
-fi
-fi
-if [[ "$ULANGUAGE" != *_* ]]
-then
-ULANGUAGE="en_US"
-fi
 printf "\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\n" "Setting locales to: " "Language " ">> $ULANGUAGE << " "Region" ": Please wait a moment."
 }
 
