@@ -390,7 +390,6 @@ set colored-completion-prefix on
 set completion-ignore-case on
 set completion-prefix-display-length 3
 set completion-query-items 32
-set editing-mode emacs
 set enable-keypad on
 set enable-meta-key on
 set expand-tilde off
