@@ -54,7 +54,7 @@ if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 3 or 4
 then
 [ "$LCR" = 4 ] && _SHFUNC_ "$@"
 else
-[[ -f $1 ]] && (printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp") || printf "%s" "copy file '$1' if found; file not found; continuing; "
+[[ -f $1 ]] && { printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" ; } || printf "%s" "copy file '$1' if found; file not found; continuing; "
 fi
 }
 
@@ -172,6 +172,8 @@ printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
 if [[ "${LCR:-}" = 2 ]]
 then
 _FUNLCR2_
+else
+printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re\\e[0;32m'.  " "${0##*/}"
 fi
 printf "\\n"
 _COPYSTARTBIN2PATH_
