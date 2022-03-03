@@ -7,7 +7,6 @@
 
 [ "$CPUABI" = i386 ] && CPUABI="x86"
 CACHECPBI="${CPUABI/_/-}"
-CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"
 PREFIXDATAFILES="/storage/emulated/0/Android/data/com.termux/"
 CACHEDIRSUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
@@ -171,7 +170,7 @@ exit
 
 _MAKESYSTEM_() {
 _WAKELOCK_
-if [ "$USECACHEDIR" = 0 ]
+if [ "$USECACHEDIR" = 0 ] && [[ -z "${LCR:-}" ]]
 then
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196

@@ -443,7 +443,7 @@ _CFLHDR_ "$STARTBIN"
 printf "%s\\n" "${FLHDRP[@]}" >> "$STARTBIN"
 cat >> "$STARTBIN" <<- EOM
 _CHCKUSER_() { [ -d "$INSTALLDIR/home/\$2" ] || _PRNTUSGE_ "\$@" ; }
-_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} WARNING:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit 202 ; }
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138mScript %s\\e[0m\\n\\n" "\${0##*/} FEEDBACK:  Please run '\${0##*/}' and 'bash \${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit 202 ; }
 if [ -w /root ]
 then
 _COMMANDGNE_
@@ -674,9 +674,9 @@ do
 printf "%s\\n" "${LC_TYPE[LC_N]}=$ULANGUAGE.UTF-8" >> etc/locale.conf
 done
 set +e
-if grep "$ULANGUAGE"\\.UTF-8 etc/locale.gen
+if $(grep "$ULANGUAGE"\\.UTF-8 etc/locale.gen 1>/dev/null)
 then
-sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen && printf "\\e[0;32mFound an exact match for language \\e[1;32m>> %s <<\\e[0;32m to continue locale configuration.  If you are using command '${0##*/} refresh' generates locales from device.  Command \\e[1;32mlocale-gen\\e[0;32m generates locales." "$ULANGUAGE" # && locale-gen
+sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen && printf "\\e[0;32mFound an exact match for language \\e[1;32m>> %s <<\\e[0;32m to continue locale configuration.  Command '${0##*/} refresh' generates locales from device.  Command \\e[1;32mlocale-gen\\e[0;32m generates locales." "$ULANGUAGE" # && locale-gen
 else
 printf "\\e[0;33mCould not find an exact match for language \\e[1;33m>> %s <<\\e[0;33m in file /etc/locale.gen.  Please edit files /etc/locale.conf and /etc/locale.gen.  Then run the command \\e[1;33mlocale-gen\\e[0;33m to generate locales.  " "$ULANGUAGE"
 fi
