@@ -6,8 +6,6 @@
 ################################################################################
 _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-echo "${LOADLCRFILES:-}" "${MATRIXLCR:-}"
-# if [ -n "${LOADLCRFILES:-}"=0 ] || [ -z "${MATRIXLCR:-}" ]
 if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
 then
 	:
