@@ -302,10 +302,10 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 trap _TRPET_ EXIT
 
 ## keys begin ##################################################################
-# [ -z "\${TALUSER_:-}" ] && TALUSER_=root
-# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock ]
+# [ -z "\${TALUSER:-}" ] && TALUSER=root
+# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock ]
 # then
-# cd "\$TALUSER_"/bin 2>/dev/null || cd bin || exit 196
+# cd "\$TALUSER"/bin 2>/dev/null || cd bin || exit 196
 # {
 # printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
 # for TOYBOXTOOL in \$(/system/bin/toybox)
@@ -314,7 +314,7 @@ trap _TRPET_ EXIT
 # then
 # ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
 # fi
-# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER_".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
+# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
 # cd "$INSTALLDIR" || exit 196
 # fi
 KEYSUNAM_="\$(uname -m)"
@@ -406,10 +406,6 @@ set visible-stats on" > root/.inputrc ; }
 
 _ADDprofile_() {
 printf '%s\n' "export TMPDIR=\"/tmp\"" > root/.profile
-for LCTE in "${!LC_TYPE[@]}"
-do
-printf "%s=\"%s\"\\n" "export ${LC_TYPE[LCTE]}" "$ULANGUAGE.UTF-8" >> root/.profile
-done
 }
 
 _ADDzshrc_() { :>root/.zshrc ; }

@@ -24,31 +24,26 @@ IFILE="${GFILE##*/}"
 }
 
 _DOFUNLCR2_() {
-_BKPTHF_() { # backup the user's file
-_CPYTHF_ && printf "\\e[1;32m==>\\e[0;32m %s" "File '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' backed up to $INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_.$SDATE.bkp" || : #_PSGI1ESTRING_ "_CPYTHF_ maintenanceroutines.bash ${0##*/}"
+_BKPTHF_() { # backup the file to  user's backup file directory
+cp "$INSTALLDIR/home/$TALUSER/$DOFLNAME" "$BKPDIR/$DOFLNAME.$SDATE.bkp" && printf "\\e[0;32mFile '%s' backed up to '\\e[1;32m%s\\e[0;32m'.  " "$INSTALLDIR/home/$TALUSER/$DOFLNAME" "$BKPDIR/$DOFLNAME.$SDATE.bkp"
 }
-_CPYTHF_() { # copy file to user backup files directory
-cp "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" "$BKPDIR_/$DOFLNAME_.$SDATE.bkp" || _PSGI1ESTRING_ "cp '$INSTALLDIR/home/$TALUSER_/$DOFLNAME_' '$BKPDIR_/$DOFLNAME_.$SDATE.bkp' maintenanceroutines.bash ${0##*/}"
+_CPYFRT_() { # copy file from root login to user
+cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER/" && printf "\\e[0;32mFile '%s' copied to '\\e[1;32m%s\\e[0;32m'.  " "${INSTALLDIR##*/}/root/$DOFLNAME" "${INSTALLDIR##*/}/home/$TALUSER/$DOFLNAME"
 }
-BKPDIR_="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER_"
-[[ ! -d "$BKPDIR_" ]] && mkdir -p "$BKPDIR_"
-if [[ "$TALUSER_" != alarm ]]
+BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER"
+[[ ! -d "$BKPDIR" ]] && mkdir -p "$BKPDIR"
+if [[ "$TALUSER" != alarm ]]
 then
-DOFLIST_=(.bash_profile .bashrc .cshrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
-for DOFLNAME_ in "${DOFLIST_[@]}"
+DOFLIST_=(.bash_profile .bashrc .cshrc .emacsrc .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
+for DOFLNAME in "${DOFLIST_[@]}"
 do
-if [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
+printf "\\n\\e[0;32mProcessing user \\e[1;32m%s\\e[0;32m file \\e[1;32m%s\\e[0;32m.  " "$TALUSER" "$DOFLNAME"
+if [ -f "$INSTALLDIR/root/$DOFLNAME" ] && [ -f "$INSTALLDIR/home/$TALUSER/$DOFLNAME" ]
 then
-cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/"
-else
-if [ -f "$INSTALLDIR/home/$TALUSER_/$DOFLNAME_" ] && [ -f "$INSTALLDIR/root/$DOFLNAME_" ]
+diff "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER/$DOFLNAME" 1>/dev/null || { _BKPTHF_ && _CPYFRT_ ; }
+elif [ -f "$INSTALLDIR/root/$DOFLNAME" ] && [ ! -f "$INSTALLDIR/home/$TALUSER/$DOFLNAME" ]
 then
-if [[ "$(<$INSTALLDIR/root/$DOFLNAME_)" != "$(<$INSTALLDIR/home/$TALUSER_/$DOFLNAME_)" ]] # files differ
-then	# update file to the newest version from the root login
-_BKPTHF_
-cp "$INSTALLDIR/root/$DOFLNAME_" "$INSTALLDIR/home/$TALUSER_/" && printf "\\n\\e[0;32mCopied file %s to \\e[1;32m%s\\e[0;32m.\\e[0m\\n" "${INSTALLDIR##*/}/root/$DOFLNAME_" "${INSTALLDIR##*/}/home/$TALUSER_/$DOFLNAME_"
-fi
-fi
+_CPYFRT_
 fi
 done
 fi
@@ -64,8 +59,8 @@ fi
 }
 
 _FUNLCR2_() { # copy from root to home
-export FLCRVAR=($(ls "$INSTALLDIR/home/"))
-for TALUSER_ in ${FLCRVAR[@]}
+export FLCRVAR=($(ls home/))
+for TALUSER in "${FLCRVAR[@]}"
 do
 _DOFUNLCR2_
 done
@@ -107,16 +102,16 @@ _PRINTSTARTBIN_USAGE_
 exit
 }
 
-_FIXOWNER_() { # fix owner of INSTALLDIR/home/TALUSER_, PR9 by @petkar
+_FIXOWNER_() { # fix owner of INSTALLDIR/home/TALUSER, PR9 by @petkar
 _DOFIXOWNER_() {
 printf "\\e[0;32m%s" "Adjusting ownership and permissions:  "
 FXARR="$(ls "$INSTALLDIR/home")"
-for TALUSER_ in ${FXARR[@]}
+for TALUSER in ${FXARR[@]}
 do
-if [[ "$TALUSER_" != alarm ]]
+if [[ "$TALUSER" != alarm ]]
 then
-$STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER_"
-$STARTBIN c "chown -R $TALUSER_:$TALUSER_ $INSTALLDIR/home/$TALUSER_"
+$STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER"
+$STARTBIN c "chown -R $TALUSER:$TALUSER $INSTALLDIR/home/$TALUSER"
 fi
 done
 printf "\\e[0;32m%s\\e[0m\\n" "DONE"
