@@ -8,7 +8,7 @@ set -Eeuo pipefail
 _SGSATRPERROR_() { # run on script error signal
 local RV="$?"
 printf "\\n%s\\n" "$RV"
-printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s ERROR:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "updateTermuxArch.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
+printf "\\e[?25h\\n\\e[1;48;5;138mBuildAPKs %s SIGNAL:  Generated script error %s near or at line number %s by \`%s\`!\\e[0m\\n" "updateTermuxArch.bash" "${3:-VALUE}" "${1:-LINENO}" "${2:-BASH_COMMAND}"
 exit 179
 }
 
