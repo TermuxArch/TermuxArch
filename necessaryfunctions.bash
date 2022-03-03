@@ -6,6 +6,7 @@
 ################################################################################
 
 [ "$CPUABI" = i386 ] && CPUABI="x86"
+declare -a LC_TYPE	# declare array for locale types
 CACHECPBI="${CPUABI/_/-}"
 CACHEDIRPKG="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 CACHEDIR="/storage/emulated/0/Android/data/com.termux/files/cache/archlinux/$CACHECPBI/"

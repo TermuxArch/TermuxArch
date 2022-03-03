@@ -4,6 +4,8 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
+declare -a USRINITFILES	# declare array for user init files
+USRINITFILES=(BASH_PROFILEFILE BASHRCFILE CSHRCFILE EMACSRCFILE GITCONFIGFILE INITRCFILE INPUTRCFILE VIMRCFILE PROFILEFILE ZSHRCFILE)
 _ADDADDS_() {
 _ADDREADME_
 _ADDae_
@@ -384,7 +386,8 @@ chmod 755 usr/local/bin/keys
 
 _ADDcshrc_() { :>root/.cshrc ; }
 _ADDinitrc_() { printf '%s\n' "" > root/.initrc ; }
-_ADDinputrc_() { printf '%s\n' "set bell-style none
+_ADDinputrc_() {
+INPUTRCFILE="$(printf '%s\n' "set bell-style none
 set colored-stats on
 set colored-completion-prefix on
 set completion-ignore-case on
@@ -402,10 +405,13 @@ set print-completions-horizontally on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
 set show-mode-in-prompt on
-set visible-stats on" > root/.inputrc ; }
+set visible-stats on")"
+printf '%s\n' "$INPUTRCFILE" > root/.inputrc
+}
 
 _ADDprofile_() {
-printf '%s\n' "export TMPDIR=\"/tmp\"" > root/.profile
+PROFILEFILE="$(printf '%s\n' "export TMPDIR=\"/tmp\"")"
+printf '%s\n' "$PROFILEFILE" > root/.profile
 }
 
 _ADDzshrc_() { :>root/.zshrc ; }
