@@ -24,7 +24,7 @@ IFILE="${GFILE##*/}"
 }
 
 _DOFUNLCR2_() {
-_BKPTHF_() { # backup the file to  user's backup file directory
+_BKPTHF_() { # backup file to backup file directory
 cp "$INSTALLDIR/home/$TALUSER/$DOFLNAME" "$BKPDIR/$DOFLNAME.$SDATE.bkp" && printf "\\e[0;32mFile '%s' backed up to '\\e[1;32m%s\\e[0;32m'.  " "$INSTALLDIR/home/$TALUSER/$DOFLNAME" "$BKPDIR/$DOFLNAME.$SDATE.bkp"
 }
 _CPYFRT_() { # copy file from root login to user
@@ -50,12 +50,7 @@ fi
 }
 
 _DOTHRF_() { # do the root user files
-if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 3 or 4
-then
-[ "$LCR" = 4 ] && _SHFUNC_ "$@"
-else
 [[ -f $1 ]] && { printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" ; } || printf "%s" "copy file '$1' if found; file not found; continuing; "
-fi
 }
 
 _FUNLCR2_() { # copy from root to home
@@ -149,31 +144,12 @@ ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
 printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/bin/:"
 ls "$INSTALLDIR/usr/local/bin/"
-_SHFUNC_ () {
-_SHFDFUNC_ () {
-SHFD="$(find "$RMDIR" -type d -printf '%03d %p\n' | sort -r -n -k 1 | cut -d" " -f 2)"
-for SHF1D in $SHFD
-do
-rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D'; Continuing..."
-done
-}
-printf "%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
-SDIRS="apex data host-rootfs sdcard storage system vendor"
-for SDIR in $SDIRS
-do
-RMDIR="$INSTALLDIR/$SDIR"
-[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && (rmdir "$RMDIR" || _SHFDFUNC_) && printf "%s\n" "Continuing..." ; }
-done
-PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
-PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
-[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
-printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
-}
-if [[ "${LCR:-}" = 2 ]]
+if [[ "${LCR:-}" = 2 ]] || [[ "${LCR:-}" = 3 ]] || [[ "${LCR:-}" = 4 ]] || [[ "${LCR:-}" = 5 ]]
 then
 _FUNLCR2_
+_SHFUNCWRAP_
 else
-printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re\\e[0;32m'.  " "${0##*/}"
+printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re[fresh]\\e[0;32m'.  " "${0##*/}"
 fi
 printf "\\n"
 _COPYSTARTBIN2PATH_
@@ -185,6 +161,45 @@ set -Eeuo pipefail
 _PRINTFOOTER2_
 _PRINTSTARTBIN_USAGE_
 exit
+}
+
+_SHFUNC_ () {
+_SHFDFUNC_ () {
+SHFD="$(find "$RMDIR" -type d -printf '%03d %p\n' | sort -r -n -k 1 | cut -d" " -f 2)"
+for SHF1D in $SHFD
+do
+rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D'; Continuing..."
+done
+}
+printf "\n%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
+SDIRS="apex data host-rootfs sdcard storage system vendor"
+for SDIR in $SDIRS
+do
+RMDIR="$INSTALLDIR/$SDIR"
+[ -d "$RMDIR" ] && { chmod 755 "$RMDIR" ; printf "%s" "Deleting superfluous '$RMDIR' directory: " && (rmdir "$RMDIR" || _SHFDFUNC_) && printf "%s\n" "Continuing..." ; }
+done
+PERRS="$(du "$INSTALLDIR" 2>&1 >/dev/null ||:)"
+PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
+[ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS ; do chmod 777 "$PERR" ; done && printf "%s\n" "DONE" ; } || printf "%s" "Fixing  permissions signal PERRS; Continuing..."
+printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
+}
+
+_SHFUNCWRAP_ () {
+if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]
+then
+FNDTMPROOT=($(ls "$TMPDIR"/))
+if [ ${#FNDTMPROOT[@]} = 0 ]
+then
+_SHFUNC_ "$@"
+else
+if [ ${#FNDTMPROOT[@]} = 1 ]
+then
+printf "\\n\\e[0;32mFound %s open PRoot session;  Not checking for errors." "${#FNDTMPROOT[@]}"
+else
+printf "\\n\\e[0;32mFound %s open PRoot sessions;  Not checking for errors." "${#FNDTMPROOT[@]}"
+fi
+fi
+fi
 }
 
 _SPACEINFO_() {
