@@ -7,20 +7,16 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.140
-_STRPERROR_() { # run on script error
-local RV="$?"
-printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
+VERSIONID=2.1.141
 _ADERHELP_() {
 printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.\\n" "${0##*/}" "${0##*/}"
+printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.\\n" "${0##*/}" "${0##*/}"
 }
-[[ -z "${ARGS:-}" ]] && printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.\\n\\e[1;32m\\n\\e[0m" "${0##*/}" "${0##*/}" && _ADERHELP_ || printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.\\n\\e[1;32m\\n\\e[0m" "${0##*/} ${ARGS:-}" "${0##*/}" && _ADERHELP_
-if [[ "$RV" = 4 ]]
-then
-printf "\\n\\e[1;48;5;139m %s\\e[0m\\n" "Please ensure background data is not restricted.  Check the wireless connection."
-fi
+_STRPERROR_() { # run on script error
+local RV="$?"
+_ADERHELP_
+printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
 printf "\\n"
-exit 201
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
@@ -29,26 +25,28 @@ if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
+if [[ "$RV" = 6 ]]
+then
+_ADERHELP_
+printf "\\e[1;48;5;139m %s\\e[0m\\n" "Please ensure background data is not restricted.  Check the wireless connection."
+fi
 if [[ "$RV" = 0 ]]
 then
 printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "DONE 🏁 "
 printf "\\e]2; %s: %s \\007" "${0##*/} ${ARGS:-}" "DONE 🏁 "
 else
-printf "\\e[0;32m%s %s \\e[0mversion %s\\e[1;34m: \\e[0;32m%s %s\\e[0m\\n" "${0##*/}" "${ARGS:-}" "${VERSIONID:-}" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "${0##*/} ${ARGS:-}" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
-exit
 }
 _STRPSIGNAL_() { # run on signal
 printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Signal %s received!\\e[0m\\n" "$?"
 printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
-exit 211
 }
 _STRPQUIT_() { # run on quit
 printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Quit signal %s received!\\e[0m\\n" "$?"
-exit 221
 }
 trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
@@ -148,7 +146,7 @@ _COREFILESDO_() {
 cd "$WFDIR" || exit 169	# change directory to working file directory
 if _COREFILES_
 then
-_COREFILESLOAD_
+LOADLCRFILES=0 && _COREFILESLOAD_
 else
 cd "$TAMPDIR"
 _DWNL_
@@ -686,7 +684,7 @@ printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(
 fi
 }
 _RMARCHQ_() {
-printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "TermuxArch:" "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:" "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
 then
 PURGEMETHOD="quick "
@@ -986,6 +984,7 @@ _TAMATRIX_
 elif [[ "${1//-}" = [Mm][Aa][Tt]* ]]
 then
 printf "\\nSetting mode to matrix.\\n"
+MATRIXLCR=1
 _PREPTERMUXARCH_
 _DEPENDSBLOCK_ "$@"
 _TAMATRIX_
