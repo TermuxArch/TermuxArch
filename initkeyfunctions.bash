@@ -405,7 +405,7 @@ set output-meta on
 set print-completions-horizontally on
 set show-all-if-ambiguous on
 set show-all-if-unmodified on
-set show-mode-in-prompt on
+set show-mode-in-prompt off
 set visible-stats on")"
 _COMPAREFILE_ "$INPUTRCFILE" ".inputrc" "root"
 }
@@ -676,9 +676,9 @@ done
 set +e
 if grep "$ULANGUAGE"\\.UTF-8 etc/locale.gen
 then
-sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen && printf "\\e[0;32mFound an exact match for language \\e[1;32m>> %s <<\\e[0;32m to continue locale configuration.  Command \\e[1;32mlocale-gen\\e[0;32m generates locales." "$ULANGUAGE" # && locale-gen
+sed -i "/\\#$ULANGUAGE.UTF-8 UTF-8/{s/#//g;s/@/-at-/g;}" etc/locale.gen && printf "\\e[0;32mFound an exact match for language \\e[1;32m>> %s <<\\e[0;32m to continue locale configuration.  If you are using command '${0##*/} refresh' generates locales from device.  Command \\e[1;32mlocale-gen\\e[0;32m generates locales." "$ULANGUAGE" # && locale-gen
 else
-printf "\\e[0;33mCould not find an exact match for language \\e[1;33m>> %s <<\\e[0;33m in file /etc/local.gen.  Please edit files /etc/local.conf and /etc/local.gen, and then run the command \\e[1;33mlocale-gen\\e[0;33m to generate locales.  " "$ULANGUAGE"
+printf "\\e[0;33mCould not find an exact match for language \\e[1;33m>> %s <<\\e[0;33m in file /etc/locale.gen.  Please edit files /etc/locale.conf and /etc/locale.gen.  Then run the command \\e[1;33mlocale-gen\\e[0;33m to generate locales.  " "$ULANGUAGE"
 fi
 }
 # initkeyfunctions.bash FE

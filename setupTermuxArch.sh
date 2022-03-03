@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.131
+VERSIONID=2.1.132
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -77,7 +77,7 @@ ELCR=0
 _INTROBLOOM_ "$@"
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 else
 _PREPTERMUXARCH_
 _MAINBLOCK_
@@ -293,7 +293,7 @@ printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
 _SETROOT_EXCEPTION_
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} is correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch WARNING!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
@@ -340,7 +340,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} is incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ WARNING!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
 if [[ -d "$INSTALLDIR"/tmp ]]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -992,14 +992,14 @@ _TAMATRIX_
 ## [m[anual]]  Manual Arch Linux install, can be useful for resolving download and proot init statement issues.
 elif [[ "${1//-}" = [Mm][Ii]* ]]
 then
-printf "\\nSetting mode to manual.\\n"
+printf "\\nSetting mode to manual install.\\n"
 OPT=MANUAL
 _OPT1_ "$@"
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
 elif [[ "${1//-}" = [Mm]* ]]
 then
-printf "\\nSetting mode to manual.\\n"
+printf "\\nSetting mode to manual install.\\n"
 OPT=MANUAL
 _OPT1_ "$@"
 _INTRO_ "$@"
@@ -1013,7 +1013,7 @@ _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 ## [purge [customdir]]  Purge Arch Linux option with function _RMARCHRM_.
-elif [[ "${1//-}" = [Pp][Uu][Rr][Gg][Ee] ]]
+elif [[ "${1//-}" = [Pp][Uu]* ]]
 then
 printf "\\nSetting mode to purge.\\n"
 PURGELCR=0
@@ -1028,7 +1028,7 @@ _RMARCHQ_
 ## [q[emu] [m[anual]] [i[nstall]|r[e[f[resh]]]] [customdir]]  Install alternate architecture on smartphone with https://github.com/qemu/QEMU emulation.  Issue [Implementing QEMU #25](https://github.com/TermuxArch/TermuxArch/issues/25) has more information.
 elif [[ "${1//-}" = [Qq][Mm][Ii]* ]]
 then
-printf "\\nSetting mode to manual.\\n"
+printf "\\nSetting mode to qemu manual install.\\n"
 OPT=MANUAL
 _OPT1_ "$@"
 _QEMU_
@@ -1036,7 +1036,7 @@ _ARG2DIR_ "$@"
 _INTRO_ "$@"
 elif [[ "${1//-}" = [Qq]* ]] || [[ "${1//-}" = [Qq][Mm][Ii]* ]]
 then
-printf "\\nSetting mode to QEMU [install|refresh] [customdir].\\n"
+printf "\\nSetting mode to qemu [install|refresh] [customdir].\\n"
 _OPT1_ "$@"
 _QEMU_
 _ARG2DIR_ "$@"
