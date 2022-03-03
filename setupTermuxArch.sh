@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.137
+VERSIONID=2.1.140
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -24,6 +24,7 @@ exit 201
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
@@ -246,7 +247,6 @@ printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mD
 _DEPENDSBLOCK_() {
 _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 _COREFILESDO_ "$@"
-[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 }
 _DWNL_() { # download TermuxArch from Github
 FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
