@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.126
+VERSIONID=2.1.127
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -781,6 +781,7 @@ declare -A ADM		# declare associative array for download tools
 declare -A ATM		# declare associative array for tar tools
 declare -A FILE		# declare associative array
 declare -a ECLAVARR	# declare array for arrays and variables
+declare -a LC_TYPE	# declare array for locale types
 declare -a QEMUUSER	# declare array for qemu user tools
 declare PRFXTOLS	# declare variable for device tools that can be accessible in the PRoot environment
 declare -A EMPARIAS	# declare associative array for empty variables
