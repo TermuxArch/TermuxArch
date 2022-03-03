@@ -4,10 +4,10 @@
 ## termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
 ################################################################################
 set -Eeuo pipefail
-shopt -s nullglob globstar
+shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.129
+VERSIONID=2.1.130
 _STRPERROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\n\\e[1;48;5;138m %s\\e[0m\\n" "TermuxArch WARNING:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!"
@@ -24,8 +24,6 @@ exit 201
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
-rm -rf "${TAMPDIR:-}"
-sleep 0.04
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
@@ -45,7 +43,6 @@ exit
 _STRPSIGNAL_() { # run on signal
 printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch WARNING:  Signal %s received!\\e[0m\\n" "$?"
 printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
-rm -rf "${TAMPDIR:-}"
 exit 211
 }
 _STRPQUIT_() { # run on quit
@@ -249,6 +246,7 @@ printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mD
 _DEPENDSBLOCK_() {
 _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 _COREFILESDO_ "$@"
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 }
 _DWNL_() { # download TermuxArch from Github
 FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
