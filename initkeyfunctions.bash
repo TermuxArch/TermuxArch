@@ -411,21 +411,21 @@ _COMPAREFILE_ "$INPUTRCFILE" ".inputrc" "root"
 }
 
 _ADDprofile_() {
-PROFILEFILE="$(printf '%s\n' "export TMPDIR=\"/tmp\"")"
-_COMPAREFILE_ "$PROFILEFILE" ".profile" "root"
+PROFILEFILE="$(printf '%s\n%s\n' "export TMPDIR=\"/tmp\"" "$(cat etc/locale.conf)")"
+_COMPAREFILE_ "$PROFILEFILE" ".profile" "root" "cat etc/locale.conf"
 }
 
 _ADDzshrc_() { :>root/.zshrc ; }
 
 _COMPAREFILE_() { # compare and write file if differ
-_WRITENEWFILE_() { printf '%s\n' "$1" > "$3/$2" && printf '\e[0;32m%s\n' "File '${INSTALLDIR##*/}/$3/$2' ${@: -1}." ; }
+_WRITENEWFILE_() { printf '%s\n' "$1" > "$3/$2" && printf '\e[0;32m%s\n' "File '$3/$2' ${@: -1}." ; }
 if [ -f "$3/$2" ] # file exists
 then # compare
 if [[ "$1" != "$(cat $3/$2)" ]] # data differs
 then # write file
 _WRITENEWFILE_ "$@" "updated"
 else
-printf '\e[0;32m%s\n' "Data in file '${INSTALLDIR##*/}/$3/$2' is equal."
+printf '\e[0;32m%s\n' "Data in file '$3/$2' is equal."
 fi
 else # write data to file if it does not exist
 _WRITENEWFILE_ "$@" "created"

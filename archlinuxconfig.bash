@@ -8,7 +8,7 @@ _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
 if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
 then
-	:
+:
 else
 set +e
 PVAR="$(ping -n 1 1.1.1.1 2>&1 ||:)"
