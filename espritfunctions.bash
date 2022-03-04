@@ -246,7 +246,7 @@ _TAMATRIXEND_
 
 _TAMATRIXEND_() {	# print 'setupTermuxArch mat[rix]' ending
 . "$0" h
-tail -n 32 "$0"
+tail -n 18 "$0"
 . "$0" help
 printf "\\e[1;32mPlease run 'bash %s' again at a later time.  Also think about opening an issue and a pull request in order to enhance this feature;  Thank you for using '%s', and please enjoy using Linux on device!  " "${0##*/} $ARGS" "${0##*/} $ARGS"
 exit
