@@ -7,34 +7,35 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.154
+VERSIONID=2.1.155
 _STRPERROR_() { # run on script error
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;198m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+_STRPEXIT_
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
-[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [[ "$RV" != 0 ]]
 then
-printf "\\e[1;32mPlease run \'bash %s\' again, or use \'bash %s refresh\'.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
-printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
+printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
+printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s' to install Arch Linux in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, TV, wearable and similar devices.  " "${0##*/}" "${0##*/}"
 fi
 if [[ "$RV" = 6 ]]
 then
-printf "\\e[1;48;5;139m %s\\e[0m\\n" "Please ensure background data is not restricted.  Check the wireless connection."
+printf "\\e[1;48;5;132m %s" "Please ensure background data is not restricted.  Check the wireless connection.  "
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "DONE 🏁 "
-printf "\\e]2; %s: %s \\007" "${0##*/} ${ARGS:-}" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "${0##*/} ${ARGS:-}" "[Exit Signal $RV]" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m%s \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "${0##*/} ${ARGS:-}" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 printf "\\e[?25h\\e[0m"
@@ -42,7 +43,7 @@ set +Eeuo pipefail
 }
 _STRPSIGNAL_() { # run on signal
 local RV="$?"
-printf "\\e[?25h\\e[1;48;5;198m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 _STRPQUIT_() { # run on quit
 local RV="$?"
