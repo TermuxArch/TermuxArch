@@ -244,15 +244,11 @@ cat "$0"
 _TAMATRIXEND_
 }
 
-_TAMATRIXEND_() {	# print TermuxArch source code as matrix ending
-# Information about VT100 terminal codes such as \\e[?25l is available at this https://wiki.bash-hackers.org/scripting/terminalcodes website.
-printf "\\e[0;32m"
-. "$0" help
-tail -n 32 "$0"
+_TAMATRIXEND_() {	# print 'setupTermuxArch mat[rix]' ending
 . "$0" h
+tail -n 32 "$0"
+. "$0" help
 printf "\\e[1;32mPlease run 'bash %s' again at a later time.  Also think about opening an issue and a pull request in order to enhance this feature;  Thank you for using '%s', and please enjoy using Linux on device!  " "${0##*/} $ARGS" "${0##*/} $ARGS"
-printf "\\e[0m"
-printf "\\e[?25h"
 exit
 }
 
