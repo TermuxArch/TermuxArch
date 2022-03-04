@@ -7,24 +7,29 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.158
-_STRPERROR_() { # run on script error
+VERSIONID=2.1.159
+_STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 _STRPEXIT_
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
+if [ -z "${ARGS:-}" ]
+then
+STRANARG="${0##*/}"
+else
+STRANARG="${0##*/} ${ARGS:-}"
+fi
 if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
-[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [[ "$RV" != 0 ]]
 then
 printf "\\e[1;32mPlease run 'bash %s' again, or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
 printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.  " "${0##*/}"
-printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s' to install Arch Linux in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, TV, wearable and similar devices.  " "${0##*/}" "${0##*/}"
+printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s' in order to install Arch Linux in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, TV, wearable and similar devices.  " "${0##*/}" "${0##*/}"
 fi
 if [[ "$RV" = 6 ]]
 then
@@ -32,28 +37,41 @@ printf "\\e[1;48;5;132m %s" "Please ensure background data is not restricted.  C
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "${0##*/} ${ARGS:-}" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "$STRANARG" "${VERSIONID:-}" "DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "${0##*/} ${ARGS:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "${0##*/} ${ARGS:-}" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\e[0m\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
-_STRPSIGNAL_() { # run on signal
+_STRPHNGP_() { # run on hang up
+local RV="$?"
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+}
+_STRPNTRT_() { # run on signal
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+_STRPEXIT_
 }
 _STRPQUIT_() { # run on quit
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+_STRPEXIT_
 }
-trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
+_STRPTERM_() { # run on terminate
+local RV="$?"
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+_STRPEXIT_
+}
+trap '_STRPEROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
-trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
+trap '_STRPHNGP_ $LINENO $BASH_COMMAND $?' HUP 
+trap '_STRPNTRT_ $LINENO $BASH_COMMAND $?' INT 
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
-if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
+trap '_STRPTERM_ $LINENO $BASH_COMMAND $?' TERM
+if [ "$EUID" = 0 ] || [ "$UID" = 0 ] 
 then
 printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
 fi
@@ -174,6 +192,7 @@ if [[ "$OPT" = BLOOM ]]
 then
 rm -f termuxarchchecksum.sha512
 fi
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 }
 _DEPENDDM_() { # check and set download manager
 for PKG in "${!ADM[@]}"
