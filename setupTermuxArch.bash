@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.146
+VERSIONID=2.1.147
 _ADERHELP_() {
 printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"

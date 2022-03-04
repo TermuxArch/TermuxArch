@@ -201,7 +201,7 @@ fi
 fi
 }
 
-_PREPROOTDIR_() { # create local array of directories to be created for setupTermuxArch
+_PREPROOTDIR_() { # create local array of directories to be created by setupTermuxArch
 local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "usr/local/termuxarch/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
