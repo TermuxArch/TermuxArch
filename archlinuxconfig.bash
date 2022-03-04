@@ -588,7 +588,7 @@ rm -rf "\$TMPDIR/\$\$"
 BASENAME="\${@%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 BASENAME="\${BASENAME##*/}" # strip before last slash
-[ -d "\$BASENAME" ] && printf "Directory %s exits;  Exiting...\\n" "\$BASENAME" && exit 102
+[ -d "\$BASENAME" ] && printf "Directory %s exists;  Exiting...\\n" "\$BASENAME" && exit 102
 [ -x "\$(command -v git)" ] || pc git || pci git
 git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE
