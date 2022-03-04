@@ -587,7 +587,7 @@ rm -rf "\$TMPDIR/\$\$"
 }
 BASENAME="\${@%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
-REPONAME="\${REPONAME##*/}" # strip before last slash
+BASENAME="\${BASENAME##*/}" # strip before last slash
 [ -d "\$BASENAME" ] && printf "Directory %s exits;  Exiting...\\n" "\$BASENAME"
 [ -x "\$(command -v git)" ] || pc git || pci git
 git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
