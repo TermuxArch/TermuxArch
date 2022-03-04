@@ -7,15 +7,10 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.147
-_ADERHELP_() {
-printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
-printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
-}
+VERSIONID=2.1.148
 _STRPERROR_() { # run on script error
 local RV="$?"
-_ADERHELP_
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
@@ -24,9 +19,14 @@ if [[ -n "${TAMATRIXENDLCR:-}" ]]
 then
 _TAMATRIXEND_
 fi
+if [[ "$RV" != 0 ]]
+then
+printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
+printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
+printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
+fi
 if [[ "$RV" = 6 ]]
 then
-_ADERHELP_
 printf "\\e[1;48;5;139m %s\\e[0m\\n" "Please ensure background data is not restricted.  Check the wireless connection."
 fi
 if [[ "$RV" = 0 ]]
@@ -41,11 +41,12 @@ printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
 _STRPSIGNAL_() { # run on signal
-printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Signal %s received!\\e[0m\\n" "$?"
-printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
+local RV="$?"
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 _STRPQUIT_() { # run on quit
-printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Quit signal %s received!\\e[0m\\n" "$?"
+local RV="$?"
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
@@ -53,11 +54,11 @@ trap '_STRPSIGNAL_ $LINENO $BASH_COMMAND $?' HUP INT TERM
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 if [ "$UID" = 0 ] || [ "$EUID" = 0 ]
 then
-printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "Signal 164 generated;" "  Please do not use the root login for PRoot:" "  Exiting..." && exit 164
+printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ script %s\e[0m\\n\\n" "${0##*/} FEEDBACK:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  Exiting..." "${0##*/}" && exit 68
+printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -445,12 +446,15 @@ elif [[ "${2//-}" = [Mm]* ]]
 then
 shift
 printf "%s\\n" "Setting mode to manual."
+echo echo
+set -x
+echo echo
 OPT=MANUAL
 _OPT2_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift
-printf "%s\\n" "Setting mode to full refresh."
+printf "\\nSetting mode to full refresh.\\n"
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -458,6 +462,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 shift
+printf "\\nSetting mode to 4 refresh.\\n"
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -465,6 +470,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee][Ff]* ]]
 then
 shift
+printf "\\nSetting mode to 3 refresh.\\n"
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -472,7 +478,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr][Ee]* ]]
 then
 shift
-printf "%s\\n" "Setting mode to refresh."
+printf "\\nSetting mode to 2 refresh.\\n"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -480,7 +486,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${2//-}" = [Rr]* ]]
 then
 shift
-printf "%s\\n" "Setting mode to refresh."
+printf "%s\\n" "Setting mode to 1 refresh."
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -517,6 +523,7 @@ _OPT2_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 shift 2
+printf "\\nSetting mode to full refresh.\\n"
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -524,7 +531,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
 shift 2
-printf "%s\\n" "Setting mode to full refresh."
+printf "\\nSetting mode to 4 refresh.\\n"
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -532,6 +539,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee][Ff]* ]]
 then
 shift 2
+printf "\\nSetting mode to 3 refresh.\\n"
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -539,7 +547,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr][Ee]* ]]
 then
 shift 2
-printf "%s\\n" "Setting mode to refresh."
+printf "\\nSetting mode to 2 refresh.\\n"
 _PRPREFRESH_ "2"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -547,7 +555,7 @@ _INTROREFRESH_ "$@"
 elif [[ "${3//-}" = [Rr]* ]]
 then
 shift 2
-printf "%s\\n" "Setting mode to refresh."
+printf "\\nSetting mode to 1 refresh.\\n"
 _PRPREFRESH_ "1"
 _ARG2DIR_ "$@"
 _PREPTERMUXARCH_
@@ -683,7 +691,7 @@ printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(
 fi
 }
 _RMARCHQ_() {
-printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:" "ＴｅｒｍｕｘＡｒｃｈ DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ" "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
 then
 PURGEMETHOD="quick "
@@ -1042,16 +1050,19 @@ _INTRO_ "$@"
 ## [refresh [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
+printf "\\nSetting mode to full refresh.\\n"
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr]* ]]
 then
+printf "\\nSetting mode to 4 refresh.\\n"
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
+printf "\\nSetting mode to 3 refresh.\\n"
 _PRPREFRESH_ "3"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"

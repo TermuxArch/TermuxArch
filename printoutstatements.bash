@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.1.147"
+FLHDR1[5]="VERSIONID=2.1.148"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -193,7 +193,7 @@ printf "\\n\\e[0;34m 🕛 > 🕠 \\e[1;34mChecking download integrity with md5su
 
 _PRINTMD5ERROR_() {
 printf "\033]2;%s\007" "Run 'bash ${0##*/}' again..."
-printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ FEEDBACK md5sum mismatch! The download failed and was removed!\\e[30;1m  Run 'bash %s' again.  The command 'bash %s help' has more information.  This kind of error can go away, like magic.  Waiting before executing again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  An interrupted download is one more reason for an md5sum mismatch error.\\n	If this keeps repeating, you can copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with with command 'bash %s manual' to choose a preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n	User configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'knownconfigurations.bash' in the working directory.  Use 'bash %s manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Please run 'bash %s' again, or you can run 'bash %s manual' which creates file '%sConfigs.bash' for editing.\\n\\e[0;0m\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
+printf "\\n\\e[07;1m\\e[31;1m 🔆 ＴｅｒｍｕｘＡｒｃｈ SIGNAL md5sum mismatch! The download failed and was removed!\\e[30;1m  Run 'bash %s' again.  The command 'bash %s help' has more information.  This kind of error can go away, just like magic.  Waiting before executing %s again is recommended.  There are numerous reasons for checksum errors.  Proxies are one explaination.  Mirroring and mirrors are another explaination for md5sum errors.  An interrupted download is one more reason for an md5sum mismatch error.\\n	If this keeps repeating, you can copy 'knownconfigurations.bash' to 'setupTermuxArchConfigs.bash' with with command 'bash %s manual' to choose a preferred mirror.  After editing 'setupTermuxArchConfigs.bash', run 'bash %s' and 'setupTermuxArchConfigs.bash' loads automaticaly from the same directory.  Change mirror to desired geographic location to resolve md5sum errors.\\n	User configurable variables are in 'setupTermuxArchConfigs.bash'.  Create this file from 'knownconfigurations.bash' in the working directory.  Use 'bash %s manual' to create and edit 'setupTermuxArchConfigs.bash'.\\n\\n	Please run 'bash %s' again, or you can run 'bash %s manual' which creates file '%sConfigs.bash' for editing.\\n\\e[0;0m\n" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}" "${0##*/}"
 exit
 }
 
