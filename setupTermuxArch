@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.145
+VERSIONID=2.1.146
 _ADERHELP_() {
 printf "\\e[1;32mThe command 'bash %s help' has information how to use '%s'.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*/}" "${0##*/}"
@@ -15,7 +15,7 @@ printf "\\e[1;32mPlease run 'bash %s' again or use 'bash %s refresh'.  " "${0##*
 _STRPERROR_() { # run on script error
 local RV="$?"
 _ADERHELP_
-printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "TermuxArch FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
@@ -41,11 +41,11 @@ printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
 _STRPSIGNAL_() { # run on signal
-printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Signal %s received!\\e[0m\\n" "$?"
+printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Signal %s received!\\e[0m\\n" "$?"
 printf "\\e[?25h\\e[1;32mRunning command '%s refresh' may assist in completing the installation and configuration.\\e[0m\\n" "${0##*/}"
 }
 _STRPQUIT_() { # run on quit
-printf "\\e[?25h\\e[1;7;38;5;0mTermuxArch FEEDBACK:  Quit signal %s received!\\e[0m\\n" "$?"
+printf "\\e[?25h\\e[1;7;38;5;0mＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Quit signal %s received!\\e[0m\\n" "$?"
 }
 trap '_STRPERROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
@@ -57,7 +57,7 @@ printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "Signal 164 generated;" "  Please 
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mScript %s\e[0m\\n\\n" "${0##*/} FEEDBACK:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  Exiting..." "${0##*/}" && exit 68
+printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ script %s\e[0m\\n\\n" "${0##*/} FEEDBACK:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  Exiting..." "${0##*/}" && exit 68
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -75,7 +75,7 @@ ELCR=0
 _INTROBLOOM_ "$@"
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to create the directory skeleton!  Command '${0##*/} bloom customdir' can be appended with customdir.  The command '${0##*/} bloom customdir' can continue building the skeleton structure.  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 else
 _PREPTERMUXARCH_
 _MAINBLOCK_
@@ -290,7 +290,7 @@ printf "\033]2;%s\007" "bash ${0##*/} $ARGS 📲"
 _SETROOT_EXCEPTION_
 if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "TermuxArch FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure of ~/${INSTALLDIR##*/} seems to be correct; Cannot continue '${0##*/} $ARGS' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
@@ -581,7 +581,7 @@ _PRINTCONFLOADED_() {
 printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;32m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 > 🕑" "TermuxArch configuration" "$WDIR" "setupTermuxArchConfigs.bash" "loaded:" "OK"
 }
 _PRINTSHA512SYSCHKER_() {
-printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 FEEDBACK sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
+printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ FEEDBACK sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash ${0##*/} $ARGS' again..."
 printf '\033]2; Run %s again...\007' "bash ${0##*/} $ARGS"
 exit 124
 }
@@ -683,7 +683,7 @@ printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(
 fi
 }
 _RMARCHQ_() {
-printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:" "DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
+printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ:" "ＴｅｒｍｕｘＡｒｃｈ DIRECTORY FEEDBACK!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
 then
 PURGEMETHOD="quick "
@@ -800,7 +800,7 @@ STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
 ## 3)  Tests for correct OS,
-_COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\e[0m\\n\\n" "TermuxArch FEEDBACK:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
+_COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
 if [ -d "$HOME/bin" ] && grep "$HOME/bin" <<< "$PATH"
