@@ -80,7 +80,7 @@ _ADDpc_
 _ADDpci_
 _ADDpinghelp_
 _ADDprofile_
-if [[ -n "${VLORALCR:-}" ]]
+if [ -n "${VLORALCR:-}" ]
 then
 _ADDprofileetc_
 _ADDprofileusretc_
@@ -90,6 +90,7 @@ _PREPMOTS_
 _ADDmota_
 _ADDmotd_
 _ADDmoto_
+_ADDstriphtmlcodefromfile_
 _ADDt_
 _ADDtlmgrinstaller_
 [ -f usr/local/bin/top ] ||  _ADDtop_
@@ -128,7 +129,7 @@ fi
 _FUNADDU_() {
 [[ ! "\$(command -v sudo)" ]] 2>/dev/null && (pc sudo || pc sudo)
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
-[ ! -f /etc/sudoers ] || :>/etc/sudoers
+[ -f /etc/sudoers ] || :>/etc/sudoers
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
 sed -i "/# ALL ALL=(ALL) ALL/ s/^# *//" /etc/sudoers
 sed -i "s/# ALL ALL=(ALL) ALL/ALL ALL=(ALL) NOPASSWD: ALL/g" /etc/sudoers
