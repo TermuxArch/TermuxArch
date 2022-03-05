@@ -31,8 +31,8 @@ _CPYFRT_() { # copy file from root login to user
 cp "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER/" && printf "\\e[0;32mFile '%s' copied to '\\e[1;32m%s\\e[0;32m'.  " "${INSTALLDIR##*/}/root/$DOFLNAME" "${INSTALLDIR##*/}/home/$TALUSER/$DOFLNAME"
 }
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/home/$TALUSER"
-[[ ! -d "$BKPDIR" ]] && mkdir -p "$BKPDIR"
-if [[ "$TALUSER" != alarm ]]
+[ -d "$BKPDIR" ] || mkdir -p "$BKPDIR"
+if [ "$TALUSER" != alarm ]
 then
 DOFLIST_=(.bash_profile .bashrc .cshrc .emacs .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
 for DOFLNAME in "${DOFLIST_[@]}"
@@ -50,7 +50,7 @@ fi
 }
 
 _DOTHRF_() { # do the root user files
-[[ -f $1 ]] && { printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" ; } || printf "%s" "copy file '$1' if found; file not found; continuing; "
+[ -f $1 ] && { printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" ; } || printf "%s" "copy file '$1' if found; file not found; continuing; "
 }
 
 _FUNLCR2_() { # copy from root to home

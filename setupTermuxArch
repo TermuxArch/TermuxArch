@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.162
+VERSIONID=2.1.163
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -356,16 +356,16 @@ _SYSINFO_ "$@"
 }
 _DODIRCHK_() {
 _SETROOT_EXCEPTION_
-if [[ ! -d "$INSTALLDIR" ]] || [[ ! -d "$INSTALLDIR/root/bin" ]] || [[ ! -d "$INSTALLDIR/var/binds" ]] || [[ ! -f "$INSTALLDIR/bin/we" ]] || [[ ! -f "$INSTALLDIR/usr/bin/env" ]]
+if [ ! -d "$INSTALLDIR" ] || [ ! -d "$INSTALLDIR/root/bin" ] || [ ! -d "$INSTALLDIR/var/binds" ] || [ ! -f "$INSTALLDIR/bin/we" ] || [ ! -f "$INSTALLDIR/usr/bin/env" ]
 then
 printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\e[0m\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '${0##*/} $ARGS'!  This command '${0##*/} help' has more information"
-if [[ -d "$INSTALLDIR"/tmp ]]
+if [ -d "$INSTALLDIR"/tmp ]
 then	# check for superfluous tmp directory
 DIRCHECK=0
 DIRNAME=(dev etc home opt proc root sys usr var)
 for IDIRNAME in ${DIRNAME[@]}
 do
-if [[ ! -d "$INSTALLDIR/$IDIRNAME" ]]
+if [ ! -d "$INSTALLDIR/$IDIRNAME" ]
 then
 DIRCHECK=1
 else
@@ -373,10 +373,10 @@ DIRCHECK=0
 fi
 done
 fi
-if [[ -z "${DIRCHECK:-}" ]]
+if [ -z "${DIRCHECK:-}" ]
 then
 printf "Variable DIRCHECK is unbound.\\n"
-elif [[ "$DIRCHECK" -eq 1 ]]
+elif [ "$DIRCHECK" -eq 1 ]]
 then	# delete superfluous tmp dir
 rm -rf "$INSTALLDIR"/tmp
 rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
@@ -587,9 +587,9 @@ _PREPTERMUXARCH_
 fi
 }
 _PREPTMPDIR_() {
-[[ ! -d "$INSTALLDIR/tmp" ]] && mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp"
+[ -d "$INSTALLDIR/tmp" ] || { mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ; }
 TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
-[[ ! -d "$TAMPDIR" ]] && mkdir -p "$TAMPDIR"
+[ -d "$TAMPDIR" ]|| mkdir -p "$TAMPDIR"
 }
 _PREPTERMUXARCH_() {
 _NAMEINSTALLDIR_

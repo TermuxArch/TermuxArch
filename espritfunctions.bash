@@ -158,10 +158,10 @@ printf "\\n"
 }
 
 _NANOIF_() {
-if [[ ! -x "$PREFIX"/bin/nano ]]
+if [ ! -x "$PREFIX"/bin/nano ]
 then
 apt -o APT::Keep-Downloaded-Packages="true" install "nano" -y
-if [[ ! -x "$PREFIX"/bin/nano ]]
+if [ ! -x "$PREFIX"/bin/nano ]
 then
 printf "\\n\\e[7;1;31m%s\\e[0;1;32m %s\\n\\n\\e[0m" "PREREQUISITE EXCEPTION!" "RUN ${0##*/} $ARGS AGAIN..."
 printf "\\e]2;%s %s\\007" "RUN ${0##*/} $ARGS" "AGAIN..."
