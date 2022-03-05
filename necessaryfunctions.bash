@@ -294,8 +294,6 @@ _ADDmotd_
 _PREPPACMANCONF_ || :
 _SETLOCALE_
 _RUNFINISHSETUP_
-rm -f root/bin/"$BINFNSTP"
-rm -f root/bin/setupbin.bash
 [ -f root/bin/"$BINFNSTP" ] && rm -f root/bin/"$BINFNSTP"
 [ -f root/bin/setupbin.bash ] && rm -f root/bin/setupbin.bash
 printf "\\n\\e[1;34m%s  \\e[0m\\n\\n" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
