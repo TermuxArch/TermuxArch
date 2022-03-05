@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.160
+VERSIONID=2.1.161
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[?25h\\e[1;48;5;138m %s\\e[0m" "ＴｅｒｍｕｘＡｒｃｈ FEEDBACK:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -67,11 +67,11 @@ _STRPEXIT_
 }
 trap '_STRPEROR_ $LINENO $BASH_COMMAND $?' ERR
 trap '_STRPEXIT_ $LINENO $BASH_COMMAND $?' EXIT
-trap '_STRPHNGP_ $LINENO $BASH_COMMAND $?' HUP 
-trap '_STRPNTRT_ $LINENO $BASH_COMMAND $?' INT 
+trap '_STRPHNGP_ $LINENO $BASH_COMMAND $?' HUP
+trap '_STRPNTRT_ $LINENO $BASH_COMMAND $?' INT
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 trap '_STRPTERM_ $LINENO $BASH_COMMAND $?' TERM
-if [ "$EUID" = 0 ] || [ "$UID" = 0 ] 
+if [ "$EUID" = 0 ] || [ "$UID" = 0 ]
 then
 printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\e[0m\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
 fi
