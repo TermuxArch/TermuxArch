@@ -583,14 +583,18 @@ _DOKYLGEN_() {
 DOKYSKEY=""
 LOCGEN=":"
 }
+_LOCALEGENPACNEW_() {
+[ -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ] || { [ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ; }
+}
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
 _DOKEYS_
-[ -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ] || { [ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ; }
+_LOCALEGENPACNEW_
 LOCGEN="locale-gen || locale-gen"
 elif [[ "${LCR:-}" -eq 1 ]] || [[ "${LCR:-}" -eq 2 ]] || [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] 	# LCR equals 1 or 2 or 3 or 4
 then
 _DOKYLGEN_
+_LOCALEGENPACNEW_
 fi
 _CFLHDR_ "root/bin/$BINFNSTP"
 cat >> root/bin/"$BINFNSTP" <<- EOM

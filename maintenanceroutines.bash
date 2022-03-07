@@ -67,7 +67,7 @@ then
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" 2>/dev/null && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 printf '%s\n' "cp -fr * $INSTALLDIR"
-cp -fr * "$INSTALLDIR"
+cp -fr ./* "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
 printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 fi
@@ -194,9 +194,9 @@ _SHFUNC_ "$@"
 else
 if [ ${#FNDTMPROOT[@]} = 1 ]
 then
-printf "\\n\\e[0;32mFound %s open PRoot session;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;32mFound %s open Termux PRoot session;  Not checking for errors." "${#FNDTMPROOT[@]}"
 else
-printf "\\n\\e[0;32mFound %s open PRoot sessions;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;32mFound %s open Termux PRoot sessions;  Not checking for errors." "${#FNDTMPROOT[@]}"
 fi
 fi
 fi
@@ -240,7 +240,7 @@ then
 USSPACE="${USRSPACE: : -1}"
 if [[ "$CPUABI" = "$CPUABI8" ]]
 then
-if [[ "$USSPACE" < "1.5" ]]
+if [[ "$USSPACE" -le "1.5" ]]
 then
 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE FEEDBACK!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 architecture is 1.5G of free user space.\\e[0m\\n"
 else
@@ -248,7 +248,7 @@ SPACEMESSAGE=""
 fi
 elif [[ "$CPUABI" = "$CPUABI7" ]]
 then
-if [[ "$USSPACE" < "1.23" ]]
+if [[ "$USSPACE" -le "1.23" ]]
 then
 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE FEEDBACK!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 architecture is 1.23G of free user space.\\e[0m\\n"
 else
