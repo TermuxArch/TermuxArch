@@ -584,7 +584,14 @@ DOKYSKEY=""
 LOCGEN=":"
 }
 _LOCALEGENPACNEW_() {
-[ -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ] || { [ -f etc/locale.gen.pacnew ] && cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ; }
+
+if [ ! -f var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock ]
+then
+if [ -f "etc/locale.gen.pacnew" ]
+then
+cp -f etc/locale.gen var/backups/"${INSTALLDIR##*/}"/etc/locale.gen."$SDATE".bkp && cp -f etc/locale.gen.pacnew etc/locale.gen && :>var/run/lock/"${INSTALLDIR##*/}"/locale.gen.pacnew.lock
+fi
+fi
 }
 if [[ "${LCR:-}" -eq 5 ]] || [[ -z "${LCR:-}" ]]	# LCR equals 5 or is undefined
 then
