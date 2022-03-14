@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.211
+VERSIONID=2.1.212
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -15,6 +15,7 @@ _STRPEXIT_
 }
 _STRPEXIT_() { # run on exit
 local RV="$?"
+[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 if [ -z "${ARGS:-}" ]
 then
 STRANARG="${0##*/}"
@@ -192,7 +193,6 @@ if [[ "$OPT" = BLOOM ]]
 then
 rm -f termuxarchchecksum.sha512
 fi
-[ -d "${TAMPDIR:-}" ] && rm -rf "$INSTALLDIR"/tmp/setupTermuxArch*
 }
 _DEPENDDM_() { # check and set download manager
 for PKG in "${!ADM[@]}"

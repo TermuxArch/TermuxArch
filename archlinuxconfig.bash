@@ -452,8 +452,10 @@ chmod 755 usr/local/bin/ch
 _ADDchperms.cache+gnupg_() {
 _CFLHDR_ usr/local/bin/chperms.cache+gnupg
 cat >> usr/local/bin/chperms.cache+gnupg <<- EOM
+set -x
 [[ -d "\$HOME"/.cache ]] && find "\$HOME"/.cache -type d -exec chmod 777 {} \; && find "\$HOME"/.cache -type f -exec chmod 666 {} \;
 [[ -d "\$HOME/".gnupg ]] && find "\$HOME/".gnupg -type d -exec chmod 777 {} \; && find "\$HOME/".gnupg -type f -exec chmod 666 {} \;
+set +x
 ## ~/${INSTALLDIR##*/}/usr/local/bin/chperms.cache+gnupg FE
 EOM
 chmod 755 usr/local/bin/chperms.cache+gnupg

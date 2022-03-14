@@ -88,7 +88,15 @@ softirq 204699421 2536598 39636497 522981 4632002 29263706 104522 6736991 413327
 }
 
 _ADDfbindprocuptime_() {
-printf "%s\\n" "350735.47 234388.90" > var/binds/fbindprocuptime
+INVNUM="$(shuf -n 1 -i 0-1)"
+DIVNUM="$(shuf -n 1 -i 0-1)"
+[ "$INVNUM" = 0 ] && ADDSUB="-" || ADDSUB="+"
+[ "$DIVNUM" = 0 ] && DIVISOR=" / 2" || DIVISOR=""
+BINDPROCUPTIM2="$(shuf -n 1 -i 10000-33333)"
+BINDPROCUPTIM0="$(((BINDPROCUPTIM2 * 3)$DIVISOR))"
+BINDPROCUPTIM1="$(shuf -n 1 -i 33-66)"
+BINDPROCUPTIM3="$((BINDPROCUPTIM1 $ADDSUB $(shuf -n 1 -i 0-33)))"
+printf "%s.%02d %s.%02d\\n" "$BINDPROCUPTIM0" "$BINDPROCUPTIM1" "$BINDPROCUPTIM2" "$BINDPROCUPTIM3" > var/binds/fbindprocuptime
 }
 
 _ADDfbindprocversion_() {
