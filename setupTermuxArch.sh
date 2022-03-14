@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.206
+VERSIONID=2.1.207
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -237,7 +237,7 @@ else
 PKGS=(pulseaudio bsdtar proot)
 fi
 printf "\\e[1;34mChecking prerequisites...\\n\\e[1;32m"
-ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftp [wget]=wget)
+ADM=([aria2]=aria2c [axel]=axel [curl]=curl [lftp]=lftpget [wget]=wget)
 if [[ "$DM" != "" ]]
 then
 _DEPENDIFDM_
@@ -289,9 +289,8 @@ _DOADMWGET_() {
 }
 _DOADMWGET_  || (au wget && "$PREFIX/bin/wget" "$DMVERBOSE" -N --show-progress "${FILE[sha]}" "${FILE[tar]}") || _PSGI1ESTRING_ "_DOADMWGET_ _DWNL_ ${0##*/}"
 else	# use https://github.com/lavv17/lftp
-"${ADM[lftp]}" -c "${FILE[sha]}" "${FILE[tar]}"
+"${ADM[lftp]}" "${FILE[sha]}" "${FILE[tar]}"
 fi
-printf "\\n\\e[1;32m"
 }
 _EDITORCHOOSER_() {
 if [[ -z "${EDITOR:-}" ]]
@@ -802,11 +801,10 @@ CPUABIX86="x86"		# used for development
 CPUABIX8664="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
-[[ -z "${TAMPDIR:-}" ]] && TAMPDIR=""
 ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
-STRING2="Cannot update '${0##*/}' prerequisite: Continuing..."
+STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found;  Continuing... "
+STRING2="Cannot update '${0##*/}' prerequisites;  Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
