@@ -4,11 +4,11 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-
 _ADDfbindprocpcidevices.prs_() {
 _CFLHDRS_ var/binds/fbindprocpcidevices.prs "# bind an empty /proc/bus/pci/devices file"
 printf "%s\\n" "PROOTSTMNT+=\"-b $INSTALLDIR/var/binds/fbindprocpcidevices:/proc/bus/pci/devices \"
 ## ~/${INSTALLDIR##*/}/usr/local/bin/fbindprocpcidevices.prs FE" >> var/binds/fbindprocpcidevices.prs
+:>var/binds/fbindprocpcidevices
 }
 
 _ADDfbindprocshmem.prs_() {

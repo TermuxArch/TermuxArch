@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.212
+VERSIONID=2.1.213
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -176,23 +176,23 @@ _CHK_ "$@"
 fi
 }
 _COREFILESLOAD_() {
+if [[ "$OPT" = BLOOM ]]
+then
+rm -f termuxarchchecksum.sha512
+fi
+if [[ "$OPT" = MANUAL ]]
+then
+_MANUAL_
+fi
+_LOADCONF_
 . fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
 . initkeyfunctions.bash
-_LOADCONF_
 . maintenanceroutines.bash
 . necessaryfunctions.bash
 . printoutstatements.bash
-if [[ "$OPT" = MANUAL ]]
-then
-_MANUAL_
-fi
-if [[ "$OPT" = BLOOM ]]
-then
-rm -f termuxarchchecksum.sha512
-fi
 }
 _DEPENDDM_() { # check and set download manager
 for PKG in "${!ADM[@]}"
@@ -219,7 +219,7 @@ _DEPENDS_() {	# check for missing commands
 _INPKGS_() {	# install missing packages
 STRNGB="\\e[1;38;5;146m%s"
 STRNGC="\\e[1;38;5;124m%s"
-if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
+if [[ "$COMMANDIF" = au ]] # can enable rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
 au "${PKGS[@]}" && printf "$STRNGB%s" "$STRING1F" || printf "$STRNGC%s" "$STRING2"
 elif [[ "$COMMANDIF" = pkg ]]
@@ -396,8 +396,6 @@ else
 cp knownconfigurations.bash "${WDIR}setupTermuxArchConfigs.bash"
 sed -i "7s/.*/\# The architecture of this device is $CPUABI; Adjust configurations in the appropriate section.  Change mirror (https:\/\/wiki.archlinux.org\/index.php\/Mirrors and https:\/\/archlinuxarm.org\/about\/mirrors) to desired geographic location to resolve 404 and checksum issues.  /" "${WDIR}setupTermuxArchConfigs.bash"
 $USEREDIT "${WDIR}setupTermuxArchConfigs.bash"
-. "${WDIR}setupTermuxArchConfigs.bash"
-_PRINTCONFLOADED_
 fi
 }
 _NAMEINSTALLDIR_() {
@@ -802,8 +800,8 @@ CPUABIX8664="x86_64"	# used for development
 DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for verbose output throughout runtime also change in 'setupTermuxArchConfigs.bash' when using 'setupTermuxArch m[anual]'
 ELCR=1
 ROOTDIR="/arch"
-STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
+STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
+STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
