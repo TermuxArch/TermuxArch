@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.207
+VERSIONID=2.1.208
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -217,8 +217,8 @@ done
 }
 _DEPENDS_() {	# check for missing commands
 _INPKGS_() {	# install missing packages
-STRNGB="\\e[1;38;5;146m%s\\n"
-STRNGC="\\e[1;38;5;124m%s\\n"
+STRNGB="\\e[1;38;5;146m%s"
+STRNGC="\\e[1;38;5;124m%s"
 if [[ "$COMMANDIF" = au ]] # enables rollback https://wae.github.io/au/
 then	# use 'au' to install missing packages
 au "${PKGS[@]}" && printf "$STRNGB%s" "$STRING1F" || printf "$STRNGC%s" "$STRING2"
@@ -255,14 +255,14 @@ printf "Setting download tool 'lftp' for install: Continuing...\\n"
 fi
 for PKG in "${PKGS[@]}"
 do	# check for missing commands
-COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\n" "$PKG" # test if command exists
+COMMANDP="$(command -v "$PKG")" || printf "\\e[1;38;5;242mCommand %s not found: Continuing...\\e[0m\\n" "$PKG" # test if command exists
 COMMANDPF="${COMMANDP##*/}"
 if [[ "$COMMANDPF" != "$PKG" ]]
 then
 _INPKGS_
 fi
 done
-printf "\\nUsing %s to manage downloads.\\n" "${DM:-lftp}"
+printf "\\n\\e[1;38;5;242mUsing %s to manage downloads.\\e[0m\\n" "${DM:-lftp}"
 printf "\\n\\e[0;34m 🕛 > 🕧 \\e[1;34mPrerequisites: \\e[1;32mOK  \\e[1;34mDownloading TermuxArch...\\n\\n\\e[0;32m"
 }
 _DEPENDSBLOCK_() {
@@ -803,8 +803,8 @@ DMVERBOSE="-q"	# -v for verbose download manager output from curl and wget;  for
 ELCR=1
 ROOTDIR="/arch"
 STRING1="COMMAND 'au' enables rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
-STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found;  Continuing... "
-STRING2="Cannot update '${0##*/}' prerequisites;  Continuing..."
+STRING1F="COMMAND 'au' enables auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
+STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
 ## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
