@@ -108,7 +108,7 @@ fi
 }
 function em() {
 [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }
-[ -x \$HOME/bin/uemacs ] && \$HOME/bin/uemacs "\$@" || { { cd && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && cd uemacs ; } && printf '%s\\n' "making uemacs" && make && mv em \$HOME/bin/uemacs && \$HOME/bin/uemacs emacs.hlp ; }
+{ [ -x /usr/local/bin/uemacs ] && /usr/local/bin/uemacs "\$@" ; } || { { cd && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && cd uemacs ; } && printf '%s\\n' "making uemacs" && make && cp -f em /usr/local/bin/uemacs && /usr/local/bin/uemacs emacs.hlp ; }
 }
 alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
