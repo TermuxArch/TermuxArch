@@ -861,40 +861,40 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is attempting to make command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "$4" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
-_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# Attempt to build and install an AUR tool for managing an auto-updating local 'aurto' package repository using aurutils." ; }
+_ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto aurto "# Attempting to build and install an AUR tool for managing an auto-updating local 'aurto' package repository using aurutils." ; }
 
-_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
+_ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils aurutils "# Attempting to build and install an AUR helper for the arch user repository." ; }
 
-_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# Attempt to build and install an AUR helper for the arch user repository." ; }
+_ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git aurutils "# Attempting to build and install an AUR helper for the arch user repository." ; }
 
-_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# Attempt to build and install an extension of Powerpill with AUR and ABS support." ; }
+_ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "# Attempting to build and install an extension of Powerpill with AUR and ABS support." ; }
 
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install the Haskell language ghcup-hs installer." ; }
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempting to build and install the Haskell language ghcup-hs installer." ; }
 
-_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# Attempt to build and install an AUR helper that minimizes user interaction."
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur "# Attempting to build and install an AUR helper that minimizes user interaction."
 _PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur
 _PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempt to build and install an AUR helper that minimizes user interaction." ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "# Attempting to build and install an AUR helper that minimizes user interaction." ; }
 
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery "" ; }
 
-_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "Attempt to build and install an " ; }
+_ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "Attempting to build and install an " ; }
 
-_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "Attempt to build and install an " ; }
+_ADDmakeaurparu_() { _PREPFILEFTN0_ paru paru paru "Attempting to build and install an " ; }
 
-_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "Attempt to build and install an " ; }
+_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "Attempting to build and install an " ; }
 
-_ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
+_ADDmakeaurpikaur_() { _PREPFILEFTN0_ pikaur pikaur pikaur "Attempting to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
 
-_ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "Attempt to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
+_ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "Attempting to build and install an AUR helper which asks all questions before installing/building. Inspired by pacaur, yaourt and yay." ; }
 
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "" ; }
 
