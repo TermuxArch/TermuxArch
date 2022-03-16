@@ -106,7 +106,7 @@ fi
 }
 function em() {
 [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }
-{ [ -x /usr/local/bin/uemacs ] && /usr/local/bin/uemacs "\$@" ; } || { { cd && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && cd uemacs ; } && printf '%s\\n' "making uemacs" && make && cp -f em /usr/local/bin/uemacs && /usr/local/bin/uemacs emacs.hlp ; }
+{ [ -x /usr/local/bin/uemacs ] && /usr/local/bin/uemacs "\$@" ; } || { { { cd || exit 69 ; } && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && { cd uemacs || exit 69 ; } ; } && printf '%s\\n' "making uemacs" && make && cp -f em /usr/local/bin/uemacs && /usr/local/bin/uemacs emacs.hlp ; }
 }
 alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
@@ -534,7 +534,7 @@ chmod 755 usr/local/bin/ga
 
 _ADDgcl_() {
 _CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
-printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" && exit 101 ; }
+printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in native Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" && exit 101 ; }
 { [ \"\$#\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" \"Exiting...\" ; } && exit 101
 _GITCLONE_() {
 WDIR_=\"\$PWD\"
@@ -547,12 +547,11 @@ cd \"\$WDIR_\" && git clone --depth 1 \"\$@\" --branch \$RBRANCH --single-branch
 rm -rf \"\$TMPDIR/\$\$\"
 }
 _SLPCLONE_() { sleep \$(shuf -n 1 -i 0-3 ).\$(shuf -n 1 -i 0-9 ) ; }
-BASENAME=\"\${@%/}\" # strip trailing slash
-BASENAME=\"\${BASENAME#*//}\" # strip before double slash
+BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
 [ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit 102
 [ -x \"\$(command -v git)\" ] || pc git || pci git
-{ git clone --depth 1 \"\$@\" --branch master --single-branch ; } || { _SLPCLONE_ && GITCLONE_ \"\$@\" ; } || { _SLPCLONE_ && git clone --depth 1 \"\$@\" ; } || { _SLPCLONE_ && git clone \"\$@\" ; }
+{ git clone --depth 1 \"\$@\" --branch master --single-branch ; } || { _SLPCLONE_ && _GITCLONE_ \"\$@\" ; } || { _SLPCLONE_ && git clone --depth 1 \"\$@\" ; } || { _SLPCLONE_ && git clone \"\$@\" ; }
 ## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE" >> usr/local/bin/gcl
 chmod 755 usr/local/bin/gcl
 }
