@@ -534,27 +534,26 @@ chmod 755 usr/local/bin/ga
 
 _ADDgcl_() {
 _CFLHDR_ usr/local/bin/gcl "# Contributor https://reddit.com/u/ElectricalUnion"
-cat >> usr/local/bin/gcl <<- EOM
-{ [ "\$UID" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..." && exit 101 ; }
-{ [ "\$#" = 0 ] && printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " "Exiting..." ; } && exit 101
+printf "%s\\n" "{ [ \"\$UID\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \" \"Exiting...\" && exit 101 ; }
+{ [ \"\$#\" = 0 ] && printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n\" \"Example usage: \" \"'\${0##*/} https://github.com/TermuxArch/TermuxArch' \" \"Exiting...\" ; } && exit 101
 _GITCLONE_() {
-WDIR_="\$PWD"
-{ [ -d "\$TMPDIR/\$\$" ] || mkdir -p "\$TMPDIR/\$\$" ; } && cd "\$TMPDIR/\$\$" && git init
-printf "%s\\n" "Checking HEAD branch in \$@..."
-RBRANCH="\$(git remote show "\$@" | grep 'HEAD branch' | cut -d' ' -f5)"
-RBRANCH="\${RBRANCH# }" # strip leading space
-printf "%s\\n" "Getting branch \$RBRANCH from git repository \$@..."
-cd "\$WDIR_" && git clone --depth 1 "\$@" --branch \$RBRANCH --single-branch
-rm -rf "\$TMPDIR/\$\$"
+WDIR_=\"\$PWD\"
+{ [ -d \"\$TMPDIR/\$\$\" ] || mkdir -p \"\$TMPDIR/\$\$\" ; } && cd \"\$TMPDIR/\$\$\" && git init
+printf \"%s\\n\" \"Checking HEAD branch in \$@...\"
+RBRANCH=\"\$(git remote show \"\$@\" | grep 'HEAD branch' | cut -d' ' -f5)\"
+RBRANCH=\"\${RBRANCH# }\" # strip leading space
+printf \"%s\\n\" \"Getting branch \$RBRANCH from git repository \$@...\"
+cd \"\$WDIR_\" && git clone --depth 1 \"\$@\" --branch \$RBRANCH --single-branch
+rm -rf \"\$TMPDIR/\$\$\"
 }
-BASENAME="\${@%/}" # strip trailing slash
-BASENAME="\${BASENAME#*//}" # strip before double slash
-BASENAME="\${BASENAME##*/}" # strip before last slash
-[ -d "\$BASENAME" ] && printf "Directory %s exists;  Exiting...\\n" "\$BASENAME" && exit 102
-[ -x "\$(command -v git)" ] || pc git || pci git
-git clone --depth 1 "\$@" --branch master --single-branch || _GITCLONE_ "\$@"
-## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE
-EOM
+_SLPCLONE_() { sleep \$(shuf -n 1 -i 0-3 ).\$(shuf -n 1 -i 0-9 ) ; }
+BASENAME=\"\${@%/}\" # strip trailing slash
+BASENAME=\"\${BASENAME#*//}\" # strip before double slash
+BASENAME=\"\${BASENAME##*/}\" # strip before last slash
+[ -d \"\$BASENAME\" ] && printf \"Directory %s exists;  Exiting...\\n\" \"\$BASENAME\" && exit 102
+[ -x \"\$(command -v git)\" ] || pc git || pci git
+{ git clone --depth 1 \"\$@\" --branch master --single-branch ; } || { _SLPCLONE_ && GITCLONE_ \"\$@\" ; } || { _SLPCLONE_ && git clone --depth 1 \"\$@\" ; } || { _SLPCLONE_ && git clone \"\$@\" ; }
+## ~/${INSTALLDIR##*/}/usr/local/bin/gcl FE" >> usr/local/bin/gcl
 chmod 755 usr/local/bin/gcl
 }
 
