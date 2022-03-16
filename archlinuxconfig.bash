@@ -787,7 +787,7 @@ EOM
 chmod 755 usr/local/bin/makeaurfakeroottcp
 }
 
-_ADDmakeaurghcuphs_() {
+_ADDmakeaurghcuphsdep_() { # depreciated
 _CFLHDR_ usr/local/bin/makeaurghcuphs "# install Haskell language ghcup-hs installer with the Arch Linux aur installer yay"
 cat >> usr/local/bin/makeaurghcuphs <<- EOM
 if [ "\$UID" = 0 ]
@@ -830,7 +830,7 @@ EOM
 chmod 755 usr/local/bin/makeaurrustup
 }
 
-_ADDmakeaurshellcheckbin_() {
+_ADDmakeaurshellcheckbindep_() { # depreciated
 _CFLHDR_ usr/local/bin/makeaurshellcheckbin
 cat >> usr/local/bin/makeaurshellcheckbin <<- EOM
 if [ "\$UID" = 0 ]
@@ -902,12 +902,15 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is making command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is making command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" && exit 169 ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages ; }
 
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs ghcuphs  ; }
+
+_ADDmakeaurshellcheckbin_() { _PREPFILEFTN0_ shellcheck shellcheck-bin shellcheckbin ; }
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_ package-query package-query packagequery ; }
 
 _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah ; }
