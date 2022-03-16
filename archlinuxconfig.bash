@@ -656,7 +656,7 @@ chmod 755 usr/local/bin/makeauraclegit
 _ADDmakeaurhelpers_() {
 _CFLHDR_ usr/local/bin/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 cat >> usr/local/bin/makeaurhelpers <<- EOM
-printf "%s\\n" "Command ${0##*/} is depreciated;  Exiting..."
+printf "%s\\n" "Command \${0##*/} is currently depreciated;  Exiting..."
 exit 0
 _CLONEAURHELPER_() {
 cd "\$HOME/aurhelpers" || exit 196
