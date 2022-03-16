@@ -4,8 +4,6 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' making command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
-
 _ADDREADME_() {
 _CFLHDR_ usr/local/bin/README.md
 printf "%s\\n" "The /usr/local/bin directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
@@ -885,7 +883,7 @@ else
 _PRMAKE_() {
 printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mnice -n 20 makepkg -firs --noconfirm\\\\e[1;37m...\\\\n"
 }
-printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'yay':"
+printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'yay':"
 if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
@@ -906,6 +904,8 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32m%s\n' \"Command '\${0##*/}' is making command '$1';  Please wait...\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;31m%s\n' \"The command '$1' is installed;  Exiting...\" ; }" "[ -x /usr/bin/fakeroot ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" && _PREPFILEFCTN_ "$1" "$2"  usr/local/bin/makeaur"$3" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages ; }
@@ -918,7 +918,12 @@ _ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim ; }
 
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill ; }
 
-_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur ; }
+_ADDmakeaurpacaur_() { _CFLHDR_ usr/local/bin/makeaurpacaur
+_PREPFILEFCTN_ auracle-git auracle-git usr/local/bin/makeaurpacaur
+_PREPFILEFCTN_ expac expac usr/local/bin/makeaurpacaur
+_PREPFILEFCTN_ jq jq usr/local/bin/makeaurpacaur
+_PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur
+chmod 755 usr/local/bin/makeaurpacaur ; }
 
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku ; }
 
@@ -947,7 +952,7 @@ if [ "\$UID" = 0 ]
 then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  " "Exiting..."
 else
-printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Attempting to build and install 'ksh':"
+printf "\\\\e[0;32m%s\\\\e[0m\\\\n" "Building and installing 'ksh':"
 if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
@@ -1070,7 +1075,7 @@ _ADDorcarun_
 _ADDpatchmakepkg_() {
 _CFLHDR_ usr/local/bin/patchmakepkg "# patch makepkg;  Contributor https://github.com/petkar"
 cat >> usr/local/bin/patchmakepkg <<- EOM
-[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg:  DONE 🏁" && exit
+[ -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && printf "%s\\\\n" "Found /run/lock/${INSTALLDIR##*/}/patchmakepkg.lock file;  Already patched makepkg: DONE 🏁" && exit
 printf "Patching makepkg: \\\\n"
 SDATE="\$(date +%s)"
 BKPDIR="$INSTALLDIR/var/backups/${INSTALLDIR##*/}/"
