@@ -9,5 +9,5 @@ jobs:
     - uses: actions/first-interaction@v2
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'Thank you for contributing to make this project better😎  Keep up and follow to solve this issue.  Please feel free to draft a [pull request here](https://github.com/TermuxArch/TermuxArch/pulls) too to resolve this issue by tapping "new" at [this link](https://github.com/TermuxArch/TermuxArch/pulls).  Do not worry if it is not perfect on your first attempt.  This is what pull requests are for, in order to improve the published source code.'
+        issue-message: 'Thank you for contributing to make this project better😎  Please keep up and follow to solve this issue.  Please feel free to draft a [pull request here](https://github.com/TermuxArch/TermuxArch/pulls) too to resolve this issue by tapping "new" at [this link](https://github.com/TermuxArch/TermuxArch/pulls).  Do not worry if it is not perfect on your first attempt.  This is what pull requests are for, in order to improve the published source code.'
         pr-message: 'Thank you for contributing to make this project better🎉'
