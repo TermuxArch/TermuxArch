@@ -36,7 +36,7 @@ chmod 755 usr/local/bin/ae
 }
 
 _ADDbash_logout_() {
-printf "%s\\n" "[ ! -f \"\$HOME\"/.hushlogout ] && [ ! -f "\$HOME"/.chushlogout ] && . /etc/moto
+printf "%s\\n" "[ ! -f \"\$HOME\"/.hushlogout ] && [ ! -f \"\$HOME\"/.chushlogout ] && . /etc/moto
 h
 ## .bash_logout FE" > root/.bash_logout
 }
@@ -855,7 +855,7 @@ EOM
 chmod 755 usr/local/bin/makeauryay
 }
 
-_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue;  Exiting...  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
+_PREPFILEFCTN_() { printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" \"Exiting...\" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please wait...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue;  Exiting...  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit 169 ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "patchmakepkg ; ${5:-} ; { cd && [ -x \"$2\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && cd \"$2\" && _PRNTWAIT_ && makepkg -firs --noconfirm ; \"$1\" --help" "## ~/${INSTALLDIR##*/}/usr/local/bin/makeaur\"$3\" FE" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ usr/local/bin/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" usr/local/bin/makeaur"$3" "$4" && chmod 755 usr/local/bin/makeaur"$3" ; }
 
@@ -867,10 +867,10 @@ _PREPFILEFCTN_ pacaur pacaur usr/local/bin/makeaurpacaur "an AUR helper that min
 chmod 755 usr/local/bin/makeaurpacaur ; }
 
 _ADDmakeaurpbget_() { _CFLHDR_ usr/local/bin/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
+_PREPFILEFCTN_ python3-xcgf python3-xcgf usr/local/bin/makeaurpbget "" "gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680"
+_PREPFILEFCTN_ python3-xcpf python3-xcpf usr/local/bin/makeaurpbget ""
 _PREPFILEFCTN_ pm2ml pm2ml usr/local/bin/makeaurpbget ""
 _PREPFILEFCTN_ python3-aur python3-aur usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ python3-xcgf python3-xcgf usr/local/bin/makeaurpbget ""
-_PREPFILEFCTN_ python3-xcpf python3-xcpf usr/local/bin/makeaurpbget ""
 _PREPFILEFCTN_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
 chmod 755 usr/local/bin/makeaurpbget ; }
 
