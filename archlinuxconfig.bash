@@ -760,8 +760,8 @@ sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 }
 cd fakeroot-tcp || exit 196
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+nice -n 20 makepkg -firs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
 fi
@@ -873,7 +873,8 @@ chmod 755 usr/local/bin/makeaurpacaur ; }
 _ADDmakeaurpacaurgit_() { _CFLHDR_ usr/local/bin/makeaurpacaurgit "# an AUR helper that minimizes user interaction"
 _PREPFILEFCTNS0_ pacaur pacaur-git usr/local/bin/makeaurpacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; }"
 _PREPFILEFCTNS_ "/usr/bin/auracle-git" auracle-git usr/local/bin/makeaurpacaurgit  ""
-_PREPFILEFCTNS_ "/usr/bin/pacaur" pacaur-git usr/local/bin/makeaurpacaurgit "an AUR helper that minimizes user interaction" ; }
+_PREPFILEFCTNS_ "/usr/bin/pacaur" pacaur-git usr/local/bin/makeaurpacaurgit "an AUR helper that minimizes user interaction"
+chmod 755 usr/local/bin/makeaurpacaurgit ; }
 
 _ADDmakeaurpbget_() { _CFLHDR_ usr/local/bin/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
 _PREPFILEFCTNS0_ pbget pbget usr/local/bin/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
