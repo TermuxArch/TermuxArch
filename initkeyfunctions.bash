@@ -69,7 +69,6 @@ _ADDmakeaurrustup_
 _ADDmakeaurshellcheckbin_
 _ADDmakeaurshellcheckgit_
 _ADDmakeaurshellcheckgitstatic_
-_ADDmakeaurtllocalmgr_
 _ADDmakeaurtrizen_
 _ADDmakeaurtrizengit_
 _ADDmakeauryaah_
