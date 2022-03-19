@@ -1,7 +1,7 @@
 <link rel="prerender" href="https://termuxarch.github.io/TermuxArch/">
 
 ## [TermuxArch](https://github.com/TermuxArch/TermuxArch/)
-https://gitter.im/TermuxArch/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link
+
 [![Gitter](https://badges.gitter.im/TermuxArch/community.svg)](https://gitter.im/TermuxArch/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ##### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
