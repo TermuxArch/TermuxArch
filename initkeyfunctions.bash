@@ -580,12 +580,12 @@ _MAKEFINISHSETUP_() {
 _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-DOKYSKEY="keys x86"
+DOKYSKEY="/usr/local/termuxarch/bin/keys x86"
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
-DOKYSKEY="keys x86-64"
+DOKYSKEY="/usr/local/termuxarch/bin/keys x86-64"
 else
-DOKYSKEY="keys"
+DOKYSKEY="/usr/local/termuxarch/bin/keys"
 fi
 }
 _DOKYLGEN_() {
