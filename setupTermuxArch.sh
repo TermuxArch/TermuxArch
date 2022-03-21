@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.264
+VERSIONID=2.1.265
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -38,7 +38,7 @@ else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
-rm -rf "$TAMPDIR"/setupTermuxArch*
+[ -e "$TAMPDIR" ]|| rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
@@ -132,7 +132,6 @@ fi
 }
 _CHOOSEABIx86_(){
 CPUABILIST64="$(getprop ro.product.cpu.abilist64)"
-CPUABI="$(getprop ro.product.cpu.abi)"
 if [[ $CPUABI == *86* ]]
 then
 _OPT1_ "$@"
@@ -160,6 +159,10 @@ _CHK_ "$@"
 fi
 }
 _COREFILESLOAD_() {
+. fbindsfunctions.bash
+. initkeyfunctions.bash
+. maintenanceroutines.bash
+. necessaryfunctions.bash
 if [[ "$OPT" = BLOOM ]]
 then
 rm -f termuxarchchecksum.sha512
@@ -169,13 +172,9 @@ then
 _MANUAL_
 fi
 _LOADCONF_
-. fbindsfunctions.bash
 . archlinuxconfig.bash
 . espritfunctions.bash
 . getimagefunctions.bash
-. initkeyfunctions.bash
-. maintenanceroutines.bash
-. necessaryfunctions.bash
 . printoutstatements.bash
 }
 _DEPENDDM_() { # check and set download manager
@@ -553,7 +552,7 @@ fi
 }
 _PREPTMPDIR_() {
 [ -d "$INSTALLDIR/tmp" ] || { mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ; }
-TAMPDIR="$INSTALLDIR/tmp/setupTermuxArch$$$RANDOM$PPID$SECONDS"
+TAMPDIR="$INSTALLDIR/tmp/${0##*/}$$$RANDOM$PPID$SECONDS"
 [ -d "$TAMPDIR" ]|| mkdir -p "$TAMPDIR"
 }
 _PREPTERMUXARCH_() {
@@ -776,6 +775,7 @@ for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR SDATE STI STIME STRING1 STRING2 WDIR)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
+CPUABI="$(getprop ro.product.cpu.abi)"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development

@@ -6,25 +6,16 @@
 ################################################################################
 _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-if [ "${LOADLCRFILES:-}" = 0 ] || [ "${MATRIXLCR:-}" = 0 ] || [ "${MATRIXLCR:-}" = 1 ]
-then
-:
-else
-set +e
-PVAR="$(ping -n 1 1.1.1.1 2>&1 ||:)"
-set -e
-if [ -z "${PVAR##*unreachable*}" ]
-then
-_PRNT_ "Script '${0##*/} $ARGS' SIGNAL:  Please check your wireless connection and run '${0##*/} $ARGS' again.  EXITING...  " && exit 6
-fi
-fi
 
 [ "$CPUABI" = i386 ] && CPUABI="x86"
 CACHECPBI="${CPUABI/_/-}"
+CACHEDIRSUFIX="var/cache/pacman/pkg/"
 BINFNSTP="finishsetup.bash"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
+PREFIXDATAFILESUFIX="files/cache/archlinux/$CACHECPBI/var/cache/pacman/pkg/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
+UNAMER="$(uname -r)"
 
 _CALLSYSTEM_() {
 declare COUNTER=""
@@ -185,7 +176,7 @@ if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
 then
 if [ -d "$CACHEDIR" ]
 then
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n' &&  cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && cp -fr * $INSTALLDIR;  Please wait...  " && cp -fr ./* "$INSTALLDIR" && cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" && printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+_PPLCACHEDIR_
 else
 cd "$PREFIXDATAFILES" && { [ -d "$PREFIXDATAFILESUFIX" ] || mkdir -p "$PREFIXDATAFILESUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $PREFIXDATAFILESUFIX && cd $CACHEDIR" || printf '%s\n\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
 fi

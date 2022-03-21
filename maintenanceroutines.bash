@@ -61,15 +61,19 @@ _DOFUNLCR2_
 done
 }
 
-_DOUSECACHEDIR_() {
-if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
-then
+_PPLCACHEDIR_() {
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
-printf '%s\n' "cp -fr * $INSTALLDIR"
+printf '%s\n' "cp -fr ./* $INSTALLDIR"
 cp -fr ./* "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
 printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
+}
+
+_DOUSECACHEDIR_() {
+if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
+then
+_PPLCACHEDIR_
 fi
 }
 
