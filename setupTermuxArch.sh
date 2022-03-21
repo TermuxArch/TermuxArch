@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.266
+VERSIONID=2.1.267
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -750,8 +750,8 @@ _RMARCHCRRM_
 _SETROOT_EXCEPTION_() {
 if [[ "$INSTALLDIR" = "$HOME" ]] || [[ "$INSTALLDIR" = "$HOME"/ ]] || [[ "$INSTALLDIR" = "$HOME"/.. ]] || [[ "$INSTALLDIR" = "$HOME"/../ ]] || [[ "$INSTALLDIR" = "$HOME"/../.. ]] || [[ "$INSTALLDIR" = "$HOME"/../../ ]]
 then
-printf  '\033]2;%s\007' "Rootdir exception.  Run bash ${0##*/} again with different options..."
-printf "\\n\\e[1;31m%s\\n\\n" "Rootdir exception.  Run the script ${0##*/} again with different options..."
+printf  '\033]2;%s\007' "Rootdir exception.  Please run bash ${0##*/} again with different options..."
+printf "\\n\\e[1;31m%s\\n\\n" "Rootdir exception.  Please run the script ${0##*/} again with different options..."
 exit 125
 fi
 }
