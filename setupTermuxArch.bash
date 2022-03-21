@@ -7,7 +7,7 @@ set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.267
+VERSIONID=2.1.268
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -37,7 +37,7 @@ else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
-[ -e "$TAMPDIR" ]|| rm -rf "$TAMPDIR"
+rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
@@ -552,7 +552,7 @@ fi
 }
 _PREPTMPDIR_() {
 [ -d "$INSTALLDIR/tmp" ] || { mkdir -p "$INSTALLDIR/tmp" && chmod 777 "$INSTALLDIR/tmp" && chmod +t "$INSTALLDIR/tmp" ; }
-TAMPDIR="$INSTALLDIR/tmp/${0##*/}$$$RANDOM$PPID$SECONDS"
+TAMPDIR="$INSTALLDIR/tmp/${0##*/}$STIME$PPID"
 [ -d "$TAMPDIR" ]|| mkdir -p "$TAMPDIR"
 }
 _PREPTERMUXARCH_() {
@@ -788,7 +788,7 @@ STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au
 STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 ## TERMUXARCH FEATURES INCLUDE:
-## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/bin/README.md' have detailed information about this feature,
+## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and '/usr/local/termuxarch/bin/README.md' have detailed information about this feature,
 ## 2)  Sets timezone and locales from device,
 ## 3)  Tests for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
@@ -825,7 +825,7 @@ WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
 ## 7)  Creates a default Arch Linux in Termux PRoot user account with the TermuxArch command 'addauser' which configures user accounts for use with the Arch Linux 'sudo' command,
 ## 8)  Installs emulated computer architectures with QEMU in your smartphone with two taps,
-## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read /usr/local/bin/README.md for details,
+## 9)  Makes the Arch Linux aur installer 'yay' with TermuxArch command 'makeauryay' and more!  Please read /usr/local/termuxarch/bin/README.md for details,
 ## 10)  And all options are are optional for installing Arch Linux!
 ## >>>>>>>>>>>>>>>>>>
 ## >> HELP OPTIONS >>
@@ -1134,5 +1134,5 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
-## After installing Arch Linux on device, file '/arch/usr/local/bin/README.md' has more information.  The TermuxArch files in directory '/arch/usr/local/bin' have more information as well.
+## After installing Arch Linux on device, file '/arch/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory '/arch/usr/local/termuxarch/bin' have more information as well.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar.

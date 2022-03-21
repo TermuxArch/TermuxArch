@@ -196,25 +196,18 @@ _TOUCHUPSYS_
 }
 
 _MD5CHECK_() {
-_PRINTMD5CHECK_
-if md5sum -c --quiet "$IFILE".md5
+if md5sum -c --quiet "$IFILE".md5 2> /dev/null
 then
 _PRINTMD5SUCCESS_
 printf "\\e[0;32m"
 _TASPINNER_ clock & _PREPROOT_ ; kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
 else
-if [ "$KEEP" = 0 ]
-then
-_PRINTKEEPEXIT_
-else
-rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5
-_PRINTMD5ERROR_
-fi
+{ [[ "$KEEP" = 0 ]] && _PRINTKEEPEXIT_ ; exit 203 ; } || { _PRINTMD5ERROR_ && rm -f "$INSTALLDIR"/*.tar.gz "$INSTALLDIR"/*.tar.gz.md5 ; exit 205 ; }
 fi
 }
 
 _PREPROOTDIR_() { # create local array of directories to be created by setupTermuxArch
-local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/bin" "usr/local/termuxarch/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
+local DRARRLST=("etc" "home" "root/bin" "usr/bin" "usr/local/termuxarch/bin" "usr/local/termuxarch/bin/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
 { [ -d "$ISDIR" ] || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ; } || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "/$ISDIR" " exists.  "
