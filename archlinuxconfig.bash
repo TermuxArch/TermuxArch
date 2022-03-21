@@ -1362,29 +1362,7 @@ _CFLHDR_ usr/local/termuxarch/bin/tour "# A short tour that shows a few of the n
 cat >> usr/local/termuxarch/bin/tour <<- EOM
 printf "\\\\e[1;32m==> \\\\e[1;37mPlease hide the virtual keyboard.  Beginning a short tour that shows a few of the new featires of this system.  Running \\\\e[1;32mexport\\\\e[1;37m...\\\\n\\\\n"
 sleep 4
-_TAMATRIX_() {	# partial implemintation; print TermuxArch source code as matrix
-_DOTAMSTRIX_() {
-printf "\\e[?25l\\e[1;32m%s" "\$(tr -d '\n' < "\$(export)")"
-# split a string from file and print this split string
-for EMSTRING in "\${TAMATARR[@]}"
-do
-printf "\\e[0;32m%s" "\$EMSTRING"
-sleep 0.0"\$(shuf -i 0-999 -n 1)"
-done
-}
-IFS=';' read -ra TAMATARR <<< "\$(tr -d '\n' <  "\$(export)")"
-if [[ -n "\${MATRIXLCR:-}" ]]
-then
-TAMATRIXENDLCR=0
-while :
-do
-_DOTAMSTRIX_
-done
-else
-_DOTAMSTRIX_
-fi
-}
-_TAMATRIX_
+export
 sleep 2
 printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alRr --color=always %s\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
