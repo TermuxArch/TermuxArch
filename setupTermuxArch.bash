@@ -3,11 +3,11 @@
 ## hosting termuxarch.github.io/TermuxArch courtesy pages.github.com
 ## termuxarch.github.io/TermuxArch/CONTRIBUTORS thank you for your help!
 ################################################################################
-set -Eeuxo pipefail
+set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 umask 0022
 unset LD_PRELOAD
-VERSIONID=2.1.261
+VERSIONID=2.1.262
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
