@@ -44,6 +44,7 @@ _ADDmakeaurbauerbill_
 _ADDmakeaurfakeroottcp_
 _ADDmakeaurghcuphs_
 _ADDmakeaurhelpers_
+_ADDmakeaurjqgit_
 _ADDmakeaurpacaur_
 _ADDmakeaurpacaurgit_
 _ADDmakeaurpackagequery_
