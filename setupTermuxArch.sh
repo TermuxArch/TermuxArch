@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.279
+VERSIONID=2.1.280
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -1123,6 +1123,7 @@ fi
 ## >>  HELP FACTS  >>
 ## >>>>>>>>>>>>>>>>>>
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
 ## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
 ## GRAMMAR[b]: setupTermuxArch [WHAT] [WHERE]
