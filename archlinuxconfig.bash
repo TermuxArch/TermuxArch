@@ -1409,7 +1409,7 @@ printf "[3/4] Triming installation files and populating cache in %s\\\\n" "'$CAC
 CPKGFLSR="\$(ls --color=never /var/cache/pacman/pkg/ | wc -l)"
 if [[ "\$CPKGFLSR" -gt 0 ]]
 then
-mv -f /var/cache/pacman/pkg/* "$CACHEDIR$CACHEDIRSUFIX" || _PMFSESTRING_ "mv -f /var/cache/pacman/pkg/* $CACHEDIR$CACHEDIRSUFIX"
+find /var/cache/pacman/pkg/ -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
 fi
 else
 printf "%s\\\\n" "[3/4] rm -f /var/cache/pacman/pkg/*pkg*"
