@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.1.287"
+FLHDR1[5]="VERSIONID=2.1.288"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -170,7 +170,7 @@ printf "\\e[0;34m 🕛 > 🕓 \\e[0;34mDownloading the checksum file and \\e[0;3
 
 _PRINTCONFIGUP_() {
 printf "\033]2;%s\007" " 🕛 > 🕤 Arch Linux is installed!  Configuring and updating Arch Linux 📲"
-printf "\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲  "
+printf "\\n\\e[0;34m 🕛 > 🕤 \\e[1;34mArch Linux in Termux PRoot is installed.  Configuring and updating Arch Linux 📲  "
 }
 
 _PRINTMAX_() {
