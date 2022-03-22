@@ -875,7 +875,7 @@ _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { makeaurjqgit ||: ; } &&" ; }
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && makeauraclegit &&" ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } &&" ; }
 
 _ADDmakeaurpbget_() { _CFLHDR_ $TMXRCHBNDS/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
 _PREPFILEFCTNS0_ pbget pbget $TMXRCHBNDS/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
