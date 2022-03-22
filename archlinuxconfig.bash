@@ -873,7 +873,7 @@ _PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackag
 _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" $TMXRCHBNDS/makeaur"$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { makeaurjqgit ||: ; } &&" ; }
-_ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "# Command-line JSON processor" "" ; }
+_ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
 
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && makeauraclegit &&" ; }
 
