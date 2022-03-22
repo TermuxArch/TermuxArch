@@ -160,7 +160,7 @@ printf "\\\\e[1;31m%s\\\\e[0;31m%s\\\\e[0;36m%s\\\\n\\\\n" "Signal generated in 
 printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0m\\\\n\\\\n" "  If you find improvements for " "${0##*}" " and " "\${0##*}" " please open an issue and an accompanying pull request."
 }
 _HUSDIRC_ "\$@"
-## ~/${INSTALLDIR##*/}/usr/local/termuxarch/bin/addauser FE
+## ~/${INSTALLDIR##*/}$TMXRCHBNDR/addauser FE
 EOM
 chmod 755 usr/local/termuxarch/bin/addauser
 }
@@ -389,7 +389,7 @@ printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman -Ss keyring --color=
 pacman -Ss keyring --color=always || pacman -Ss keyring --color=always || _PRTERROR_
 $X86INT
 $X86INK
-## ~/${INSTALLDIR##*/}/usr/local/termuxarch/bin/keys FE
+## ~/${INSTALLDIR##*/}$TMXRCHBNDR/keys FE
 EOM
 chmod 755 usr/local/termuxarch/bin/keys
 }
@@ -580,12 +580,12 @@ _MAKEFINISHSETUP_() {
 _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
-DOKYSKEY="/usr/local/termuxarch/bin/keys x86"
+DOKYSKEY="$TMXRCHBNDR/keys x86"
 elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
 then
-DOKYSKEY="/usr/local/termuxarch/bin/keys x86-64"
+DOKYSKEY="$TMXRCHBNDR/keys x86-64"
 else
-DOKYSKEY="/usr/local/termuxarch/bin/keys"
+DOKYSKEY="$TMXRCHBNDR/keys"
 fi
 }
 _DOKYLGEN_() {

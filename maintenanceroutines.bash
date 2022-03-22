@@ -146,8 +146,8 @@ ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
 ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
 ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
-printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}/usr/local/termuxarch/bin/:"
-ls "$INSTALLDIR/usr/local/termuxarch/bin/"
+printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}$TMXRCHBNDR/:"
+ls "$INSTALLDIR$TMXRCHBNDR/"
 if [[ "${LCR:-}" = 2 ]] || [[ "${LCR:-}" = 3 ]] || [[ "${LCR:-}" = 4 ]] || [[ "${LCR:-}" = 5 ]]
 then
 _FUNLCR2_
