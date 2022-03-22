@@ -103,7 +103,7 @@ _ADDmoto_
 _ADDstriphtmlcodefromfile_
 _ADDt_
 _ADDtlmgrinstaller_
-[ -f usr/local/termuxarch/bin/top ] ||  _ADDtop_
+[ -f $TMXRCHBNDS/top ] ||  _ADDtop_
 _ADDthstartarch_
 _ADDtimings_
 # _ADDtools_
@@ -115,8 +115,8 @@ _ADDyt_
 _ADDzshrc_
 }
 _ADDauser_() {
-_CFLHDR_ usr/local/termuxarch/bin/addauser "# add Arch Linux in Termux PRoot user"
-cat >> usr/local/termuxarch/bin/addauser <<- EOM
+_CFLHDR_ $TMXRCHBNDS/addauser "# add Arch Linux in Termux PRoot user"
+cat >> $TMXRCHBNDS/addauser <<- EOM
 _HUSDIRC_() {
 if [ "\$UID" != 0 ]
 then
@@ -137,7 +137,7 @@ _FUNADDU_ "\$@"
 fi
 }
 _FUNADDU_() {
-command -v sudo 1>/dev/null || { pc sudo || pc sudo ; }
+command -v sudo 1>/dev/null || { "$TMXRCHBNDR"/pc sudo || "$TMXRCHBNDR"/pc sudo ; }
 printf "\\\\e[0;32m%s\\\\n\\\\e[1;32m" "Adding Arch Linux in Termux PRoot user '\$1' and creating Arch Linux in Termux PRoot user \$1's home directory in /home/\$1..."
 [ -f /etc/sudoers ] || :>/etc/sudoers
 sed -i "/# %wheel ALL=(ALL) NOPASSWD: ALL/ s/^# *//" /etc/sudoers
@@ -162,7 +162,7 @@ printf "\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0;34m%s\\\\e[1;34m%s\\\\e[0
 _HUSDIRC_ "\$@"
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/addauser FE
 EOM
-chmod 755 usr/local/termuxarch/bin/addauser
+chmod 755 $TMXRCHBNDS/addauser
 }
 
 _ADDkeys_() {
@@ -279,8 +279,8 @@ printf \"\\\\n\\\\e[1;32m(2/2) \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyr
 printf \"\\\\e[1;32m==>\\\\e[1;37m Running \\\\e[1;32mpacman -Ss keyring --color=always\\\\e[1;37m...\\\\n\"
 pacman -Ss keyring --color=always"
 fi
-_CFLHDR_ usr/local/termuxarch/bin/keys
-cat >> usr/local/termuxarch/bin/keys <<- EOM
+_CFLHDR_ $TMXRCHBNDS/keys
+cat >> $TMXRCHBNDS/keys <<- EOM
 declare -a KEYRINGS
 
 _KEYSGENMSG_() {
@@ -391,7 +391,7 @@ $X86INT
 $X86INK
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/keys FE
 EOM
-chmod 755 usr/local/termuxarch/bin/keys
+chmod 755 $TMXRCHBNDS/keys
 }
 
 _ADDcshrc_() { :>root/.cshrc ; }
@@ -650,7 +650,7 @@ fi
 printf "%s\\n" "printf \"\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\n\" \"To generate locales in a preferred language, you can use the native Android menu commands \" \"Settings > System > Input & Language > Language \" \"in Android;  Then run \" \"${0##*/} refresh\" \" for a full system refresh, which includes the locale generation function; For a quick refresh you can use \" \"${0##*/} r\" \".  For a refresh with user directories \" \"${0##*/} re\" \" can be used.\"
 $LOCGEN || _PMFSESTRING_ \"LOCGEN $BINFNSTP ${0##/*}.  Please run '$LOCGEN' again in the installed system.\"" >> root/bin/"$BINFNSTP"
 printf "%s\\n" "[ -d /home/user ] || printf \"\\n\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32maddauser user\\e[1;37m...\\n\"" >> root/bin/"$BINFNSTP"
-printf "%s\\n" "[ -d /home/user ] || addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
+printf "%s\\n" "[ -d /home/user ] || "$TMXRCHBNDR"/addauser user || _PMFSESTRING_ \"addauser user $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]]
 then
 printf "%s\\n" "locale-gen || locale-gen" >> root/bin/"$BINFNSTP"
