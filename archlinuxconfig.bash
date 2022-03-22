@@ -747,7 +747,7 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31m%s\\\\e[0m\\\\n" "Ｔｅｒｍｕ�
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg || printf "\\\\e[0;33m%s\\\\e[0m\\\\n" "Lock file "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" found;  Continuing..."
 printf "%s\\\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
-if [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ]
+if { [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ] ; }
 then
 pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\${0##*/} \$ARGS' again."
 fi
@@ -849,7 +849,7 @@ then
 : # pull requests are requested to automate install missing Termux packages
 else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
-if [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v go)" ]
+if { [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v go)" ] ; }
 then
 pci base base-devel fakeroot gcc git go || pci base base-devel fakeroot gcc git go || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
@@ -905,7 +905,7 @@ _ADDmakeaurto_() { _PREPFILEFTN0_ aurto aurto to "an AUR tool for managing an au
 _ADDmakeaurutils_() { _PREPFILEFTN0_ aurutils aurutils utils "an AUR helper for the arch user repository" ; }
 _ADDmakeaurutilsgit_() { _PREPFILEFTN0_ aurutils aurutils-git utilsgit "an AUR helper for the arch user repository (git version)" ; }
 _ADDmakeaurbauerbill_() { _PREPFILEFTN0_ bauerbill bauerbill bauerbill "an extension of Powerpill with AUR and ABS support" ; }
-_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup-hs ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
+_ADDmakeaurghcuphs_() { _PREPFILEFTN0_ ghcup ghcup-hs-bin ghcuphs "the Haskell language ghcup-hs installer" ; }
 _ADDmakeaurpakku_() { _PREPFILEFTN0_ pakku pakku pakku "a Pacman wrapper and AUR helper with a Pacman-like user interface" ; }
 _ADDmakeaurpakkugit_() { _PREPFILEFTN0_ pakku pakku-git pakkugit "a Pacman wrapper and AUR helper with a Pacman-like user interface (git version)" ; }
 _ADDmakeaurpakkugui_() { _PREPFILEFTN0_ pakku pakku-gui pakkugui "a GTK frontend for pakku" ; }
@@ -948,7 +948,7 @@ if [[ -n "\${PREFIX:-}" ]]
 then
 : # pull requests are requested to automate install missing Termux packages
 else
-if [ ! -f /usr/bin/make ] || [ ! -f /usr/bin/git ] || [ ! -f /usr/bin/bison ]
+if { [ ! -f /usr/bin/make ] || [ ! -f /usr/bin/git ] || [ ! -f /usr/bin/bison ] ; }
 then
 pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
