@@ -377,10 +377,8 @@ printf "\\\\e[1;32m==> \\\\e[1;37mAlready initialized with command \\\\e[1;32mpa
 fi
 }
 _DOKPI_ || _DOKPI_
-umask 000
 chmod 4777 /usr/bin/newuidmap
 chmod 755 /etc/pacman.d/gnupg
-umask 022
 _DOPP_() {
 { [ -f "/var/run/lock/${INSTALLDIR##*/}/kpp.lock" ] && printf "\\\\e[1;32m==> \\\\e[1;37mAlready populated with command \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n" ; } || { printf "\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mpacman-key --populate\\\\e[1;37m...\\\\n" && { $ECHOEXEC pacman-key --populate && :>"/var/run/lock/${INSTALLDIR##*/}/kpp.lock"; } || _PRTERROR_ ; }
 }

@@ -1115,7 +1115,6 @@ _ADDpc_() {
 _CFLHDR_ $TMXRCHBNDS/pc "# pacman install packages wrapper without system update"
 cat >> $TMXRCHBNDS/pc <<- EOM
 declare -g ARGS="\$@"
-umask 0022
 _TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
@@ -1156,7 +1155,6 @@ _ADDpci_() {
 _CFLHDR_ $TMXRCHBNDS/pci "# pacman install packages wrapper with system update"
 cat >> $TMXRCHBNDS/pci <<- EOM
 declare ARGS="\$@"
-umask 0022
 _TRPET_() {
 printf "\\\\e[?25h\\\\e[0m"
 set +Eeuo pipefail
@@ -1360,31 +1358,31 @@ fi
 _ADDtour_() {
 _CFLHDR_ $TMXRCHBNDS/tour "# A short tour that shows a few of the new featires of this system."
 cat >> $TMXRCHBNDS/tour <<- EOM
-printf "\\\\e[1;32m==> \\\\e[1;37mPlease hide the virtual keyboard.  Beginning a short tour that shows a few of the new featires of this system.  Running \\\\e[1;32mexport\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\e[1;32m==> \\\\e[1;37mPlease hide the virtual keyboard.  Beginning a short tour that shows a few of the new featires of this system.  Running command \\\\e[1;32mexport\\\\e[1;37m...\\\\n\\\\n"
 sleep 4
 export
 sleep 2
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mls -alRr --color=always %s\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mls -alRr --color=always %s\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 ls -alRr --color=always "\$HOME"
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat %s/.bash_profile\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat %s/.bash_profile\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bash_profile
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat %s/.bashrc\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat %s/.bashrc\\\\e[1;37m...\\\\n\\\\n" "\$HOME"
 sleep 1
 cat "\$HOME"/.bashrc
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat $TMXRCHBNDR/pci\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat $TMXRCHBNDR/pci\\\\e[1;37m...\\\\n\\\\n"
 sleep 1
 cat $TMXRCHBNDR/pci
 sleep 4
-printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning \\\\e[1;32mcat $TMXRCHBNDR/README.md\\\\e[1;37m...\\\\n\\\\n"
+printf "\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mcat $TMXRCHBNDR/README.md\\\\e[1;37m...\\\\n\\\\n"
 sleep 1
 cat $TMXRCHBNDR/README.md
 printf "\\\\e[1;32m\\\\n%s \\\\e[38;5;121m%s \\\\n\\\\n\\\\e[4;38;5;129m%s\\\\e[0m\\\\n\\\\n\\\\e[1;34m%s \\\\e[38;5;135m%s\\\\e[0m\\\\n\\\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
-## ~/${INSTALLDIR##*/}$TMXRCHBNDR/timings FE
+## ~/${INSTALLDIR##*/}$TMXRCHBNDR/tour FE
 EOM
 chmod 755 $TMXRCHBNDS/tour
 }
