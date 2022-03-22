@@ -64,6 +64,7 @@ done
 _PPLCACHEDIR_() {
 printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
+[ -d "$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIRSUFIX && " ; }
 printf '%s\n' "cp -fr ./* $INSTALLDIR"
 cp -fr ./* "$INSTALLDIR"
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196

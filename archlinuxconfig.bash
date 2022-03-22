@@ -1402,11 +1402,15 @@ printf "%s\\\\n" "[1/4] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\\\n" "[2/4] rm -rf /usr/lib/modules"
 rm -rf /usr/lib/modules
-if [ -d $CACHEDIR ]
+if [ -d "$CACHEDIR" ]
 then
+[ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
 printf "[3/4] Triming installation files and populating cache in %s\\\\n" "'$CACHEDIR'"
-cd "$CACHEDIR" && mv -f /*.tar.gz* . || _PMFSESTRING_ "cd "$CACHEDIR" && mv -f /*.tar.gz* . "
-mv -f /var/cache/pacman/pkg/* $CACHEDIR$CACHEDIRSUFIX || _PMFSESTRING_ "mv -f /var/cache/pacman/pkg/* $CACHEDIR$CACHEDIRSUFIX"
+CPKGFLSR="\$(ls --color=never /var/cache/pacman/pkg/ | wc -l)"
+if [[ "\$CPKGFLSR" -gt 0 ]]
+then
+mv -f /var/cache/pacman/pkg/* "$CACHEDIR$CACHEDIRSUFIX" || _PMFSESTRING_ "mv -f /var/cache/pacman/pkg/* $CACHEDIR$CACHEDIRSUFIX"
+fi
 else
 printf "%s\\\\n" "[3/4] rm -f /var/cache/pacman/pkg/*pkg*"
 rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
@@ -1414,10 +1418,10 @@ fi
 if [ -z "\$SUTRIM" ]
 then
 printf "%s\\\\n" "[4/4] pacman -Scc --noconfirm --color=always"
-# pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
+pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
 else
 printf "%s\\\\n" "[4/4] \$SUTRIM pacman -Scc --noconfirm --color=always"
-# "\$SUTRIM" pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
+"\$SUTRIM" pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
 fi
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/trim FE
 EOM
