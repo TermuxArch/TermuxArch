@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _PRTPATCHHELP_() {
-printf "%s\\n" "[ -x /usr/local/bin/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\\\n\" \"This command \" \"'ln -s /system/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well with QEMU architecture emulation.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
+printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\\\n\" \"This command \" \"'ln -s /system/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well with QEMU architecture emulation.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
 }
 _ADDREADME_() {
 _CFLHDR_ $TMXRCHBNDS/README.md
@@ -875,7 +875,7 @@ _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { makeaurjqgit ||: ; } &&" ; }
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } &&" ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || pc cmake --noconfirm ; } && { [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } &&" ; }
 
 _ADDmakeaurpbget_() { _CFLHDR_ $TMXRCHBNDS/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
 _PREPFILEFCTNS0_ pbget pbget $TMXRCHBNDS/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
