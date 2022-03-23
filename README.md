@@ -5,7 +5,7 @@
 #### -r--r--r-- [setupTermuxArch](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch)
 ##### -rwxrwxrwx [setupTermuxArch](https://TermuxArch.github.io/TermuxArch/setupTermuxArch)
 
-This BASH setup shell script will attempt to set Arch Linux up in the Termux PRoot environment.  Emulated computer architectures `armeabi-v7a` `x86` `x86-64` are supported on `arm64-v8a` architecture smartphones.  Emulated computer architecture `x86` is supported on `armeabi-v7a` architecture smartphones.
+This BASH setup shell script will attempt to set Arch Linux up in the Termux PRoot environment.  Emulated computer architectures `armeabi-v7a` `x86` `x86-64` are supported on `arm64-v8a` architecture smartphones.  Emulated computer architecture `x86` is supported on `armeabi-v7a` architecture smartphones.  The command `setupTermuxArch h[elp]` has more information.
 
 Please see [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch) on device, or simply run `bash setupTermuxArch` once this BASH script is downloaded to install [Arch Linux](https://github.com/archlinux) in [Termux](https://github.com/termux).  When successfully completed, the  pleasure of experiencing the Linux command prompt in Arch Linux [Termux PRoot](https://github.com/termux/proot) in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar will be in power your hand.
 
