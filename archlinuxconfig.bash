@@ -1016,10 +1016,10 @@ EOM
 }
 
 _ADDopen4root_() {
-_CFLHDR_ $TMXRCHBNDS/open4root "# open programs in $TMXRCHBNDR/ for root user"
+_CFLHDR_ $TMXRCHBNDS/open4root "# Open programs in '$TMXRCHBNDR' for root login."
 cat >> $TMXRCHBNDS/open4root <<- EOM
-sed -i 's/UID\" = 0/UID\" = -1/g' $TMXRCHBNDR/*
-sed -i 's/EUID == 0/EUID == -1/g' $TMXRCHBNDR/*
+sed -i 's/UID\" = 0/UID\" = -1/g' $TMXRCHBNDR/* ||:
+sed -i 's/EUID == 0/EUID == -1/g' $TMXRCHBNDR/* ||:
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/open4root FE
 EOM
 chmod 755 $TMXRCHBNDS/open4root
