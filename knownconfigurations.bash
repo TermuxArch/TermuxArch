@@ -73,7 +73,7 @@ _MAKESYSTEM_
 ##  Appending to the PRoot statement can be accomplished on the fly by creating a .prs file in the var/binds directory.  The format is straightforward, 'PROOTSTMNT+="option command "'.  The space is required before the last double quote.  Commands 'info proot' and 'man proot' have more information about what can be configured in a proot init statement.  If more suitable configurations are found, share them at https://github.com/TermuxArch/TermuxArch/issues to improve TermuxArch.  PRoot bind usage: PROOTSTMNT+="-b host_path:guest_path "  The space before the last double quote is necessary.
 
 _PR00TSTRING_() { # construct the PRoot init statement
-[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name) $(getprop ro.product.cpu.abi) $SYSVER" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}"
+[[ -z "${QEMUCR:-}" ]] && CPUABI="$(getprop ro.product.cpu.abi)" && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name ) $SYSVER" || [[ $QEMUCR="0" ]] && SYSVER="$(getprop ro.build.version.release)" && NASVER="$(getprop net.bt.name) $SYSVER $(getprop ro.product.cpu.abi)" || _PSGI1ESTRING_ "CPUABI knownconfigurations.bash ${0##*/}"
 PROOTSTMNT="exec proot "
 if [[ -z "${KID:-}" ]]
 then	# command 'grep -w KID *h' shows variable KID usage

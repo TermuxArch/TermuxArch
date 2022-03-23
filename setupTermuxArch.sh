@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.293
+VERSIONID=2.1.295
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -637,11 +637,11 @@ _QEMUCFCK_
 if [[ -z "${ARCHITEC:-}" ]]
 then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armeabi armeabi-v7a arm64-v8a x86 x86-64 exit ;
+select ARCHITECTURE in armeabi-v7a arm64-v8a x86 x86-64 exit ;
 do
 CPUABI="$ARCHITECTURE"
 [ "$CPUABI" = exit ] && exit 0
-if [[ "$ARCHITECTURE" == armeabi ]] || [[ "$ARCHITECTURE" == armeabi-v7a ]]
+if [[ "$ARCHITECTURE" == armeabi-v7a ]]
 then
 ARCHITEC="arm"
 elif [[ "$ARCHITECTURE" == arm64-v8a ]]
