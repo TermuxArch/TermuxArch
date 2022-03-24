@@ -888,7 +888,7 @@ _ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-pac
 _ADDmakeaurpython3memoizedb_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/MemoizeDB.py" python3-memoizedb python3memoizedb "a generic data retrieval memoizer that uses an sqlite database to cache data" ; }
 
 _ADDmakeaurpython3xcgf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcgf python3xcgf "Xyne's common Pacman functions, for internal use" ; }
-_ADDmakeaurpython3xcpf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcpf python3xcpf "Xyne's common Pacman functions, for internal use" "{ { pacman-key -l | grep 1D1F0DC78F173680 1>/dev/null ; } || { gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 || gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 ; } ; } &&" ; }
+_ADDmakeaurpython3xcpf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCPF/ArchPkg.py" python3-xcpf python3xcpf "Xyne's common Pacman functions, for internal use" "{ { pacman-key -l | grep 1D1F0DC78F173680 1>/dev/null ; } || { gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 || gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 ; } ; } &&" ; }
 
 _ADDmakeaurpm2ml_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/pm2ml.py" pm2ml pm2ml "Generate metalinks for downloading Pacman packages and databases" ; }
 
