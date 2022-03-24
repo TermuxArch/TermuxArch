@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.319
+VERSIONID=2.1.320
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -1058,7 +1058,7 @@ printf "\\nSetting mode to qemu.\\n"
 _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
-## [refresh [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
+## [refre[sh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
 printf "\\nSetting mode to full refresh.\\n"
@@ -1071,6 +1071,7 @@ printf "\\nSetting mode to 4 refresh.\\n"
 _PRPREFRESH_ "4"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
+## [ref [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and populate the installation from the cache directory.  Useful for refreshing the root user's home directory and user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.
 elif [[ "${1//-}" = [Rr][Ee][Ff]* ]]
 then
 printf "\\nSetting mode to 3 refresh.\\n"
