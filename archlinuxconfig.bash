@@ -872,21 +872,20 @@ _PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackag
 
 _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
-_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { makeaurjqgit ||: ; } &&" ; }
+_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { makeaurjqgit ||: ; } &&" ; }
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
 
-_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "# an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || pc cmake --noconfirm ; } && { [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } &&" ; }
+_ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || pc cmake --noconfirm ; } && { [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } &&" ; }
 
-_ADDmakeaurpbget_() { _CFLHDR_ $TMXRCHBNDS/makeaurpbget "# retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
-_PREPFILEFCTNS0_ pbget pbget $TMXRCHBNDS/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
-_PREPFILEFCTNS_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcgf "$TMXRCHBNDS/makeaurpbget" "" "sudo pacman-key --recv-keys 1D1F0DC78F173680 ;"
-_PREPFILEFCTNS_ "/usr/lib/pm2ml" python-pyxdg $TMXRCHBNDS/makeaurpbget ""
-_PREPFILEFCTNS_ "/usr/lib/pm2ml" python3-memoizedb $TMXRCHBNDS/makeaurpbget ""
-_PREPFILEFCTNS_ "/usr/lib/pm2ml" python3-xcpf $TMXRCHBNDS/makeaurpbget ""
-_PREPFILEFCTNS_ "/usr/lib/pm2ml" pm2ml $TMXRCHBNDS/makeaurpbget ""
-_PREPFILEFCTNS_ "/usr/lib/python3-aur" python3-aur $TMXRCHBNDS/makeaurpbget ""
-_PREPFILEFCTNS_ pbget pbget $TMXRCHBNDS/makeaurpbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg"
-chmod 755 $TMXRCHBNDS/makeaurpbget ; }
+_ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { makeaurpython3memoizedb ||: ; } && { makeaurpython3xcpf ||: ; } && { makeaurpm2ml ||: ; } && { makeaurpython3aur ||: ; } &&" ; }
+
+_ADDmakeaurpython3memoizedb_() { _PREPFILEFTN0_ memoizedb python3-memoizedb python3memoizedb "generic data retrieval memoizer that uses an sqlite database to cache data" ; }
+
+_ADDmakeaurpython3xcpf_() { _PREPFILEFTN0_ xcpf python3-xcpf python3xcpf "generic data retrieval memoizer that uses an sqlite database to cache data" ; }
+
+_ADDmakeaurpm2ml_() { _PREPFILEFTN0_ pm2ml pm2ml pm2ml "generic data retrieval memoizer that uses an sqlite database to cache data" ; }
+
+_ADDmakeaurpython3aur_() { _PREPFILEFTN0_ python3aur python3-aur python3aur "AUR-related modules and helper utilities (aurploader, aurquery, aurtomatic" ; }
 
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_  package-query package-query packagequery "Query ALPM and AUR" "{ [ -x /usr/bin/wget ] || pc wget ; } && " ; }
 

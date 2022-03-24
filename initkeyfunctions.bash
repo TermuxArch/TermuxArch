@@ -63,6 +63,7 @@ _ADDmakeaurpkgbuilder_
 _ADDmakeaurpkgbuildergit_
 _ADDmakeaurpopularpackages_
 _ADDmakeaurpuyo_
+_ADDmakeaurpython3memoizedb_
 _ADDmakeaurrepoctl_
 _ADDmakeaurrepoctlgit_
 _ADDmakeaurrepofish_
