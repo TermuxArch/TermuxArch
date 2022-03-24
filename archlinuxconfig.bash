@@ -883,15 +883,16 @@ _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR hel
 
 _ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { makeaurpython3memoizedb ||: ; } && { makeaurpython3xcgf ||: ; } && { makeaurpython3xcpf ||: ; } && { makeaurpm2ml ||: ; } && { makeaurpython3aur ||: ; } &&" ; }
 
+_ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
+
 _ADDmakeaurpython3memoizedb_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/MemoizeDB.py" python3-memoizedb python3memoizedb "a generic data retrieval memoizer that uses an sqlite database to cache data" ; }
 
 _ADDmakeaurpython3xcgf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcgf python3xcgf "Xyne's common Pacman functions, for internal use" ; }
-
 _ADDmakeaurpython3xcpf_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-xcpf python3xcpf "Xyne's common Pacman functions, for internal use" "{ { pacman-key -l | grep 1D1F0DC78F173680 1>/dev/null ; } || { gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 || gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 ; } ; } &&" ; }
 
 _ADDmakeaurpm2ml_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/pm2ml.py" pm2ml pm2ml "Generate metalinks for downloading Pacman packages and databases" ; }
 
-_ADDmakeaurpython3aur_() { _PREPFILEFTN1_ python3ur python3-aur python3aur "AUR-related modules and helper utilities (aurploader, aurquery, aurtomatic" ; }
+_ADDmakeaurpython3aur_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/AUR/AurPkg.py" python3-aur python3aur "AUR-related modules and helper utilities (aurploader, aurquery, aurtomatic" ; }
 
 _ADDmakeaurpackagequery_() { _PREPFILEFTN0_  package-query package-query packagequery "Query ALPM and AUR" "{ [ -x /usr/bin/wget ] || pc wget ; } && " ; }
 
@@ -914,6 +915,7 @@ _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR hel
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
 _ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
+_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" ; }
 _ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" ; }
 _ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
 _ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }
