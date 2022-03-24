@@ -74,7 +74,7 @@ _ADDmakeaurtrizen_
 _ADDmakeaurtrizengit_
 _ADDmakeauryaah_
 _ADDmakeauryay_
-_ADDmakeauryayim_
+# _ADDmakeauryayim_ Failed to connect to gitea.jojiiofficial.de port 443
 _ADDmakeaurutils_
 _ADDmakeaurutilsgit_
 _ADDmakeksh_
