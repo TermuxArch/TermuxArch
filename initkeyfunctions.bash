@@ -58,6 +58,7 @@ _ADDmakeaurparugit_
 _ADDmakeaurparuz_
 _ADDmakeaurpbget_
 _ADDmakeaurpython3memoizedb_
+_ADDmakeaurpython3xcgf_
 _ADDmakeaurpython3xcpf_
 _ADDmakeaurpython3aur_
 _ADDmakeaurpm2ml_
