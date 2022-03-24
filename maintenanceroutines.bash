@@ -66,16 +66,16 @@ printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
 { cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 [ -d "$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIRSUFIX && " ; }
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
-find "$CACHEDIR" -type f -name "*tar.gz*" -exec ln -s {} \;
+find "$CACHEDIR" -type f -name "*tar.gz*" -exec ln -s {} \; 2>/dev/null
 [ -d "$INSTALLDIR"/var/cache/pacman/pkg ] || { mkdir -p "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s' "mkdir -p $INSTALLDIR/var/cache/pacman/pkg && " ; }
 cd "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s\n' "cd $INSTALLDIR/var/cache/pacman/pkg" || exit 196
-printf '%s\n' "find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;" && find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;
+printf '%s\n' "find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;" && find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \; 2>/dev/null
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
 printf '\e[0;32mPopulating from cache files;  \e[1;32mDONE\n\n'
 }
 
 _DOUSECACHEDIR_() {
-if [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ]
+if { [ "$USECACHEDIR" = 0 ] && [ -z "${LCR:-}" ] ; } || { [ "$USECACHEDIR" = 0 ] && [ "${LCR:-}" = 3 ] ; }
 then
 _PPLCACHEDIR_
 fi
