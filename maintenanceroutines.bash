@@ -62,7 +62,7 @@ done
 }
 
 _PPLCACHEDIR_() {
-printf '\e[0;32mPopulating from cache files;  \e[1;32mBEGUN\n'
+printf '\e[0;32mPopulating from cache files.  \e[1;32mBEGUN\n\e[0;32mThe %s command can be used to populate the cache.  The command %s will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\n\e[1;32m' "'trim'" "'${0##*/} ref'"
 { cd "$CACHEDIR" && printf '%s' "cd $CACHEDIR && " ; } || { cd "$PREFIXDATAFILES" && mkdir -p "$CACHEDIRSUFIX" && cd "$CACHEDIR" && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $CACHEDIRSUFIX && cd $CACHEDIR && " ; } || exit 196
 [ -d "$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIRSUFIX && " ; }
 cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
