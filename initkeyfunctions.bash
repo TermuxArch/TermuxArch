@@ -57,13 +57,16 @@ _ADDmakeaurparubin_
 _ADDmakeaurparugit_
 _ADDmakeaurparuz_
 _ADDmakeaurpbget_
+_ADDmakeaurpython3memoizedb_
+_ADDmakeaurpython3xcpf_
+_ADDmakeaurpython3aur_
+_ADDmakeaurpm2ml_
 _ADDmakeaurpikaur_
 _ADDmakeaurpikaurgit_
 _ADDmakeaurpkgbuilder_
 _ADDmakeaurpkgbuildergit_
 _ADDmakeaurpopularpackages_
 _ADDmakeaurpuyo_
-_ADDmakeaurpython3memoizedb_
 _ADDmakeaurrepoctl_
 _ADDmakeaurrepoctlgit_
 _ADDmakeaurrepofish_
