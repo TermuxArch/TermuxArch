@@ -42,7 +42,7 @@ Files `setupTermuxArch.{bash,sh}` are held for backward compatibility;  Please r
 
 File `setupTermuxArch` downloads as files `setupTermuxArch.[bin,\ \(1\),\ \(2\),etc...]`' through Internet browsers into Android Downloads on smartphone and Arch Linux in Termux PRoot can be installed directly from this file in Android with this command `bash ~/storage/downloads/setupTermuxArch` and similar which may also check whether there is a newer version automatically since the time it was downloaded.  If there is a newer version, this file will self update.  If this updating process went smoothly, this file will restart the process that was initially initiated by the user.
 
-These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use commands `git pull & git submodule update --init --remote --recursive` and `pullTermuxArchMods.bash` to update to the newest version published.
+These files `setupTermuxArch[.{bash,sh}]` will NOT selfupdate to the most recent version published if they are used inside their git repository;  You can use commands `git pull && git submodule update --init --remote --recursive` and `pullTermuxArchMods.bash` to update to the newest version published.
 
 #### Very many hardy thank yous to contributors who are helping and have worked very hard to make this open source resource better!  [Please accept a wholehearted THANK YOU for using our open source product!](https://github.com/TermuxArch/)
 <!-- TermuxArch/TermuxArch README.md EOF -->
