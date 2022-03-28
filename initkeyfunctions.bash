@@ -298,7 +298,7 @@ printf "\\\\n\\\\e[1;32m%s \\\\e[0;34mWhen \\\\e[1;37mGenerating pacman keyring 
 _GENEN_() {
 printf "\\\\e[0;32mGenerating entropy on device;  \\\\e[1;32mPlease wait a moment...  "
 GENENN=16
-for GNNINT in \$(seq 1 \$GENENN)
+for GNNT in \$(seq 1 \$GENENN)
 do
 nice -n 20 ls -alR /usr >/dev/null &
 nice -n 20 find /usr >/dev/null &
