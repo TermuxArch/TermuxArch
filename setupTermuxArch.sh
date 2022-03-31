@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.337
+VERSIONID=2.1.338
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -943,12 +943,19 @@ _OPT1_ "$@"
 _ARG2DIR_ "$@"
 _INTRO_ "$@"
 ## [d[ebug]|s[ysinfo]]  Generate system information.
-elif [[ "${1//-}" = [Dd]* ]] || [[ "${1//-}" = [Ss]* ]]
+elif [[ "${1//-}" = [Dd][Ee]* ]] || [[ "${1//-}" = [Ss]* ]]
 then
 printf "\\nSetting mode to sysinfo.\\n"
 shift
 _ARG2DIR_ "$@"
 _INTROSYSINFO_ "$@"
+## [do [[flavor] [variaty]] [installdir]]  please see [systemimage.tar.gz [customdir]], https://github.com/TermuxArch/TermuxArch/issues/25, https://github.com/TermuxArch/TermuxArch/issues/34 and https://github.com/TermuxArch/TermuxArch/issues/68 for information.
+elif [[ "${1//-}" = [Dd][Oo]* ]]
+then
+printf "\\nSetting mode to do/what.\\n"
+shift
+_OPT1_ "$@"
+_INTRO_ "$@"
 ## [he[lp] [customdir]]  Display terse builtin help.
 elif [[ "${1//-}" = [Hh][Ee]* ]]
 then
@@ -1142,8 +1149,8 @@ fi
 ## >>>>>>>>>>>>>>>>>>
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
 ## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
-## GRAMMAR[a]: setupTermuxArch [HOW] [DO] [WHERE]
-## OPTIONS[a]: setupTermuxArch [HOW] [DO] [WHERE]
+## GRAMMAR[a]: setupTermuxArch [HOW/WHAT] [DO] [WHERE]
+## OPTIONS[a]: setupTermuxArch [HOW/WHAT] [DO] [WHERE]
 ## GRAMMAR[b]: setupTermuxArch [WHAT] [WHERE]
 ## OPTIONS[b]: setupTermuxArch [~/|./|/absolute/path/]image.tar.gz [WHERE]
 ## DEFAULTS ARE IMPLIED AND CAN BE OMITTED
