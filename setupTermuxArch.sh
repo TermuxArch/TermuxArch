@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.331
+VERSIONID=2.1.332
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -809,7 +809,7 @@ STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 TMXRCHBNDR="/usr/local/termuxarch/bin"
 TMXRCHBNDS="usr/local/termuxarch/bin"
 ## TERMUXARCH FEATURES INCLUDE:
-## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc' '.bash_profile' and 'usr/local/termuxarch/bin/README.md' have detailed information about this feature,
+## 1)  Creates aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc', '.bash_profile' and 'usr/local/termuxarch/bin/README.md' have more information about this feature,
 ## 2)  Sets timezone and locales from device,
 ## 3)  Tests for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
