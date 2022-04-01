@@ -672,7 +672,6 @@ _MAKESETUPBIN_() {
 _CFLHDR_ root/bin/setupbin.bash
 printf "%s\\n" "set +Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "$PROOTSTMNT /root/bin/$BINFNSTP ||:" >> root/bin/setupbin.bash
-printf "%s\\n" "set -Eeuo pipefail" >> root/bin/setupbin.bash
 printf "%s\\n" "# root/bin/setupbin.bash FE" >> root/bin/setupbin.bash
 chmod 700 root/bin/setupbin.bash
 }
