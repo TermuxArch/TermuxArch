@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.350
+VERSIONID=2.1.351
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -25,6 +25,9 @@ printf "\\e[1;32mRunning command '%s refresh' may assist in completing the insta
 printf "\\e[1;32mCommand '%s refresh' can be used to refresh the Arch Linux in Termux PRoot system to the newest version published;  Command '%s sysinfo' has more information.  It can help with diagnostics.  " "${0##*/}" "${0##*/}"
 printf "\\e[1;32mIs the system that you are using [up to date with packages](https://github.com/WAE/au), [app](https://github.com/termux/termux-app/releases) and Android?  " "${0##*/}"
 printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
+fi
+if [[ "$RV" = 1 ]] || [[ "$RV" = 6 ]]
+then
 printf "\\e[1;48;5;133m %s" "Please ensure background data is not restricted.  Check the wireless connection.  "
 fi
 if [[ "$RV" = 0 ]]
