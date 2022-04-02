@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.356
+VERSIONID=2.1.357
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -355,9 +355,9 @@ _DEPENDSBLOCK_ "$@"
 _REFRESHSYS_ "$@"
 }
 _INSTLLDIRCHK_() {
-if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
+if [[ -f "$INSTALLDIR"/bin/we ]] && [[ -d "$INSTALLDIR"/local/termuxarch/bin ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct; Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 }
@@ -687,6 +687,7 @@ _INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTerm
 fi
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 }
+
 _QEMUCFCK_() {
 if [[ -f "$INSTALLDIR/$STARTBIN" ]]
 then	# set installed qemu architecture
@@ -694,6 +695,7 @@ ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu "$INSTALLDIR/$STARTBIN")" && ARCTFVAR=${AR
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 fi
 }
+
 _RMARCHQ_() {
 printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ" "DIRECTORY NOTICE!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
@@ -1154,7 +1156,6 @@ fi
 ## >>  HELP FACTS  >>
 ## >>>>>>>>>>>>>>>>>>
 ## THESE OPTIONS ARE AVAILABLE FOR YOUR CONVENIENCE:
-## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
 ## GRAMMAR[a]: setupTermuxArch [HOW/WHAT] [DO] [WHERE]
 ## OPTIONS[a]: setupTermuxArch [HOW/WHAT] [DO] [WHERE]
 ## GRAMMAR[b]: setupTermuxArch [WHAT] [WHERE]
@@ -1167,5 +1168,6 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
-## After installing Arch Linux on device, file 'usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'usr/local/termuxarch/bin' have more information as well.
+## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information as well.
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar.
