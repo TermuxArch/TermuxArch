@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.351
+VERSIONID=2.1.352
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -295,11 +295,7 @@ fi
 _INTRO_() {
 printf "\033]2;%s\007" "bash $STRANARG 📲"
 _SETROOT_EXCEPTION_
-if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
-then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct; Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
-exit 205
-fi
+_INSTLLDIRCHK_
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DEPENDSBLOCK_ "$@"
 if [[ "$LCC" = "1" ]]
@@ -361,6 +357,13 @@ _QEMUCFCK_
 _DODIRCHK_
 _DEPENDSBLOCK_ "$@"
 _REFRESHSYS_ "$@"
+}
+_INSTLLDIRCHK_() {
+if [[ -d "$INSTALLDIR" ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]] && [[ -f "$INSTALLDIR"/bin/we ]] && [[ -f "$INSTALLDIR"/usr/bin/env ]]
+then
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct; Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+exit 205
+fi
 }
 _LOADCONF_() {
 if [[ -f "${WDIR}setupTermuxArchConfigs.bash" ]]
@@ -643,12 +646,13 @@ printf "\\n\\e[1;33m %s  \\e[0;33m %s  \\e[1;31m%s  " "ＴｅｒｍｕｘＡｒ�
 exit 189
 fi
 }
-if [[ -z "${ARCHITEC:-}" ]]
+_INSTLLDIRCHK_
+if [[ -n "${ARCHITEC:-}" ]] || [[ -z "${ARCHITEC:-}" ]]
 then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86-64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
 select ARCHITECTURE in armv5 armv7 arm64-v8a x86 x86-64 exit ;
 do
-[ "$CPUABI" = exit ] && exit 0
+[ "$ARCHITECTURE" = exit ] && exit 0
 if [[ "$ARCHITECTURE" == armv5 ]]
 then
 ARCHITEC="arm"

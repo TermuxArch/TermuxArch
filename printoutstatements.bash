@@ -15,7 +15,7 @@ FLHDR1[1]=""
 FLHDR1[2]="set -Eeuo pipefail"
 FLHDR1[3]="shopt -s extglob nullglob globstar"
 FLHDR1[4]="unset LD_PRELOAD"
-FLHDR1[5]="VERSIONID=2.1.351"
+FLHDR1[5]="VERSIONID=2.1.352"
 FLHDR1[6]=""
 FLHDRP[0]="## BEGIN #####################################################################"
 FLHDRP[1]=""
@@ -140,7 +140,7 @@ printf "\\e[1;32mDONE  \\e[0m\\n\\n"
 
 _PRINTWLA_() {
 printf '\033]2; 🕛 > 🕒 Activating termux-wake-lock: OK\007'
-printf "\\e[0;34m 🕛 > 🕒 \\e[1;34mActivating termux-wake-lock: "
+printf "\\n\\e[0;34m 🕛 > 🕒 \\e[1;34mActivating termux-wake-lock: "
 }
 
 _PRINTWLD_() {

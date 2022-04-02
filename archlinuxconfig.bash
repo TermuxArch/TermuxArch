@@ -1403,7 +1403,7 @@ rm -rf /usr/lib/modules
 if [ -d "$CACHEDIR" ]
 then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
-printf "[3/4] Triming installation files and populating cache in %s\\\\n" "'$CACHEDIR'"
+printf "[3/4] Triming installation files and populating cache in dircectory '%s'.  The '%s' command can be used to populate the cache.  The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\\\n" "$CACHEDIR" "\${0##*/}" "${0##*/}"
 CPKGFLSR="\$(ls --color=never /var/cache/pacman/pkg/ | wc -l)"
 if [[ "\$CPKGFLSR" -gt 0 ]]
 then
