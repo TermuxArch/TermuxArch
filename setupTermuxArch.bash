@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.352
+VERSIONID=2.1.353
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -691,7 +691,7 @@ _INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTerm
 fi
 }
 _QEMUCFCK_() {
-if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep -q qemu- "$INSTALLDIR/$STARTBIN"
+if [[ -f "$INSTALLDIR/$STARTBIN" ]]
 then	# set installed qemu architecture
 ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu "$INSTALLDIR/$STARTBIN")" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< "$ARCTFVAR")" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"

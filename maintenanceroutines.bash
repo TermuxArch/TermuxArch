@@ -126,6 +126,7 @@ _REFRESHSYS_() { # refresh installation
 printf '\033]2; setupTermuxArch refresh 📲 \007'
 _NAMESTARTARCH_
 _SPACEINFO_
+_QEMUCFCK_
 _PREPINSTALLDIR_
 _DOUSECACHEDIR_
 _SETLOCALE_
