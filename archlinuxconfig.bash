@@ -69,6 +69,7 @@ rm -f \"\$HOME\"/.chushlogin
 fi
 PS1=\"\\[\\e[38;5;148m\\]\\u\\[\\e[1;0m\\]\\A\\[\\e[1;38;5;112m\\]\\W\\[\\e[0m\\]$ \"" >> root/.bash_profile
 [[ -f "$HOME"/.bash_profile ]] && grep proxy "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
+[[ -f "$HOME"/.bash_profile ]] && grep EDITOR "$HOME"/.bash_profile | grep -s "export" >> root/.bash_profile ||:
 SHELVARS=" ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_RUNTIME_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH"
 for SHELVAR in ${SHELVARS[@]}
 do
@@ -233,6 +234,7 @@ alias UM='uname -m'
 alias Um='uname -m'
 alias um='uname -m'
 EOM
+[ -f "$HOME"/.bashrc ] && grep -s EDITOR "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
 [ -f "$HOME"/.bashrc ] && grep -s proxy "$HOME"/.bashrc | grep -s "export" >>  root/.bashrc ||:
 printf "%s\\n" "## .bashrc FE" >> root/.bashrc
 }

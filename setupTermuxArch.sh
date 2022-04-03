@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.364
+VERSIONID=2.1.365
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -79,11 +79,10 @@ ARG2="${@:2:1}"
 if [[ -z "${ARG2:-}" ]]
 then
 ROOTDIR=/arch
-_PREPTERMUXARCH_
 else
 ROOTDIR=/"$ARG2"
-_PREPTERMUXARCH_
 fi
+_PREPTERMUXARCH_
 }
 _CHK_() {
 if sha512sum -c --quiet termuxarchchecksum.sha512
@@ -352,6 +351,7 @@ _INTROREFRESH_() {
 printf '\033]2;  bash setupTermuxArch refresh 📲 \007'
 _DODIRCHK_
 _DEPENDSBLOCK_ "$@"
+_QEMUCFCK_
 _REFRESHSYS_ "$@"
 }
 _INSTLLDIRCHK_() {
@@ -687,20 +687,21 @@ _INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTerm
 fi
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 }
-
 _QEMUCFCK_() {
-	set -x
-if [[ -f "$INSTALLDIR/$STARTBIN" ]]
-then	# set installed qemu architecture
-if grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu
+if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu
+then    # set installed qemu architecture
+ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
+ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
+for RCTFVR in ${ALLRCTFVR[@]}
+do
+if [ "$RCTFVR" = "$ARCTEVAR" ]
 then
-ARCHITEC="$(ARCTEVAR="$(grep -m1 qemu "$INSTALLDIR/$STARTBIN")" && ARCTFVAR=${ARCTEVAR#*qemu-} && cut -d" " -f1 <<< "$ARCTFVAR")" && CPUABI="$ARCHITEC" && INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
+INCOMM="qemu-user-$ARCTEVAR" && QEMUCR=0
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 fi
+done
 fi
-	set +x
 }
-
 _RMARCHQ_() {
 printf "\\n\\e[0;33m %s \\e[1;33m%s \\e[0;33m%s\\n\\n\\e[1;30m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ" "DIRECTORY NOTICE!  ~/${INSTALLDIR##*/}/" "directory detected." "Purge '$INSTALLDIR' as requested?"
 if [[ -z "${PURGELCR:-}" ]]
@@ -792,8 +793,8 @@ fi
 }
 ## USER INFORMATION:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'knownconfigurations.bash' in the working directory is simple.  The command 'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing;  This command 'setupTermuxArch h' has more information.
 declare -A ADM		# declare associative array for download tools
-declare -A ATM		# declare associative array for tar tools
-declare -A FILE		# declare associative array
+declare -A ALLRCTFVR		# declare associative array for all known architectures
+ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86-64]="x86-64" [x86_64]="x86_64" [armv5]="armv5"  [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
 declare -a ECLAVARR	# declare array for arrays and variables
 declare -a LC_TYPE	# declare array for locale types
 declare -a QEMUUSER	# declare array for qemu user tools
