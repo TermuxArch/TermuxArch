@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.360
+VERSIONID=2.1.361
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -642,10 +642,6 @@ printf "\\n\\e[1;33m %s  \\e[0;33m %s  \\e[1;31m%s  " "ＴｅｒｍｕｘＡｒ�
 exit 189
 fi
 }
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
 _INSTLLDIRCHK_
 if [[ -n "${ARCHITEC:-}" ]] || [[ -z "${ARCHITEC:-}" ]]
 then
@@ -809,15 +805,6 @@ ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUAB
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
 CPUABI="$(getprop ro.product.cpu.abi)"
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
-	echo $CPUABI
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
 CPUABI8="arm64-v8a"	# used for development
