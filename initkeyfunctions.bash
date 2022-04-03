@@ -503,7 +503,7 @@ _PRINTUSAGE_
 elif [[ -z "\${2:-}" ]]
 then
 _PRINTUSAGE_
-printf "\\e[0;33m%s\\e[1;30m%s\\e[0;0m%s\\e[1;30m%s\\e[0;31m%s\\e[1;30m%s\\e[0m" "Please use at least one more argument to continue.  The command '\${0##*/} help' has more information;" "  Possible substitute command " "'\${0##*/} c 'addauser \$1''" ";" "  Exiting" "...  "
+printf "\\e[0;33m%s\\e[1;30m%s\\e[0;0m%s\\e[1;30m%s\\e[0;31m%s\\e[1;30m%s\\e[0m" "Please use at least one more argument to continue.  The command '\${0##*/} help' has more information;" "  Possible substitute command '" "\${0##*/} c 'addauser \$1'" "';" "  Exiting" "...  "
 ## [command ARGS] Execute a command in BASH as root.
 elif [[ "\${1//-}" = [Cc]* ]]
 then
