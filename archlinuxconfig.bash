@@ -1406,23 +1406,18 @@ if [ -d "$CACHEDIR" ]
 then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
 printf "[3/4] Triming installation files and populating cache in dircectory '%s'.  The '%s' command can be used to populate the cache.  The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\\\n" "$CACHEDIR" "\${0##*/}" "${0##*/}"
+find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} "$CACHEDIR" \;"
 CPKGFLSR="\$(ls --color=never /var/cache/pacman/pkg/ | wc -l)"
 if [[ "\$CPKGFLSR" -gt 0 ]]
 then
-find /var/cache/pacman/pkg/ -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
+find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
 fi
 else
 printf "%s\\\\n" "[3/4] rm -f /var/cache/pacman/pkg/*pkg*"
-rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f \${0##*/}"
+rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "rm -f /var/cache/pacman/pkg/*pkg*"
 fi
-if [ -z "\$SUTRIM" ]
-then
-printf "%s\\\\n" "[4/4] pacman -Scc --noconfirm --color=always"
-pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
-else
 printf "%s\\\\n" "[4/4] \$SUTRIM pacman -Scc --noconfirm --color=always"
-"\$SUTRIM" pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${0##*/} \$SUTRIM pacman -Scc"
-fi
+\$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\$SUTRIM pacman -Scc --noconfirm --color=always"
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/trim FE
 EOM
 chmod 755 $TMXRCHBNDS/trim

@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.365
+VERSIONID=2.1.366
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -688,7 +688,7 @@ fi
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
 }
 _QEMUCFCK_() {
-if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu
+if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu 1>/dev/null
 then    # set installed qemu architecture
 ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
 ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
@@ -696,8 +696,9 @@ for RCTFVR in ${ALLRCTFVR[@]}
 do
 if [ "$RCTFVR" = "$ARCTEVAR" ]
 then
-INCOMM="qemu-user-$ARCTEVAR" && QEMUCR=0
-printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCHITEC"
+INCOMM="qemu-user-${ARCTEVAR//_/-}" && QEMUCR=0
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
+break
 fi
 done
 fi
