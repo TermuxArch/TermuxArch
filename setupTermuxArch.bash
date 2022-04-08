@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.367
+VERSIONID=2.1.368
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -801,7 +801,7 @@ declare -a LC_TYPE	# declare array for locale types
 declare -a QEMUUSER	# declare array for qemu user tools
 declare PRFXTOLS	# declare variable for device tools that can be accessible in the PRoot environment
 declare -A EMPARIAS	# declare associative array for empty variables
-EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [DFL]="# used for development" [DM]="" [USEREDIT]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number")
+EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [DFL]="# used for development" [DM]="" [FILE]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number" [USEREDIT]="")
 for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR SDATE STI STIME STRING1 STRING2 TMXRCHBND RWDIR)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
