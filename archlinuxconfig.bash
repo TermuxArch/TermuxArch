@@ -1405,11 +1405,12 @@ rm -rf /usr/lib/modules
 if [ -d "$CACHEDIR" ]
 then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
-printf "[3/4a] Triming installation files and populating cache in dircectory '%s';  find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \;';  The '%s ref' command can be used to repopulate the cache.\\\\n" "$CACHEDIR" "${0##*/}"
-find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} "$CACHEDIR" \;"
-printf "%s\\\\n" "[3/4b] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
+printf "%s\\\\n" "[3/4] Triming installation files and populating cache in dircectory '$CACHEDIR';  Running command 'find $CACHEDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $INSTALLDIR \;';  The '${0##*/} ref' command can be used to repopulate the cache."
+find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
+printf "%s\\\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
-printf "[4/4] The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\\\n" "${0##*/}"
+printf "The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\\\n" "${0##*/}"
+fi
 ## ~/${INSTALLDIR##*/}$TMXRCHBNDR/trim FE
 EOM
 chmod 755 $TMXRCHBNDS/trim
