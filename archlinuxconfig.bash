@@ -721,10 +721,11 @@ exit 101
 fi
 NMCMND="\$(uname -m)"
 printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for architecture '\$NMCMND'."
+[ -f /usr/lib/python3.10/site-packages/xdg/util.py ] || { { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command 'pc python-pyxdg'" && pc python-pyxdg ; } || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command 'pci python-pyxdg'" && pci python-pyxdg ; } ; }
 [ -f "/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ] || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>"/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ; }
 makeaurpython3xcgf
-makeaurpython3xcpf
 makeaurpython3memoizedb
+makeaurpython3xcpf
 makeaurpython3colorsysplus
 makeaurpython3aur
 cd $TMXRCHBNDR || exit 169
