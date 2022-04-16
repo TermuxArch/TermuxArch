@@ -717,6 +717,11 @@ printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study th
 NMCMND="\$(uname -m)"
 printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for architecture '\$NMCMND'."
 [ -f "/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ] || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>"/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ; }
+makeaurpython3xcgf
+makeaurpython3xcpf
+makeaurpython3memoizedb
+makeaurpython3colorsysplus
+makeaurpython3aur
 cd $TMXRCHBNDR || exit 169
 PYTHONCOMMANDS=("\$(ls --color=never makeaurpython*)")
 for PYTHONCOMMAND in \$(sort -r <<< \${PYTHONCOMMANDS[@]})
