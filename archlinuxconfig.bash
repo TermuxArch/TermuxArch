@@ -656,8 +656,6 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-printf "\\e[0;1m%s\\n" "Command \${0##*/} is currently depreciated;  Exiting..."
-exit 0
 _CLONEAURHELPER_() {
 cd "\$HOME/aurhelpers" || exit 196
 if [ -d "\$AURHELPER" ]
@@ -716,21 +714,31 @@ _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRANARG' again."
 }
 
-[ -d "\$HOME/aurhelpers" ] || mkdir -p "\$HOME/aurhelpers"
-UNAMEM="\$(uname -m)"
-if [ "\$UNAMEM" = x86-64 ]
-then
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-elif [ "\$UNAMEM" = i386 ]
-then
-AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-else
-AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
-fi
+NMCMND="\$(uname -m)"
+printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for architecture '\$NMCMND'."
+gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680
+cd $TMXRCHBNDR || exit 169
+PYTHONCOMMANDS=("\$(ls --color=never makeaurpython*)")
+for PYTHONCOMMAND in \$(sort -r <<< \${PYTHONCOMMANDS[@]})
+do
+printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command \$PYTHONCOMMAND for architecture '\$NMCMND'."
+"\$PYTHONCOMMAND"
+done
+# [ -d "\$HOME/aurhelpers" ] || mkdir -p "\$HOME/aurhelpers"
+# UNAMEM="\$(uname -m)"
+# if [ "\$UNAMEM" = x86-64 ]
+# then
+# AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+# elif [ "\$UNAMEM" = i386 ]
+# then
+# AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+# else
+# AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
+# fi
 # command yay || makeauryay
 # _DONEAURHELPER_ pikaur
 # _DOAURHELPERS_
-## ~/${INSTALLDIR##*/}$TMXRCHBNDR/makeaurhelpers FE
+## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 $TMXRCHBNDS/makeaurhelpers
 }
