@@ -714,6 +714,11 @@ _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRANARG' again."
 }
 
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
+exit 101
+fi
 NMCMND="\$(uname -m)"
 printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for architecture '\$NMCMND'."
 [ -f "/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ] || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>"/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ; }
