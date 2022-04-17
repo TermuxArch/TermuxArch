@@ -748,7 +748,7 @@ printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for
 # fi
 # command yay || makeauryay
 # _DONEAURHELPER_ pikaur
-AURHELPERS=(pakku paru trizen yaah)
+AURHELPERS=(pakku paru repoctl trizen yaah)
 _DOAURHELPERS_
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
