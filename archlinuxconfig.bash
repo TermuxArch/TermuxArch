@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _PRTPATCHHELP_() {
-printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\\\n\" \"This command \" \"'ln -s /system/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well with QEMU architecture emulation.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
+printf "%s\\n" "[ -x $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\\\n\" \"This command \" \"'ln -s \$PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" run in a native Termux shell might resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well with QEMU architecture emulation.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
 }
 _ADDREADME_() {
 _CFLHDR_ $TMXRCHBNDS/README.md
@@ -684,9 +684,10 @@ fi
 NMCMND="\$(uname -m)"
 if [ "\$NMCMND" = x86_64 ]
 then
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' \"Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442\" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; } # import stack-static key
 AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
 else
-AURHELPERS=(pakku paru repoctl trizen yaah)
+AURHELPERS=(pakku paru trizen yaah)
 fi
 printf "\\e[0m%s\\n%s\\n" "Command '\${0##*/}' is attempting to build and install these aur helpers for architecture '\$NMCMND':" "\${AURHELPERS[@]}"
 for AURHELPER in \${AURHELPERS[@]}
