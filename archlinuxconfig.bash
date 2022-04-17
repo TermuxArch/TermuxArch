@@ -939,7 +939,7 @@ _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR hel
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
 _ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
-_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" ; }
+_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt nlohmann-json || pci fmt nlohmann-json ; } ; } &&" ; }
 _ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" "makeauryay &&" ; }
 _ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
 _ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }

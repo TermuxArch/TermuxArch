@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.380
+VERSIONID=2.1.381
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -35,7 +35,7 @@ else
 printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
 printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
-rm -rf "$TAMPDIR"
+[ -z "${TAMPDIR:-}" ] || rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 }
@@ -74,7 +74,6 @@ then
 printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
-{ [ -z "${ARGS:-}" ] && STRANARG="${0##*/}" ; } || STRANARG="${0##*/} ${ARGS:-}"
 ARG2="${@:2:1}"
 if [[ -z "${ARG2:-}" ]]
 then
@@ -866,6 +865,7 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
 ## []  Run default Arch Linux install.
+{ [ -z "${ARGS:-}" ] && STRANARG="${0##*/}" ; } || STRANARG="${0##*/} ${ARGS:-}"
 if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"
@@ -1078,6 +1078,15 @@ printf "\\nSetting mode to qemu.\\n"
 _OPT1_ "$@"
 _QEMU_
 _INTRO_ "$@"
+elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]*[Ff][Oo][Rr][Cc][Ee] ]]
+then
+printf "\\nSetting mode to full refresh force.\\n"
+echo exit
+echo Developing feature\; Please see https://github.com/TermuxArch/TermuxArch/discussions/92 for more information.
+exit
+_PRPREFRESH_ "5"
+_ARG2DIR_ "$@"
+_INTROREFRESH_ "$@"
 ## [refre[sh] [customdir]]  Refresh the Arch Linux in Termux PRoot scripts created by TermuxArch and the installation itself.  Useful for refreshing the installation, the root user's home directory, user home directories and the TermuxArch generated scripts to their newest version;  Directory '/var/backups/' backs up the refreshed files.  This refresh mode also runs keys, generates locales and updates the Arch Linux in Termux PRoot system.
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]* ]]
 then
