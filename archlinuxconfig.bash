@@ -657,58 +657,19 @@ _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.a
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
 _CLONEAURHELPER_() {
-# cd "\$HOME/aurhelpers" || exit 196
 if [ -d "\$AURHELPER" ]
 then
 { printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
 else
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org." && _MAKEAURHELPER_ || _PRTERROR_
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
+_MAKEAURHELPER_ || _PRTERROR_
 fi
-}
-
-_DONEAURHELPER_(){
-#command "\$1" || _DOAURHELPERS_
-if ! command "\$1"
-then
-printf '%s\n' "Found command \$1"
-if printf '%s\n' "\${AURHELPERS[@]}" | grep -q -P "^\$1$"
-then
-printf '%s\n' "\$1"
-fi
-fi
-}
-
-_DOAURHELPERS_(){
-for AURHELPER in \${AURHELPERS[@]}
-do
-# if [ "\$AURHELPER" = stack-static ]
-# then
-# gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442
-# fi
-# if [ "\$AURHELPER" = pacaur ]
-# then
-# { pc expac  || pci expac ; }
-# AURHELPER=auracle-git
-# _CLONEAURHELPER_
-# fi
-# if [ "\$AURHELPER" = bauerbill ]
-# then
-# { pc python-pyxdg || pci python-pyxdg ; }
-# BAUERBILLDEPS=(pbget pm2ml powerpill python3-aur python3-colorsysplus python3-memoizedb python3-xcgf python3-xcpf)
-# for AURHELPER in \${BAUERBILLDEPS[@]}
-# do
-# _CLONEAURHELPER_
-# done
-# fi
-_CLONEAURHELPER_
-done
 }
 
 _MAKEAURHELPER_() {
-# cd "\$HOME/aurhelpers/\$AURHELPER" || exit 196
 cd "\$HOME/\$AURHELPER" || exit 196
 printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-nice -n 20 makepkg -firs --noconfirm || nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
+nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
 }
 
 _PRTERROR_() {
@@ -721,35 +682,22 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
-printf "\\e[0m%s\\n" "Command '\${0##*/}' is attempting to build and install for architecture '\$NMCMND'."
-# [ -f /usr/lib/python3.10/site-packages/xdg/util.py ] || { { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command 'pc python-pyxdg'" && pc python-pyxdg ; } || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command 'pci python-pyxdg'" && pci python-pyxdg ; } ; }
-# [ -f "/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ] || { printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>"/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock" ; }
-# makeaurpython3xcgf
-# makeaurpython3memoizedb
-# makeaurpython3xcpf
-# makeaurpython3colorsysplus
-# makeaurpython3aur
-# cd $TMXRCHBNDR || exit 169
-# PYTHONCOMMANDS=("\$(ls --color=never makeaurpython*)")
-# for PYTHONCOMMAND in \$(sort -r <<< \${PYTHONCOMMANDS[@]})
-# do
-# printf "\\e[0m%s\\n" "Command '\${0##*/}' is running command \$PYTHONCOMMAND for architecture '\$NMCMND'."
-# "\$PYTHONCOMMAND" || :
-# done
-# [ -d "\$HOME/aurhelpers" ] || mkdir -p "\$HOME/aurhelpers"
-# if [ "\$NMCMND" = x86-64 ] || [ "\$NMCMND" = x86_64 ]
-# then
-# AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-# elif [ "\$NMCMND" = i386 ]
-# then
-# AURHELPERS=(auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-# else
-# AURHELPERS=(aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish trizen yaah yayim)
-# fi
-# command yay || makeauryay
-# _DONEAURHELPER_ pikaur
+if [ "\$NMCMND" = x86_64 ]
+then
+AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+else
 AURHELPERS=(pakku paru repoctl trizen yaah)
-_DOAURHELPERS_
+fi
+printf "\\e[0m%s\\n%s\\n" "Command '\${0##*/}' is attempting to build and install these aur helpers for architecture '\$NMCMND':" "\${AURHELPERS[@]}"
+for AURHELPER in \${AURHELPERS[@]}
+do
+if command -v "\$AURHELPER"
+then
+printf '%s\n' "Found command \$AURHELPER"
+else
+_CLONEAURHELPER_
+fi
+done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 $TMXRCHBNDS/makeaurhelpers
