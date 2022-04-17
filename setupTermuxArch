@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.381
+VERSIONID=2.1.382
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -29,11 +29,11 @@ printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s:  %s\\007" "$STRANARG" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "DONE 🏁 "
+printf "\033]2; %s:  %s\\007" "$STRNRG" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRANARG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "$STRANARG" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "$STRNRG" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 [ -z "${TAMPDIR:-}" ] || rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
@@ -110,7 +110,7 @@ then	# update the working file to newest version
 ## update working file
 cd "$WDIR"
 cp "$TAMPDIR/setupTermuxArch" "$0"
-[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "$STRANARG" "$STRANARG" "$STRANARG"
+[[ -z "${ARGS:-}" ]] && printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m  Please run 'bash %s' again if this automatic update was unsuccessful.\\n\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "${0##*/}" "${0##*/}" || printf "\\n\\e[1;32mFile \\e[0;32m'%s'\\e[1;32m was UPDATED\\e[1;34m:\\e[0;32m run 'bash %s' again if this automatic update was unsuccessful;  You should be able to use the '!!' command to run '%s' again.\\n\\e[1;32mRESTARTED \\e[0;32m'%s'\\e[1;34m:\\e[1;32m CONTINUING...\\n\\n" "${0##*/}" "$STRNRG" "$STRNRG" "$STRNRG"
 ## restart with updated version
 . $0 $ARGS
 fi
@@ -289,7 +289,7 @@ USEREDIT="nano"
 fi
 }
 _INTRO_() {
-printf "\033]2;%s\007" "bash $STRANARG 📲"
+printf "\033]2;%s\007" "bash $STRNRG 📲"
 _SETROOT_EXCEPTION_
 _INSTLLDIRCHK_
 _PRINTINTRO_ "will attempt to install Linux in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
@@ -320,7 +320,7 @@ _DODIRCHK_() {
 _SETROOT_EXCEPTION_
 if [ ! -d "$INSTALLDIR" ] || [ ! -d "$INSTALLDIR/root/bin" ] || [ ! -d "$INSTALLDIR/var/binds" ] || [ ! -f "$INSTALLDIR/bin/we" ] || [ ! -f "$INSTALLDIR/usr/bin/env" ]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '$STRANARG'!  This command '${0##*/} help' has more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure is of ~/${INSTALLDIR##*/} seems to be incorrect; Cannot continue '$STRNRG'!  This command '${0##*/} help' has more information"
 if [ -d "$INSTALLDIR"/tmp ]
 then	# check for superfluous tmp directory
 DIRCHECK=0
@@ -345,10 +345,16 @@ rmdir "$INSTALLDIR" ||  _PSGI1ESTRING_ "rmdir INSTALLDIR _DODIRCHK_ ${0##*/}"
 fi
 exit 204
 fi
-_PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 }
 _INTROREFRESH_() {
 printf '\033]2;  bash setupTermuxArch refresh 📲 \007'
+if [ "${OPT:-}" = FORCE ]
+then
+_DODIRCHK_
+else
+ _SETROOT_EXCEPTION_
+fi
+_PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DODIRCHK_
 _DEPENDSBLOCK_ "$@"
 _QEMUCFCK_
@@ -357,7 +363,7 @@ _REFRESHSYS_ "$@"
 _INSTLLDIRCHK_() {
 if [[ -f "$INSTALLDIR"/bin/we ]] && [[ -d "$INSTALLDIR"/usr/local/termuxarch/bin ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRANARG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRNRG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
 exit 205
 fi
 }
@@ -573,8 +579,8 @@ _PRINTCONFLOADED_() {
 printf "\\n\\e[0;34m%s \\e[1;34m%s \\e[0;32m%s\\e[1;32m%s \\e[1;34m%s \\e[1;32m%s\\n" " 🕛 > 🕑" "TermuxArch configuration" "$WDIR" "setupTermuxArchConfigs.bash" "loaded:" "OK"
 }
 _PRINTSHA512SYSCHKER_() {
-printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash $STRANARG' again..."
-printf '\033]2; Run %s again...\007' "bash $STRANARG"
+printf "\\n\\e[07;1m\\e[31;1m\\n%s \\e[34;1m\\e[30;1m%s \\n\\e[0;0m\\n" " 🔆 ＴｅｒｍｕｘＡｒｃｈ NOTICE sha512sum mismatch!  Setup initialization mismatch!  Is your wireless on?" "  Try again, initialization was not successful this time.  Wait a little while.  Then run the command 'bash $STRNRG' again..."
+printf '\033]2; Run %s again...\007' "bash $STRNRG"
 exit 124
 }
 _PRINTSTARTBIN_USAGE_() {
@@ -865,7 +871,7 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
 ## []  Run default Arch Linux install.
-{ [ -z "${ARGS:-}" ] && STRANARG="${0##*/}" ; } || STRANARG="${0##*/} ${ARGS:-}"
+{ [ -z "${ARGS:-}" ] && STRNRG="${0##*/}" ; } || STRNRG="${0##*/} ${ARGS:-}"
 if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"
@@ -1081,9 +1087,8 @@ _INTRO_ "$@"
 elif [[ "${1//-}" = [Rr][Ee][Ff][Rr][Ee]*[Ff][Oo][Rr][Cc][Ee] ]]
 then
 printf "\\nSetting mode to full refresh force.\\n"
-echo exit
+OPT=FORCE
 echo Developing feature\; Please see https://github.com/TermuxArch/TermuxArch/discussions/92 for more information.
-exit
 _PRPREFRESH_ "5"
 _ARG2DIR_ "$@"
 _INTROREFRESH_ "$@"
