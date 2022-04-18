@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.387
+VERSIONID=2.1.388
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -812,6 +812,11 @@ for PKG in ${!EMPARIAS[@]} ; do declare "$PKG"="" ; done
 ECLAVARR=(ARGS BINFNSTP COMMANDIF COMMANDR COMMANDG CPUABI CPUABI5 CPUABI7 CPUABI8 CPUABIX86 CPUABIX8664 DFL DMVERBOSE DM EDO01LCR ELCR USEREDIT FSTND INSTALLDIR LCC LCP LCR OPT PKGS ROOTDIR RWDIR SDATE STI STIME STRING1 STRING2 TMXRCHBND)
 for ECLAVARS in ${ECLAVARR[@]} ; do declare $ECLAVARS ; done
 ARGS="${@%/}"
+## TERMUXARCH FEATURES INCLUDE:
+## 1)  Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc', '.bash_profile' and 'usr/local/termuxarch/bin/README.md' have more information about this feature,
+## 2)  Set timezone and locales from device,
+## 3)  Test for correct OS,
+## 4)  Get device information via the 'getprop' command,
 CPUABI="$(getprop ro.product.cpu.abi)"
 CPUABI5="armeabi"	# used for development; 'getprop ro.product.cpu.abi' ascertains architecture
 CPUABI7="armeabi-v7a"	# used for development
@@ -826,10 +831,6 @@ STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
 TMXRCHBNDR="/usr/local/termuxarch/bin"
 TMXRCHBNDS="usr/local/termuxarch/bin"
-## TERMUXARCH FEATURES INCLUDE:
-## 1)  Create aliases and commands that aid in using the command line, and assist in accessing the more advanced features like the commands 'pikaur' and 'yay' easily;  The files '.bashrc', '.bash_profile' and 'usr/local/termuxarch/bin/README.md' have more information about this feature,
-## 2)  Set timezone and locales from device,
-## 3)  Test for correct OS,
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
@@ -847,7 +848,7 @@ printf "\\e[1;38;5;142mCommand \\e[1;38;5;138m%s\\e[1;38;5;142m not found: \\e[1
 fi
 COMMANDR="$(command -v au)" || COMMANDR="$(command -v pkg)" || COMMANDR="$(command -v apt)"
 COMMANDIF="${COMMANDR##*/}"
-## 4)  Generate pseudo random numbers to create uniq strings,
+## 5)  Generate pseudo random numbers to create uniq strings,
 SDATE="$(date +%s)" || SDATE="$(shuf -i 0-99999999 -n 1)" || _PSGI1ESTRING_ "SDATE setupTermuxArch ${0##*/}"
 if [[ -r /proc/sys/kernel/random/uuid ]]
 then
@@ -858,7 +859,6 @@ fi
 ONESA="${SDATE: -1}"
 FTIME="$(date +%F%H%M%S)"
 STIME="$ONESA$STIME"
-## 5)  Get device information via the 'getprop' command,
 ## 6)  Determine its own name and location of invocation,
 WDIR="$PWD/" && WFDIR="$(realpath "$0")"
 WFDIR="${WFDIR%/*}"
@@ -1190,5 +1190,6 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh this installation using curl as the download manager.
-## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information as well.  Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
+## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information as well.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in Termux PRoot in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar.
