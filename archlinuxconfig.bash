@@ -695,11 +695,11 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yay yaah yayim)
+AURHELPERS=(stack-static aura aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yay yaah yayim)
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in  \${AURHELPERS[@]} exit ;
 do
-printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (20) exit to exit command '\${0##*/}':"
+printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (21) exit to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
