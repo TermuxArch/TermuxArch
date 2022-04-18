@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.403
+VERSIONID=2.1.404
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -352,7 +352,7 @@ if [ "${OPT:-}" = FORCE ]
 then
 _DODIRCHK_
 else
- _SETROOT_EXCEPTION_
+_SETROOT_EXCEPTION_
 fi
 _PRINTINTRO_ "will refresh your TermuxArch files in " "~/${INSTALLDIR##*/}" ".  Arch Linux in Termux PRoot will be available upon successful completion"
 _DODIRCHK_
