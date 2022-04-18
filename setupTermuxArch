@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.386
+VERSIONID=2.1.387
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -272,7 +272,7 @@ else	# use https://github.com/lavv17/lftp
 "${ADM[lftp]}" "${FILE[sha]}" "${FILE[tar]}"
 fi
 }
-_EDITORCHOOSER_() {
+_EDITORCHOOSER_() {	# add 'export EDITOR=editor_name' to HOME/.bash_profile in order to use your favorite editor during runtime
 if [[ -z "${EDITOR:-}" ]]
 then
 if command -v editor 1>/dev/null
