@@ -656,7 +656,10 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-{ [ -z "\${1:-}" ] && NMKPKG="nice -n 20 makepkg -firs --noconfirm" ; } || { [[ "\${1//-}" = [Cc]* ]] && NMKPKG="nice -n 20 makepkg -firs" || NMKPKG="nice -n 20 makepkg -firs --noconfirm" && [[ "\${1//-}" = [Hh]* ]] && printf '\\e[0m%s\\n' "Help:  Command '\${0##*/}' accepts option 'confirm'." && exit ; }
+HLPSTG="Help:  Command '\${0##*/}' accepts option 'confirm'."
+NMKPKC="nice -n 20 makepkg -firs"
+NMKPKN="nice -n 20 makepkg -firs --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Cc]* ]] && NMKPKG="\$NMKPKC" || NMKPKG="\$NMKPKN" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
 if [ "\$AURHELPER" = stack-static ]
