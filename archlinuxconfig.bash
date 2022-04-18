@@ -657,6 +657,10 @@ _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.a
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
 _ARHCMD_() {
+if [ "\$AURHELPER" = stack-static ]
+then	# import stack-static key
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+fi
 if command -v "\$AURHELPER"
 then
 printf '%s\n' "Found command \$AURHELPER"
@@ -677,7 +681,7 @@ fi
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Building and attempting to install '\$AURHELPER' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
 }
 
@@ -691,23 +695,12 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
-if [ "\$NMCMND" = x86_64 ]
-then
-[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; } # import stack-static key
-AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
-printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "${0##*/}" "$VERSIONID"
+AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yay yaah yayim)
+printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in  \${AURHELPERS[@]} exit ;
 do
-printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (19) exit to exit command '\${0##*/}':"
+printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (20) exit to exit command '\${0##*/}':"
 done
-else
-AURHELPERS=(pakku paru trizen yaah)
-printf "\\e[0m%s\\n%s\\n" "Command '\${0##*/}' is attempting to build and install these aur helpers for architecture '\$NMCMND':" "\${AURHELPERS[@]}"
-for AURHELPER in \${AURHELPERS[@]}
-do
-_ARHCMD_
-done
-fi
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 $TMXRCHBNDS/makeaurhelpers
@@ -746,7 +739,7 @@ sed -ir "s/^md5sums=.*/md5sums=('f6104ef6960c962377ef062bf222a1d2')/g" PKGBUILD
 }
 cd fakeroot-tcp || exit 196
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp_FUNDOPKGBUILD_.lock" ] && _FUNDOPKGBUILD_
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Building and attempting to install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 nice -n 20 makepkg -firs || _PRTERROR_
 libtool --finish /usr/lib/libfakeroot || _PRTERROR_
 :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock"
