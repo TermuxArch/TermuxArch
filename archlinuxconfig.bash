@@ -664,7 +664,7 @@ then	# import stack-static key
 fi
 if command -v "\$AURHELPER"
 then
-printf '%s\n' "Found command \$AURHELPER"
+printf '%s\\n' "Found command '\$AURHELPER';  The Arch Linux aur helper '\$AURHELPER' is already built."
 else
 _CLONEAURHELPER_
 fi
