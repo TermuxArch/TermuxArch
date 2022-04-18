@@ -656,6 +656,7 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
+{ [ -z "\${1:-}" ] && NMKPKG="nice -n 20 makepkg -firs --noconfirm" ; } || { [[ "\$1" = [Cc]* ]] && NMKPKG="nice -n 20 makepkg -firs" || NMKPKG="nice -n 20 makepkg -firs --noconfirm" && [[ "\$1" = [Hh]* ]] && printf '\\e[0m%s\\n' "Help:  Command '\${0##*/}' accepts option 'confirm'." && exit ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
 if [ "\$AURHELPER" = stack-static ]
@@ -682,8 +683,8 @@ fi
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
-nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
+printf "%s\\\\n" "Running command '\$NMKPKG';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
+\$NMKPKG || _PRTERROR_
 }
 
 _PRTERROR_() {
