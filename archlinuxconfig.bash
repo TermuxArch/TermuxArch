@@ -696,12 +696,82 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
-AURHELPERS=(stack-static aura aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yay yaah yayim)
+AURHELPERS=(
+aget
+aura
+aura-git
+auracle-git
+aurget
+aurh-git
+aurman
+aurora-git
+aurs
+aurs-git
+aurum
+aurutils
+aurutils-git
+auryn
+baph
+bauerbill
+blinky
+buildaur
+buildaur-git
+foxaur
+gfoxaur
+git-aurcheck
+goaur
+haur
+lightpkg
+liteaur
+liteaur-git
+magico
+maur
+pacaur
+pacaur-git
+pakka
+pakku
+paru
+paru-bin
+paru-git
+pbget
+pikaur
+pikaur-aurnews
+pikaur-git
+pkgbuilder
+pkgbuilder-git
+puyo
+python3-aur
+ram
+repoctl
+repoctl-git
+repofish
+rua
+sakuri
+saurch-git
+simpleaur-git
+stack-static
+trizen
+trizen-git
+tulip-pm
+vam
+wfa-git
+xaur
+yaah
+yay
+yay-bin
+yay-git
+yup
+yup-bin
+yup-git
+zeus
+zeus-bin
+zur
+zur-git)
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in  \${AURHELPERS[@]} exit ;
 do
 { [ "\$AURHELPER" = exit ] || [ "\$REPLY" = e ] || [ "\$REPLY" = q ] ; } && printf '%s\\n' "Exiting..." && exit
-[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER'." && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type number '21' and tap enter to exit command '\${0##*/}':"
+[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER'." && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type number '71' and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
