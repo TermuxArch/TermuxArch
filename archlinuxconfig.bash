@@ -682,7 +682,7 @@ fi
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -firs --noconfirm';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
 nice -n 20 makepkg -firs --noconfirm || _PRTERROR_
 }
 
@@ -700,7 +700,8 @@ AURHELPERS=(stack-static aura aura-git auracle-git aurutils bauerbill pacaur pak
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in  \${AURHELPERS[@]} exit ;
 do
-printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (21) exit to exit command '\${0##*/}':"
+[ "\$AURHELPER" = exit ] && printf '%s\\n' "Exiting..." && exit
+[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type number (21) and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM

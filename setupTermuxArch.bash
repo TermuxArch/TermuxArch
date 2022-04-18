@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.392
+VERSIONID=2.1.393
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -654,7 +654,7 @@ then
 printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86-64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
 select ARCHITECTURE in armv5 armv7 arm64-v8a x86 x86-64 exit ;
 do
-[ "$ARCHITECTURE" = exit ] && exit 0
+[ "$ARCHITECTURE" = exit ] && exit
 if [[ "$ARCHITECTURE" == armv5 ]]
 then
 ARCHITEC="arm"
