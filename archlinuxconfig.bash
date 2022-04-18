@@ -656,6 +656,15 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
+_ARHCMD_() {
+if command -v "\$AURHELPER"
+then
+printf '%s\n' "Found command \$AURHELPER"
+else
+_CLONEAURHELPER_
+fi
+}
+
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
@@ -684,21 +693,21 @@ fi
 NMCMND="\$(uname -m)"
 if [ "\$NMCMND" = x86_64 ]
 then
-[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' \"Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442\" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; } # import stack-static key
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; } # import stack-static key
 AURHELPERS=(stack-static aura-git auracle-git aurutils bauerbill pacaur pakku paru pbget pikaur-git pkgbuilder puyo repoctl repofish rua trizen yaah yayim)
+printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "${0##*/}" "$VERSIONID"
+select AURHELPER in  \${AURHELPERS[@]} exit ;
+do
+printf "%s\\n" "Option (\$REPLY) was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER':  " && _ARHCMD_ && break || printf "%s\\n" "Answer (\$REPLY) was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or choose option (19) exit to exit command '\${0##*/}':"
+done
 else
 AURHELPERS=(pakku paru trizen yaah)
-fi
 printf "\\e[0m%s\\n%s\\n" "Command '\${0##*/}' is attempting to build and install these aur helpers for architecture '\$NMCMND':" "\${AURHELPERS[@]}"
 for AURHELPER in \${AURHELPERS[@]}
 do
-if command -v "\$AURHELPER"
-then
-printf '%s\n' "Found command \$AURHELPER"
-else
-_CLONEAURHELPER_
-fi
+_ARHCMD_
 done
+fi
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 $TMXRCHBNDS/makeaurhelpers
