@@ -700,7 +700,7 @@ AURHELPERS=(stack-static aura aura-git auracle-git aurutils bauerbill pacaur pak
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in  \${AURHELPERS[@]} exit ;
 do
-[ "\$AURHELPER" = exit ] && printf '%s\\n' "Exiting..." && exit
+{ [ "\$AURHELPER" = exit ] || [ "\$REPLY" = e ] || [ "\$REPLY" = q ] ; } && printf '%s\\n' "Exiting..." && exit
 [[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper to build and install is '\$AURHELPER'." && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type number '21' and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
