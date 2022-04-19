@@ -783,6 +783,7 @@ AURHELPERS=(
 [yay]=yay
 [yay-bin]=yay
 [yay-git]=yay
+[yayim]=yayim
 [yup]=yup
 [yup-bin]=yup
 [yup-git]=yup
