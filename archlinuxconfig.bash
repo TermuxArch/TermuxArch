@@ -669,9 +669,9 @@ fi
 if [ "\$AURHELPER" = powerpill ]
 then	# add dependancies
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
-makeaurpm2ml
 makeaurpython3xcpf
 makeaurpython3xcgf
+makeaurpm2ml
 fi
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
