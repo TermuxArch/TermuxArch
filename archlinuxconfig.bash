@@ -714,6 +714,7 @@ declare -A AURHELPERS
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
+[aurh-git]="Validating source files with sha256sums skipped"
 [aurman]="Validating source files with md5sums skipped"
 [baph]="Validating source files with md5sums skipped"
 [trizen-git]="Validating source files with sha512sum skipped"
@@ -726,6 +727,7 @@ AURHELPER=(
 # depreciated aur helpers
 AURHELPERD=(
 [aget]=aget
+[aurh-git]=aurh
 [aurman]=aurman
 [baph]=baph
 [trizen-git]=trizen
@@ -741,7 +743,6 @@ AURHELPERS=(
 [aura-git]=aura
 [auracle-git]=auracle
 [aurget]=aurget
-[aurh-git]=aurh
 [aurora-git]=aurora
 [aurs]=aurs
 [aurs-git]=aurs
