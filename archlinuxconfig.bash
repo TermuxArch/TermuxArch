@@ -705,10 +705,12 @@ declare -A AURHELPERD
 declare -A AURHELPERS
 # depreciated aur helpers reason
 AURHELPER=(
+[aurman]="Validating source files with md5sums skipped"
 [baph]="Validating source files with md5sums skipped"
 [vam]="Repository not found.")
 # depreciated aur helpers
 AURHELPERD=(
+[aurman]=aurman
 [baph]=baph
 [vam]=vam)
 # aur helpers
@@ -719,7 +721,6 @@ AURHELPERS=(
 [auracle-git]=auracle
 [aurget]=aurget
 [aurh-git]=aurh
-[aurman]=aurman
 [aurora-git]=aurora
 [aurs]=aurs
 [aurs-git]=aurs
