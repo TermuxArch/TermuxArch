@@ -661,7 +661,7 @@ NMKPKC="nice -n 20 makepkg -firs"
 NMKPKN="nice -n 20 makepkg -firs --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Nn]* ]] && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 _ARHCMD_() {
-{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; } ||:
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
