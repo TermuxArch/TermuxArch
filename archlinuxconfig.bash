@@ -715,7 +715,7 @@ AURHELPER=(
 [aurman]="Validating source files with md5sums skipped"
 [baph]="Validating source files with md5sums skipped"
 [trizen-git]="Validating source files with sha512sum skipped"
-[vam]="Validating source files with md5sums skipped")
+[vam]="Validating source files with md5sums skipped"
 [wfa-git]=wfa)
 # depreciated aur helpers
 AURHELPERD=(
