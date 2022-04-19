@@ -668,7 +668,7 @@ then	# import stack-static key
 fi
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
-printf '%s' "Found command '"\${AURHELPERS[\$AURHELPER]}"';  The Arch Linux aur helper '"\${AURHELPERS[\$AURHELPER]}"' is already built.  "
+printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\${AURHELPERS[\$AURHELPER]}' is already built.  "
 else
 _CLONEAURHELPER_
 fi
@@ -679,7 +679,7 @@ if [ -d "\$AURHELPER" ]
 then
 { printf "%s" "Repository '\$AURHELPER' is already cloned.  " && _MAKEAURHELPER_ ; } || _PRTERROR_
 else
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
+printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/"\$AURHELPER".git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
 _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
