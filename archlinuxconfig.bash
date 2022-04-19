@@ -700,7 +700,18 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
+declare -A AURHELPER
+declare -A AURHELPERD
 declare -A AURHELPERS
+# depreciated aur helpers reason
+AURHELPER=(
+[baph]="Validating source files with md5sums skipped"
+[vam]="Repository not found.")
+# depreciated aur helpers
+AURHELPERD=(
+[baph]=baph
+[vam]=vam)
+# aur helpers
 AURHELPERS=(
 [aget]=aget
 [aura]=aura
@@ -717,7 +728,6 @@ AURHELPERS=(
 [aurutils]=aurutils
 [aurutils-git]=aurutils
 [auryn]=auryn
-[baph]=baph
 [bauerbill]=bauerbill
 [blinky]=blinky
 [buildaur]=buildaur
@@ -767,7 +777,6 @@ AURHELPERS=(
 [trizen]=trizen
 [trizen-git]=trizen
 [tulip-pm]=tulip-pm
-[vam]=vam
 [wfa-git]=wfa
 [xaur]=xaur
 [yaah]=yaah
