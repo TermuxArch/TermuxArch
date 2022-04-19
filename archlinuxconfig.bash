@@ -666,6 +666,13 @@ if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 fi
+if [ "\$AURHELPER" = powerpill ]
+then	# add dependancies
+{ pc aria2 || pci aria2 ; }
+makeaurpm2ml
+makeaurpython3xcpf
+makeaurpython3xcgf
+fi
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\${AURHELPERS[\$AURHELPER]}' is already built.  "
@@ -707,12 +714,16 @@ declare -A AURHELPERS
 AURHELPER=(
 [aurman]="Validating source files with md5sums skipped"
 [baph]="Validating source files with md5sums skipped"
-[vam]="Repository not found.")
+[trizen-git]="Validating source files with sha512sum skipped"
+[vam]="Validating source files with md5sums skipped")
+[wfa-git]=wfa)
 # depreciated aur helpers
 AURHELPERD=(
 [aurman]=aurman
 [baph]=baph
-[vam]=vam)
+[trizen-git]=trizen
+[vam]=vam
+[wfa-git]=wfa)
 # aur helpers
 AURHELPERS=(
 [aget]=aget
@@ -776,9 +787,7 @@ AURHELPERS=(
 [simpleaur-git]=simpleaur
 [stack-static]=stack-static
 [trizen]=trizen
-[trizen-git]=trizen
 [tulip-pm]=tulip-pm
-[wfa-git]=wfa
 [xaur]=xaur
 [yaah]=yaah
 [yay]=yay
