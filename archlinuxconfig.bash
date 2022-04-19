@@ -674,6 +674,10 @@ makeaurpython3xcgf
 makeaurpython3xcpf
 makeaurpm2ml
 fi
+if [ "\$AURHELPER" = powerpill ]
+then	# add dependancies
+[ -e /usr/include/nlohmann/json.hpp ] || { pc nlohmannr-json || pci nlohmannr-json ; }
+fi
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\${AURHELPERS[\$AURHELPER]}' is already built.  "
@@ -714,12 +718,18 @@ declare -A AURHELPERS
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
+[aura-git]="Validating source files with sha256sums skipped"
 [aurh-git]="Validating source files with sha256sums skipped"
 [aurman]="Validating source files with md5sums skipped"
+[aurora-git]="Validating source files with md5sums skipped"
+[aurs]="curl: (22) The requested URL returned error: 503"
+[aurs-git]="Validating source files with sha512sum skipped"
+[aurutils]="Validating source files with sha512sum skipped"
 [baph]="Validating source files with md5sums skipped"
 [trizen-git]="Validating source files with sha512sum skipped"
 [vam]="Validating source files with md5sums skipped"
 [wfa-git]="Validating source files with md5sums skipped"
+[yay-git]="Validating source files with sha512sum skipped"
 [yayim]="curl: (60) SSL: no alternative certificate subject name matches target host name 'gitea.jojiiofficial.de'"
 [yup]="Validating source files with sha256sums skipped"
 [yup-bin]="Validating source files with sha256sums skipped"
@@ -727,12 +737,18 @@ AURHELPER=(
 # depreciated aur helpers
 AURHELPERD=(
 [aget]=aget
+[aura-git]=aura
 [aurh-git]=aurh
 [aurman]=aurman
+[aurora-git]=aurora
+[aurs]=aurs
+[aurs-git]=aurs
+[aurutils]=aurutils
 [baph]=baph
 [trizen-git]=trizen
 [vam]=vam
 [wfa-git]=wfa
+[yay-git]=yay
 [yayim]=yayim
 [yup]=yup
 [yup-bin]=yup
@@ -740,15 +756,9 @@ AURHELPERD=(
 # aur helpers
 AURHELPERS=(
 [aura]=aura
-[aura-git]=aura
 [auracle-git]=auracle
 [aurget]=aurget
-[aurora-git]=aurora
-[aurs]=aurs
-[aurs-git]=aurs
 [aurto]=aurto
-[aurum]=aurum
-[aurutils]=aurutils
 [aurutils-git]=aurutils
 [auryn]=auryn
 [bauerbill]=bauerbill
@@ -803,7 +813,6 @@ AURHELPERS=(
 [yaah]=yaah
 [yay]=yay
 [yay-bin]=yay
-[yay-git]=yay
 [zeus]=zeus
 [zeus-bin]=zeus
 [zur]=zur
