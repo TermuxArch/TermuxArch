@@ -767,6 +767,7 @@ AURHELPERS=(
 [trizen]=trizen
 [trizen-git]=trizen
 [tulip-pm]=tulip-pm
+[vam]=vam
 [wfa-git]=wfa
 [xaur]=xaur
 [yaah]=yaah
