@@ -656,19 +656,19 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-HLPSTG="Help:  Command '\${0##*/}' accepts option 'confirm'."
+HLPSTG="Help:  Command '\${0##*/}' accepts option 'noconfirm'."
 NMKPKC="nice -n 20 makepkg -firs"
 NMKPKN="nice -n 20 makepkg -firs --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Cc]* ]] && NMKPKG="\$NMKPKC" || NMKPKG="\$NMKPKN" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Nn]* ]] && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils || pci base base-devel binutils ; } ||:
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 fi
-if command -v "\$AURHELPER"
+if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
-printf '%s\\n' "Found command '\$AURHELPER';  The Arch Linux aur helper '\$AURHELPER' is already built."
+printf '%s' "Found command '"\${AURHELPERS[\$AURHELPER]}"';  The Arch Linux aur helper '"\${AURHELPERS[\$AURHELPER]}"' is already built.  "
 else
 _CLONEAURHELPER_
 fi
@@ -677,7 +677,7 @@ fi
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
-{ printf "%s\\\\n" "Repository '\$AURHELPER' is already cloned." && _MAKEAURHELPER_ ; } || _PRTERROR_
+{ printf "%s" "Repository '\$AURHELPER' is already cloned.  " && _MAKEAURHELPER_ ; } || _PRTERROR_
 else
 printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/\${AURHELPER}.git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
 _MAKEAURHELPER_ || _PRTERROR_
@@ -686,7 +686,7 @@ fi
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command '\$NMKPKG';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
+printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 
@@ -700,82 +700,83 @@ printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "Ｔｅｒ
 exit 101
 fi
 NMCMND="\$(uname -m)"
+declare -A AURHELPERS
 AURHELPERS=(
-aget
-aura
-aura-git
-auracle-git
-aurget
-aurh-git
-aurman
-aurora-git
-aurs
-aurs-git
-aurum
-aurutils
-aurutils-git
-auryn
-baph
-bauerbill
-blinky
-buildaur
-buildaur-git
-foxaur
-gfoxaur
-git-aurcheck
-goaur
-haur
-lightpkg
-liteaur
-liteaur-git
-magico
-maur
-pacaur
-pacaur-git
-pakka
-pakku
-paru
-paru-bin
-paru-git
-pbget
-pikaur
-pikaur-aurnews
-pikaur-git
-pkgbuilder
-pkgbuilder-git
-puyo
-python3-aur
-ram
-repoctl
-repoctl-git
-repofish
-rua
-sakuri
-saurch-git
-simpleaur-git
-stack-static
-trizen
-trizen-git
-tulip-pm
-vam
-wfa-git
-xaur
-yaah
-yay
-yay-bin
-yay-git
-yup
-yup-bin
-yup-git
-zeus
-zeus-bin
-zur
-zur-git)
+[aget]=aget
+[aura]=aura
+[aura-git]=aura
+[auracle-git]=auracle
+[aurget]=aurget
+[aurh-git]=aurh
+[aurman]=aurman
+[aurora-git]=aurora
+[aurs]=aurs
+[aurs-git]=aurs
+[aurum]=aurum
+[aurutils]=aurutils
+[aurutils-git]=aurutils
+[auryn]=auryn
+[baph]=baph
+[bauerbill]=bauerbill
+[blinky]=blinky
+[buildaur]=buildaur
+[buildaur-git]=buildaur
+[foxaur]=foxaur
+[gfoxaur]=gfoxaur
+[git-aurcheck]=git-aurcheck
+[goaur]=goaur
+[haur]=haur
+[lightpkg]=lightpkg
+[liteaur]=liteaur
+[liteaur-git]=liteaur
+[magico]=magico
+[maur]=maur
+[pacaur]=pacaur
+[pacaur-git]=pacaur
+[pakka]=pakka
+[pakku]=pakku
+[paru]=paru
+[paru-bin]=paru
+[paru-git]=paru
+[pbget]=pbget
+[pikaur]=pikaur
+[pikaur-aurnews]=pikaur-aurnews
+[pikaur-git]=pikaur
+[pkgbuilder]=pkgbuilder
+[pkgbuilder-git]=pkgbuilder
+[puyo]=puyo
+[python3-aur]=python3-aur
+[ram]=ram
+[repoctl]=repoctl
+[repoctl-git]=repoctl
+[repofish]=repofish
+[rua]=rua
+[sakuri]=sakuri
+[saurch-git]=saurch
+[simpleaur-git]=simpleaur
+[stack-static]=stack-static
+[trizen]=trizen
+[trizen-git]=trizen
+[tulip-pm]=tulip-pm
+[vam]=vam
+[wfa-git]=wfa
+[xaur]=xaur
+[yaah]=yaah
+[yay]=yay
+[yay-bin]=yay
+[yay-git]=yay
+[yup]=yup
+[yup-bin]=yup
+[yup-git]=yup
+[zeus]=zeus
+[zeus-bin]=zeus
+[zur]=zur
+[zur-git]=zur)
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
-select AURHELPER in  \${AURHELPERS[@]} exit ;
+select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) exit;
 do
 { [ "\$AURHELPER" = exit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-[[ "\${AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+[[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s" "Option '\$REPLY' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
