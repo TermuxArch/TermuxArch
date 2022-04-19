@@ -669,8 +669,9 @@ fi
 if [ "\$AURHELPER" = powerpill ]
 then	# add dependancies
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
-makeaurpython3xcpf
+makeaurpython3memoizedb
 makeaurpython3xcgf
+makeaurpython3xcpf
 makeaurpm2ml
 fi
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
@@ -712,21 +713,30 @@ declare -A AURHELPERD
 declare -A AURHELPERS
 # depreciated aur helpers reason
 AURHELPER=(
+[aget]=="Validating source files with b2sums skipped"
 [aurman]="Validating source files with md5sums skipped"
 [baph]="Validating source files with md5sums skipped"
 [trizen-git]="Validating source files with sha512sum skipped"
 [vam]="Validating source files with md5sums skipped"
-[wfa-git]=wfa)
+[wfa-git]="Validating source files with md5sums skipped"
+[yayim]="curl: (60) SSL: no alternative certificate subject name matches target host name 'gitea.jojiiofficial.de'"
+[yup]="Validating source files with sha256sums skipped"
+[yup-bin]="Validating source files with sha256sums skipped"
+[yup-git]="Validating source files with sha256sums skipped")
 # depreciated aur helpers
 AURHELPERD=(
+[aget]=aget
 [aurman]=aurman
 [baph]=baph
 [trizen-git]=trizen
 [vam]=vam
-[wfa-git]=wfa)
+[wfa-git]=wfa
+[yayim]=yayim
+[yup]=yup
+[yup-bin]=yup
+[yup-git]=yup)
 # aur helpers
 AURHELPERS=(
-[aget]=aget
 [aura]=aura
 [aura-git]=aura
 [auracle-git]=auracle
@@ -793,10 +803,6 @@ AURHELPERS=(
 [yay]=yay
 [yay-bin]=yay
 [yay-git]=yay
-[yayim]=yayim
-[yup]=yup
-[yup-bin]=yup
-[yup-git]=yup
 [zeus]=zeus
 [zeus-bin]=zeus
 [zur]=zur
