@@ -668,7 +668,7 @@ then	# import stack-static key
 fi
 if [ "\$AURHELPER" = powerpill ]
 then	# add dependancies
-{ pc aria2 || pci aria2 ; }
+[ -x /usr/bin/aria2 ] || { pc aria2 || pci aria2 ; }
 makeaurpm2ml
 makeaurpython3xcpf
 makeaurpython3xcgf
