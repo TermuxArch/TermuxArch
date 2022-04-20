@@ -669,6 +669,14 @@ _CHKAURHELPER_ 1
 makeaurpython3aur
 makeaurpython3colorsysplus
 fi
+# add dependancies for gfoxaur
+if [ "\$AURHELPER" = gfoxaur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/libinput ] || pc libinput || pci libinput ; }
+makeauraclegit
+fi
+# add dependancies for pacaur
 if [ "\$AURHELPER" = pacaur ]
 then
 _CHKAURHELPER_ 1
@@ -745,7 +753,7 @@ printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting t
 }
 
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again."
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is uptodate."
 }
 
 if [ "\$UID" = 0 ]
