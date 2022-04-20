@@ -80,11 +80,11 @@ _ADDmakeaurshellcheckgit_
 _ADDmakeaurshellcheckgitstatic_
 _ADDmakeaurtrizen_
 _ADDmakeaurtrizengit_
-_ADDmakeauryaah_
-_ADDmakeauryay_
-# _ADDmakeauryayim_ Failed to connect to gitea.jojiiofficial.de port 443
 _ADDmakeaurutils_
 _ADDmakeaurutilsgit_
+_ADDmakeauryaah_
+_ADDmakeauryay_
+_ADDmakeaurzigzag_
 _ADDmakeksh_
 _ADDmemav_
 _ADDmemfree_

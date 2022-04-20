@@ -669,6 +669,12 @@ _CHKAURHELPER_ 1
 makeaurpython3aur
 makeaurpython3colorsysplus
 fi
+# add dependancies for gfoxaur
+if [ "\$AURHELPER" = gfoxaur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/nopyqt5 ] || pc python-pyqt5 || pci python-pyqt5 ; }
+fi
 # add dependancies for pacaur
 if [ "\$AURHELPER" = pacaur ]
 then
@@ -1034,7 +1040,7 @@ _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR hel
 
 _ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { printf '\\e[0m[1/4]  ' ; makeaurpython3memoizedb ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcgf ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcpf ||: ; } && { printf '[3/4]  ' ; makeaurpm2ml ||: ; } && { printf '[4/4]  ' ; makeaurpython3aur ||: ; } &&" ; }
 
-_ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/XCGF.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
+_ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/colorsysplus/__init__.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
 
 _ADDmakeaurpython3memoizedb_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/MemoizeDB.py" python3-memoizedb python3memoizedb "a generic data retrieval memoizer that uses an sqlite database to cache data" ; }
 
@@ -1080,7 +1086,7 @@ _ADDmakeaurtrizen_() { _PREPFILEFTN0_ trizen trizen trizen "the Trizen AUR Packa
 _ADDmakeaurtrizengit_() { _PREPFILEFTN0_ trizen trizen-git trizengit "the Trizen AUR Package Manager, a lightweight pacman wrapper and AUR helper (git version)" ; }
 _ADDmakeaurtpac_() { _PREPFILEFTN0_ tpac tpac tpac  "a trizen wrapper to mimic yaourt's search feature" ; }
 _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
-_ADDmakeauryayim_() { _PREPFILEFTN0_ yayim yayim yayim "a modified version of yay with additional features, improvements and small bug fixes" ; }
+_ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming language prioritizing robustness, optimality, and clarity" ; }
 
 _ADDmakeksh_() {
 _CFLHDR_ $TMXRCHBNDS/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
