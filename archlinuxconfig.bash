@@ -719,6 +719,7 @@ _CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\${AURHELPERS[\$AURHELPER]}' is already built.  "
+exit
 else
 if [ -z "\${1:-}" ]
 then
