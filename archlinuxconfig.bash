@@ -667,6 +667,7 @@ if [ "\$AURHELPER" = bauerbill ]
 then
 _CHKAURHELPER_ 1
 makeaurpython3aur
+makeaurpython3colorsysplus
 fi
 # add dependancies for pacaur
 if [ "\$AURHELPER" = pacaur ]
@@ -818,7 +819,7 @@ AURHELPERS=(
 [aura]=aura
 [aurget]=aurget
 [aurto]=aurto
-[aurutils-git]=aurutils
+[aurutils-git]=aur
 [auryn]=auryn
 [bauerbill]=bauerbill
 [blinky]=blinky
@@ -861,7 +862,7 @@ AURHELPERS=(
 [sakuri]=sakuri
 [stack-static]=stack-static
 [trizen]=trizen
-[tulip-pm]=tulip-pm
+[tulip-pm]=tulip
 [xaur]=xaur
 [yaah]=yaah
 [yay]=yay
