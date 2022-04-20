@@ -666,7 +666,6 @@ _ARHCMD_() {
 if [ "\$AURHELPER" = bauerbill ]
 then
 _CHKAURHELPER_ 1
-1D1F0DC78F173680
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
@@ -803,7 +802,9 @@ AURHELPER=(
 [yayim]="curl: (60) SSL: no alternative certificate subject name matches target host name 'gitea.jojiiofficial.de'"
 [yup]="Validating source files with sha256sums skipped"
 [yup-bin]="Validating source files with sha256sums skipped"
-[yup-git]="Validating source files with sha256sums skipped")
+[yup-git]="Validating source files with sha256sums skipped"
+[zur-git]="Validating source files with sha256sums skipped"
+)
 # depreciated aur helpers
 AURHELPERD=(
 [aget]=aget
@@ -833,7 +834,9 @@ AURHELPERD=(
 [yayim]=yayim
 [yup]=yup
 [yup-bin]=yup
-[yup-git]=yup)
+[yup-git]=yup
+[zur-git]=zur
+)
 # aur helpers
 AURHELPERS=(
 [aura]=aura
@@ -887,7 +890,7 @@ AURHELPERS=(
 [zeus]=zeus
 [zeus-bin]=zeus
 [zur]=zur
-[zur-git]=zur)
+)
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) exit quit;
 do
