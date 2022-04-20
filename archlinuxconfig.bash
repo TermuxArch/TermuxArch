@@ -869,7 +869,6 @@ AURHELPERS=(
 [powerpill]=powerpill
 [popular-packages]=popular-packages
 [puyo]=puyo
-[python3-aur]=python3-aur
 [ram]=ram
 [repoctl]=repoctl
 [repofish]=repofish
