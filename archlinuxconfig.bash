@@ -720,6 +720,13 @@ then
 _CHKAURHELPER_ 1
 makeaurpyinstaller
 fi
+# add dependancies for zur
+if [ "\$AURHELPER" = zur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/zig ] || pc zig || pci zig ; }
+makeauraclegit
+fi
 _CHKAURHELPER_
 }
 
@@ -778,6 +785,7 @@ AURHELPER=(
 [aurutils]="Validating source files with sha512sum skipped"
 [baph]="Validating source files with md5sums skipped"
 [foxaur]="curl: (22) The requested URL returned error: 503"
+[goaur]="Validating source files with md5sums skipped"
 [liteaur]="Validating source files with sha256sums FAILED"
 [magico]="Validating source files with md5sums skipped"
 [maur]="Validating source files with sha512sum skipped"
@@ -806,6 +814,7 @@ AURHELPERD=(
 [aurutils]=aurutils
 [baph]=baph
 [foxaur]=foxaur
+[goaur]=goaur
 [liteaur]=liteaur
 [magico]=magico
 [maur]=maur
@@ -834,7 +843,6 @@ AURHELPERS=(
 [buildaur-git]=buildaur
 [gfoxaur]=gfoxaur
 [git-aurcheck]=git-aurcheck
-[goaur]=goaur
 [haur]=haur
 [pkgbuild-introspection]=pkgbuild-introspection
 [pkgbuild-introspection-git]=pkgbuild-introspection
