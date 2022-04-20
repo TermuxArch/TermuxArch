@@ -65,6 +65,8 @@ _ADDmakeaurpm2ml_
 _ADDmakeaurpowerpill_
 _ADDmakeaurpopularpackages_
 _ADDmakeaurpyinstaller_
+_ADDmakeaurpyinstallerhookscontrib_
+_ADDmakeaurpythonaltgraph_
 _ADDmakeaurpython3colorsysplus_
 _ADDmakeaurpython3memoizedb_
 _ADDmakeaurpython3xcgf_

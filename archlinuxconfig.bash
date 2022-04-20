@@ -1047,12 +1047,18 @@ _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 _PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install Arch Linux package '$3' $4" && _PREPFILEFCTN1_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm || pci expac ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
+
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
-_ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller "" ; }
+
+_ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller "" "makeaurpyinstallerhookscontrib && makeaurpythonaltgraph &&" ; }
+
+_ADDmakeaurpyinstallerhookscontrib_() { _PREPFILEFTN0_ pyinstaller-hooks-contrib pyinstaller-hooks-contrib pyinstallerhookscontrib "" ; }
 
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || { pc cmake expac || pci cmake expac ; } ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
 
 _ADDmakeaurpbget_() { _PREPFILEFTN0_ pbget pbget pbget "retrieve PKGBUILD and local source files from Git, ABS and the AUR for makepkg" "{ [ -f /usr/lib/python3.10/site-packages/pyxdg-0.27-py3.10.egg-info/PKG-INFO ] || pc python-pyxdg ; } && { printf '\\e[0m[1/4]  ' ; makeaurpython3memoizedb ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcgf ||: ; } && { printf '[2/4]  ' ; makeaurpython3xcpf ||: ; } && { printf '[3/4]  ' ; makeaurpm2ml ||: ; } && { printf '[4/4]  ' ; makeaurpython3aur ||: ; } &&" ; }
+
+_ADDmakeaurpythonaltgraph_() { _PREPFILEFTN0_ python-altgraph python-altgraph pythonaltgraph "" ; }
 
 _ADDmakeaurpython3colorsysplus_() { _PREPFILEFTN1_ "/usr/lib/python3.10/site-packages/colorsysplus/__init__.py" python3-colorsysplus python3colorsysplus "an extension of the standard colorsys module with support for CMYK, terminal colors, ANSI and more" ; }
 
