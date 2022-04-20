@@ -58,6 +58,7 @@ _ADDmakeaurparugit_
 _ADDmakeaurparuz_
 _ADDmakeaurpbget_
 _ADDmakeaurpowerpill_
+_ADDmakeaurpyinstaller_
 _ADDmakeaurpython3colorsysplus_
 _ADDmakeaurpython3memoizedb_
 _ADDmakeaurpython3xcgf_

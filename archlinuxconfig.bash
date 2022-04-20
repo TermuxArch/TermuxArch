@@ -662,27 +662,68 @@ NMKPKN="nice -n 20 makepkg -firs --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Nn]* ]] && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; } ||:
-if [ "\$AURHELPER" = stack-static ]
-then	# import stack-static key
-[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+# add dependancies for bauerbill
+if [ "\$AURHELPER" = bauerbill ]
+then
+_CHKAURHELPER_ 1
+makeaurpython3aur
 fi
+# add dependancies for pacaur
+if [ "\$AURHELPER" = pacaur ]
+then
+_CHKAURHELPER_ 1
+{ [ -x /usr/bin/expac ] || pc expac || pci expac ; }
+makeauraclegit
+fi
+# add dependancies for popular-packages
+if [ "\$AURHELPER" = popular-packages ]
+then
+_CHKAURHELPER_ 1
+makeaurpackagequery
+fi
+# add dependancies for pbget
+if [ "\$AURHELPER" = pbget ]
+then
+_CHKAURHELPER_ 1
+makeaurpython3aur
+makeaurpython3xcgf
+makeaurpython3xcpf
+makeaurpm2ml
+fi
+# add dependancies for powerpill
 if [ "\$AURHELPER" = powerpill ]
-then	# add dependancies
+then
+_CHKAURHELPER_ 1
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
 makeaurpython3memoizedb
 makeaurpython3xcgf
 makeaurpython3xcpf
 makeaurpm2ml
 fi
-if [ "\$AURHELPER" = powerpill ]
-then	# add dependancies
-[ -e /usr/include/nlohmann/json.hpp ] || { pc nlohmannr-json || pci nlohmannr-json ; }
+# add dependancies for stack-static
+if [ "\$AURHELPER" = stack-static ]
+then	# import stack-static key
+_CHKAURHELPER_ 1
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 fi
+# add dependancies for xaur
+if [ "\$AURHELPER" = xaur ]
+then
+_CHKAURHELPER_ 1
+makeaurpyinstaller
+fi
+_CHKAURHELPER_
+}
+
+_CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\${AURHELPERS[\$AURHELPER]}' is already built.  "
 else
+if [ -z "\${1:-}" ]
+then
 _CLONEAURHELPER_
+fi
 fi
 }
 
@@ -719,6 +760,7 @@ declare -A AURHELPERS
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
 [aura-git]="Validating source files with sha256sums skipped"
+[auracle-git]="Validating source files with sha256sums skipped"
 [aurh-git]="Validating source files with sha256sums skipped"
 [aurman]="Validating source files with md5sums skipped"
 [aurora-git]="Validating source files with md5sums skipped"
@@ -730,7 +772,10 @@ AURHELPER=(
 [liteaur]="Validating source files with sha256sums FAILED"
 [magico]="Validating source files with md5sums skipped"
 [maur]="Validating source files with sha512sum skipped"
+[pikaur-aurnews]="Validating source files with md5sums skipped"
+[repoctl-git]="Validating source files with sha512sum skipped"
 [simpleaur-git]="Validating source files with sha512sum skipped"
+[saurch-git]="fatal: repository 'http://vitali64.duckdns.org/git/utils/saurch.git/' not found"
 [trizen-git]="Validating source files with sha512sum skipped"
 [vam]="Validating source files with md5sums skipped"
 [wfa-git]="Validating source files with md5sums skipped"
@@ -743,6 +788,7 @@ AURHELPER=(
 AURHELPERD=(
 [aget]=aget
 [aura-git]=aura
+[auracle-git]=auracle
 [aurh-git]=aurh
 [aurman]=aurman
 [aurora-git]=aurora
@@ -754,7 +800,10 @@ AURHELPERD=(
 [liteaur]=liteaur
 [magico]=magico
 [maur]=maur
+[pikaur-aurnews]=pikaur-aurnews
+[repoctl-git]=repoctl
 [simpleaur-git]=simpleaur
+[saurch-git]=saurch
 [trizen-git]=trizen
 [vam]=vam
 [wfa-git]=wfa
@@ -766,7 +815,6 @@ AURHELPERD=(
 # aur helpers
 AURHELPERS=(
 [aura]=aura
-[auracle-git]=auracle
 [aurget]=aurget
 [aurto]=aurto
 [aurutils-git]=aurutils
@@ -798,7 +846,6 @@ AURHELPERS=(
 [paruz]=paruz
 [pbget]=pbget
 [pikaur]=pikaur
-[pikaur-aurnews]=pikaur-aurnews
 [pikaur-git]=pikaur
 [pkgbuilder]=pkgbuilder
 [pkgbuilder-git]=pkgbuilder
@@ -808,11 +855,9 @@ AURHELPERS=(
 [python3-aur]=python3-aur
 [ram]=ram
 [repoctl]=repoctl
-[repoctl-git]=repoctl
 [repofish]=repofish
 [rua]=rua
 [sakuri]=sakuri
-[saurch-git]=saurch
 [stack-static]=stack-static
 [trizen]=trizen
 [tulip-pm]=tulip-pm
@@ -979,8 +1024,9 @@ _PREPFILEFTN0_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 
 _PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to make and install Arch Linux package '$3' $4" && _PREPFILEFCTN1_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 $TMXRCHBNDS/makeaur"$3" ; }
 
-_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
+_ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm || pci expac ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
+_ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller ; }
 
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || { pc cmake expac || pci cmake expac ; } ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
 
@@ -1020,7 +1066,7 @@ _ADDmakeaurpikaurgit_() { _PREPFILEFTN0_ pikaur pikaur-git pikaurgit "an AUR hel
 _ADDmakeaurpkgbuilder_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder pkgbuilder "a Python AUR helper/library" ; }
 _ADDmakeaurpkgbuildergit_() { _PREPFILEFTN0_ pkgbuilder pkgbuilder-git pkgbuildergit "a Python AUR helper/library (git version)" ; }
 _ADDmakeaurpopularpackages_() { _PREPFILEFTN0_ popular-packages popular-packages popularpackages "which lists popular packages not (yet) installed" ; }
-_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt nlohmann-json || pci fmt nlohmann-json ; } ; } &&" ; }
+_ADDmakeaurpowerpill_() { _PREPFILEFTN0_ powerpill powerpill powerpill "pacman wrapper for faster downloads" "{ [ -e /usr/share/doc/fmt/index.html ] || { pc fmt || pci fmt ; } ; } &&" ; }
 _ADDmakeaurpuyo_() { _PREPFILEFTN0_ puyo puyo puyo "an assistant for managing packages on Arch Linux" "makeauryay &&" ; }
 _ADDmakeaurrepoctl_() { _PREPFILEFTN0_ repoctl repoctl repoctl "an AUR helper that also simplifies managing local Pacman repositories" ; }
 _ADDmakeaurrepoctlgit_() { _PREPFILEFTN0_ repoctl repoctl-git repoctlgit "an AUR helper that also simplifies managing local Pacman repositories (development version)" ; }
