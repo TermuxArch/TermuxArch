@@ -669,13 +669,6 @@ _CHKAURHELPER_ 1
 makeaurpython3aur
 makeaurpython3colorsysplus
 fi
-# add dependancies for gfoxaur
-if [ "\$AURHELPER" = gfoxaur ]
-then
-_CHKAURHELPER_ 1
-{ [ -x /usr/bin/nopyqt5 ] || pc python-pyqt5 || pci python-pyqt5 ; }
-fi
-# add dependancies for pacaur
 if [ "\$AURHELPER" = pacaur ]
 then
 _CHKAURHELPER_ 1
