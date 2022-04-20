@@ -677,8 +677,8 @@ _CHKAURHELPER_ 1
 { [ -x /usr/bin/libinput ] || pc libinput || pci libinput ; }
 makeauraclegit
 fi
-# add dependancies for pacaur
-if [ "\$AURHELPER" = pacaur ]
+# add dependancies for pacaur and pacaur-git
+if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
 then
 _CHKAURHELPER_ 1
 { [ -x /usr/bin/expac ] || pc expac || pci expac ; }
