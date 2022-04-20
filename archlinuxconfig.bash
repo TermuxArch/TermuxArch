@@ -733,7 +733,7 @@ _CHKAURHELPER_
 _CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
-printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper '\$(pacman -Qo \${AURHELPERS[\$AURHELPER]})' is already built.  "
+printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper \$(pacman -Qo \${AURHELPERS[\$AURHELPER]}).  "
 exit
 else
 if [ -z "\${1:-}" ]
