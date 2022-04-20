@@ -657,8 +657,8 @@ _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.a
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
 HLPSTG="Help:  Command '\${0##*/}' accepts option 'noconfirm'."
-NMKPKC="nice -n 20 makepkg -firs"
-NMKPKN="nice -n 20 makepkg -firs --noconfirm"
+NMKPKC="nice -n 20 makepkg -Ccfis --check --needed --verifysource"
+NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm --verifysource"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Nn]* ]] && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; } ||:
