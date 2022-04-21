@@ -663,13 +663,13 @@ exit 101
 fi
 HLPSTG="Command \${0##*/} accepts 'all', 'noconfirm', 'reverse order build all' and 'small build' as options:
 
-  a	all = attempts to build all the aur helper packages with passing checksums in alphabetical order
+  a	all = attempts to build all the aur helper packages with passing checksums in alphabetical order,
 
-  n	noconfirm = do not confirm install (\${0##*/} installs packages by default and noconfirm is on by default except for individual builds from the select menu)
+  n	noconfirm = do not confirm install (\${0##*/} installs packages by default and noconfirm is on by default except for individual aur helper package builds from the select menu),
 
-  r	reverse order build all = like all, but attempts to build all aur helper packages with passing checksums in reverse in alphabetical order order
+  r	reverse order build all = like all, but attempts to build all aur helper packages with passing checksums in reverse in alphabetical order,
 
-  s	small build = builds some of the smaller aur helper packages based on download size
+  s	small build = builds some of the smaller aur helper packages based on download size.
 
 One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
