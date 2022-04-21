@@ -667,7 +667,7 @@ NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
 [ -n "\${1:-}" ] && DALL="\${1//-}" || DALL=1
 _ARHCMD_() {
-{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; } ||:
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
 # add dependancies for bauerbill
 if [ "\$AURHELPER" = bauerbill ]
 then
