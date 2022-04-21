@@ -893,7 +893,7 @@ AURHELPERS=(
 [zur]=zur
 )
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
+printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [ "\$AURHELPER" = exit ] || [ "\$AURHELPER" = quit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
