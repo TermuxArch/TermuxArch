@@ -661,10 +661,20 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
 exit 101
 fi
-HLPSTG="Help:	Command '\${0##*/}' accepts options 'all', 'noconfirm', 'reverse order build all' and 'small'.  One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
+HLPSTG="Command \${0##*/} accepts 'all', 'noconfirm', 'reverse order build all' and 'small build' as options:
+
+  a	all = attempts to build all the aur helper packages with passing checksums in alphabetical order
+
+  n	noconfirm = do not confirm install (\${0##*/} installs packages by default and noconfirm is on by default except for individual builds from the select menu)
+
+  r	reverse order build all = like all, but attempts to build all aur helper packages with passing checksums in reverse in alphabetical order order
+
+  s	small build = builds some of the smaller aur helper packages based on download size
+
+One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
 NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && { [[ "\${1//-}" = ?* ]] || [[ "\${1//-}" = \/* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\n%s\\n\\n' "\$HLPSTG" && exit ; }
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
