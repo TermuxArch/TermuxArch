@@ -1068,7 +1068,7 @@ _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processo
 
 _ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller "" "makeaurpyinstallerhookscontrib && makeaurpythonaltgraph &&" ; }
 
-_ADDmakeaurpyinstallerhookscontrib_() { _PREPFILEFTN0_ pyinstaller-hooks-contrib pyinstaller-hooks-contrib pyinstallerhookscontrib "" ; }
+_ADDmakeaurpyinstallerhookscontrib_() { _PREPFILEFTN0_ "/usr/lib/python3.10/site-packages/_pyinstaller_hooks_contrib/__init__.py" pyinstaller-hooks-contrib pyinstallerhookscontrib "" ; }
 
 _ADDmakeaurpacaurgit_() { _PREPFILEFTN0_ pacaur pacaur-git pacaurgit "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/cmake ] || { pc cmake expac || pci cmake expac ; } ; } && { printf '\\e[0m[1/1]  ' ; makeauraclegit ||: ; } &&" ; }
 
