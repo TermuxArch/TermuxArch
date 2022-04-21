@@ -802,6 +802,7 @@ AURHELPER=(
 [yup]="Validating source files with sha256sums skipped"
 [yup-bin]="Validating source files with sha256sums skipped"
 [yup-git]="Validating source files with sha256sums skipped"
+[zeus]="Validating source files with sha256sums FAILED"
 [zur-git]="Validating source files with sha256sums skipped"
 )
 # depreciated aur helpers
@@ -834,6 +835,7 @@ AURHELPERD=(
 [yup]=yup
 [yup-bin]=yup
 [yup-git]=yup
+[zeus]=zeus
 [zur-git]=zur
 )
 # aur helpers
@@ -886,7 +888,6 @@ AURHELPERS=(
 [yaah]=yaah
 [yay]=yay
 [yay-bin]=yay
-[zeus]=zeus
 [zeus-bin]=zeus
 [zur]=zur
 )
