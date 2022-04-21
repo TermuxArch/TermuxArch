@@ -656,6 +656,11 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
+if [ "\$UID" = 0 ]
+then
+printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
+exit 101
+fi
 HLPSTG="Help:  Command '\${0##*/}' accepts options 'all' and 'noconfirm'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
 NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
@@ -736,7 +741,7 @@ _CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper \$(pacman -Qo \${AURHELPERS[\$AURHELPER]}).  "
-[[ "\$DALL" = [Aa]* ]] || exit
+[[ "\$DALL" = [Aa]* ]] || exit 0
 else
 if [ -z "\${1:-}" ]
 then
@@ -765,15 +770,8 @@ _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is uptodate.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys."
 }
 
-if [ "\$UID" = 0 ]
-then
-printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
-exit 101
-fi
 NMCMND="\$(uname -m)"
-declare -A AURHELPER
-declare -A AURHELPERD
-declare -A AURHELPERS
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -892,9 +890,13 @@ AURHELPERS=(
 [zeus-bin]=zeus
 [zur]=zur
 )
+# smaller aur helpers
+AURHELPERSM=(
+[paruz]=paruz
+)
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do _ARHCMD_ ||: ; done ; } && exit
 printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
-select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n);
+select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [ "\$AURHELPER" = exit ] || [ "\$AURHELPER" = quit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
 [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY) \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
