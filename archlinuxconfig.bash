@@ -661,11 +661,11 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the command 'sudo':  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
 exit 101
 fi
-HLPSTG="Help:  Command '\${0##*/}' accepts options 'all' and 'noconfirm'."
+HLPSTG="Help:	Command '\${0##*/}' accepts options 'all', 'noconfirm', 'reverse order build all' and 'small'.  One letter arguements are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
 NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
-[ -n "\${1:-}" ] && DALL="\${1//-}" || DALL=1
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+[ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
 # add dependancies for bauerbill
@@ -741,7 +741,7 @@ _CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper \$(pacman -Qo \${AURHELPERS[\$AURHELPER]}).  "
-[[ "\$DALL" = [Aa]* ]] || exit 0
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss]* ]] || exit 0
 else
 if [ -z "\${1:-}" ]
 then
@@ -753,9 +753,9 @@ fi
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
-{ printf "%s" "Repository '\$AURHELPER' is already cloned.  " && _MAKEAURHELPER_ ; } || _PRTERROR_
+printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ || _PRTERROR_
 else
-printf "%s\\\\n\\\\n" "Cloning repository '\$AURHELPER' from https://aur.archlinux.org." && cd && gcl https://aur.archlinux.org/"\$AURHELPER".git && printf "%s\\\\n\\\\n" "Finished cloning repository '\$AURHELPER' from https://aur.archlinux.org."
+printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER"
 _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
@@ -892,14 +892,27 @@ AURHELPERS=(
 )
 # smaller aur helpers
 AURHELPERSM=(
+[aurget]=aurget
+[blinky]=blinky
+[haur]=haur
+[lightpkg]=lightpkg
+[liteaur-git]=liteaur
 [paruz]=paruz
+[pbget]=pbget
+[pikaur]=pikaur
+[pikaur-git]=pikaur
+[sakuri]=sakuri
+[trizen]=trizen
+[yaah]=yaah
 )
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [ "\$AURHELPER" = exit ] || [ "\$AURHELPER" = quit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-[[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY) \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'.  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+[[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY) \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
