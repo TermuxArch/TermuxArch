@@ -767,8 +767,7 @@ if [ -d "\$AURHELPER" ]
 then
 printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ || _PRTERROR_
 else
-printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER"
-_MAKEAURHELPER_ || _PRTERROR_
+printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ || _PRTERROR_
 fi
 }
 
@@ -924,7 +923,7 @@ AURHELPERSM=(
 printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
-{ [ "\$AURHELPER" = exit ] || [ "\$AURHELPER" = quit ] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
+{ [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
 [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] && printf "%s\\n" "Option '\$REPLY) \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
