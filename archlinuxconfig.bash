@@ -674,7 +674,7 @@ HLPSTG="Command \${0##*/} accepts 'all', 'noconfirm', 'reverse order build all' 
 One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
 NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && { [[ "\${1//-}" = ?* ]] || [[ "\${1//-}" = \/* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\n%s\\n\\n' "\$HLPSTG" && exit ; }
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && { [[ "\${1//-}" = '?'* ]] || [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\n%s\\n\\n' "\$HLPSTG" && exit ; }
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
