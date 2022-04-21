@@ -656,10 +656,11 @@ _ADDmakeaurhelpers_() {
 _CFLHDR_ $TMXRCHBNDS/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTPATCHHELP_ "$TMXRCHBNDS/makeaurhelpers"
 cat >> $TMXRCHBNDS/makeaurhelpers <<- EOM
-HLPSTG="Help:  Command '\${0##*/}' accepts option 'noconfirm'."
+HLPSTG="Help:  Command '\${0##*/}' accepts options 'all' and 'noconfirm'."
 NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
 NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Nn]* ]] && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC" && [[ "\${1//-}" = [Hh]* ]] && printf '%s\\n' "\$HLPSTG" && exit ; }
+[ -n "\${1:-}" ] && DALL="\${1//-}" || DALL=1
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; } ||:
 # add dependancies for bauerbill
@@ -735,7 +736,7 @@ _CHKAURHELPER_() {
 if command -v "\${AURHELPERS[\$AURHELPER]}" >/dev/null
 then
 printf '%s' "Found command '\${AURHELPERS[\$AURHELPER]}';  The Arch Linux aur helper \$(pacman -Qo \${AURHELPERS[\$AURHELPER]}).  "
-exit
+[[ "\$DALL" = [Aa]* ]] || exit
 else
 if [ -z "\${1:-}" ]
 then
@@ -891,6 +892,7 @@ AURHELPERS=(
 [zeus-bin]=zeus
 [zur]=zur
 )
+[[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do _ARHCMD_ ||: ; done ; } && exit
 printf "Command '%s' version %s;  Setting Arch Linux aur helper to build and install.  Please select the aur helper to install by number from this list:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) exit quit;
 do
