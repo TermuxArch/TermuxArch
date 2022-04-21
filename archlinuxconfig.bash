@@ -665,6 +665,8 @@ HLPSTG="Command \${0##*/} accepts 'all', 'noconfirm', 'reverse order build all' 
 
   a	all = attempts to build all the aur helper packages with passing checksums in alphabetical order,
 
+  h	help = shows this help screen,
+
   n	noconfirm = do not confirm install (\${0##*/} installs packages by default and noconfirm is on by default except for individual aur helper package builds from the select menu),
 
   r	reverse order build all = like all, but attempts to build all aur helper packages with passing checksums in reverse in alphabetical order,
