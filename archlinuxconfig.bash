@@ -688,8 +688,8 @@ One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\$
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '%s\\n' "\$HLPSTG" && exit
-NMKPKC="nice -n 20 makepkg -Ccfis --check --needed"
-NMKPKN="nice -n 20 makepkg -Ccfis --check --needed --noconfirm"
+NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
+NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
@@ -718,9 +718,10 @@ fi
 if [ "\$AURHELPER" = pbget ]
 then
 _CHKAURHELPER_ 1
-makeaurpython3aur
-makeaurpython3xcgf
+makeaurpython3memoizedb
 makeaurpython3xcpf
+makeaurpython3xcgf
+makeaurpython3aur
 makeaurpm2ml
 fi
 # add dependancies for powerpill
