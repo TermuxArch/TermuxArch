@@ -696,62 +696,71 @@ _ARHCMD_() {
 # add dependancies for bauerbill
 if [ "\$AURHELPER" = bauerbill ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
+}
 fi
 # add dependancies for pacaur and pacaur-git
 if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 { [ -x /usr/bin/expac ] || pc expac || pci expac ; }
 makeauraclegit
+}
 fi
 # add dependancies for popular-packages
 if [ "\$AURHELPER" = popular-packages ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 makeaurpackagequery
+}
 fi
 # add dependancies for pbget
 if [ "\$AURHELPER" = pbget ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 makeaurpython3memoizedb
 makeaurpython3xcpf
 makeaurpython3xcgf
 makeaurpython3aur
 makeaurpm2ml
+}
 fi
 # add dependancies for powerpill
 if [ "\$AURHELPER" = powerpill ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
+makeaurpackagequery
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
 makeaurpython3memoizedb
 makeaurpython3xcgf
 makeaurpython3xcpf
 makeaurpm2ml
+}
 fi
 # add dependancies for stack-static
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+}
 fi
 # add dependancies for xaur
 if [ "\$AURHELPER" = xaur ]
 then
-_CHKAURHELPER_ 1
+command -v "\$CHKRHLPR" >/dev/null || {
 makeaurpyinstaller
+}
 fi
 # add dependancies for zur
 if [ "\$AURHELPER" = zur ]
 then
-_CHKAURHELPER_ 1
-{ [ -x /usr/bin/zig ] || pc zig || pci zig ; }
+command -v "\$CHKRHLPR" >/dev/null || {
+[ -x /usr/bin/zig ] || pc zig || pci zig
 makeauraclegit
+}
 fi
 _CHKAURHELPER_ "\$@"
 }
@@ -801,6 +810,7 @@ AURHELPER=(
 [aurutils]="Validating source files with sha512sum skipped"
 [baph]="Validating source files with md5sums skipped"
 [foxaur]="curl: (22) The requested URL returned error: 503"
+[gfoxaur]="curl: (22) The requested URL returned error: 503"
 [goaur]="Validating source files with md5sums skipped"
 [liteaur]="Validating source files with sha256sums FAILED"
 [magico]="Validating source files with md5sums skipped"
@@ -834,6 +844,7 @@ AURHELPERD=(
 [aurutils]=aurutils
 [baph]=baph
 [foxaur]=foxaur
+[gfoxaur]=gfoxaur
 [goaur]=goaur
 [liteaur]=liteaur
 [magico]=magico
@@ -865,7 +876,6 @@ AURHELPERS=(
 [blinky]=blinky
 [buildaur]=buildaur
 [buildaur-git]=buildaur
-[gfoxaur]=gfoxaur
 [git-aurcheck]=git-aurcheck
 [haur]=haur
 [lightpkg]=lightpkg
