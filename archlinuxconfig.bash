@@ -696,7 +696,7 @@ _ARHCMD_() {
 # add dependancies for bauerbill
 if [ "\$AURHELPER" = bauerbill ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
@@ -705,7 +705,7 @@ fi
 # add dependancies for pacaur and pacaur-git
 if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 { [ -x /usr/bin/expac ] || pc expac || pci expac ; }
 makeauraclegit
 }
@@ -713,14 +713,14 @@ fi
 # add dependancies for popular-packages
 if [ "\$AURHELPER" = popular-packages ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 makeaurpackagequery
 }
 fi
 # add dependancies for pbget
 if [ "\$AURHELPER" = pbget ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 makeaurpython3memoizedb
 makeaurpython3xcpf
 makeaurpython3xcgf
@@ -731,7 +731,7 @@ fi
 # add dependancies for powerpill
 if [ "\$AURHELPER" = powerpill ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 makeaurpackagequery
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
 makeaurpython3memoizedb
@@ -743,21 +743,21 @@ fi
 # add dependancies for stack-static
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
 # add dependancies for xaur
 if [ "\$AURHELPER" = xaur ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 makeaurpyinstaller
 }
 fi
 # add dependancies for zur
 if [ "\$AURHELPER" = zur ]
 then
-command -v "\$CHKRHLPR" >/dev/null || {
+command -v "\$AURHELPER" >/dev/null || {
 [ -x /usr/bin/zig ] || pc zig || pci zig
 makeauraclegit
 }
