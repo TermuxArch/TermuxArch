@@ -769,7 +769,7 @@ _CHKAURHELPER_() {
 [ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
 if command -v "\$CHKRHLPR" >/dev/null
 then
-printf '%s' "Found command '\$CHKRHLPR';  The Arch Linux package \$(pacman -Qo \$CHKRHLPR).  "
+printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)'.  "
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss]* ]] || exit 0
 else
 _CLONEAURHELPER_
