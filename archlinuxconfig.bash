@@ -664,19 +664,20 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
 exit 101
 fi
-HLPSTG="Command \${0##*/} accepts 'all', 'build package','find packages', 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build' and 'view PKGBUILD' as options:
+SCRPTM="\${0##*/}"
+HLPSTG="Command \$SCRPTM accepts 'all', 'build package','find packages', 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build' and 'view PKGBUILD' as options:
 
   a	all = builds all the AUR helper packages with passing checksums in alphabetical order,
 
-  b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\${0##*/} build greenrain',
+  b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\$SCRPTM build greenrain',
 
-  f p	find package = finds AUR packages;  EXAMPLE: '\${0##*/} find 'digital rain',
+  f p	find package = finds AUR packages;  EXAMPLE: '\$SCRPTM find 'digital rain',
 
   h	help = help shows this help screen,
 
-  m p	make package = builds one Arch Linux package from AUR.  The option 'build package' is a synonim for 'make package';  EXAMPLE: '\${0##*/} make greenrain',
+  m p	make package = builds one Arch Linux package from AUR.  The option 'build package' is a synonim for 'make package';  EXAMPLE: '\$SCRPTM make greenrain',
 
-  n	noconfirm = do not confirm install (\${0##*/} installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+  n	noconfirm = do not confirm install (\$SCRPTM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
 
   r	reverse order build all = like option all, but builds all the AUR helper packages with passing checksums in reverse alphabetical order,
 
@@ -686,9 +687,9 @@ HLPSTG="Command \${0##*/} accepts 'all', 'build package','find packages', 'help'
 
   ta	terminal screensavers build all = builds all of the terminal screensavers from AUR,
 
-  v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\${0##*/} view 'greenrain'.
+  v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\$SCRPTM view 'greenrain'.
 
-One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
+One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM,,} WARNING:  '\$SCRPTM' default: 'ignore incomplete arch field in PKGBUILD'."
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '%s\\n' "\$HLPSTG" && exit
@@ -701,7 +702,7 @@ _ARHCMD_() {
 if [ "\$AURHELPER" = bauerbill ]
 then
 command -v "\$AURHELPER" >/dev/null || {
-[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SCRPTM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
 }
@@ -748,7 +749,7 @@ fi
 if [ "\$AURHELPER" = stack-static ]
 then	# import stack-static key
 command -v "\$AURHELPER" >/dev/null || {
-[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\${0##*/}' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SCRPTM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
 # add dependancies for xaur
@@ -791,7 +792,7 @@ fi
 
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\${0##*/}' version $VERSIONID;  Please be patient..."
+printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\$SCRPTM' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 
@@ -961,11 +962,11 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Aa]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  Please select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
+printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  Please select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SCRPTM" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \$SLCTSYRNG to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \$SLCTSYRNG to build and install by number from this list or type exit and tap enter to exit command '\$SCRPTM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
