@@ -691,7 +691,7 @@ HLPSTG="Command \$SCRPTM accepts 'all', 'build package','find packages', 'help',
 
   v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\$SCRPTM view 'greenrain'.
 
-One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD'.  Please edit these variables to change this setting:
+One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit these variables to if you wish to change these settings:
 NMKPKC="\$(printf '%s\\n' "\$NMKPKC")",
 NMKPKN="\$(printf '%s\\n' "\$NMKPKN")".
 "
@@ -966,7 +966,7 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Aa]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD'.  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SCRPTM" "$VERSIONID"
+printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any').  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SCRPTM" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
