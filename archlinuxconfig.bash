@@ -664,6 +664,8 @@ then
 printf "\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n" "ＴｅｒｍｕｘＡｒｃｈ SIGNAL:" "  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run \"$STARTBIN command 'addauser user'\" in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  "
 exit 101
 fi
+NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
+NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 SCRPTM="\${0##*/}"
 HLPSTG="Command \$SCRPTM accepts 'all', 'build package','find packages', 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build' and 'view PKGBUILD' as options:
 
@@ -689,12 +691,13 @@ HLPSTG="Command \$SCRPTM accepts 'all', 'build package','find packages', 'help',
 
   v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\$SCRPTM view 'greenrain'.
 
-One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM,,} WARNING:  '\$SCRPTM' default: 'ignore incomplete arch field in PKGBUILD'."
+One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD'.  Please edit these variables to change this setting:
+NMKPKC="\$(printf '%s\\n' "\$NMKPKC")",
+NMKPKN="\$(printf '%s\\n' "\$NMKPKN")".
+"
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '%s\\n' "\$HLPSTG" && exit
-NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
-NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '%s' "\$HLPSTG" && exit
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
@@ -962,7 +965,7 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Aa]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  Please select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SCRPTM" "$VERSIONID"
+printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD'.  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SCRPTM" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
