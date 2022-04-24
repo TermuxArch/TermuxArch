@@ -682,6 +682,8 @@ HLPSTG="Command \${0##*/} accepts 'all', 'build package','find packages', 'help'
 
   s	small build = builds some of the smaller AUR helper packages based on size,
 
+  t	terminal screensavers build = builds some of the terminal screensavers from AUR,
+
   v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\${0##*/} view 'greenrain'.
 
 One letter arguments are acceptable; i.e. '\${0##*/} r' is the equivalent of '\${0##*/} reverse order build all'."
@@ -796,7 +798,7 @@ printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study th
 }
 
 NMCMND="\$(uname -m)"
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -815,6 +817,8 @@ AURHELPER=(
 [liteaur]="Validating source files with sha256sums FAILED"
 [magico]="Validating source files with md5sums skipped"
 [maur]="Validating source files with sha512sum skipped"
+[pakku-git]="Validating source files with sha512sum skipped"
+[pikaur-git]="Validating source files with md5sums skipped"
 [pikaur-aurnews]="Validating source files with md5sums skipped"
 [pkgbuilder-git]="Validating source files with md5sums skipped"
 [repoctl-git]="Validating source files with sha512sum skipped"
@@ -849,7 +853,9 @@ AURHELPERD=(
 [liteaur]=liteaur
 [magico]=magico
 [maur]=maur
+[pakku-git]=pakku
 [pikaur-aurnews]=pikaur-aurnews
+[pikaur-git]=pikaur
 [pkgbuilder-git]=pkgbuilder
 [repoctl-git]=repoctl
 [simpleaur-git]=simpleaur
@@ -886,7 +892,6 @@ AURHELPERS=(
 [pacaur-git]=pacaur
 [pakka]=pakka
 [pakku]=pakku
-[pakku-git]=pakku
 [pakku-gui]=pakku
 [pakku-gui-git]=pakku
 [paru]=paru
@@ -895,7 +900,6 @@ AURHELPERS=(
 [paruz]=paruz
 [pbget]=pbget
 [pikaur]=pikaur
-[pikaur-git]=pikaur
 [pkgbuild-introspection]=mksrcinfo
 [pkgbuild-introspection-git]=mksrcinfo
 [pkgbuilder]=pkgbuilder
@@ -927,21 +931,38 @@ AURHELPERSM=(
 [paruz]=paruz
 [pbget]=pbget
 [pikaur]=pikaur
-[pikaur-git]=pikaur
 [sakuri]=sakuri
 [trizen]=trizen
 [yaah]=yaah
 )
+# terminal screensavers
+SCREENSAVERS=(
+[bash-pipes]=bash-pipes
+[cmatrix-git]=cmatrix
+[dvdts-fp-git]=dvdts
+[greenrain]=greenrain
+[ncmatrix]=ncmatrix
+[neo-matrix]=neo-matrix
+[neo-matrix-git]=neo-matrix
+[pipes.c]=cpipes
+[pipes.sh]=pipes.sh
+[rmatrix]=rmatrix
+[rmatrix-git]=rmatrix
+[tmatrix]=tmatrix
+[tmatrix-git]=tmatrix
+)
+SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux aur helper to build and install;  Please select the aur helper to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
+printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  Please select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux aur helper for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux aur helper to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
+{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \$SLCTSYRNG to build and install by number from this list or type exit and tap enter to exit command '\${0##*/}':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
