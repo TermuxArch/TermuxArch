@@ -682,7 +682,9 @@ HLPSTG="Command \${0##*/} accepts 'all', 'build package','find packages', 'help'
 
   s	small build = builds some of the smaller AUR helper packages based on size,
 
-  t	terminal screensavers build = builds some of the terminal screensavers from AUR,
+  t	terminal screensavers build = builds a terminal screensavers from AUR,
+
+  ta	terminal screensavers build all = builds all of the terminal screensavers from AUR,
 
   v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\${0##*/} view 'greenrain'.
 
@@ -772,7 +774,7 @@ _CHKAURHELPER_() {
 if command -v "\$CHKRHLPR" >/dev/null
 then
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)'.  "
-[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss]* ]] || exit 0
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss]* ]] || [[ "\$DALL" = [Tt][Aa]* ]] || exit 0
 else
 _CLONEAURHELPER_
 fi
@@ -952,12 +954,13 @@ SCREENSAVERS=(
 [tmatrix-git]=tmatrix
 )
 SLCTSYRNG="aur helper"
-[ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:1}" || DALL=1
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build aur helper '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Aa]* ]] && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  Please select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\${0##*/}" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
