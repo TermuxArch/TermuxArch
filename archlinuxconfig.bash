@@ -809,7 +809,7 @@ printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study th
 }
 
 NMCMND="\$(uname -m)"
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM CANDY SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -947,6 +947,19 @@ AURHELPERSM=(
 [sakuri]=sakuri
 [trizen]=trizen
 [yaah]=yaah
+)
+# terminal candy
+CANDY=(
+[boxes]=boxes
+[chucknorris]=chucknorris
+[corny-jokes-git]=corny-jokes
+[emoj]=emoj
+[edex-ui]=edex-ui
+[hollywood]=hollywood
+[ternimal]=ternimal
+[nbsdgames]=nbsdgames
+[sl-git]=sl
+[sl-patched]=sl
 )
 # terminal screensavers
 SCREENSAVERS=(
