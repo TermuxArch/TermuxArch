@@ -967,6 +967,18 @@ SCREENSAVERS=(
 [tmatrix-git]=tmatrix
 [tty-clock-git]=tty-clock
 )
+CANDY=(
+[boxes]=boxes
+[chucknorris]=chucknorris
+[corny-jokes-git]=corny-jokes
+[emoj]=emoj
+[edex-ui]=edex-ui
+[hollywood]=hollywood
+[ternimal]=ternimal
+[nbsdgames]=nbsdgames
+[sl-git]=sl
+[sl-patched]=sl
+)
 SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
