@@ -674,6 +674,10 @@ a	all = builds all the AUR helper packages with passing checksums in alphabetica
 
 b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\$SCRPTM build greenrain',
 
+c	terminal candy build = builds a terminal candy from AUR,
+
+ca	terminal candy build all = builds all of the terminal candies from AUR,
+
 f p	find package = finds AUR packages;  EXAMPLE: '\$SCRPTM find 'digital rain',
 
 h	help = help shows this help screen,
@@ -950,7 +954,6 @@ AURHELPERSM=(
 )
 # terminal candy
 CANDY=(
-[boxes]=boxes
 [chucknorris]=chucknorris
 [corny-jokes-git]=corny-jokes
 [emoj]=emoj
@@ -984,6 +987,8 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc][Aa]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
