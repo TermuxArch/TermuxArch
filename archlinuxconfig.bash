@@ -955,6 +955,7 @@ SCREENSAVERS=(
 [cmatrix-git]=cmatrix
 [dvdts-fp-git]=dvdts
 [greenrain]=greenrain
+[nbsdgames]=nbsdgames
 [neo-matrix]=neo-matrix
 [neo-matrix-git]=neo-matrix
 [pipes.c]=cpipes
