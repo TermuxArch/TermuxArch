@@ -670,27 +670,27 @@ NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 SCRPTM="\${0##*/}"
 HLPSTG="Command \$SCRPTM accepts 'all', 'build package','find packages', 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build' and 'view PKGBUILD' as options:
 
-  a	all = builds all the AUR helper packages with passing checksums in alphabetical order,
+a	all = builds all the AUR helper packages with passing checksums in alphabetical order,
 
-  b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\$SCRPTM build greenrain',
+b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\$SCRPTM build greenrain',
 
-  f p	find package = finds AUR packages;  EXAMPLE: '\$SCRPTM find 'digital rain',
+f p	find package = finds AUR packages;  EXAMPLE: '\$SCRPTM find 'digital rain',
 
-  h	help = help shows this help screen,
+h	help = help shows this help screen,
 
-  m p	make package = builds one Arch Linux package from AUR.  The option 'build package' is a synonim for 'make package';  EXAMPLE: '\$SCRPTM make greenrain',
+m p	make package = builds one Arch Linux package from AUR.  The option 'build package' is a synonim for 'make package';  EXAMPLE: '\$SCRPTM make greenrain',
 
-  n	noconfirm = do not confirm install (\$SCRPTM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+n	noconfirm = do not confirm install (\$SCRPTM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
 
-  r	reverse order build all = like option all, but builds all the AUR helper packages with passing checksums in reverse alphabetical order,
+r	reverse order build all = like option all, but builds all the AUR helper packages with passing checksums in reverse alphabetical order,
 
-  s	small build = builds some of the smaller AUR helper packages based on size,
+s	small build = builds some of the smaller AUR helper packages based on size,
 
-  t	terminal screensavers build = builds a terminal screensavers from AUR,
+t	terminal screensavers build = builds a terminal screensavers from AUR,
 
-  ta	terminal screensavers build all = builds all of the terminal screensavers from AUR,
+ta	terminal screensavers build all = builds all of the terminal screensavers from AUR,
 
-  v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\$SCRPTM view 'greenrain'.
+v p	view PKGBUILD = view a PKGBUILD for a particular package;  EXAMPLE: '\$SCRPTM view 'greenrain'.
 
 One letter arguments are acceptable; i.e. '\$SCRPTM r' is the equivalent of '\$SCRPTM reverse order build all'.  \${SCRPTM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit these variables to if you wish to change these settings:
 NMKPKC="\$(printf '%s\\n' "\$NMKPKC")",
@@ -699,9 +699,14 @@ NMKPKN="\$(printf '%s\\n' "\$NMKPKN")".
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '%s' "\$HLPSTG" && exit
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Rr]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss]* ]] || [[ "\${1//-}" = [Tt][Aa]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
+# add dependancies for bash-pipes
+if [ "\$AURHELPER" = bash-pipes ]
+then
+command -v "\$AURHELPER" >/dev/null || makeaurpipessh
+fi
 # add dependancies for bauerbill
 if [ "\$AURHELPER" = bauerbill ]
 then
@@ -719,13 +724,6 @@ command -v "\$AURHELPER" >/dev/null || {
 makeauraclegit
 }
 fi
-# add dependancies for popular-packages
-if [ "\$AURHELPER" = popular-packages ]
-then
-command -v "\$AURHELPER" >/dev/null || {
-makeaurpackagequery
-}
-fi
 # add dependancies for pbget
 if [ "\$AURHELPER" = pbget ]
 then
@@ -736,6 +734,11 @@ makeaurpython3xcgf
 makeaurpython3aur
 makeaurpm2ml
 }
+fi
+# add dependancies for popular-packages
+if [ "\$AURHELPER" = popular-packages ]
+then
+command -v "\$AURHELPER" >/dev/null || makeaurpackagequery
 fi
 # add dependancies for powerpill
 if [ "\$AURHELPER" = powerpill ]
@@ -1113,6 +1116,8 @@ _PREPFILEFTN1_() { _CFLHDR_ $TMXRCHBNDS/makeaur"$3" "# Command '$3' attempts to 
 _ADDmakeaurpacaur_() { _PREPFILEFTN0_ pacaur pacaur pacaur "an AUR helper that minimizes user interaction" "{ [ -x /usr/bin/expac ] || pc expac --noconfirm || pci expac ; } && { makeauraclegit ||: ; } && { printf '\\e[0m[1/1]  ' ; makeaurjqgit ||: ; } &&" ; }
 
 _ADDmakeaurjqgit_() { _PREPFILEFTN0_ jq jq-git jqgit "Command line JSON processor" "" ; }
+
+_ADDmakeaurpipessh_() { _PREPFILEFTN0_ pipes.sh pipes.sh pipessh "Animated pipes terminal screensaver" "" ; }
 
 _ADDmakeaurpyinstaller_() { _PREPFILEFTN0_ pyinstaller pyinstaller pyinstaller "" "makeaurpyinstallerhookscontrib && makeaurpythonaltgraph &&" ; }
 

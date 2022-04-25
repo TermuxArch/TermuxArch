@@ -59,6 +59,7 @@ _ADDmakeaurparuz_
 _ADDmakeaurpbget_
 _ADDmakeaurpikaur_
 _ADDmakeaurpikaurgit_
+_ADDmakeaurpipessh_
 _ADDmakeaurpkgbuilder_
 _ADDmakeaurpkgbuildergit_
 _ADDmakeaurpm2ml_
