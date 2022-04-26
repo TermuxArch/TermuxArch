@@ -669,23 +669,24 @@ NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 HLPSTG="  Command \$SRPTNM accepts 'all', 'build package', 'terminal candy build', 'find packages'★, 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build', 'terminal screensavers build', 'terminal candy build all', 'terminal screensavers build all' and 'view PKGBUILD file'★ as options:
 
- a	all = builds all the AUR helper packages with passing checksums in alphabetical order,
- b p	build package = builds one Arch Linux package from AUR.  The option 'make package' is a synonym for 'build package';  EXAMPLE: '\$SRPTNM build greenrain',
- c	terminal candy build = builds a terminal candy from AUR,
- f p	★ find package = finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
- h	help = help shows this help screen,
- m p	make package = builds one Arch Linux package from AUR.  The option 'build package' is a synonim for 'make package';  EXAMPLE: '\$SRPTNM make greenrain',
- n	noconfirm = do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
- r	reverse order build all = like option all, but builds all the AUR helper packages with passing checksums in reverse alphabetical order,
- s	terminal screensavers build = builds a terminal screensavers from AUR,
- sb	small build = builds some of the smaller AUR helper packages based on size,
- tc	terminal candy build all = builds all of the terminal candies from AUR,
- ts	terminal screensavers build all = builds all of the terminal screensavers from AUR,
- v p	★ view PKGBUILD file = view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
+ a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
+ b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
+ c[andy]		builds a terminal candy from AUR,
+ f[ind] pkg		★finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
+ h[elp]			show this help screen,
+ m[ake]			make Arch Linux makepkg related package from AUR,
+ n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+ r[everse build	 all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
+ s[creensaver b	uild]	builds a terminal screensavers from AUR,
+ sb			small build builds some of the smaller AUR helper packages based on size,
+ tc			terminal candies builds all of the terminal candies from AUR,
+ tm			total make makes all the Arch Linux makepkg related package from AUR,
+ ts			terminal screensavers builds all of the terminal screensavers from AUR,
+ v[iew] pkg		★view PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
 
   One and two letter arguments are acceptable; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in gil '\$SRPTNM' if you wish to change these settings.
 
-★ opens and uses Android web browser
+★opens and uses Android web browser
 
 "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
@@ -773,8 +774,9 @@ _CHKAURHELPER_() {
 [ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
 if command -v "\$CHKRHLPR" >/dev/null
 then
-printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && sleep 4 && clear ; }|| sleep 0.2 && clear ; }
+RCHLXPKG="\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)"
+printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
+[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && sleep 8 && clear ; } || sleep 2 && clear ; }
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
 _CLONEAURHELPER_
@@ -801,7 +803,7 @@ printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study th
 }
 
 NMCMND="\$(uname -m)"
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM CANDY SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM CANDY MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -948,9 +950,57 @@ CANDY=(
 [edex-ui]=edex-ui
 [hollywood]=hollywood
 [ternimal]=ternimal
-[nbsdgames]=nbsdgames
+[nbsdgames-git]=nbsdgames
 [sl-git]=sl
 [sl-patched]=sl
+)
+# AUR makepkgs
+MAKEPKGS=(
+[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
+[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
+[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
+[git-makepkg-templates-git]="makepkg-templates for git source packages"
+[makepkg-meta]="Easily create and install custom"
+[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
+[remakepkg]="Apply changes to pacman packages"
+[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
+[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
+[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
+[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
+[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
+[docker-makepkg]="A script and docker image to build packages in a clean container"
+[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
+[archbuilder-git]="makepkg wrapper that uses buildah"
+[archbuilder]="makepkg wrapper that uses buildah"
+)
+# AUR makepkg descriptions
+MAKEPKGS=(
+[dir-dlagent]="dir-dlagent"
+[pbget]="pbget"
+[telegram-tdlib-purple-git]="telegram-tdlib-purple"
+[makepkg-optimize]="makepkg-optimize"
+[git-makepkg-templates-git]="git-makepkg-templates"
+[makepkg-meta]="makepkg-meta"
+[telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
+[makepkg-git-lfs-proto]="makepkg-git-lfs-proto"
+[remakepkg]="remakepkg"
+[makeppkg-git]="makeppkg"
+[makeppkg]="makeppkg"
+[makepkg-unreal]="makepkg-unreal"
+[makepkg-tidy-scripts-git]="makepkg-tidy-scripts"
+[makepkg-tidy-pdfsizeopt]="makepkg-tidy-pdfsizeopt"
+[makepkg-tidy-ect]="makepkg-tidy-ect"
+[makepkg-optimize-mold]="makepkg-optimize-mold"
+[makepkg-nosudo]="makepkg-nosudo"
+[docker-makepkg]="docker-makepkg"
+[dmakepkg-git]="dmakepkg"
+[archbuilder-git]="archbuilder"
+[archbuilder]="archbuilder"
 )
 # terminal screensavers
 SCREENSAVERS=(
@@ -974,11 +1024,13 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkgs" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any').  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SRPTNM" "$VERSIONID"
 select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
