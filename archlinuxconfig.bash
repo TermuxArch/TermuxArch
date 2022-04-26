@@ -670,8 +670,8 @@ NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:
 
 a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
-b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
-c[andy]		builds a terminal candy from AUR,
+b[uild]			package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
+c[andy]			builds a terminal candy from AUR,
 f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
 h[elp]			show this help screen,
 m[ake]			make Arch Linux makepkg related package from AUR,
