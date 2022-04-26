@@ -676,7 +676,7 @@ f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
 h[elp]			show this help screen,
 m[ake]			make Arch Linux makepkg related package from AUR,
 n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
-r[everse build	all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
+r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
 s[creensaver build]	builds a terminal screensavers from AUR,
 sb			small build builds some of the smaller AUR helper packages based on size,
 tc			terminal candies builds all of the terminal candies from AUR,
@@ -686,7 +686,7 @@ v[iew] pkg★		view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTN
 
 One and two letter arguments are good; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in file '\$SRPTNM' if you wish to change these settings.
 
-★opens and uses an Android web browser in order to either find Arch Linux AUR packages or view a PKGBUILD file.
+★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file.
 
 "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
