@@ -682,7 +682,7 @@ sb			small build builds some of the smaller AUR helper packages based on size,
 tc			terminal candies builds all of the terminal candies from AUR,
 tm			total make makes all the Arch Linux makepkg related package from AUR,
 ts			terminal screensavers builds all of the terminal screensavers from AUR,
-v[iew] pkg★		view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
+v[iew] pkg★		view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view greenrain'.
 
 One and two letter arguments are good; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in file '\$SRPTNM' if you wish to change these settings.
 
