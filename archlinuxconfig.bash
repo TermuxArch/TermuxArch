@@ -13,7 +13,7 @@ printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1
 _PRTRTHLP_() {
 printf "%s\\n" "if [ "\$EUID" = 0 ] || [ "\$UID" = 0 ]
 then
-printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:\" \"  Script '\${0##*/}' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \"
+printf \"\\\\e[1;31m%s\\\\e[1;37m%s\\\\e[1;31mExiting...\\\\e[0m\\\\n\" \"ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:\" \"  Script '\$SRPTNM' should not be used as root:  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command:  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user:  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in Termux to create this account in Arch Linux Termux PRoot:  The command '$STARTBIN help' has more information about using '$STARTBIN':  \"
 exit 101
 fi" >> "$1"
 }
