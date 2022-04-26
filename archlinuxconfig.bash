@@ -672,7 +672,7 @@ HLPSTG="  Command \$SRPTNM accepts 'all', 'build package', 'terminal candy build
  a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
  b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
  c[andy]		builds a terminal candy from AUR,
- f[ind] pkg		★finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
+ f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
  h[elp]			show this help screen,
  m[ake]			make Arch Linux makepkg related package from AUR,
  n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
@@ -682,7 +682,7 @@ HLPSTG="  Command \$SRPTNM accepts 'all', 'build package', 'terminal candy build
  tc			terminal candies builds all of the terminal candies from AUR,
  tm			total make makes all the Arch Linux makepkg related package from AUR,
  ts			terminal screensavers builds all of the terminal screensavers from AUR,
- v[iew] pkg		★view PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
+ v[iew] pkg★		view PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
 
   One and two letter arguments are acceptable; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in gil '\$SRPTNM' if you wish to change these settings.
 
@@ -952,55 +952,54 @@ CANDY=(
 [ternimal]=ternimal
 [nbsdgames-git]=nbsdgames
 [sl-git]=sl
-[sl-patched]=sl
 )
-# AUR makepkgs
+# AUR makepkgs descriptions
 MAKEPKGS=(
-[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
-[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
-[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
-[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
-[git-makepkg-templates-git]="makepkg-templates for git source packages"
-[makepkg-meta]="Easily create and install custom"
-[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
-[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
-[remakepkg]="Apply changes to pacman packages"
-[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
-[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
-[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
-[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
-[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
-[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
-[docker-makepkg]="A script and docker image to build packages in a clean container"
-[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
 [archbuilder-git]="makepkg wrapper that uses buildah"
 [archbuilder]="makepkg wrapper that uses buildah"
+[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
+[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
+[docker-makepkg]="A script and docker image to build packages in a clean container"
+[git-makepkg-templates-git]="makepkg-templates for git source packages"
+[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
+[makepkg-meta]="Easily create and install custom"
+[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
+[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
+[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
+[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
+[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
+[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
+[remakepkg]="Apply changes to pacman packages"
+[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
 )
-# AUR makepkg descriptions
+# AUR makepkg
 MAKEPKGS=(
+[archbuilder]="archbuilder"
+[archbuilder-git]="archbuilder"
 [dir-dlagent]="dir-dlagent"
-[pbget]="pbget"
-[telegram-tdlib-purple-git]="telegram-tdlib-purple"
-[makepkg-optimize]="makepkg-optimize"
+[dmakepkg-git]="dmakepkg"
+[docker-makepkg]="docker-makepkg"
 [git-makepkg-templates-git]="git-makepkg-templates"
-[makepkg-meta]="makepkg-meta"
-[telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
 [makepkg-git-lfs-proto]="makepkg-git-lfs-proto"
-[remakepkg]="remakepkg"
+[makepkg-meta]="makepkg-meta"
+[makepkg-nosudo]="makepkg-nosudo"
+[makepkg-optimize]="makepkg-optimize"
+[makepkg-optimize-mold]="makepkg-optimize-mold"
+[makepkg-tidy-ect]="makepkg-tidy-ect"
+[makepkg-tidy-pdfsizeopt]="makepkg-tidy-pdfsizeopt"
+[makepkg-tidy-scripts-git]="makepkg-tidy-scripts"
+[makepkg-unreal]="makepkg-unreal"
 [makeppkg-git]="makeppkg"
 [makeppkg]="makeppkg"
-[makepkg-unreal]="makepkg-unreal"
-[makepkg-tidy-scripts-git]="makepkg-tidy-scripts"
-[makepkg-tidy-pdfsizeopt]="makepkg-tidy-pdfsizeopt"
-[makepkg-tidy-ect]="makepkg-tidy-ect"
-[makepkg-optimize-mold]="makepkg-optimize-mold"
-[makepkg-nosudo]="makepkg-nosudo"
-[docker-makepkg]="docker-makepkg"
-[dmakepkg-git]="dmakepkg"
-[archbuilder-git]="archbuilder"
-[archbuilder]="archbuilder"
+[pbget]="pbget"
+[remakepkg]="remakepkg"
+[telegram-tdlib-purple-git]="telegram-tdlib-purple"
+[telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
 )
 # terminal screensavers
 SCREENSAVERS=(
@@ -1024,8 +1023,8 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
