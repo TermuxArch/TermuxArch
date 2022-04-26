@@ -952,6 +952,7 @@ CANDY=(
 [ternimal]=ternimal
 [nbsdgames-git]=nbsdgames
 [sl-git]=sl
+[sl-patch]=sl
 )
 # AUR makepkgs descriptions
 MAKEPKGS=(
