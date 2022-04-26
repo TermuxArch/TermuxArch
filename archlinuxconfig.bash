@@ -667,26 +667,26 @@ exit 101
 fi
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-HLPSTG="  Command \$SRPTNM accepts 'all', 'build package', 'terminal candy build', 'find packages'★, 'help', 'make package', 'noconfirm', 'reverse order build all', 'small build', 'terminal screensavers build', 'terminal candy build all', 'terminal screensavers build all' and 'view PKGBUILD file'★ as options:
+HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:
 
- a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
- b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
- c[andy]		builds a terminal candy from AUR,
- f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
- h[elp]			show this help screen,
- m[ake]			make Arch Linux makepkg related package from AUR,
- n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
- r[everse build	 all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
- s[creensaver b	uild]	builds a terminal screensavers from AUR,
- sb			small build builds some of the smaller AUR helper packages based on size,
- tc			terminal candies builds all of the terminal candies from AUR,
- tm			total make makes all the Arch Linux makepkg related package from AUR,
- ts			terminal screensavers builds all of the terminal screensavers from AUR,
- v[iew] pkg★		view PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
+a[ll]			builds all the AUR helper packages with passing checksums in alphabetical order,
+b[uild]		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
+c[andy]		builds a terminal candy from AUR,
+f[ind] pkg★		finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain',
+h[elp]			show this help screen,
+m[ake]			make Arch Linux makepkg related package from AUR,
+n[oconfirm]		do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+r[everse build	 all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
+s[creensaver b	uild]	builds a terminal screensavers from AUR,
+sb			small build builds some of the smaller AUR helper packages based on size,
+tc			terminal candies builds all of the terminal candies from AUR,
+tm			total make makes all the Arch Linux makepkg related package from AUR,
+ts			terminal screensavers builds all of the terminal screensavers from AUR,
+v[iew] pkg★		view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view 'greenrain'.
 
-  One and two letter arguments are acceptable; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in gil '\$SRPTNM' if you wish to change these settings.
+One and two letter arguments are good; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in file '\$SRPTNM' if you wish to change these settings.
 
-★opens and uses Android web browser
+★opens and uses an Android web browser in order to either find Arch Linux AUR packages or view a PKGBUILD file.
 
 "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
