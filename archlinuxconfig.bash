@@ -517,7 +517,7 @@ chmod 755 "$TMXRCHBNDS"/es
 }
 
 _ADDexd_() {
-_CFLHDR_ "$TMXRCHBNDS"/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work."
+_CFLHDR_ "$TMXRCHBNDS"/exd "# Usage: \`. exd\` the dot sources \`exd\` which makes this shortcut script work. Reference https://github.com/SDRausty/TermuxArch/issues/59#issuecomment-381285151_"
 cat >> "$TMXRCHBNDS"/exd <<- EOM
 export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712
 ## $INSTALLDIR$TMXRCHBNDR/exd FE
