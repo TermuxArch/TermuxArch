@@ -667,8 +667,11 @@ _DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
 DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD"\"
+NMCMND="\$(uname -m)"
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
+NMKPKR="nice -n 20 makepkg -ACcfiRs --check --needed --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
 XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
 NXMPKN="\"NMKPKN=\"\$NMKPKN\"\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
@@ -705,12 +708,10 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 
   v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
-★(open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file): "
+★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file: "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
-[ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Ee Gg Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
-
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
 # add dependancies for bash-pipes
@@ -787,7 +788,7 @@ makeauraclegit
 fi
 _CHKAURHELPER_ "\$@"
 }
-
+# check if AUR command is on PATH
 _CHKAURHELPER_() {
 [ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
 if command -v "\$CHKRHLPR" >/dev/null
@@ -800,7 +801,7 @@ else
 _CLONEAURHELPER_
 fi
 }
-
+# clone AUR package
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
@@ -809,19 +810,17 @@ else
 { printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ ; } || _PRTERROR_
 fi
 }
-
+# make AUR package
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
 printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
-
+# print error help message
 _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used."
 }
-
-NMCMND="\$(uname -m)"
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM CANDY MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ENTERTAINMENT CANDY GAME MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -972,6 +971,14 @@ CANDY=(
 [sl-git]=sl
 [sl-patch]=sl
 )
+# build one AUR candy package
+ENTERTAINMENT=(
+[sl-git]=sl
+)
+# build one AUR game package
+GAME=(
+[nbsdgames-git]=nbsdgames
+)
 # AUR makepkgs descriptions
 MAKEPKGS=(
 [archbuilder-git]="makepkg wrapper that uses buildah"
@@ -1043,6 +1050,8 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p ENTERTAINMENT) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="entertainment package sl-git"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p GAME) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="game package nbsdgames"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
