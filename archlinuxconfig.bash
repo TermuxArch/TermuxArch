@@ -702,9 +702,9 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 
   tc[andies]		terminal candies builds all of the terminal candies from AUR,
 
-  t[makepkg]		total make makes all the Arch Linux makepkg related package from AUR,
+  tm[akepkg]		total make makes all the Arch Linux makepkg related package from AUR,
 
-  t[screensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
+  ts[creensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
 
   v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
