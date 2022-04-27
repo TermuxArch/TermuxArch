@@ -666,39 +666,47 @@ _CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki
 _DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
+DFLTSTRG="\"-A ignore incomplete arch field in PKGBUILD"\"
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. '\$SRPTNM f 'digital rain'' is the equivalent of '\$SRPTNM find 'digital rain''.  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any');  Please edit variables 'NMKPKC="\$(printf '%s\\n' "\$NMKPKC")"' and 'NMKPKN="\$(printf '%s\\n' "\$NMKPKN")"' in file '\$SRPTNM' if you wish to change these settings.
+XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
+NXMPKN="\"NMKPKN=\"\$NMKPKN\"\""
+XLCD00="\"\$SRPTNM f 'digital rain'\""
+XLCD0L="\"\$SRPTNM find 'digital rain'\""
+XLCD01="\"\$SRPTNM b 'greenrain'\""
+XLCD0L="\"\$SRPTNM build 'greenrain'\""
+XLCD02="\"\$SRPTNM v 'greenrain'\""
+HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  Default: \$DFLTSTRG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
 
-★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file.
+  a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
-a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
+  b[uild]	package		package	builds one Arch Linux package from AUR.  EXAMPLE: \$XLCD01,
 
-b[uild]	package		package	builds one Arch Linux package from AUR.  EXAMPLE: '\$SRPTNM build greenrain',
+  c[andy]			builds a terminal candy from AUR,
 
-c[andy]			builds a terminal candy from AUR,
+  f[ind] package★	finds AUR packages;  EXAMPLE: \$XLCD00,
 
-★f[ind] package★	finds AUR packages;  EXAMPLE: '\$SRPTNM find 'digital rain'',
+  h[elp]			show this help screen,
 
-h[elp]			show this help screen,
+  m[ake makepkg]		make Arch Linux makepkg related package from AUR,
 
-m[ake makepkg]		make Arch Linux makepkg related package from AUR,
+  n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
 
-n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+  r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
 
-r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
+  s[creensaver build]	builds a terminal screensavers from AUR,
 
-s[creensaver build]	builds a terminal screensavers from AUR,
+  sb[uild] 		small build builds some of the smaller AUR helper packages based on size,
 
-sb[uild] 		small build builds some of the smaller AUR helper packages based on size,
+  tc[candies]		terminal candies builds all of the terminal candies from AUR,
 
-tc[candies]		terminal candies builds all of the terminal candies from AUR,
+  t[makepkg]		total make makes all the Arch Linux makepkg related package from AUR,
 
-t[makepkg]		total make makes all the Arch Linux makepkg related package from AUR,
+  t[screensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
 
-t[screensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
+  v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
-★v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: '\$SRPTNM view greenrain'.  "
+★(open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file): "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\e[0;32m%s' "\$HLPSTG" && exit
