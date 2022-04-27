@@ -679,7 +679,7 @@ XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -703,7 +703,7 @@ HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter ar
 
   tc[andies]		terminal candies builds all of the terminal candies from AUR,
 
-  tm[akepkg]		total make makes all the Arch Linux makepkg related package from AUR,
+  tm[akepkgs]		total makepkgs makes all the Arch Linux makepkg related package from AUR,
 
   ts[creensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
 
