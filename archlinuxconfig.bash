@@ -707,9 +707,9 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
   v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
 ★(open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file): "
-[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" && exit
-[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" && exit
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && printf '\\e[0;32m%s' "\$HLPSTG" && exit
+[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
+[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
