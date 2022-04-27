@@ -973,7 +973,7 @@ CANDY=(
 )
 # build one AUR candy package
 ENTERTAINMENT=(
-[sl-git]=sl
+[sl-git]=sl-git
 )
 # build one AUR game package
 GAME=(
