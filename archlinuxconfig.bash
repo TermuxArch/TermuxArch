@@ -678,7 +678,7 @@ XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -818,7 +818,7 @@ printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting t
 }
 # print error help message
 _PRTERROR_() {
-printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used."
+printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
 for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ENTERTAINMENT CANDY GAME MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
