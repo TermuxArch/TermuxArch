@@ -670,15 +670,16 @@ DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD"\"
 NMCMND="\$(uname -m)"
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-NMKPKR="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
+NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
+{ [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
 XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
-NXMPKN="\"NMKPKN=\"\$NMKPKN\"\""
+XNMPKN="\"NMKPKN=\"\$NMKPKN\"\""
+XNMPKR="\"NMKPKN=\"\$NMKPKR\"\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
