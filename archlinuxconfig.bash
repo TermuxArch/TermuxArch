@@ -680,15 +680,15 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
-  b[uild]	package		package	builds one Arch Linux package from AUR.  EXAMPLE: \$XLCD01,
+  b[uild] package	package	builds one Arch Linux package from AUR.  EXAMPLE: \$XLCD01,
 
-  c[andy]			builds a terminal candy from AUR,
+  c[andy]		builds a terminal candy from AUR,
 
   f[ind] package★	finds AUR packages;  EXAMPLE: \$XLCD00,
 
-  h[elp]			show this help screen,
+  h[elp]		show this help screen,
 
-  m[ake makepkg]		make Arch Linux makepkg related package from AUR,
+  m[ake makepkg]	make Arch Linux makepkg related package from AUR,
 
   n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
 
@@ -702,7 +702,7 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 
   t[makepkg]		total make makes all the Arch Linux makepkg related package from AUR,
 
-  t[screensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
+  t[screensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
 
   v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
