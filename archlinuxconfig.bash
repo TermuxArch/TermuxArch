@@ -666,7 +666,7 @@ _CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki
 _DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
-DFLTSTRG="\"-A ignore incomplete arch field in PKGBUILD"\"
+DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD"\"
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
@@ -676,7 +676,7 @@ XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD0L="\"\$SRPTNM build 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  Default: \$DFLTSTRG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
