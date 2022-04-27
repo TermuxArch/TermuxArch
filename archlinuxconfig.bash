@@ -784,7 +784,7 @@ _CHKAURHELPER_() {
 [ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
 if command -v "\$CHKRHLPR" >/dev/null
 then
-RCHLXPKG="\$(pacman -Ql \$CHKRHLPR | head -n 1 | cut -d" " -f 1)"
+RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
 [ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && sleep 8 && clear ; } || sleep 2 && clear ; }
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
@@ -796,9 +796,9 @@ fi
 _CLONEAURHELPER_() {
 if [ -d "\$AURHELPER" ]
 then
-printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ || _PRTERROR_
+{ printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ ; } || _PRTERROR_
 else
-printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ || _PRTERROR_
+{ printf "%s\\\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ ; } || _PRTERROR_
 fi
 }
 
