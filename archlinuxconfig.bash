@@ -708,7 +708,8 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 ★(open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file): "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = '/'* ]] || [[ "\${1//-}" = [Hh]* ]] ; } && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Ee Gg Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" || NMKPKG="\$NMKPKC"
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
