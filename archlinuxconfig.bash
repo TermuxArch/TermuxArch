@@ -713,7 +713,7 @@ HLPSTG="  Help for command '\$SRPTNM' version $VERSIONID:  One and two letter ar
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 _ARHCMD_() {
-{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { pc base base-devel binutils git || pci base base-devel binutils git ; }
+{ [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { { pc base base-devel binutils git && makeaurfakeroottcp ; } || { pci base base-devel binutils git && makeaurfakeroottcp ; } ; }
 # add dependancies for bash-pipes
 if [ "\$AURHELPER" = bash-pipes ]
 then
