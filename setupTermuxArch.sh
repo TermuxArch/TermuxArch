@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.523
+VERSIONID=2.1.524
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -29,11 +29,11 @@ printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
 fi
 if [[ "$RV" = 0 ]]
 then
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "DONE 🏁 "
-printf "\033]2; %s:  %s\\007" "$STRNRG" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "DONE 🏁 "
+printf "\033]2; %s:  %s\\007" "${STRNRG:-}" "DONE 🏁 "
 else
-printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "$STRNRG" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
-printf "\033]2; %s: %s %s \\007" "$STRNRG" "[Exit Signal $RV]" "DONE 🏁 "
+printf "\\e[0;32mCommand \\e[1;32m'%s' \\e[0;32mversion %s\\e[1;34m: \\e[1;32m%s\\n" "${STRNRG:-}" "${VERSIONID:-}" "[Exit Signal $RV] DONE 🏁 "
+printf "\033]2; %s: %s %s \\007" "${STRNRG:-}" "[Exit Signal $RV]" "DONE 🏁 "
 fi
 [ -z "${TAMPDIR:-}" ] || rm -rf "$TAMPDIR"
 printf "\\e[?25h\\e[0m"
@@ -65,13 +65,16 @@ trap '_STRPHNGP_ $LINENO $BASH_COMMAND $?' HUP
 trap '_STRPNTRT_ $LINENO $BASH_COMMAND $?' INT
 trap '_STRPQUIT_ $LINENO $BASH_COMMAND $?' QUIT
 trap '_STRPTERM_ $LINENO $BASH_COMMAND $?' TERM
+ARGS="${@%/}"
+PGNM="${0##*/}"
+{ [ -z "${ARGS:-}" ] && STRNRG="${0##*/}" ; } || STRNRG="${0##*/} ${ARGS:-}"
 if [ "$EUID" = 0 ] || [ "$UID" = 0 ]
 then
-printf "\\e[1;48;5;168mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." "${0##*/}" && exit 164
+printf "\\e[1;48;5;168m%s\\e[0m\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL:  Please do not use the root login for PRoot:  EXITING..." && exit
 fi
 if [ -w /root ]
 then
-printf "\\e[1;48;5;138mＴｅｒｍｕｘＡｒｃｈ %s\\n\\n" "${0##*/} SIGNAL:  Please run '%s' and 'bash %s' from the BASH shell in native Termux:  EXITING..." "${0##*/}" && exit 168
+printf "\\e[1;48;5;138m%s\\e[0m\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} SIGNAL:  Please run '${0##*/}' and 'bash ${0##*/}' from the BASH shell in native Termux:  EXITING..." && exit
 fi
 _ARG2DIR_() {  # argument as ROOTDIR
 ARG2="${@:2:1}"
@@ -871,7 +874,6 @@ WFDIR="${WFDIR%/*}"
 ## >>>>>>>>>>>>>>>>>>
 ## Please open an issue and an accompanying pull request at GitHub if you would like to have any these options amended and/or new options added.  Please see the new feature at Github, the discussion option!
 ## []  Run default Arch Linux install.
-{ [ -z "${ARGS:-}" ] && STRNRG="${0##*/}" ; } || STRNRG="${0##*/} ${ARGS:-}"
 if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"
