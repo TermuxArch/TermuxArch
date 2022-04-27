@@ -674,9 +674,9 @@ NXMPKN="\"NMKPKN=\"\$NMKPKN\"\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
-XLCD0L="\"\$SRPTNM build 'greenrain'\""
+XLCDL1="\"\$SRPTNM build 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCDL1.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Please edit variables \$XNMPKC and \$NXMPKN in file '\$SRPTNM' in order to to change these settings.  Command '\$SRPTNM' accepts these arguments:
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -698,7 +698,7 @@ HLPSTG="    Help for command '\$SRPTNM' version $VERSIONID:  One and two letter 
 
   sb[uild] 		small build builds some of the smaller AUR helper packages based on size,
 
-  tc[candies]		terminal candies builds all of the terminal candies from AUR,
+  tc[andies]		terminal candies builds all of the terminal candies from AUR,
 
   t[makepkg]		total make makes all the Arch Linux makepkg related package from AUR,
 
@@ -959,7 +959,7 @@ AURHELPERSM=(
 [sakuri]=sakuri
 [trizen]=trizen
 [yaah]=yaah
-)
+
 # terminal candy
 CANDY=(
 [chucknorris]=chucknorris
