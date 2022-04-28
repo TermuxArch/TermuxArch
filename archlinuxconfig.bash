@@ -683,27 +683,27 @@ HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter argu
 
   a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
-  b[uild] package	package	builds one Arch Linux package from AUR.  EXAMPLE: \$XLCD01,
+  b[uild] package	builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
 
   c[andy]		builds a terminal candy from AUR,
 
-  f[ind] package★	finds AUR packages;  EXAMPLE: \$XLCD00,
+  f[ind] packages★	finds AUR packages;  EXAMPLE: \$XLCD00,
 
   h[elp]		show this help screen,
 
-  m[ake makepkg]	make Arch Linux makepkg related package from AUR,
+  m[ake makepkg]	make Arch Linux makepkg related packages from AUR,
 
-  n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default and noconfirm is on by default except for individual package builds).  This option only applies to the select menu packages,
+  n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option applies to the select menu packages,
 
-  r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, similar to option 'a',
+  r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
   s[creensaver build]	builds a terminal screensavers from AUR,
 
-  sb[uild] 		small build builds some of the smaller AUR helper packages based on size,
+  sb[uild] 		small build builds some of the smaller AUR helper packages,
 
   tc[andies]		terminal candies builds all of the terminal candies from AUR,
 
-  tm[akepkgs]		total makepkgs makes all the Arch Linux makepkg related package from AUR,
+  tm[akepkgs]		total makepkgs builds all the Arch Linux makepkg related package from AUR,
 
   ts[creensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
 
