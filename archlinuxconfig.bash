@@ -949,7 +949,6 @@ AURHELPERS=(
 # smaller aur helpers
 AURHELPERSM=(
 [aurget]="aurget"
-[blinky]="blinky"
 [haur]="haur"
 [lightpkg]="lightpkg"
 [liteaur-git]="liteaur"
