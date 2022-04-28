@@ -1961,7 +1961,7 @@ fi
 }
 
 _PREPPACMANCONF_() {
-[ -f /run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
-[ -f /run/lock/"${INSTALLDIR##*/}"/pacman.conf.hooks.lock ] || { [ -f "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ] && { sed -i 's/\-chroot/\-c/g' "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ; } ; }
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.hooks.lock ] || { [ -f "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook ] && { sed -i 's/\-chroot/\-c/g' "$INSTALLDIR"/usr/share/libalpm/hooks/systemd-hook && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.hooks.lock ; } ; }
 }
 # archlinuxconfig.bash FE
