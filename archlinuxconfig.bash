@@ -666,12 +666,13 @@ _CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki
 _DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
-DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD"\"
-NMCMND="\$(uname -m)"
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
+# builtin help variables begin
+NMCMND="\$(uname -m)"
+DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any');"
 XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
 XNMPKN="\"NMKPKN=\"\$NMKPKN\"\""
 XNMPKR="\"NMKPKN=\"\$NMKPKR\"\""
@@ -679,7 +680,8 @@ XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
-HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
+# builtin help variables end
+HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
 
 a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -691,13 +693,13 @@ f[ind] packages★	finds AUR packages;  EXAMPLE: \$XLCD00,
 
 h[elp]			show this help screen,
 
-m[ake makepkg]		make Arch Linux makepkg related packages from AUR,
+m[ake makepkgs]		make Arch Linux makepkg related packages from AUR,
 
 n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option applies to the select menu packages,
 
 r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
-s[creensaver build]	builds a terminal screensavers from AUR,
+s[creensavers build]	builds a terminal screensavers from AUR,
 
 sb[uild] 		small build builds some of the smaller AUR helper packages,
 
@@ -741,6 +743,7 @@ fi
 if [ "\$AURHELPER" = pbget ]
 then
 command -v "\$AURHELPER" >/dev/null || {
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3memoizedb
 makeaurpython3xcpf
 makeaurpython3xcgf
@@ -796,7 +799,7 @@ if command -v "\$CHKRHLPR" >/dev/null
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && printf '%s\\n' "Sleeping  8 seconds..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping 2 seconds..." && sleep 2 && clear ; }
+[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
 _CLONEAURHELPER_
@@ -814,14 +817,14 @@ fi
 # make AUR package
 _MAKEAURHELPER_() {
 cd "\$HOME/\$AURHELPER" || exit 196
-printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install '\$AURHELPER' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
+printf "%s\\\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHELPER' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 # print error help message
 _PRTERROR_() {
 printf "\\\\n\\\\e[1;31merror: \\\\e[1;37m%s\\\\e[0m\\\\n\\\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ENTERTAINMENT CANDY GAME MAKEPKGS SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHELPER=(
 [aget]=="Validating source files with b2sums skipped"
@@ -971,37 +974,14 @@ CANDY=(
 [sl-git]="sl"
 [sl-patch]="sl"
 )
-# build one AUR candy package
+# two AUR packages
 ENTERTAINMENT=(
 [sl-git]="sl"
+[tmatrix]="tmatrix"
 )
-# build one AUR game package
+# one AUR game package
 GAME=(
 [nbsdgames-git]="nbsdgames"
-)
-# AUR makepkgs descriptions
-MAKEPKGS=(
-[archbuilder-git]="makepkg wrapper that uses buildah"
-[archbuilder]="makepkg wrapper that uses buildah"
-[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
-[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
-[docker-makepkg]="A script and docker image to build packages in a clean container"
-[git-makepkg-templates-git]="makepkg-templates for git source packages"
-[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
-[makepkg-meta]="Easily create and install custom"
-[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
-[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
-[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
-[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
-[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
-[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
-[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
-[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
-[remakepkg]="Apply changes to pacman packages"
-[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
-[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
 )
 # AUR makepkg
 MAKEPKGS=(
@@ -1027,6 +1007,30 @@ MAKEPKGS=(
 [telegram-tdlib-purple-git]="telegram-tdlib-purple"
 [telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
 )
+# AUR makepkgs descriptions
+MKRPKGDS=(
+[archbuilder-git]="makepkg wrapper that uses buildah"
+[archbuilder]="makepkg wrapper that uses buildah"
+[dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
+[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
+[docker-makepkg]="A script and docker image to build packages in a clean container"
+[git-makepkg-templates-git]="makepkg-templates for git source packages"
+[makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
+[makepkg-meta]="Easily create and install custom"
+[makepkg-nosudo]="Use su instead of sudo in makepkg, for more convenient use in termux"
+[makepkg-optimize-mold]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-optimize]="Supplemental build and packaging optimizations for makepkg"
+[makepkg-tidy-ect]="A libmakepkg tidy script for loselessly compressing files using ect"
+[makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
+[makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
+[makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
+[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
+[pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
+[remakepkg]="Apply changes to pacman packages"
+[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
+)
 # terminal screensavers
 SCREENSAVERS=(
 [asciiquarium-git]="asciiquarium"
@@ -1050,20 +1054,20 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p ENTERTAINMENT) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="entertainment package sl-git"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p GAME) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="game package nbsdgames"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p ENTERTAINMENT) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p GAME) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="game package"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkgs" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Command '%s' version %s setting Arch Linux \$SLCTSYRNG to build and install;  \${SRPTNM^^} NOTICE:  Default: '-A ignore incomplete arch field in PKGBUILD' also sets arch=('any').  Select the \$SLCTSYRNG to install by number from this list or type quit to exit this menu:\\n" "\$SRPTNM" "$VERSIONID"
-select AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
+printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install;  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
+select AURHELPER in exit \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
-{ [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \$SLCTSYRNG to build and install by number from this list or type exit and tap enter to exit command '\$SRPTNM':"
+{ [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
+{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
@@ -1087,7 +1091,7 @@ pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;3
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
 cd fakeroot-tcp || exit 196
-printf "%s\\\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+printf "%s\\\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install Arch Linux AUR package 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
 { nice -n 20 makepkg -Ccfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
 fi
 printf "%s\\\\n" "Building and installing fakeroot-tcp: DONE 🏁"
