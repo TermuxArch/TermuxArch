@@ -718,31 +718,31 @@ v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XL
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { { pc base base-devel binutils git && makeaurfakeroottcp ; } || { pci base base-devel binutils git && makeaurfakeroottcp ; } ; }
 # add dependancies for bash-pipes
-if [ "\$AURHELPER" = bash-pipes ]
+if [ "\$AURHLPR" = bash-pipes ]
 then
-command -v "\$AURHELPER" >/dev/null || makeaurpipessh
+command -v "\$AURHLPR" >/dev/null || makeaurpipessh
 fi
 # add dependancies for bauerbill
-if [ "\$AURHELPER" = bauerbill ]
+if [ "\$AURHLPR" = bauerbill ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
 }
 fi
 # add dependancies for pacaur and pacaur-git
-if [ "\$AURHELPER" = pacaur ] || [ "\$AURHELPER" = pacaur-git ]
+if [ "\$AURHLPR" = pacaur ] || [ "\$AURHLPR" = pacaur-git ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 { [ -x /usr/bin/expac ] || pc expac || pci expac ; }
 makeauraclegit
 }
 fi
 # add dependancies for pbget
-if [ "\$AURHELPER" = pbget ]
+if [ "\$AURHLPR" = pbget ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3memoizedb
 makeaurpython3xcpf
@@ -752,14 +752,14 @@ makeaurpm2ml
 }
 fi
 # add dependancies for popular-packages
-if [ "\$AURHELPER" = popular-packages ]
+if [ "\$AURHLPR" = popular-packages ]
 then
-command -v "\$AURHELPER" >/dev/null || makeaurpackagequery
+command -v "\$AURHLPR" >/dev/null || makeaurpackagequery
 fi
 # add dependancies for powerpill
-if [ "\$AURHELPER" = powerpill ]
+if [ "\$AURHLPR" = powerpill ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 makeaurpackagequery
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
 makeaurpython3memoizedb
@@ -769,65 +769,65 @@ makeaurpm2ml
 }
 fi
 # add dependancies for stack-static
-if [ "\$AURHELPER" = stack-static ]
+if [ "\$AURHLPR" = stack-static ]
 then	# import stack-static key
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
 # add dependancies for xaur
-if [ "\$AURHELPER" = xaur ]
+if [ "\$AURHLPR" = xaur ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 makeaurpyinstaller
 }
 fi
 # add dependancies for zur
-if [ "\$AURHELPER" = zur ]
+if [ "\$AURHLPR" = zur ]
 then
-command -v "\$AURHELPER" >/dev/null || {
+command -v "\$AURHLPR" >/dev/null || {
 [ -x /usr/bin/zig ] || pc zig || pci zig
 makeauraclegit
 }
 fi
-_CHKAURHELPER_ "\$@"
+_CHKAURHLPR_ "\$@"
 }
 # check if AUR command is on PATH
-_CHKAURHELPER_() {
-[ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHELPERS[\$AURHELPER]}"
+_CHKAURHLPR_() {
+[ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHLPRS[\$AURHLPR]}"
 if command -v "\$CHKRHLPR" >/dev/null
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHELPER" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
+[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHLPR" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
-_CLONEAURHELPER_
+_CLONEAURHLPR_
 fi
 }
 # clone AUR package
-_CLONEAURHELPER_() {
-if [ -d "\$AURHELPER" ]
+_CLONEAURHLPR_() {
+if [ -d "\$AURHLPR" ]
 then
-{ printf "%s" "Repository '\$AURHELPER' is already cloned...  " && _MAKEAURHELPER_ ; } || _PRTERROR_
+{ printf "%s" "Repository '\$AURHLPR' is already cloned...  " && _MAKEAURHLPR_ ; } || _PRTERROR_
 else
-{ printf "%s\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHELPER' into directory '\$HOME/\$AURHELPER'..." && cd && gcl https://aur.archlinux.org/"\$AURHELPER" && _MAKEAURHELPER_ ; } || _PRTERROR_
+{ printf "%s\\n" "Cloning git repository from 'https://aur.archlinux.org/\$AURHLPR' into directory '\$HOME/\$AURHLPR'..." && cd && gcl https://aur.archlinux.org/"\$AURHLPR" && _MAKEAURHLPR_ ; } || _PRTERROR_
 fi
 }
 # make AUR package
-_MAKEAURHELPER_() {
-cd "\$HOME/\$AURHELPER" || exit 196
+_MAKEAURHLPR_() {
+cd "\$HOME/\$AURHLPR" || exit 196
 { [ ! -f PKGBUILD ] && exit 196 ; } || { VLGRPPBD="\$(grep 'depends=(' PKGBUILD)" && printf '\\n\\n%s\\n\\n' "\${VLGRPPBD[@]}" ; }
-printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHELPER' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
+printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 # print error help message
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
-for DRHLPR in AURHELPER AURHELPERD AURHELPERS AURHELPERSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS VLGRPPBD ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS VLGRPPBD ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
-AURHELPER=(
+AURHLPRDRN=(
 [aget]="Validating source files with b2sums skipped"
 [aura-git]="Validating source files with sha256sums skipped"
 [auracle-git]="Validating source files with sha256sums skipped"
@@ -862,10 +862,22 @@ AURHELPER=(
 [zeus]="Validating source files with sha256sums FAILED"
 [zur-git]="Validating source files with sha256sums skipped"
 )
-# depreciated aur helpers
-AURHELPERD=(
-[aget]="aget"
+# pending aur helpers
+AURHLPRDPG=(
+[aura]="aura"
 [aura-git]="aura"
+[pacaur]="pacaur"
+[pacaur-git]="pacaur"
+[pkgbuilder]="pkgbuilder"
+[stack-static]="stack"
+[xaur]="xaur"
+[zur-git]="zur"
+)
+# depreciated aur helpers
+AURHLPRD=(
+[aura]="aura"
+[aura-git]="aura"
+[aget]="aget"
 [auracle-git]="auracle"
 [aurh-git]="aurh"
 [aurman]="aurman"
@@ -881,26 +893,31 @@ AURHELPERD=(
 [magico]="magico"
 [maur]="maur"
 [pakku-git]="pakku"
+[pacaur]="pacaur"
+[pacaur-git]="pacaur"
 [pikaur-aurnews]="pikaur-aurnews"
 [pikaur-git]="pikaur"
+[pkgbuilder]="pkgbuilder"
 [pkgbuilder-git]="pkgbuilder"
 [repoctl-git]="repoctl"
 [simpleaur-git]="simpleaur"
 [saurch-git]="saurch"
+[stack-static]="stack"
 [trizen-git]="trizen"
 [vam]="vam"
 [wfa-git]="wfa"
+[xaur]="xaur"
 [yay-git]="yay"
 [yayim]="yayim"
 [yup]="yup"
 [yup-bin]="yup"
 [yup-git]="yup"
 [zeus]="zeus"
+[zur]="zur"
 [zur-git]="zur"
 )
 # aur helpers
-AURHELPERS=(
-[aura]="aura"
+AURHLPRS=(
 [aurget]="aurget"
 [aurto]="aurto"
 [aurutils-git]="aur"
@@ -915,8 +932,6 @@ AURHELPERS=(
 [liteaur-git]="liteaur"
 [package-query]="package-query"
 [package-query-git]="package-query"
-[pacaur]="pacaur"
-[pacaur-git]="pacaur"
 [packer]="packer"
 [pakka]="pakka"
 [pakku]="pakku"
@@ -930,7 +945,6 @@ AURHELPERS=(
 [pikaur]="pikaur"
 [pkgbuild-introspection]="mksrcinfo"
 [pkgbuild-introspection-git]="mksrcinfo"
-[pkgbuilder]="pkgbuilder"
 [powerpill]="powerpill"
 [popular-packages]="popular-packages"
 [puyo]="puyo"
@@ -939,19 +953,16 @@ AURHELPERS=(
 [repofish]="repofish"
 [rua]="rua"
 [sakuri]="sakuri"
-[stack-static]="stack"
 [trizen]="trizen"
 [tulip-pm]="tulip"
-[xaur]="xaur"
 [yaourt]="yaourt"
 [yaah]="yaah"
 [yay]="yay"
 [yay-bin]="yay"
 [zeus-bin]="zeus"
-[zur]="zur"
 )
 # smaller aur helpers
-AURHELPERSM=(
+AURHLPRSM=(
 [aurget]="aurget"
 [haur]="haur"
 [lightpkg]="lightpkg"
@@ -1053,23 +1064,23 @@ SCREENSAVERS=(
 )
 SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHELPER="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHELPER'..." && _ARHCMD_ "\$@" && exit 0
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p ENTERTAINMENT) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="package"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p GAME) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="game package"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver"
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p CANDY) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="candy" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p MAKEPKGS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHELPERSTG=\$(declare -p SCREENSAVERS) && eval AURHELPERS="\${AURHELPERSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHELPER in \$(for AURHLP in "\${!AURHELPERS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHELPER'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Bb]* ]] || [[ "\${1//-}" = [Mm]* ]] ; } && [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHLPR'..." && _ARHCMD_ "\$@" && exit 0
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p ENTERTAINMENT) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="game package"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver"
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install;  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
-select AURHELPER in exit \$(for AURHLP in "\${!AURHELPERS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
+select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$AURHELPER"($|[[:space:]]) ]] || { [[ "\${!AURHELPERS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHELPER="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHELPER' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHELPER'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
