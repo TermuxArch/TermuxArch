@@ -1036,6 +1036,7 @@ SCREENSAVERS=(
 [asciiquarium-git]="asciiquarium"
 [bash-pipes]="bash-pipes"
 [cmatrix-git]="cmatrix"
+[digital-rain-git]="digital-rain"
 [dvdts-fp-git]="dvdts"
 [greenrain]="greenrain"
 [neo-matrix]="neo-matrix"
