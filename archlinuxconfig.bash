@@ -681,17 +681,17 @@ XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
 HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG also sets arch=('any');  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
 
-a[ll AUR helper]	builds all the AUR helper packages with passing checksums in alphabetical order,
+a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
-b[uild] package	builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
+b[uild] package		builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
 
-c[andy]		builds a terminal candy from AUR,
+c[andy]			builds a terminal candy from AUR,
 
 f[ind] packages★	finds AUR packages;  EXAMPLE: \$XLCD00,
 
-h[elp]		show this help screen,
+h[elp]			show this help screen,
 
-m[ake makepkg]	make Arch Linux makepkg related packages from AUR,
+m[ake makepkg]		make Arch Linux makepkg related packages from AUR,
 
 n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option applies to the select menu packages,
 
@@ -705,9 +705,9 @@ tc[andies]		terminal candies builds all of the terminal candies from AUR,
 
 tm[akepkgs]		total makepkgs builds all the Arch Linux makepkg related package from AUR,
 
-ts[creensavers]	terminal screensavers builds all of the terminal screensavers from AUR,
+ts[creensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
 
-v[iew] package★	view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
+v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
 ★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file: "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
