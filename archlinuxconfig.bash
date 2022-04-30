@@ -678,7 +678,7 @@ _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
-NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
+NMKPKR="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" || NMKPKG="\$NMKPKC"
 # builtin help variables begin
 NMCMND="\$(uname -m)"
