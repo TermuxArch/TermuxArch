@@ -23,6 +23,7 @@ _CFLHDR_ "$TMXRCHBNDS"/README.md
 printf "%s\\n" "The $TMXRCHBNDR directory contains TermuxArch shortcut commands that automate and make using the command line easier.  Some of these commands are listed here:
 
 * Command 'addauser' creates Arch Linux user accounts in Termux PRoot QEMU and configures them for use with the Arch Linux 'sudo' command,
+* Command 'cams' records from device cameras,
 * Command 'csystemctl' replaces systemctl with https://github.com/TermuxArch/docker-systemctl-replacement,
 * Command 'em' is a 'uemacs' editor shortcut command that builds and installs and then runs the uemacs editor.
 * Command 'keys' installs Arch Linux keys,
