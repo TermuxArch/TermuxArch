@@ -881,6 +881,7 @@ AURHLPRDPG=(
 [stack-static]="stack"
 [tulip-pm]="tulip"
 [xaur]="xaur"
+[yay]="yay"
 [zur-git]="zur"
 )
 # depreciated aur helpers
@@ -923,6 +924,7 @@ AURHLPRD=(
 [vam]="vam"
 [wfa-git]="wfa"
 [xaur]="xaur"
+[yay]="yay"
 [yay-git]="yay"
 [yayim]="yayim"
 [yup]="yup"
@@ -967,7 +969,6 @@ AURHLPRS=(
 [trizen]="trizen"
 [yaourt]="yaourt"
 [yaah]="yaah"
-[yay]="yay"
 [yay-bin]="yay"
 [zeus-bin]="zeus"
 )
