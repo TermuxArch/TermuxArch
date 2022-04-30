@@ -1028,8 +1028,6 @@ MAKEPKGS=(
 [makepkg-unreal]="makepkg-unreal"
 [pbget]="pbget"
 [remakepkg]="remakepkg"
-[telegram-tdlib-purple-git]="telegram-tdlib-purple"
-[telegram-tdlib-purple-minimal-git]="telegram-tdlib-purple-minimal"
 )
 # AUR makepkgs descriptions
 MKRPKGDS=(
