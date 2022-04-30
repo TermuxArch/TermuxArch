@@ -817,15 +817,16 @@ fi
 # make AUR package
 _MAKEAURHLPR_() {
 cd "\$HOME/\$AURHLPR" || exit 196
-{ [ ! -f PKGBUILD ] && exit 196 ; } || { VLGRPPBD="\$(grep 'depends=(' PKGBUILD)" && printf '\\n\\n%s\\n\\n' "\${VLGRPPBD[@]}" ; }
-printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD';  Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID;  Please be patient..."
+PKGBUILDVL="\$(<PKGBUILD)"
+{ [ ! -f PKGBUILD ] && exit 198 ; } || { VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s' "Found dependancies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'.  Please ensure that dependancies are met for package '\$AURHLPR'.  " ; }
+printf "%s\\n" "Running command '\$NMKPKG' in directory '\$PWD':  Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM' version $VERSIONID:  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
 # print error help message
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
-for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS VLGRPPBD ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHLPRDRN=(
 [aget]="Validating source files with b2sums skipped"
@@ -1078,11 +1079,11 @@ SLCTSYRNG="aur helper"
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Mm]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && _ARHCMD_ ||: ; done ; } && exit
-printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install;  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
+printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install:  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by number from this menu:\\n" "\$SRPTNM"
 select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this list;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen;  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this menu;  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen:  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
 done
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
