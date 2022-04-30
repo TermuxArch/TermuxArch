@@ -1011,8 +1011,6 @@ GAME=(
 )
 # AUR makepkg
 MAKEPKGS=(
-[archbuilder]="archbuilder"
-[archbuilder-git]="archbuilder"
 [dir-dlagent]="dir-dlagent"
 [dmakepkg-git]="dmakepkg"
 [docker-makepkg]="docker-makepkg"
@@ -1031,8 +1029,6 @@ MAKEPKGS=(
 )
 # AUR makepkgs descriptions
 MKRPKGDS=(
-[archbuilder-git]="makepkg wrapper that uses buildah"
-[archbuilder]="makepkg wrapper that uses buildah"
 [dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
 [dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
 [docker-makepkg]="A script and docker image to build packages in a clean container"
@@ -1048,8 +1044,6 @@ MKRPKGDS=(
 [makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
 [pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
 [remakepkg]="Apply changes to pacman packages"
-[telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
-[telegram-tdlib-purple-minimal-git]="libpurple Telegram plugin implemented using official tdlib client library, packaged for bitlbee, without voip and image-processing dependencies. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
 )
 # terminal screensavers
 SCREENSAVERS=(
