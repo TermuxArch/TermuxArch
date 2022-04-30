@@ -502,6 +502,16 @@ EOM
 chmod 755 "$TMXRCHBNDS"/csystemctl
 }
 
+_ADDcolorizebashrc_() {
+_CFLHDR_ "$TMXRCHBNDS"/colorizebashrc "# Change always to never and vica versa in file '.bashrc'."
+cat >> "$TMXRCHBNDS"/colorizebashrc <<- EOM
+grep always "\$HOME"/.bashrc 1>/dev/null && sed -i 's/always/never/g' "\$HOME"/.bashrc || sed -i 's/never/always/g' "\$HOME"/.bashrc
+grep always "\$HOME"/.bashrc || grep never "\$HOME"/.bashrc
+## $INSTALLDIR$TMXRCHBNDR/colorizebashrc FE
+EOM
+chmod 755 "$TMXRCHBNDS"/colorizebashrc
+}
+
 _ADDes_() {
 _CFLHDR_ "$TMXRCHBNDS"/es
 cat >> "$TMXRCHBNDS"/es <<- EOM
