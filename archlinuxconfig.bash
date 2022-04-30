@@ -804,8 +804,8 @@ if command -v "\$CHKRHLPR" >/dev/null
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command '\$CHKRHLPR';  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
-[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHLPR" = termsaver-git ] && printf '%s\\n' "Sleeping eight seconds;  Then clearing screen..." && sleep 8 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
-[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
+[ -z "\${TALL:-}" ] || { \$CHKRHLPR && { [ "\$AURHLPR" = termsaver-git ] && printf '%s\\n' "Sleeping twelve seconds;  Then clearing screen..." && sleep 12 && clear ; } || printf '%s\\n' "Sleeping two seconds;  Then clearing screen..." && sleep 2 && clear ; }
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
 _CLONEAURHLPR_
 fi
@@ -1002,7 +1002,7 @@ CANDY=(
 )
 # two AUR packages
 ENTERTAINMENT=(
-[sl-git]="sl"
+rsl-git]="sl"
 [tmatrix]="tmatrix"
 )
 # one AUR game package
@@ -1026,8 +1026,6 @@ MAKEPKGS=(
 [makepkg-tidy-pdfsizeopt]="makepkg-tidy-pdfsizeopt"
 [makepkg-tidy-scripts-git]="makepkg-tidy-scripts"
 [makepkg-unreal]="makepkg-unreal"
-[makeppkg-git]="makeppkg"
-[makeppkg]="makeppkg"
 [pbget]="pbget"
 [remakepkg]="remakepkg"
 [telegram-tdlib-purple-git]="telegram-tdlib-purple"
@@ -1050,8 +1048,6 @@ MKRPKGDS=(
 [makepkg-tidy-pdfsizeopt]="A libmakepkg tidy script for loselessly optimizing PDFs using pdfsizeopt"
 [makepkg-tidy-scripts-git]="Collection of scripts for tidying packages created using makepkg. Includes optipng and upx support."
 [makepkg-unreal]="Some shell functions to ease the installation of various Unreal games."
-[makeppkg-git]="wrapper for Arch Linux's makepkg, patches source before packages are built"
-[makeppkg]="wrapper for Arch Linux's makepkg, patches source before packages are built"
 [pbget]="Retrieve PKGBUILDs and local source files from Git, ABS and the AUR for makepkg."
 [remakepkg]="Apply changes to pacman packages"
 [telegram-tdlib-purple-git]="libpurple/pidgin Telegram plugin implemented using official tdlib client library. Needs TD_API_ID and TD_API_HASH env vars to be set for makepkg."
