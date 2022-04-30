@@ -990,13 +990,14 @@ AURHLPRSM=(
 )
 # terminal candy
 CANDY=(
-[chucknorris]="chucknorris"
-[corny-jokes-git]="corny-jokes"
+[botsay]="botsay"
+[cowsay-bin]="cowsay"
 [emoj]="emoj"
 [edex-ui]="edex-ui"
 [hollywood]="hollywood"
 [ternimal]="ternimal"
 [nbsdgames-git]="nbsdgames"
+[muccadoro]="muccadoro"
 [sl-git]="sl"
 [sl-patch]="sl"
 )
