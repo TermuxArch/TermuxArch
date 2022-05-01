@@ -6,6 +6,7 @@
 ################################################################################
 _DPTCHHLP_() {
 printf "%s\\n%s\\n" "[ -e $TMXRCHBNDR/am ] || cp $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $TMXRCHBNDR/patch ] || cp $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
+printf "%s\\n%s\\n" "[ -f /run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ] || { printf '\\e[0;32m%s' \"Command '\${SRPTNM:-UNKNOWN}' is running command 'git config --global url.https://.insteadOf git://':  \" && git config --global url.https://.insteadOf git:// && printf '\\e[1;32mDONE:\\e[0m  ' && :>/run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ; }" >> "$1"
 }
 _PRTPATCHHELP_() {
 printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
@@ -677,7 +678,7 @@ NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
 { [ -z "\${1:-}" ] && NMKPKG="\$NMKPKC" ; } || { { [[ "\${1//-}" = [Aa]* ]] || [[ "\${1//-}" = [Nn]* ]] || [[ "\${1//-}" = [Rr]* ]] || [[ "\${1//-}" = [Ss][Bb]* ]] || [[ "\${1//-}" = [Tt][Ss]* ]] ; } && NMKPKG="\$NMKPKN" ; } || { { [[ "\${1//-}" = [Ee]* ]] || [[ "\${1//-}" = [Gg]* ]] ; } && NMKPKG="\$NMKPKR" ; } || NMKPKG="\$NMKPKC"
 # builtin help variables begin
 NMCMND="\$(uname -m)"
-DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any');"
+DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any')."
 SLCTSYRNG="AUR helper"
 XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
 XNMPKN="\"NMKPKN=\"\$NMKPKN\"\""
@@ -947,7 +948,7 @@ fi
 if [ "\$AURHLPR" = bauerbill ]
 then
 command -v "\$AURHLPR" >/dev/null || {
-[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680'..." && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3aur
 makeaurpython3colorsysplus
 }
@@ -964,7 +965,7 @@ fi
 if [ "\$AURHLPR" = pbget ]
 then
 command -v "\$AURHLPR" >/dev/null || {
-[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680'..." && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
 makeaurpython3xcpf
 makeaurpython3xcgf
 makeaurpython3memoizedb
@@ -993,7 +994,7 @@ fi
 if [ "\$AURHLPR" = stack-static ]
 then	# import stack-static key
 command -v "\$AURHLPR" >/dev/null || {
-[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442" && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442'..." && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
 # add dependancies for xaur
@@ -1019,7 +1020,7 @@ _CHKAURHLPR_() {
 if command -v "\$CHKRHLPR" >/dev/null
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
-printf '%s' "Found command '\$CHKRHLPR':  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
+printf '%s' "Found command '\$CHKRHLPR'.  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
 [ -z "\${TALL:-}" ] || \$CHKRHLPR
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Cc]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
@@ -1047,11 +1048,11 @@ _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) and run '\$STRNRG' again.  You can use the TermuxArch command 'pci' to ensure that the system is up to date.  The command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EF' can be used to import gpg keys.  In order to resolve 'unauthenticated git protocol on port 9418 is no longer supported' the command 'git config --global url."https://".insteadOf git://' can be used.  Running command '\$STRNRG' again with the same menu selection may resolve the errors previously encountered automatically as well."
 }
 _SLCTRHPR_() {
-printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install:  \${SRPTNM^^} NOTICE:  \$DFLTSG  Please select the \$SLCTSYRNG to install by name or number from this menu:\\n" "\$SRPTNM"
+printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to build and install.  \${SRPTNM^^} NOTICE:  \$DFLTSG  The \$SLCTSYRNG to install can be selected by name or number from this menu:\\n" "\$SRPTNM"
 select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s\\n" "Option '\$REPLY \$AURHLPR' was picked from this menu:  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'...  " && _ARHCMD_ && break || printf "%s\\n" "Answer '\$REPLY' was chosen:  Please select the Arch Linux \${SLCTSYRNG:-1} to build and install by number from this list or type e and tap enter to exit command '\$SRPTNM':"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s  " "Option '\$REPLY \$AURHLPR' was picked from this menu:  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'..." && _ARHCMD_ && break || printf "%s" "Answer '\$REPLY' was chosen:  Please select the Arch Linux \$SLCTSYRNG to build and install by name or number from this menu.  Type e or q and tap enter to exit command '\$SRPTNM'"
 done
 exit
 }
