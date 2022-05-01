@@ -992,7 +992,6 @@ AURHLPRSM=(
 # terminal candy
 CANDY=(
 [cowsay-bin]="cowsay"
-[emoj]="emoj"
 [ponysay-free]="ponysay"
 [hollywood]="hollywood"
 [ternimal]="ternimal"
