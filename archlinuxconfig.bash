@@ -990,7 +990,6 @@ AURHLPRSM=(
 # terminal candy
 CANDY=(
 [cowsay-bin]="cowsay"
-[ponysay-free]="ponysay"
 [ternimal]="ternimal"
 [nbsdgames-git]="nbsdgames"
 [sl-git]="sl"
