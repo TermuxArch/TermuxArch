@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.600
+VERSIONID=2.1.601
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -248,7 +248,6 @@ _DEPENDS_ || _PSGI1ESTRING_ "_DEPENDS_ _DEPENDSBLOCK_ ${0##*/}"
 _COREFILESDO_ "$@"
 }
 _DWNL_() { # download TermuxArch from Github
-declare -A FILE
 FILE[sha]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.sha512"
 FILE[tar]="https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch.tar.gz"
 if [[ "$DM" = aria2 ]]
@@ -806,11 +805,12 @@ fi
 }
 ## USER INFORMATION:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'knownconfigurations.bash' in the working directory is simple.  The command 'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing;  This command 'setupTermuxArch h' has more information.
 declare -A ADM		# declare associative array for download tools
-declare -A ALLRCTFVR		# declare associative array for all known architectures
+declare -A ALLRCTFVR	# declare associative array for all known architectures
 ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86-64]="x86-64" [x86_64]="x86_64" [armv5]="armv5"  [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
-declare -a ECLAVARR	# declare array for arrays and variables
-declare -a LC_TYPE	# declare array for locale types
-declare -a QEMUUSER	# declare array for qemu user tools
+declare -A FILE		# declare associative array for download file
+declare -a ECLAVARR	# declare indexed array for arrays and variables
+declare -a LC_TYPE	# declare indexed array for locale types
+declare -a QEMUUSER	# declare indexed array for qemu user tools
 declare PRFXTOLS	# declare variable for device tools that can be accessible in the PRoot environment
 declare -A EMPARIAS	# declare associative array for empty variables
 EMPARIAS=([COMMANDIF]="" [COMMANDG]="" [DFL]="# used for development" [DM]="" [FILE]="" [FSTND]="" [INSTALLDIR]="" [LCC]="" [LCP]="" [OPT]="" [QEMUCR]="" [ROOTDIR]="" [WDIR]="" [SDATE]="" [STI]="# generates pseudo random number" [STIME]="# generates pseudo random number" [USEREDIT]="")
