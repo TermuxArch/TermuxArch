@@ -898,10 +898,10 @@ GAME=(
 # AUR makepkg
 MAKEPKGS=(
 [dir-dlagent]="dir-dlagent"
-[git-makepkg-templates-git]="git-makepkg-templates"
-[makepkg-git-lfs-proto]="makepkg-git-lfs-proto"
+[git-makepkg-templates-git]="/usr/share/makepkg-template/git.template"
+[makepkg-git-lfs-proto]="/etc/makepkg-git-lfs.conf"
 [makepkg-meta]="makepkg-meta"
-[makepkg-nosudo]="makepkg-nosudo"
+[makepkg-nosudo]="/usr/share/libalpm/hooks/makepkg-nosudo.hook"
 [pbget]="pbget"
 [remakepkg]="remakepkg"
 )
@@ -1017,10 +1017,10 @@ _CHKAURHLPR_ "\$@"
 # check if AUR command is on PATH
 _CHKAURHLPR_() {
 [ -n "\${2:-}" ] && [[ "\${BLDPKG:-}" = 0 ]] && CHKRHLPR="\$2" || CHKRHLPR="\${AURHLPRS[\$AURHLPR]}"
-if command -v "\$CHKRHLPR" >/dev/null
+if command -v "\$CHKRHLPR" >/dev/null || [ -f "\$CHKRHLPR" ]
 then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
-printf '%s' "Found command '\$CHKRHLPR'.  The '\$CHKRHLPR' command belongs to Arch Linux package '\${RCHLXPKG:-unknown}'.  "
+printf '%s' "Found command and/or file '\$CHKRHLPR'.  The '\$CHKRHLPR' command and/or file belongs to Arch Linux package '\${RCHLXPKG:-UNKNOWN}'.  "
 [ -z "\${TALL:-}" ] || \$CHKRHLPR
 [[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Cc]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
