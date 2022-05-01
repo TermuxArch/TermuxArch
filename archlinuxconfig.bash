@@ -1039,7 +1039,7 @@ fi
 # make AUR package
 _MAKEAURHLPR_() {
 cd "\$HOME/\$AURHLPR" || exit 196
-{ [ ! -f PKGBUILD ] && exit 198 ; } || { PKGBUILDVL="\$(<"\$HOME/\$AURHLPR/"PKGBUILD)" && VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s\\e[0m  ' "Found dependancies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'." ; }
+{ [ ! -f PKGBUILD ] && exit 198 ; } || { PKGBUILDVL="\$(<"\$HOME/\$AURHLPR/"PKGBUILD)" && VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s\\e[0m  ' "Showing dependancies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'." ; }
 printf "%s\\n" "Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM':  Running command '\$NMKPKG' in directory '\$PWD':  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
