@@ -866,7 +866,6 @@ AURHLPRS=(
 # small build aur helpers
 AURHLPRSM=(
 [aurget]="aurget"
-[blinky]="blinky"
 [haur]="haur"
 [lightpkg]="lightpkg"
 [liteaur-git]="liteaur"
