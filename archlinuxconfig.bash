@@ -1011,8 +1011,6 @@ GAME=(
 # AUR makepkg
 MAKEPKGS=(
 [dir-dlagent]="dir-dlagent"
-[dmakepkg-git]="dmakepkg"
-[docker-makepkg]="docker-makepkg"
 [git-makepkg-templates-git]="git-makepkg-templates"
 [makepkg-git-lfs-proto]="makepkg-git-lfs-proto"
 [makepkg-meta]="makepkg-meta"
@@ -1029,8 +1027,6 @@ MAKEPKGS=(
 # AUR makepkgs descriptions
 MKRPKGDS=(
 [dir-dlagent]="A makepkg DLAGENT which forwards requests to configured directories"
-[dmakepkg-git]="Makepkg running from within docker for clean builds without maintaining a chroot"
-[docker-makepkg]="A script and docker image to build packages in a clean container"
 [git-makepkg-templates-git]="makepkg-templates for git source packages"
 [makepkg-git-lfs-proto]="Add Git-lfs support to makepkg. Use "git-lfs+" as protocol specifier in source url."
 [makepkg-meta]="Easily create and install custom"
