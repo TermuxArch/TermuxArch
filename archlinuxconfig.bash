@@ -1041,7 +1041,6 @@ SCREENSAVERS=(
 [bash-pipes]="bash-pipes"
 [cmatrix-git]="cmatrix"
 [digital-rain-git]="digital-rain"
-[dvdts-fp-git]="dvdts"
 [greenrain]="greenrain"
 [ncmatrix]="ncmatrix"
 [neo-matrix]="neo-matrix"
