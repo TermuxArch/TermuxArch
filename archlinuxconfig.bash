@@ -966,9 +966,9 @@ if [ "\$AURHLPR" = pbget ]
 then
 command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680" && gpg --keyserver keyserver.ubuntu.com --recv-keys 1D1F0DC78F173680 && :>/run/lock/${INSTALLDIR##*/}/gpg1D1F0DC78F173680.lock ; }
-makeaurpython3memoizedb
 makeaurpython3xcpf
 makeaurpython3xcgf
+makeaurpython3memoizedb
 makeaurpython3aur
 makeaurpm2ml
 }
