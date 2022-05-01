@@ -931,7 +931,6 @@ SCREENSAVERS=(
 [neo-matrix]="neo-matrix"
 [neo-matrix-git]="neo-matrix"
 [pipes.c]="cpipes"
-[pipes.sh]="pipes.sh"
 [termsaver-git]="termsaver"
 [tmatrix]="tmatrix"
 [tmatrix-git]="tmatrix"
