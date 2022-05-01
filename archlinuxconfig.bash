@@ -934,6 +934,7 @@ AURHLPRD=(
 [yup-bin]="yup"
 [yup-git]="yup"
 [zeus]="zeus"
+[zeus-bin]="zeus"
 [zur]="zur"
 [zur-git]="zur"
 )
@@ -972,7 +973,6 @@ AURHLPRS=(
 [yaourt]="yaourt"
 [yaah]="yaah"
 [yay-bin]="yay"
-[zeus-bin]="zeus"
 )
 # smaller aur helpers
 AURHLPRSM=(
