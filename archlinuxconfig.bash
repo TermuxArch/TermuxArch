@@ -887,7 +887,7 @@ CANDY=(
 [sl-git]="sl"
 [sl-patch]="sl"
 )
-# two AUR packages
+# two AUR ghcup packages
 GHCUPAURPKG=(
 [ghcup-git]="ghcup"
 [ghcup-hs-bin]="ghcup"
