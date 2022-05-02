@@ -718,7 +718,7 @@ ts[creensavers]		terminal screensavers builds all of the terminal screensavers f
 
 v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
-★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file.  "
+★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
@@ -924,11 +924,9 @@ MKRPKGDS=(
 # terminal screensavers
 SCREENSAVERS=(
 [asciiquarium-git]="asciiquarium"
-[bash-pipes]="bash-pipes"
 [cmatrix-git]="cmatrix"
 [digital-rain-git]="digital-rain"
 [greenrain]="greenrain"
-[ncmatrix]="ncmatrix"
 [neo-matrix]="neo-matrix"
 [neo-matrix-git]="neo-matrix"
 [pipes.c]="cpipes"
