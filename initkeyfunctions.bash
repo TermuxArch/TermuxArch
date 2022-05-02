@@ -283,7 +283,7 @@ sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 pacman -Sy || pacman -Sy || sudo pacman -Sy"
 X86IPT=" "
 X86INK=":"
-else	# Arch Linux architectures armv5, armv7, aarch64 and x86-64 use these options
+else	# Arch Linux architectures armv5, armv7, aarch64 and x86_64 use these options
 X86INT=":"
 X86IPT="(1/2)"
 X86INK="[ \"\${#ARGS}\" = 0 ] || { printf \"\\\\n\\\\e[1;32m==> \\\\e[1;37mRunning command \\\\e[1;32mpacman -S %s --needed --noconfirm --color=always\\\\e[1;37m...\\\\n\" \"\$ARGS\" && pacman -S \$ARGS --needed --noconfirm --color=always || _PRTERROR_ ; }
@@ -354,7 +354,7 @@ then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinux32-keyring"
 KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$1" = x86-64 ]]
+elif [[ "\$1" = x86_64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
@@ -366,7 +366,7 @@ then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinux32-keyring"
 KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$KEYSUNAM_" = x86-64 ]] || [[ "\$KEYSUNAM_" = x86_64 ]]
+elif [[ "\$KEYSUNAM_" = x86_64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
@@ -596,9 +596,9 @@ _DOKEYS_() {
 if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
 then
 DOKYSKEY="$TMXRCHBNDR/keys x86"
-elif [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
+elif [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
-DOKYSKEY="$TMXRCHBNDR/keys x86-64"
+DOKYSKEY="$TMXRCHBNDR/keys x86_64"
 else
 DOKYSKEY="$TMXRCHBNDR/keys"
 fi
@@ -652,7 +652,7 @@ fi
 printf "%s\\n" "$DOKYSKEY" >> root/bin/"$BINFNSTP"
 if  [[ -z "${LCR:-}" ]] || [[ "${LCR:-}" -eq 5 ]]
 then
-if [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = "${CPUABIX8664//_/-}" ]]
+if [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 printf "%s\\n" "pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]

@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.626
+VERSIONID=2.1.627
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -121,8 +121,8 @@ then
 ARCHITEC="i386"
 CPUABI="x86"
 else
-ARCHITEC="x86-64"
-CPUABI="x86-64"
+ARCHITEC="x86_64"
+CPUABI="x86_64"
 fi
 }
 _CHOOSEABIx86_(){
@@ -626,11 +626,11 @@ printf "\\e[1;32mCommand '%s help' has more information.  " "${0##*/}"
 _QEMU_() {
 _INST_() { # check for neccessary commands
 COMMS="$1"
-[ "$COMMS" = "qemu-user-x86-64"  ] && COMMS="qemu-x86_64"
+[ "$COMMS" = "qemu-user-x86_64"  ] && COMMS="qemu-x86_64"
 COMMANDR="$(command -v au)" || printf "%s\\n\\n" "$STRING1"
 COMMANDIF="${COMMANDR##*/}"
 PKG="$2"
-[ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86-64"
+[ "$PKG" = "qemu-user-x86_64"  ] && PKG="qemu-user-x86_64"
 _INPKGS_() {
 printf "%s\\n" "Beginning qemu '$ARCHITEC' setup:"
 if [ "$COMMANDIF" = au ]
@@ -656,17 +656,11 @@ fi
 _INSTLLDIRCHK_
 if [[ -n "${ARCHITEC:-}" ]] || [[ -z "${ARCHITEC:-}" ]]
 then
-printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86-64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armv5 armv7 arm64-v8a x86 x86-64 exit ;
+printf "Command '%s' version %s;  Setting install mode with QEMU emulation;  32 bit arm7 supports arm5 and x86 emulated architectures.  64 bit arm64 supports arm5, arm7, x86 and x86_64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
+select ARCHITECTURE in armv7 arm64-v8a x86 x86_64 exit ;
 do
 [ "$ARCHITECTURE" = exit ] && exit
-if [[ "$ARCHITECTURE" == armv5 ]]
-then
-ARCHITEC="arm"
-CPUABI="armeabi"
-printf '%s' "Files ArchLinuxARM-armv5-latest.tar.gz[.md5] cannot be found;  Please open an issue if you know where armv5 Arch Linux images are located.  "
-exit 69
-elif [[ "$ARCHITECTURE" == armv7 ]]
+if [[ "$ARCHITECTURE" == armv7 ]]
 then
 _QEMUCHCK_ "armeabi-v7a"
 ARCHITEC="arm"
@@ -681,13 +675,13 @@ then
 _QEMUCHCK_ "x86"
 ARCHITEC="i386"
 CPUABI="$ARCHITECTURE"
-elif [[ "$ARCHITECTURE" == x86-64 ]] || [[ "$ARCHITECTURE" == x86_64 ]]
+elif [[ "$ARCHITECTURE" == x86_64 ]]
 then
 _QEMUCHCK_ "x86_64"
-ARCHITEC="x86-64"
+ARCHITEC="x86_64"
 CPUABI="$ARCHITECTURE"
 fi
-[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI (${ARCHITEC:-}) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI (${ARCHITEC:-}):  " && INCOMM="qemu-user-${ARCHITEC:-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86-64 or choose option (6) exit to exit command '${0##*/}':"
+[[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI (${ARCHITEC:-}) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI (${ARCHITEC:-}):  " && INCOMM="qemu-user-${ARCHITEC:-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) x86, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 done
 else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
@@ -707,7 +701,7 @@ for RCTFVR in ${ALLRCTFVR[@]}
 do
 if [ "$RCTFVR" = "$ARCTEVAR" ]
 then
-INCOMM="qemu-user-${ARCTEVAR//_/-}" && QEMUCR=0
+INCOMM="qemu-user-$ARCTEVAR" && QEMUCR=0
 printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
 break
 fi
@@ -806,7 +800,7 @@ fi
 ## USER INFORMATION:  Configurable variables such as mirrors and download manager options are in 'setupTermuxArchConfigs.bash'.  Working with 'knownconfigurations.bash' in the working directory is simple.  The command 'bash setupTermuxArch manual' will create 'setupTermuxArchConfigs.bash' in the working directory for editing;  This command 'setupTermuxArch h' has more information.
 declare -A ADM		# declare associative array for download tools
 declare -A ALLRCTFVR	# declare associative array for all known architectures
-ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86-64]="x86-64" [x86_64]="x86_64" [armv5]="armv5"  [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
+ALLRCTFVR=([i386]="i386" [i686]="i686" [x86]="x86" [x86_64]="x86_64" [armeabi]="armeabi" [armv7]="armv7" [armeabi-v7a]="armeabi-v7a" [arm64-v8a]="arm64-v8a")	# populate associative array for all known architectures
 declare -A FILE		# declare associative array for download file
 declare -a ECLAVARR	# declare indexed array for arrays and variables
 declare -a LC_TYPE	# declare indexed array for locale types
