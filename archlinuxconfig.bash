@@ -952,6 +952,11 @@ makeaurpython3aur
 makeaurpython3colorsysplus
 }
 fi
+# add dependancies for ghcup
+if [[ "\$AURHLPR" = ghcup* ]]
+then
+command -v "\$AURHLPR" >/dev/null || { [ -x /usr/bin/numactl ] || pc numactl || pci numactl ; }
+fi
 # add dependancies for pacaur and pacaur-git
 if [ "\$AURHLPR" = pacaur ] || [ "\$AURHLPR" = pacaur-git ]
 then
