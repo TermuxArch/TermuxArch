@@ -723,7 +723,7 @@ v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XL
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
-for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM ENTERTAINMENT CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
+for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM GHCUPAURPKG CANDY GAME MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHLPRDRN=(
 [aget]="Validating source files with b2sums skipped"
@@ -888,9 +888,9 @@ CANDY=(
 [sl-patch]="sl"
 )
 # two AUR packages
-ENTERTAINMENT=(
-[sl-git]="sl"
-[tmatrix]="tmatrix"
+GHCUPAURPKG=(
+[ghcup-git]="ghcup"
+[ghcup-hs-bin]="ghcup"
 )
 # one AUR game package
 GAME=(
@@ -1059,8 +1059,8 @@ exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Bb]* ]] && { [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHLPR'..." && _ARHCMD_ \$@ || _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Cc]* ]] && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR candy" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p ENTERTAINMENT) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR package" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR game package" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR game package" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GHCUPAURPKG) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR ghcup package" && _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR related makepkg" && _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
