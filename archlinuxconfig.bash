@@ -1052,7 +1052,7 @@ printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to bu
 select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s  " "Option '\$REPLY \$AURHLPR' was picked from this menu:  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'..." && _ARHCMD_ && break || printf "%s" "Answer '\$REPLY' was chosen.  Please select the Arch Linux \$SLCTSYRNG to build and install by name or number from this menu.  Type e or q and tap enter to exit command '\$SRPTNM'"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s  " "Option '\$REPLY \$AURHLPR' was picked from the menu.  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'..." && _ARHCMD_ && break || printf "%s" "Answer '\$REPLY' was chosen.  Please select the Arch Linux \$SLCTSYRNG to build and install by name or number from this menu.  Type e or q and tap enter to exit the '\$SRPTNM' command"
 done
 exit
 }
