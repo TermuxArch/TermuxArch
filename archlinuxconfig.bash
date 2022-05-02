@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _DPTCHHLP_() {
-printf "%s\\n%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/makeyay ] || cp -f $INSTALLDIR$TMXRCHBNDR/makeaurhelpers $INSTALLDIR$TMXRCHBNDR/makeyay" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
+printf "%s\\n%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/makeyay ] || cp -f $INSTALLDIR$TMXRCHBNDR/makeauryay $INSTALLDIR$TMXRCHBNDR/makeyay" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
 printf "%s\\n%s\\n" "[ -f /run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ] || { printf '\\e[0;32m%s' \"Command '\${SRPTNM:-UNKNOWN}' is running command 'git config --global url.https://.insteadOf git://':  \" && git config --global url.https://.insteadOf git:// && printf '\\e[1;32mDONE:\\e[0m  ' && :>/run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ; }" >> "$1"
 }
 _PRTPATCHHELP_() {
