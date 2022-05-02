@@ -685,8 +685,8 @@ XNMPKN="NMKPKN=\"\$NMKPKN\""
 XNMPKR="NMKPKN=\"\$NMKPKR\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
-XLCD01="\"\$SRPTNM b 'greenrain'\""
-XLCD02="\"\$SRPTNM v 'greenrain'\""
+XLCD01="\"\$SRPTNM b greenrain\""
+XLCD02="\"\$SRPTNM v greenrain\""
 # builtin help variables end
 HLPSTG="Help for command '\$SRPTNM', one and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
 
