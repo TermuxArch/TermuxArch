@@ -680,15 +680,15 @@ NMKPKR="nice -n 20 makepkg -ACcfirs --check --needed --noconfirm"
 NMCMND="\$(uname -m)"
 DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=('any')."
 SLCTSYRNG="AUR helper"
-XNMPKC="\"NMKPKC=\"\$NMKPKC\"\""
-XNMPKN="\"NMKPKN=\"\$NMKPKN\"\""
-XNMPKR="\"NMKPKN=\"\$NMKPKR\"\""
+XNMPKC="NMKPKC=\"\$NMKPKC\""
+XNMPKN="NMKPKN=\"\$NMKPKN\""
+XNMPKR="NMKPKN=\"\$NMKPKR\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b 'greenrain'\""
 XLCD02="\"\$SRPTNM v 'greenrain'\""
 # builtin help variables end
-HLPSTG="Help for command '\$SRPTNM' version $VERSIONID:  One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited in order to alter these settings.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for command '\$SRPTNM', one and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
 
 a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -696,7 +696,7 @@ b[uild] package		builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
 
 c[andy]			builds a terminal candy from AUR,
 
-f[ind] packages★	finds AUR packages;  EXAMPLE: \$XLCD00,
+f[ind] packages★	finds AUR packages,  EXAMPLE: \$XLCD00,
 
 h[elp]			show this help screen,
 
@@ -718,7 +718,7 @@ ts[creensavers]		terminal screensavers builds all of the terminal screensavers f
 
 v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
-★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file: "
+★open and use an Android web browser in order to either find Arch Linux AUR packages matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Ll Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
@@ -984,9 +984,9 @@ then
 command -v "\$AURHLPR" >/dev/null || {
 makeaurpackagequery
 [ -x /usr/bin/aria2c ] || { pc aria2 || pci aria2 ; }
-makeaurpython3memoizedb
-makeaurpython3xcgf
 makeaurpython3xcpf
+makeaurpython3xcgf
+makeaurpython3memoizedb
 makeaurpm2ml
 }
 fi
@@ -1052,7 +1052,7 @@ printf "Please set the Arch Linux AUR package for command '%s \$SLCTSYRNG' to bu
 select AURHLPR in exit \$(for AURHLP in "\${!AURHLPRS[@]}" ; do printf '%s\n' "\$AURHLP" ; done | sort -n);
 do
 { [[ "\$REPLY" = 0 ]] || [[ "\$REPLY" = 1 ]] || [[ "\$REPLY" = [Ee]* ]] || [[ "\$REPLY" = [Qq]* ]] ; } && printf '%s\\n' "Exiting..." && exit
-{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s  " "Option '\$REPLY \$AURHLPR' was picked from this menu:  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'..." && _ARHCMD_ && break || printf "%s" "Answer '\$REPLY' was chosen:  Please select the Arch Linux \$SLCTSYRNG to build and install by name or number from this menu.  Type e or q and tap enter to exit command '\$SRPTNM'"
+{ [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$AURHLPR"($|[[:space:]]) ]] || { [[ "\${!AURHLPRS[@]}" =~ (^|[[:space:]])"\$REPLY"($|[[:space:]]) ]] && AURHLPR="\$REPLY" ; } ; } && printf "\\e[0;32m%s  " "Option '\$REPLY \$AURHLPR' was picked from this menu:  The chosen Arch Linux \$SLCTSYRNG for architecture \$NMCMND to build and install is '\$AURHLPR'..." && _ARHCMD_ && break || printf "%s" "Answer '\$REPLY' was chosen.  Please select the Arch Linux \$SLCTSYRNG to build and install by name or number from this menu.  Type e or q and tap enter to exit command '\$SRPTNM'"
 done
 exit
 }
@@ -1070,7 +1070,7 @@ exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Hh]* ]] && for TSTHRNSS in h b c e g m s sb a r tc tm ts ; do "\$0" "\$TSTHRNSS" ||: ; done ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } ; }
-[ -z "\${1:-}" ] && _SLCTRHPR_ \$ARGS
+[ -z "\${1:-}" ] && _SLCTRHPR_
 ## $INSTALLDIR$TMXRCHBNDR/makeaurhelpers FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makeaurhelpers
