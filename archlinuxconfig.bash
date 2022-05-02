@@ -14,7 +14,7 @@ printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1
 _PRTRTHLP_() {
 printf "%s\\n" "if [ \"\$EUID\" = 0 ] || [ \"\$UID\" = 0 ]
 then
-printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...  \\e[0m\" \"ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:\" \"  Script '\$SRPTNM' should not be used as root.  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot and configures these user accounts for the Arch Linux 'sudo' command.  The 'addauser' command is intended to be run by the Arch Linux in Termux PRoot root user and user acvounts.  To use 'addauser' directly from Termux you can run '$STARTBIN command 'addauser user'' in Termux to create this account in Arch Linux Termux PRoot QEMU.  The command '$STARTBIN help' has more information about how to use '$STARTBIN'.  \"
+printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...  \\e[0m\" \"ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:\" \"  Command '\$SRPTNM' should not be used by the root user account.  The command 'addauser' creates user accounts in Arch Linux in Termux PRoot QEMU and configures these user accounts for the Arch Linux 'sudo' command.  The 'addauser' command can be run by the Arch Linux in Termux PRoot root and user accounts.  This command can be run '$STARTBIN command 'addauser user'' directly from Termux to create this account in Arch Linux Termux PRoot QEMU.  The command '$STARTBIN help' has more information about how to use '$STARTBIN'.  \"
 exit 101
 fi" >> "$1"
 }
@@ -663,7 +663,8 @@ chmod 755 "$TMXRCHBNDS"/gp
 
 _ADDinfo_ () {
 _CFLHDR_ "$TMXRCHBNDS"/info
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31mExiting...\\e[1;37m%s\\e[1;31m%s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in $INSTALLDIR; the command '$STARTBIN command addauser username' can create user accounts in $INSTALLDIR from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ; } ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/info FE" >> "$TMXRCHBNDS"/info
+_PRTRTHLP_ "$TMXRCHBNDS"/info
+printf "%s\\n%s\\n" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ; } ; } && /usr/bin/info \"\$@\" || /usr/bin/info \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/info FE" >> "$TMXRCHBNDS"/info
 chmod 755 "$TMXRCHBNDS"/info
 }
 
@@ -1278,31 +1279,36 @@ chmod 755 "$TMXRCHBNDS"/makeksh
 
 _ADDmemav_() {
 _CFLHDR_ "$TMXRCHBNDS"/memav
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i available /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memav FE" >> "$TMXRCHBNDS"/memav
+_PRTRTHLP_ "$TMXRCHBNDS"/memav
+printf "%s\\n%s\\n" "grep -i available /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memav FE" >> "$TMXRCHBNDS"/memav
 chmod 755 "$TMXRCHBNDS"/memav
 }
 
 _ADDmemfree_() {
 _CFLHDR_ "$TMXRCHBNDS"/memfree
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i free /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memfree FE" >> "$TMXRCHBNDS"/memfree
+_PRTRTHLP_ "$TMXRCHBNDS"/memfree
+printf "%s\\n%s\\n" "grep -i free /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memfree FE" >> "$TMXRCHBNDS"/memfree
 chmod 755 "$TMXRCHBNDS"/memfree
 }
 
 _ADDmeminfo_() {
 _CFLHDR_ "$TMXRCHBNDS"/meminfo
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "cat /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/meminfo FE" >> "$TMXRCHBNDS"/meminfo
+_PRTRTHLP_ "$TMXRCHBNDS"/meminfo
+printf "%s\\n%s\\n" "cat /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/meminfo FE" >> "$TMXRCHBNDS"/meminfo
 chmod 755 "$TMXRCHBNDS"/meminfo
 }
 
 _ADDmemmem_() {
 _CFLHDR_ "$TMXRCHBNDS"/memmem
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i mem /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memmem FE" >> "$TMXRCHBNDS"/memmem
+_PRTRTHLP_ "$TMXRCHBNDS"/memmem
+printf "%s\\n%s\\n" "grep -i mem /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memmem FE" >> "$TMXRCHBNDS"/memmem
 chmod 755 "$TMXRCHBNDS"/memmem
 }
 
 _ADDmemtot_() {
 _CFLHDR_ "$TMXRCHBNDS"/memtot
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "grep -i total /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memtot FE" >> "$TMXRCHBNDS"/memtot
+_PRTRTHLP_ "$TMXRCHBNDS"/memtot
+printf "%s\\n%s\\n" "grep -i total /proc/meminfo" "## $INSTALLDIR$TMXRCHBNDR/memtot FE" >> "$TMXRCHBNDS"/memtot
 chmod 755 "$TMXRCHBNDS"/memtot
 }
 
@@ -1526,7 +1532,8 @@ fi
 
 _ADDpinghelp_() {
 _CFLHDR_ "$TMXRCHBNDS"/pinghelp
-printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...  %s\\n\" \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit" "_PRTSYG_() { printf '%s\\n' \"Signal received:  Continuing...\" ; }" "ARGONE=\"\${1-www.github.com}\"" "ISCOMCAR=\"\$(command -v ping)\"" "printf '%s\\n' \"\$ISCOMCAR\"" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/system/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /system/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '$PREFIX/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && $PREFIX/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/usr/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /usr/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'curl -I \$ARGONE 80':\" && curl -I \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'dig \$ARGONE':\" && { dig \"\$ARGONE\" || { pc dnsutils && dig \"\$ARGONE\" ; } ; } ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'telnet \$ARGONE 79':\" && telnet \"\$ARGONE\" 80 ; } || _PRTSYG_" >> "$TMXRCHBNDS"/pinghelp
+_PRTRTHLP_ "$TMXRCHBNDS"/pinghelp
+printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "_PRTSYG_() { printf '%s\\n' \"Signal received:  Continuing...\" ; }" "ARGONE=\"\${1-www.github.com}\"" "ISCOMCAR=\"\$(command -v ping)\"" "printf '%s\\n' \"\$ISCOMCAR\"" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/system/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /system/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '$PREFIX/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && $PREFIX/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ SHUFREST=\"\$(shuf -n 1 -i 2-8)\" && printf '\\n%s\\n' \"Running command '/usr/bin/ping -c 2 -i \$SHUFREST \$ARGONE':\" && /usr/bin/ping -c 2 -i \"\$SHUFREST\" \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'curl -I \$ARGONE 80':\" && curl -I \"\$ARGONE\" ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'dig \$ARGONE':\" && { dig \"\$ARGONE\" || { pc dnsutils && dig \"\$ARGONE\" ; } ; } ; } || _PRTSYG_" "{ printf '\\n%s\\n' \"Running command 'telnet \$ARGONE 79':\" && telnet \"\$ARGONE\" 80 ; } || _PRTSYG_" >> "$TMXRCHBNDS"/pinghelp
 printf "%s\\n%s\\n" "printf '\\n%s\\n' \"The Termux packages 'dnsutils', 'lynx' and 'strace' can be helpful in diagnosing network issues.  The 'telnet' command can assist as well.\"" "## $INSTALLDIR$TMXRCHBNDR/pinghelp FE" >> "$TMXRCHBNDS"/pinghelp
 chmod 755 "$TMXRCHBNDS"/pinghelp
 }
@@ -1601,6 +1608,7 @@ chmod 755 "$TMXRCHBNDS"/timings
 
 _ADDthstartarch_() {
 _CFLHDR_ "$TMXRCHBNDS"/th"$STARTBIN"
+_PRTRTHLP_ "$TMXRCHBNDS"/th"$STARTBIN"
 cat >> "$TMXRCHBNDS"/th"$STARTBIN" <<- EOM
 _PRTERROR_() {
 printf "\\e[1;31mERROR;\\e[1;37m%s\\e[0m\\n" " Please run '\${0##*/}' again."
