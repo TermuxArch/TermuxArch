@@ -6,12 +6,29 @@
 ################################################################################
 _PRNT_ () { printf "%s\\n" "$1" ; }	# print message with one trialing newline
 _PRT_ () { printf "%s" "$1" ; }	# print message with no trialing newline
-
-[ "$CPUABI" = i386 ] && CPUABI="x86"
-CACHEDIRSUFIX="var/cache/pacman/pkg/"
+_QEMUCFCK_() {
+if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu 1>/dev/null
+then    # set installed qemu architecture
+ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
+ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
+[ "${ARCTEVAR:-}" = x86 ] && ARCTEVAR="i386"
+for RCTFVR in ${ALLRCTFVR[@]}
+do
+if [ "$RCTFVR" = "${ARCTEVAR:-}" ]
+then
+INCOMM="qemu-user-${ARCTEVAR:-}" && QEMUCR=0
+break
+fi
+done
+fi
+[ -z ${ARCTEVAR:-} ] && ARCTEVAR="$CPUABI"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
+}
+_QEMUCFCK_
 BINFNSTP="finishsetup.bash"
+CACHEDIRSUFIX="var/cache/pacman/pkg/"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
-PREFIXDATAFILESUFIX="files/cache/archlinux/$CPUABI/var/cache/pacman/pkg/"
+PREFIXDATAFILESUFIX="files/cache/archlinux/$ARCTEVAR/var/cache/pacman/pkg/"
 TXPRQUON="Termux PRoot with QEMU"
 TXPRQUON="Termux PRoot"
 UNAMER="$(uname -r)"
