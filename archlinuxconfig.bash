@@ -577,8 +577,8 @@ chmod 755 "$TMXRCHBNDS"/gcl
 
 _ADDgclone_() {
 _CFLHDR_ "$TMXRCHBNDS"/gclone "# Usefull for cloning over very slow and sketchy Internet connections."
-_DPTCHHLP_ "$TMXRCHBNDS"/gclone
 _PRTRTHLP_ "$TMXRCHBNDS"/gclone
+_DPTCHHLP_ "$TMXRCHBNDS"/gclone
 cat >> "$TMXRCHBNDS"/gclone <<- EOM
 { [ "\$#" = 0 ] && printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...s\\e[0m\\n" "Example usage: " "'\${0##*/} https://github.com/TermuxArch/TermuxArch' " ; } && exit 101
 _GCLONEMAIN_() {
@@ -674,8 +674,8 @@ chmod 755 "$TMXRCHBNDS"/info
 
 _ADDmakeaurhelpers_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
-_DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurhelpers
 cat >> "$TMXRCHBNDS"/makeaurhelpers <<- EOM
 NMKPKC="nice -n 20 makepkg -ACcfis --check --needed"
 NMKPKN="nice -n 20 makepkg -ACcfis --check --needed --noconfirm"
@@ -1088,8 +1088,8 @@ chmod 755 "$TMXRCHBNDS"/makeaurhelpers
 
 _ADDmakeaurfakeroottcp_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurfakeroottcp "# build and install fakeroot-tcp"
-_DPTCHHLP_ "$TMXRCHBNDS"/makeaurfakeroottcp
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurfakeroottcp
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurfakeroottcp
 cat >> "$TMXRCHBNDS"/makeaurfakeroottcp <<- EOM
 _DOMAKEFAKEROOTTCP_() {
 _PRTERROR_() {
@@ -1116,8 +1116,8 @@ chmod 755 "$TMXRCHBNDS"/makeaurfakeroottcp
 
 _ADDmakeaurghcuphs_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurghcuphs
-_DPTCHHLP_ "$TMXRCHBNDS"/makeaurghcuphs
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurghcuphs
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurghcuphs
 cat >> "$TMXRCHBNDS"/makeaurghcuphs <<- EOM
 [ -x /usr/bin/ghcup ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit
 [ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
@@ -1129,8 +1129,8 @@ chmod 755 "$TMXRCHBNDS"/makeaurghcuphs
 
 _ADDmakeaurrustup_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurrustup
-_DPTCHHLP_ "$TMXRCHBNDS"/makeaurrustup
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurrustup
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurrustup
 cat >> "$TMXRCHBNDS"/makeaurrustup <<- EOM
 [ -x /usr/bin/rustup ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'rustup' is already installed!  Please use the command 'rustup':  Exiting..." && exit
 { pc rustup --noconfirm || pci rustup --noconfirm ; } || yay rustup --noconfirm
@@ -1141,8 +1141,8 @@ chmod 755 "$TMXRCHBNDS"/makeaurrustup
 
 _ADDmakeaurtllocalmgr_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurtllocalmgr
-_DPTCHHLP_ "$TMXRCHBNDS"/makeaurtllocalmgr
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurtllocalmgr
+_DPTCHHLP_ "$TMXRCHBNDS"/makeaurtllocalmgr
 cat >> "$TMXRCHBNDS"/makeaurtllocalmgr <<- EOM
 [ -x /usr/bin/tllocalmgr ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'tllocalmgr' is already installed!  Please use the command 'tllocalmgr':  Exiting..." && exit
 yay tllocalmgr --noconfirm || { [ ! -x /usr/bin/yay ] && makeauryay && yay tllocalmgr --noconfirm ; }
@@ -1153,8 +1153,8 @@ chmod 755 "$TMXRCHBNDS"/makeaurtllocalmgr
 
 _ADDmakeauryay_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeauryay "# build and install command yay; Contributors https://github.com/cb125 and https://github.com/SampsonCrowley"
-_DPTCHHLP_ "$TMXRCHBNDS"/makeauryay
 _PRTRTHLP_ "$TMXRCHBNDS"/makeauryay
+_DPTCHHLP_ "$TMXRCHBNDS"/makeauryay
 cat >> "$TMXRCHBNDS"/makeauryay <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ SIGNAL: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct thiserror the error(s) and/or warning(s), and run '\${0##*/}' again."
@@ -1262,8 +1262,8 @@ _ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming lan
 
 _ADDmakeksh_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
-_DPTCHHLP_ "$TMXRCHBNDS"/makeksh
 _PRTRTHLP_ "$TMXRCHBNDS"/makeksh
+_DPTCHHLP_ "$TMXRCHBNDS"/makeksh
 cat >> "$TMXRCHBNDS"/makeksh <<- EOM
 _PRTERROR_() {
 printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s), and run '\$STRNRG' again."
