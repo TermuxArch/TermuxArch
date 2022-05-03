@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.635
+VERSIONID=2.1.636
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -37,7 +37,7 @@ set +Eeuo pipefail
 }
 _STRPHNGP_() { # run on hang up
 local RV="$?"
-printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} HANG UP:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 exit "$RV"
 }
 _STRPNTRT_() { # run on signal
@@ -47,12 +47,12 @@ exit "$RV"
 }
 _STRPQUIT_() { # run on quit
 local RV="$?"
-printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} QUIT:  Quit signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 exit "$RV"
 }
 _STRPTERM_() { # run on terminate
 local RV="$?"
-printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
+printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} TERMINATE:  Generated signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
 exit "$RV"
 }
 trap '_STRPEROR_ $LINENO $BASH_COMMAND $?' ERR
