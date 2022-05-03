@@ -1961,12 +1961,12 @@ _MODdotfile_
 }
 
 _PREPMOTS_() {
-if [[ "$CPUABI" = "$CPUABIX8664" ]]
+if [[ "$ARCTEVAR" = "$CPUABIX8664" ]]
 then
 MOTTECBBS="BBS: bbs.archlinux.org"
 MOTTECGIT="github.com/archlinux"
 MOTTECIRC="wiki.archlinux.org/index.php/IRC_channel"
-elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+elif [[ "$ARCTEVAR" = "$CPUABIX86" ]]
 then
 MOTTECBBS="BBS:	bbs.archlinux32.org"
 MOTTECGIT="github.com/archlinux32"

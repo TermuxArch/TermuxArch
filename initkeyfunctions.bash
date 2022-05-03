@@ -632,7 +632,7 @@ printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\\n\" \"Signal generated
 printf \"\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\n\\n\" \"  If you find better resolves for \" \"setupTermuxArch\" \" and \" \"\$0\" \", please open an issue and accompanying pull request.\"
 }
 _PMGPSSTRING_() {
-printf \"\\n\\e[1;34m:: \\e[1;32m%s\\n\" \"Processing system for $NASVER $CPUABI, and removing redundant packages for Termux PRoot QEMU installation...\"
+printf \"\\n\\e[1;34m:: \\e[1;32m%s\\n\" \"Processing system for $NASVER $ARCTEVAR, and removing redundant packages for Termux PRoot QEMU installation...\"
 }" >> root/bin/"$BINFNSTP"
 _DOPROXY_
 [ -d "$INSTALLDIR/run/lock/${INSTALLDIR##*/}" ] || mkdir -p "$INSTALLDIR/run/lock/${INSTALLDIR##*/}"
