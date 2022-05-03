@@ -22,7 +22,7 @@ fi
 done
 fi
 [ -z ${ARCTEVAR:-} ] && ARCTEVAR="$CPUABI"
-printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABI" "$ARCTEVAR"
+printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$(getprop ro.product.cpu.abi)" "$ARCTEVAR"
 }
 _QEMUCFCK_
 BINFNSTP="finishsetup.bash"

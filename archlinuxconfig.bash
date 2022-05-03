@@ -6,7 +6,11 @@
 ################################################################################
 _DPTCHHLP_() {
 printf "%s\\n%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/makeyay ] || cp -f $INSTALLDIR$TMXRCHBNDR/makeauryay $INSTALLDIR$TMXRCHBNDR/makeyay" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
-printf "%s\\n%s\\n" "[ -f /run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ] || { printf '\\e[0;32m%s' \"Command '\${SRPTNM:-UNKNOWN}' is running command 'git config --global url.https://.insteadOf git://':  \" && git config --global url.https://.insteadOf git:// && printf '\\e[1;32mDONE:\\e[0m  ' && :>/run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock ; }" >> "$1"
+printf "%s\\n%s\\n" "
+_NSTLGT_() { [ -f '$INSTALLDIR/run/lock/${INSTALLDIR##*/}/_NSTLGT_.lock' ] || { printf '\\e[0;32m%s' \"Command '\${SRPTNM:-UNKNOWN}' is running commands 'pc git || pci git'.  \" && { pc git || pci git ; } && printf '\\e[1;32mDONE:\\e[0m  ' && :>'$INSTALLDIR/run/lock/${INSTALLDIR##*/}/_NSTLGT_.lock' ; } ; }
+_MFGTCNFG_() { [ -f '$INSTALLDIR/run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock' ] || { printf '\\e[0;32m%s' \"Command '\${SRPTNM:-UNKNOWN}' is running command 'git config --global url.https://.insteadOf git://'.  \" && git config --global url.https://.insteadOf git:// && printf '\\e[1;32mDONE:\\e[0m  ' && :>'$INSTALLDIR/run/lock/${INSTALLDIR##*/}/gitconfigglobalurlhttps.lock' ; } ; }
+_MFGTCNFG_ || { _NSTLGT_ && _MFGTCNFG_ ; }
+" >> "$1"
 }
 _PRTPATCHHELP_() {
 printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
