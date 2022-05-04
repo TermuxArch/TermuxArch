@@ -672,8 +672,11 @@ _ADDmakelibguestfs_() {
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
-_RCSRPTNM_() { printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for architecture \$NMCMND.  Running command '\$1' in directory '\$PWD'.  Please be patient..." ; \$1 ; }
-_RCSRPTNM_ "cd && gcl https://github.com/libguestfs/libguestfs && cd libguestfs || exit 169"
+printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
+_RCSRPTNM_() { printf "%s\\n" "Running command '\$1' in directory '\$PWD'...  " && { \$1  || exit 169 ; } ; }
+_RCSRPTNM_ "cd"
+_RCSRPTNM_ "gcl https://github.com/libguestfs/libguestfs"
+_RCSRPTNM_ "cd libguestfs"
 _RCSRPTNM_ "gpl"
 _RCSRPTNM_ "git submodule update --init --recursive --remote"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
