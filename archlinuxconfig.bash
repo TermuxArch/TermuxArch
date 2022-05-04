@@ -677,7 +677,7 @@ _RCSRPTNM_ "gpl"
 gpl
 _RCSRPTNM_ "git submodule update --init --recursive --remote"
 git submodule update --init --recursive --remote
-{ [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin || pci augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po3a qemu supermin ; }
+{ [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin || pci augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin ; }
 _RCSRPTNM_ "autoupdate --force"
 autoupdate --force
 autoreconf -i
