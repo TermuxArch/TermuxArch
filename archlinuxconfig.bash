@@ -687,8 +687,8 @@ _ADDmakelibguestfs_() {
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
-printf "\\e[0;32m%s\\e[0m\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[0;32m%s\\e[0m\\n" "[\$1/\$NBRFCMDS] Running command '\$2' in directory '\$PWD'...  " && { { \$2  || exit 169 ; } && printf "%s\\n" "[\$1/\$NBRFCMDS] Finished running command '\$2'." ; } ; }
+printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
+_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || : ; } && printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_ 1 "cd"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
 _RCSRPTNM_ 3 "cd libguestfs"
