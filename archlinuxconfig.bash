@@ -660,6 +660,21 @@ EOM
 chmod 755 "$TMXRCHBNDS"/gp
 }
 
+_ADDhunf_ () {
+_CFLHDR_ "$TMXRCHBNDS"/hunf
+_PRTRTHLP_ "$TMXRCHBNDS"/hunf
+printf "%s\\n%s\\n" "{ [ -x \"/usr/bin/hunspell\" ] || { pc hunspell hunspell-en_US || pci hunspell hunspell-en_US ; } ; } && /usr/bin/hunspell -p en_US \"\$@\" || /usr/bin/hunspell -p en_US \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/hunf FE" >> "$TMXRCHBNDS"/hunf
+chmod 755 "$TMXRCHBNDS"/hunf
+}
+
+
+_ADDhunw_ () {
+_CFLHDR_ "$TMXRCHBNDS"/hunw
+_PRTRTHLP_ "$TMXRCHBNDS"/hunw
+printf "%s\\n%s\\n" "{ [ -x \"/usr/bin/hunspell\" ] || { pc hunspell hunspell-en_US || pci hunspell hunspell-en_US ; } ; } && /usr/bin/hunspell -p en_US <<< \"\$@\" || /usr/bin/hunspell -p en_US <<< \"\$@\"" "## $INSTALLDIR$TMXRCHBNDR/hunw FE" >> "$TMXRCHBNDS"/hunw
+chmod 755 "$TMXRCHBNDS"/hunw
+}
+
 _ADDinfo_ () {
 _CFLHDR_ "$TMXRCHBNDS"/info
 _PRTRTHLP_ "$TMXRCHBNDS"/info
@@ -673,15 +688,15 @@ cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
 printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTNM_() { printf "%s\\n" "Running command '\$1' in directory '\$PWD'...  " && { \$1  || exit 169 ; } ; }
+_RCSRPTNM_() { printf "%s\\n" "Running command '\$1' in directory '\$PWD'...  " && { { \$1  || exit 169 ; } && printf "%s\\n" "Finished running command '\$1'." ; } ; }
 _RCSRPTNM_ "cd"
 _RCSRPTNM_ "gcl https://github.com/libguestfs/libguestfs"
 _RCSRPTNM_ "cd libguestfs"
 _RCSRPTNM_ "gpl"
 _RCSRPTNM_ "git submodule update --init --recursive --remote"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
-_RCSRPTNM_ "autoupdate --force"
-_RCSRPTNM_ "autoreconf -fi"
+_RCSRPTNM_ "autoupdate -fv"
+_RCSRPTNM_ "autoreconf -fiv"
 _RCSRPTNM_ "./configure CFLAGS=-fPIC"
 _RCSRPTNM_ "make clean"
 _RCSRPTNM_ "make"

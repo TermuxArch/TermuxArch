@@ -35,6 +35,8 @@ _ADDgcm_
 _ADDgitconfig_
 _ADDgp_
 _ADDgpl_
+_ADDhunf_
+_ADDhunw_
 _ADDinfo_
 _ADDinitrc_
 _ADDinputrc_
