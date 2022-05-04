@@ -123,7 +123,7 @@ fi
 }
 function em() {
 [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }
-{ [ -x $TMXRCHBNDR/uemacs ] && $TMXRCHBNDR/uemacs "\$@" ; } || { { { cd || exit 169 ; } && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && { cd uemacs || exit 169 ; } ; } && printf '%s\\n' "making uemacs" && make && cp -f em $TMXRCHBNDR/uemacs && $TMXRCHBNDR/uemacs emacs.hlp ; }
+{ [ -x $TMXRCHBNDR/uemacs ] && $TMXRCHBNDR/uemacs "\$@" ; } || { { { cd || exit 169 ; } && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && { cd uemacs || exit 169 ; } ; } && printf '%s\\n' "making uemacs" && make && cp -f em $TMXRCHBNDR/uemacs && make clean && $TMXRCHBNDR/uemacs emacs.hlp ; }
 }
 alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
