@@ -229,13 +229,16 @@ fi
 fi
 }
 
-_PREPROOTDIR_() { # create local array of directories to be created by setupTermuxArch
-local DRARRLST=("etc" "home" "root/bin" "usr/bin" "$TMXRCHBNDS" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
+TMXRCHBNDR="/usr/local/termuxarch/bin"
+TMXRCHBNDL="usr/local/termuxarch/lib"
+TMXRCHBNDS="usr/local/termuxarch/bin"
+_PREPROOTDIR_() {
+local DRARRLST=("etc" "home" "root/bin" "usr/bin" "$TMXRCHBNDL" "$TMXRCHBNDS" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
 for ISDIR in ${DRARRLST[@]}
 do
 { [ -d "$ISDIR" ] || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR" ; } || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "/$ISDIR" " exists.  "
 done
-}
+} # create directories from local varables plus an array of directory names
 
 _PREPINSTALLDIR_() {
 cd "$INSTALLDIR" || exit 196

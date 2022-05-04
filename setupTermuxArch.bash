@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.648
+VERSIONID=2.1.649
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -653,10 +653,10 @@ _INPKGS_
 fi
 }
 _INSTLLDIRCHK_
-printf "Command '%s' version %s;  Setting install mode with PRoot QEMU emulation;  32 bit arm7 supports arm5 and i386 emulated architectures.  64 bit arm64 supports arm5, arm7, i386 and x86_64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
-select ARCHITECTURE in armv7 arm64-v8a i386 x86_64 exit ;
+printf "%s'\\n" "Command '$STRNRG':  Please set the architecture to install with PRoot QEMU emulation.  This computer architecture for this device is '$CPUABI'. 32 bit arm7 supports i386 emulated architecture.  64 bit arm64 supports arm7, i386 and x86_64 emulated architectures with PRoot QEMU.  Please select the architecture to install by number (2-5) from this list:"
+select ARCHITECTURE in exit armv7 arm64-v8a i386 x86_64 ;
 do
-[ "$ARCHITECTURE" = exit ] && exit
+[[ "$ARCHITECTURE" == [Ee]* ]] && exit
 if [[ "$ARCHITECTURE" == armv7 ]]
 then
 _QEMUCHCK_ "armeabi-v7a"
@@ -808,8 +808,8 @@ ROOTDIR="/arch"
 STRING1="COMMAND 'au' can enable rollback, available at https://wae.github.io/au/ IS NOT FOUND: Continuing... "
 STRING1F="COMMAND 'au' can enable auto upgrade and rollback.  Available at https://wae.github.io/au/ is found: Continuing... "
 STRING2="Cannot update '${0##*/}' prerequisites: Continuing..."
-TMXRCHBNDR="/usr/local/termuxarch/bin"
-TMXRCHBNDS="usr/local/termuxarch/bin"
+# TMXRCHBNDR="/usr/local/termuxarch/bin"
+# TMXRCHBNDS="usr/local/termuxarch/bin"
 _COMMANDGNE_() { printf "\\n\\e[1;48;5;138m%s\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Run '${0##*/}' and 'bash ${0##*/}' from the native BASH shell in Termux:  EXITING..." && exit 126 ; }
 COMMANDG="$(command -v getprop)" || _COMMANDGNE_
 _IFBINEXT_() {
