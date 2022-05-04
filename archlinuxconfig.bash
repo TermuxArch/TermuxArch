@@ -688,20 +688,20 @@ cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
 printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTNM_() { printf "%s\\n" "Running command '\$1' in directory '\$PWD'...  " && { { \$1  || exit 169 ; } && printf "%s\\n" "Finished running command '\$1'." ; } ; }
-_RCSRPTNM_ "cd"
-_RCSRPTNM_ "gcl https://github.com/libguestfs/libguestfs"
-_RCSRPTNM_ "cd libguestfs"
-_RCSRPTNM_ "gpl"
-_RCSRPTNM_ "git submodule update --init --recursive --remote"
+_RCSRPTNM_() { NBRFCMDS=12 && printf "%s\\n" "[\$1/\$NBRFCMDS] Running command '\$2' in directory '\$PWD'...  " && { { \$2  || exit 169 ; } && printf "%s\\n" "[\$1/\$NBRFCMDS] Finished running command '\$2'." ; } ; }
+_RCSRPTNM_ 1 "cd"
+_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
+_RCSRPTNM_ 3 "cd libguestfs"
+_RCSRPTNM_ 4 "gpl"
+_RCSRPTNM_ 5 "git submodule update --init --recursive --remote"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
-_RCSRPTNM_ "autoupdate -fv"
-_RCSRPTNM_ "autoreconf -fiv"
-_RCSRPTNM_ "./configure CFLAGS=-fPIC"
-_RCSRPTNM_ "make clean"
-_RCSRPTNM_ "make"
-_RCSRPTNM_ "make -k check"
-printf "%s" "Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information."
+_RCSRPTNM_ 6 "autoupdate -fv"
+_RCSRPTNM_ 7 "autoreconf -iv"
+_RCSRPTNM_ 8 "./configure CFLAGS=-fPIC"
+_RCSRPTNM_ 9 "make clean"
+_RCSRPTNM_ 10 "make"
+_RCSRPTNM_ 11 "make -k check"
+printf "%s" "[12/12] Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information."
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makelibguestfs
