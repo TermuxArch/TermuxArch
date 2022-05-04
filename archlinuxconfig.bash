@@ -710,7 +710,7 @@ DFLTSG="Default: \"-A ignore incomplete arch field in PKGBUILD\" also sets arch=
 SLCTSYRNG="AUR helper"
 XNMPKC="NMKPKC=\"\$NMKPKC\""
 XNMPKN="NMKPKN=\"\$NMKPKN\""
-XNMPKR="NMKPKN=\"\$NMKPKR\""
+XNMPKR="NMKPKR=\"\$NMKPKR\""
 XLCD00="\"\$SRPTNM f 'digital rain'\""
 XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b greenrain\""
