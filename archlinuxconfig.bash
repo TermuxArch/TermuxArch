@@ -667,6 +667,33 @@ printf "%s\\n%s\\n" "{ [ -x \"/usr/bin/info\" ] || { pc texinfo || pci texinfo ;
 chmod 755 "$TMXRCHBNDS"/info
 }
 
+_ADDmakelibguestfs_() {
+_CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed about [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
+cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
+NMCMND="\$(uname -m)"
+_RCSRPTNM_() { printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for architecture \$NMCMND.  Running command '\$1' in directory '\$PWD'.  Please be patient..." ; }
+cd && gcl https://github.com/libguestfs/libguestfs && cd libguestfs || exit 169
+_RCSRPTNM_ "gpl"
+gpl
+_RCSRPTNM_ "git submodule update --init --recursive --remote"
+git submodule update --init --recursive --remote
+{ [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin || pci augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po3a qemu supermin ; }
+_RCSRPTNM_ "autoupdate --force"
+autoupdate --force
+autoreconf -i
+./configure CFLAGS=-fPIC
+_RCSRPTNM_ "make clean"
+make clean
+_RCSRPTNM_ "make"
+make
+_RCSRPTNM_ "make -k check"
+make -k check
+printf "%s" "Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information."
+## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
+EOM
+chmod 755 "$TMXRCHBNDS"/makelibguestfs
+}
+
 _ADDmakeaurhelpers_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeaurhelpers "# add Arch Linux AUR helpers https://wiki.archlinux.org/index.php/AUR_helpers"
 _PRTRTHLP_ "$TMXRCHBNDS"/makeaurhelpers
@@ -702,11 +729,11 @@ g[hcup install]		build and install 'ghcup' (an installer for the general purpose
 
 h[elp]			show this help screen,
 
+l[ibguestfs install]	build and install 'libguestfs', access and modify virtual machine disk image packages.  Command 'makelibguestfs' also attempts to install command 'libguestfs',
+
 m[ake makepkgs]		make Arch Linux makepkg related packages from AUR,
 
-l[ibguestfs install]	build and install 'libguestfs', access and modify virtual machine disk image,
-
-n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option applies to the main select menu packages only,
+n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option only applies to the main AUR helpers packages select menu,
 
 r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
@@ -894,11 +921,11 @@ CANDY=(
 GAME=([nbsdgames-git]="nbsdgames")
 # two AUR ghcup packages
 GHCUPAURPKG=([ghcup-git]="ghcup" [ghcup-hs-bin]="ghcup")
-# three AUR libguestfs packages descriptions
+# AUR libguestfs packages descriptions
 # userspace mount #74 https://github.com/SDRausty/termux-archlinux/issues/74
-LIBGUESTFSD=([libguestfs-dev]="Library and tools for accessing and modifying virtual machine disk images, development version" [libguestfs-git]="Access and modify virtual machine disk image" [python-libguestfs]="Python bindings for libguestfs")
-# three AUR libguestfs packages
-LIBGUESTFSP=([libguestfs-dev]="libguestfs" [libguestfs-git]="libguestfs" [python-libguestfs]="libguestfs")
+LIBGUESTFSD=([guestfs-tools]="Tools for accessing and modifying guest disk images" [libguestfs-dev]="Library and tools for accessing and modifying virtual machine disk images, development version" [libguestfs-git]="Access and modify virtual machine disk image" [python-libguestfs]="Python bindings for libguestfs")
+# AUR libguestfs packages
+LIBGUESTFSP=([guestfs-tools]="" [libguestfs-dev]="libguestfs" [libguestfs-git]="libguestfs" [python-libguestfs]="libguestfs")
 # AUR makepkg
 MAKEPKGS=(
 [dir-dlagent]="dir-dlagent"
@@ -1065,15 +1092,15 @@ exit
 }
 [ -n "\${1:-}" ] && DALL="\${1//-}" && DALL="\${1:0:2}" || DALL=1
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Aa]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Bb]* ]] && { [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build aur package '\$AURHLPR'..." && _ARHCMD_ \$@ || _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Cc]* ]] && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR candy" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR game package" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GHCUPAURPKG) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR ghcup package" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ll]* ]] && AURHLPRSTG=\$(declare -p LIBGUESTFSP) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR libguestfs package" && _SLCTRHPR_ \$ARGS ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="AUR related makepkg" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Bb]* ]] && { [ -n "\${2:-}" ] && AURHLPR="\$2" && BLDPKG=0 && printf '%s\\n' "Attempting to build AUR package '\$AURHLPR'..." && _ARHCMD_ \$@ || _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Cc]* ]] && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ee]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GAME) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="extra" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Gg]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p GHCUPAURPKG) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="ghcup install" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ll]* ]] && AURHLPRSTG=\$(declare -p LIBGUESTFSP) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="libguestfs install" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="make makepkgs" && _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensaver" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensavers build" && _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Cc]* ]] && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Hh]* ]] && for TSTHRNSS in h b c e g m s sb a r tc tm ts ; do "\$0" "\$TSTHRNSS" ||: ; done ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
@@ -1175,7 +1202,7 @@ fi
 cd
 [ -d yay-bin ] || gcl https://aur.archlinux.org/yay-bin.git
 { { cd yay-bin || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
-printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more aur installers which can also be used to download aur repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
+printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more AUR installers which can also be used to download AUR repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE
 EOM
@@ -1644,7 +1671,7 @@ chmod 755 "$TMXRCHBNDS"/th"$STARTBIN"
 _ADDtools_() {	# developing implementaion; working system tools that work can be added to array PRFXTOLS
 if [[ -z "${EDO01LCR:-}" ]]
 then
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]]
 then	# set customized commands for Arch Linux 32 architecture
 PRFXTOLS="awk top"
 else

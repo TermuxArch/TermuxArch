@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.637
+VERSIONID=2.1.638
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -653,8 +653,6 @@ _INPKGS_
 fi
 }
 _INSTLLDIRCHK_
-if [[ -n "${ARCHITEC:-}" ]] || [[ -z "${ARCHITEC:-}" ]]
-then
 printf "Command '%s' version %s;  Setting install mode with PRoot QEMU emulation;  32 bit arm7 supports arm5 and i386 emulated architectures.  64 bit arm64 supports arm5, arm7, i386 and x86_64 emulated architectures.  Please select the architecture to install by number (1-5) from this list:\\n" "${0##*/}" "$VERSIONID"
 select ARCHITECTURE in armv7 arm64-v8a i386 x86_64 exit ;
 do
@@ -682,9 +680,7 @@ CPUABI="$ARCHITECTURE"
 fi
 [[ $CPUABI == *arm* ]] || [[ $CPUABI == *86* ]] && printf "%s\\n" "Option ($REPLY) with architecture $CPUABI (${ARCHITEC:-}) was picked from this list;  The chosen Arch Linux architecture for installation with emulation is $CPUABI (${ARCHITEC:-}):  " && INCOMM="qemu-user-${ARCHITEC:-}" && QEMUCR=0 && break || printf "%s\\n" "Answer ($REPLY) was chosen;  Please select the architecture by number from this list: (1) armeabi, (2) armeabi-v7a, (3) arm64-v8a, (4) i386, (5) x86_64 or choose option (6) exit to exit command '${0##*/}':"
 done
-else
 INCOMM="qemu-user-$ARCHITEC" && QEMUCR=0
-fi
 if ! command -v "${INCOMM//-user}"
 then
 _INST_ "$INCOMM" "$INCOMM" "${0##*/}" || _PSGI1ESTRING_ "_INST_ _QEMU_ setupTermuxArch ${0##*/}"

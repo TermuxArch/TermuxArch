@@ -39,6 +39,7 @@ _ADDinfo_
 _ADDinitrc_
 _ADDinputrc_
 _ADDkeys_
+_ADDmakelibguestfs_
 _ADDmakeauraclegit_
 _ADDmakeaurto_
 _ADDmakeaurbauerbill_
@@ -179,7 +180,7 @@ chmod 755 $TMXRCHBNDS/addauser
 }
 
 _ADDkeys_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]]
 then	# set customized commands for Arch Linux 32 architecture
 X86INT="_CURLDWND_() { { [ \"\${CURLDWNDVAR_:-}\" = 0 ] && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } || { curl -C - --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" || { CURLDWNDVAR_=0 && printf '%s\\n' \"Running command 'curl --insecure';  Continuing...\" && curl -C - --insecure --fail --retry 4 -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\".sig -OL https://archive.archlinux32.org/packages/\"\$UPGDPAKG\" ; } ; } ; }
 
@@ -209,7 +210,7 @@ if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep1.lock ]
 then
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$2/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$2/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$2/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} --needed --noconfirm\"
 pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep1.lock
 fi
 }
@@ -219,7 +220,7 @@ if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep2.lock ]
 then
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\n\" \"[\$3/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$3/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$3/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} --needed --noconfirm\"
 pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep2.lock
 fi
 }
@@ -229,7 +230,7 @@ if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep3.lock ]
 then
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$4/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$4/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$4/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} --needed --noconfirm\"
 pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep3.lock
 fi
 }
@@ -239,7 +240,7 @@ if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock ]
 then
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$5/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$5/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [\$5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} --needed --noconfirm\"
 pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$4]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep4.lock
 fi
 }
@@ -247,10 +248,10 @@ fi
 _PMUEOEP5_() {
 if [ -f /var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock ]
 then
-printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed\" \" has already been successfully run; Continuing...\"
+printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[\$6/7]  The command \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 else
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running command \${0##*/} [\$6/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed\"
-pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[0m...\\n\" \"Running command \${0##*/} [\$6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -U \${UPGDPKGS[\$1]##*/} \${UPGDPKGS[\$2]##*/} \${UPGDPKGS[\$3]##*/} \${UPGDPKGS[\$4]##*/} \${UPGDPKGS[\$5]##*/} --needed --noconfirm\"
+pacman -U /var/cache/pacman/pkg/\"\${UPGDPKGS[\$1]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$2]##*/}\" /var/cache/pacman/pkg/\"\${UPGDPKGS[\$3]##*/}\" \"\${UPGDPKGS[\$4]##*/}\" \"\${UPGDPKGS[\$5]##*/}\" --needed --noconfirm && :>/var/run/lock/"${INSTALLDIR##*/}"/kpmueoep5.lock
 fi
 }
 [ -f /etc/pacman.conf ] || cp /etc/pacman.conf /var/backups/"${INSTALLDIR##*/}"/etc/pacman.conf."$SDATE".bkp
@@ -268,18 +269,16 @@ sed -i '/^SigLevel/s/.*/SigLevel    = Never/' /etc/pacman.conf
 sed -i 's/^HoldPkg/\#HoldPkg/g' /etc/pacman.conf
 if [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/keyring.lock ]
 then
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [5/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\"
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [5/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\"
 _KEYSGENMSG_
 { { pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm || pacman -Sy archlinux-keyring archlinux32-keyring --needed --noconfirm ; } && sed -i '/^SigLevel/s/.*/SigLevel    = Required DatabaseOptional/' /etc/pacman.conf && PACMANQ_=\"\$(pacman -Qo /usr/lib/libblkid.so)\" && { [[ \"\$(printf $\{PACMANQ_/libsutil-linux})\" == *libsutil-linux* ]] || pacman -Rdd libutil-linux --noconfirm || _PRTERROR_ ; } && :>/var/run/lock/"${INSTALLDIR##*/}"/keyring.lock ; }
 else
 printf \"\\n\\e[1;37m%s\\e[1;32m%s\\e[1;37m%s\\e[0m\\n\" \"[5/7]  The command \" \"pacman -S archlinux-keyring archlinux32-keyring --needed --noconfirm\" \" has already been successfully run; Continuing...\"
 fi
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [6/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -S curl glibc gpgme libarchive pacman --needed\"
-pacman -S curl glibc gpgme libarchive pacman --needed --noconfirm || _PRTERROR_
-printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [7/7] $ARCHITEC ($CPUABIDD) architecture upgrade ; \" \"pacman -Su --needed --noconfirm ; Starting full system upgrade\"
 rm -f /etc/ssl/certs/ca-certificates.crt
 sed -i '/^LocalFileSigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
 sed -i '/^SigLevel/s/.*/SigLevel    = Optional/' /etc/pacman.conf
+printf \"\\n\\e[1;32m==> \\e[1;37m%s\\e[1;32m%s\\e[1;37m...\\n\" \"Running command \${0##*/} [6/7] $ARCHITEC ($CPUABI) architecture upgrade ; \" \"pacman -Su --needed --noconfirm ; Starting full system upgrade\"
 pacman -Sy || pacman -Sy || sudo pacman -Sy"
 X86IPT=" "
 X86INK=":"
@@ -593,7 +592,7 @@ chmod 700 "$STARTBIN"
 
 _MAKEFINISHSETUP_() {
 _DOKEYS_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 DOKYSKEY="$TMXRCHBNDR/keys x86"
 elif [[ "$CPUABI" = "$CPUABIX8664" ]]
@@ -652,7 +651,7 @@ then
 if [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 printf "%s\\n" "pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc grep gzip pacman-contrib sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc grep gzip sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
-elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+elif [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 printf "%s\\n" "pacman -Su keychain glibc pacman-contrib sed sudo --needed --noconfirm --color=always || pacman -Su keychain glibc sed sudo --needed --noconfirm --color=always || _PMFSESTRING_ \"pacman -Su keychain glibc pacman-contrib sed sudo $BINFNSTP ${0##/*}\"" >> root/bin/"$BINFNSTP"
 else

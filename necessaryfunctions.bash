@@ -36,7 +36,7 @@ UNAMER="$(uname -r)"
 
 _CALLSYSTEM_() {
 declare COUNTER=""
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 _GETIMAGE_ ||:
 else
@@ -82,7 +82,7 @@ _DETECTSYSTEM7_
 elif [[ "$CPUABI" = "$CPUABI8" ]]
 then
 _DETECTSYSTEM64_
-elif [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+elif [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 _I686_
 elif [[ "$CPUABI" = "$CPUABIX8664" ]]
@@ -252,7 +252,7 @@ _FIXOWNER_
 }
 
 _PREPROOT_() {
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = "$CPUABIX8664" ]]
 then
 proot --link2symlink -0 bsdtar -p -xf "$IFILE" --strip-components 1 ||:
 else
@@ -267,7 +267,7 @@ sed -i "/\/mirror.archlinuxarm.org/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorli
 _ADDresolvconf_
 ALMLLOCN="$INSTALLDIR/etc/pacman.d/mirrorlist"
 cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
-if [[ "$CPUABI" = "$CPUABIX86" ]] || [[ "$CPUABI" = i386 ]]
+if [[ "$CPUABI" = "$CPUABIX86" ]]
 then
 AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
 printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
