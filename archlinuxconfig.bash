@@ -670,6 +670,7 @@ chmod 755 "$TMXRCHBNDS"/info
 _ADDmakelibguestfs_() {
 _CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed about [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
+GTFSDPND="augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin"
 NMCMND="\$(uname -m)"
 _RCSRPTNM_() { printf "%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for architecture \$NMCMND.  Running command '\$1' in directory '\$PWD'.  Please be patient..." ; }
 cd && gcl https://github.com/libguestfs/libguestfs && cd libguestfs || exit 169
@@ -677,7 +678,7 @@ _RCSRPTNM_ "gpl"
 gpl
 _RCSRPTNM_ "git submodule update --init --recursive --remote"
 git submodule update --init --recursive --remote
-{ [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin || pci augeas base base-devel binutils cdrtools cpio gettext gperf hivex jansson ocaml ocaml-findlib po4a qemu supermin ; }
+{ [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
 _RCSRPTNM_ "autoupdate --force"
 autoupdate --force
 autoreconf -i
