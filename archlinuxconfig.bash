@@ -681,7 +681,7 @@ _RCSRPTNM_ "gpl"
 _RCSRPTNM_ "git submodule update --init --recursive --remote"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
 _RCSRPTNM_ "autoupdate --force"
-_RCSRPTNM_ "autoreconf -fims"
+_RCSRPTNM_ "autoreconf -fi"
 _RCSRPTNM_ "./configure CFLAGS=-fPIC"
 _RCSRPTNM_ "make clean"
 _RCSRPTNM_ "make"
