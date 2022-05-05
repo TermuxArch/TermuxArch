@@ -702,13 +702,15 @@ h[elp]			show this help screen,
 
 he[lp building]★	show this https://libguestfs.org/guestfs-building.1.html webpage,
 
-v[iew package]★		view libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
+s[how package]★		show libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02..  Synonym for view,
+
+v[iew package]★		view libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for show.
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; }
-[ -n "\${1:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
-[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Ss Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
 GTFSDPND=(augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex intltool jansson libconfig libvirt lua ocaml ocaml-findlib ocaml-bigarray-compat po4a qemu rpcsvc-proto supermin valgrind)
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -x /usr/bin/mkisofs ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
