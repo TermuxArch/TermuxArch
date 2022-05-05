@@ -182,7 +182,7 @@ _SHFUNCWRAP_ () {
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]
 then
 _PREPPACMANCONF_
-FNDTMPROOT=($(ls "$TMPDIR"/proot*))
+FNDTMPROOT=($(find "$TMPDIR" -maxdepth 1 -type d -name "proot*"))
 if [ ${#FNDTMPROOT[@]} = 0 ]
 then
 _SHFUNC_ "$@"
