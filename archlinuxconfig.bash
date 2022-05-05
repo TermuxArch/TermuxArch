@@ -694,7 +694,7 @@ XLCD0L="\"\$SRPTNM find 'machine virtual'\""
 XLCD01="\"\$SRPTNM b libguestfs\""
 XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
-HLPSTG="Help for command '\$SRPTNM', one letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for command '\$SRPTNM', one letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command.  Command '\$SRPTNM' accepts these arguments:
 
 f[ind] packages★	finds AUR packages from search string,  EXAMPLE: \$XLCD00,
 
@@ -717,18 +717,18 @@ printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and instal
 _RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:} || _RCSRPTA1_ "\${1:-}" "\${3:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${2:-}'." ; } ; }
 _RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${2:-}	'." ; } ; }
 _RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_RCSRPTNM_ 1 "cd \$HOME" "exit 69"
+_RCSRPTNM_ 1 "cd \$HOME" "exit 161"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
-_RCSRPTNM_ 3 "cd libguestfs" "exit 69"
+_RCSRPTNM_ 3 "cd libguestfs" "exit 163"
 _RCSRPTNM_ 4 "gpl" "echo Is the Internet connection disconnected?"
 _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo Is the Internet connection on?"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
-_RCSRPTNM_ 6 "make clean"
-_RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v"
-_RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -fiv" "autoreconf -iv"
-_RCSRPTNM_ 9 "./configure CFLAGS=-fPIC"
-_RCSRPTNM_ 10 "make"
-_RCSRPTNM_ 11 "make check" "make quickcheck"
+_RCSRPTNM_ 6 "make clean" "exit 166"
+_RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v" "exit 167"
+_RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -iv" "exit 168"
+_RCSRPTNM_ 9 "./configure CFLAGS=-fPIC" "exit 169"
+_RCSRPTNM_ 10 "make" "exit 170"
+_RCSRPTNM_ 11 "make check" "make quickcheck" "exit 171"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/12]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 [ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
@@ -758,7 +758,7 @@ XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b greenrain\""
 XLCD02="\"\$SRPTNM v greenrain\""
 # builtin help string variables end
-HLPSTG="Help for command '\$SRPTNM', one and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for command '\$SRPTNM', one and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
 
 a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
