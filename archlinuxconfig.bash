@@ -700,8 +700,8 @@ _RCSRPTNM_ 7 "autoupdate -fv"
 _RCSRPTNM_ 8 "autoreconf -iv"
 _RCSRPTNM_ 9 "./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 10 "make"
-_RCSRPTNM_ 11 "make -k check"
-printf "%s" "[12/12] Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information.  "
+_RCSRPTNM_ 11 "make quickcheck"
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/12]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makelibguestfs
