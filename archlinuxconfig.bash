@@ -696,17 +696,17 @@ XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
 HLPSTG="Command \$SRPTNM accepts these arguments:
 
-f[ind packages]★	finds a default AUR packages search or finds AUR packages from search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
+f[ind packages]★	find a default AUR packages search or finds AUR packages from search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
-h[elp]			prints this help screen,
+h[elp]			print this help screen,
 
-he[lp building]★	presents this https://libguestfs.org/guestfs-building.1.html webpage,
+he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-s[how PKGBUILD]★	show the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
+s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
 
 v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for option show.
 
-One and two letter letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).
+One and two letter letter arguments are good; i.e. Command \$XLCD00 is an equivalent of the \$XLCD0L command (quote multiple search words).
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
@@ -718,7 +718,7 @@ GTFSDPND=(augeas base base-devel bash-completion binutils cdrtools cpio gettext 
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -x /usr/bin/mkisofs ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
-printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
+printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
 _RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
@@ -765,13 +765,13 @@ XLCD02="\"\$SRPTNM v greenrain\""
 # builtin help string variables end
 HLPSTG=" Command \$SRPTNM accepts these arguments:
 
-a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
+a[ll AUR helpers]	build all the AUR helper packages with passing checksums in alphabetical order,
 
-b[uild] package		builds one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
+b[uild] package		build one Arch Linux packages from AUR.  EXAMPLE: \$XLCD01,
 
-c[andy]			builds a terminal candy from AUR,
+c[andy]			build a terminal candy from AUR,
 
-f[ind] packages★	finds AUR packages,  EXAMPLE: \$XLCD00,
+f[ind] packages★	find AUR packages,  EXAMPLE: \$XLCD00,
 
 g[hcup install]		build and install 'ghcup' (an installer for the general purpose language Haskell) AUR packages.  Command 'makeaurghcuphs' also installs command 'ghcup',
 
@@ -783,9 +783,9 @@ m[ake makepkgs]		make Arch Linux makepkg related packages from AUR,
 
 n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by default with noconfirm except for individual package builds).  This option only applies to the main AUR helpers packages select menu,
 
-r[everse build all]	builds all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
+r[everse build all]	build all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
-s[creensavers build]	builds a terminal screensavers from AUR,
+s[creensavers build]	build a terminal screensavers from AUR,
 
 sb[uild] 		small build builds some of the smaller AUR helper packages,
 
@@ -797,7 +797,7 @@ ts[creensavers]		terminal screensavers builds all of the terminal screensavers f
 
 v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
-One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.
+One and two letter arguments are good; i.e. Command \$XLCD00 is an equivalent of the \$XLCD0L command (quote multiple search words).  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-AUR helper}" ; exit ; }
