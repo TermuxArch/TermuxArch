@@ -694,17 +694,19 @@ XLCD0L="\"\$SRPTNM find 'machine virtual'\""
 XLCD01="\"\$SRPTNM b libguestfs\""
 XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
-HLPSTG="Help for command '\$SRPTNM', one letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for \$SRPTNM:
 
-f[ind packages]★	finds AUR packages from search terms,  EXAMPLE: \$XLCD00,
+One and two letter letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  Command '\$SRPTNM' accepts these arguments:
 
-h[elp]			show this help screen,
+f[ind packages]★	finds a default AUR packages search or finds AUR packages from search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
-he[lp building]★	show this https://libguestfs.org/guestfs-building.1.html webpage,
+h[elp]			prints this help screen,
 
-s[how package]★		show libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02..  Synonym for view,
+he[lp building]★	presents this https://libguestfs.org/guestfs-building.1.html webpage,
 
-v[iew package]★		view libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for show.
+s[how PKGBUILD]★	show the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
+
+v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for option show.
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
@@ -761,7 +763,9 @@ XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b greenrain\""
 XLCD02="\"\$SRPTNM v greenrain\""
 # builtin help string variables end
-HLPSTG="Help for command '\$SRPTNM', one and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command.  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Help for \$SRPTNM:
+
+One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
 
 a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
