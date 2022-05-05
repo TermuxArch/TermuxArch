@@ -711,7 +711,7 @@ v[iew] package★		view libguestfs PKGBUILD file or view a PKGBUILD file for a p
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 _SLCTRHPR_() {
 # libguestfs dependencies
-GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
+GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex intltool jansson libvirt lua ocaml ocaml-findlib ocaml-bigarray-compat po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
 printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
 _RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:} || _RCSRPTA1_ "\${1:-}" "\${3:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${2:-}'." ; } ; }
