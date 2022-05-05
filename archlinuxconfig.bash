@@ -684,11 +684,13 @@ chmod 755 "$TMXRCHBNDS"/info
 
 _ADDmakelibguestfs_() {
 _CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty, and at [make[2]: *** No rule to make target 'guestfs_protocol.c', needed by 'all'. Stop. #82](https://github.com/libguestfs/libguestfs/issues/82) contributor rwmjones.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
+_PRTRTHLP_ "$TMXRCHBNDS"/makelibguestfs
+_DPTCHHLP_ "$TMXRCHBNDS"/makelibguestfs
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
 printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || : ; } && printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_ 1 "cd"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
 _RCSRPTNM_ 3 "cd libguestfs"
