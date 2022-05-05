@@ -717,14 +717,15 @@ GTFSDPND=(augeas base base-devel bash-completion binutils cdrtools cpio gettext 
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:} || _RCSRPTA1_ "\${1:-}" "\${3:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${2:-}'." ; } ; }
-_RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${2:-}	'." ; } ; }
-_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+_RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
+_RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for command '\${2:-}'." ; } ; }
+_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_ 1 "cd \$HOME" "exit 161"
-_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
+_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL: gcl (git clone)"
+
 _RCSRPTNM_ 3 "cd libguestfs" "exit 163"
-_RCSRPTNM_ 4 "gpl" "echo Is the Internet connection disconnected?"
-_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo Is the Internet connection on?"
+_RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL: gpl (git pull)"
+_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL: git init update submodule"
 _RCSRPTNM_ 6 "make clean" "echo nothing to clean"
 _RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v" "exit 167"
 _RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -iv" "exit 168"
