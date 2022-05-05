@@ -683,7 +683,7 @@ chmod 755 "$TMXRCHBNDS"/info
 }
 
 _ADDmakelibguestfs_() {
-	_CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty, and at [make[2]: *** No rule to make target 'guestfs_protocol.c', needed by 'all'. Stop. #82](https://github.com/libguestfs/libguestfs/issues/82) contributor rwmjones.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
+_CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](https://github.com/SDRausty/termux-archlinux/issues/74) contributor gordol and [Feature Request: mount loopback device #376](https://github.com/termux/termux-app/issues/376) contributor SDRausty, and at [make[2]: *** No rule to make target 'guestfs_protocol.c', needed by 'all'. Stop. #82](https://github.com/libguestfs/libguestfs/issues/82) contributor rwmjones.  Reference https://libguestfs.org/guestfs-building.1.html#building-from-git"
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
@@ -701,7 +701,7 @@ _RCSRPTNM_ 8 "autoreconf -iv"
 _RCSRPTNM_ 9 "./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 10 "make"
 _RCSRPTNM_ 11 "make -k check"
-printf "%s" "[12/12] Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information."
+printf "%s" "[12/12] Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html has more information.  "
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makelibguestfs
