@@ -127,7 +127,6 @@ _PREPINSTALLDIR_
 _DOUSECACHEDIR_
 _SETLOCALE_
 printf "\\n"
-_WAKELOCK_
 printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
 "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
 rm -f root/bin/finishsetup.bash
@@ -149,7 +148,6 @@ else
 printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re[fresh]\\e[0;32m'.  " "${0##*/}"
 fi
 printf "\\n"
-_WAKEUNLOCK_
 _PRINTFOOTER_
 set +Eeuo pipefail
 $STARTBIN || _PRINTPROOTERROR_
