@@ -687,23 +687,51 @@ _CFLHDR_ "$TMXRCHBNDS"/makelibguestfs "# Developed around [userspace mount #74](
 _PRTRTHLP_ "$TMXRCHBNDS"/makelibguestfs
 _DPTCHHLP_ "$TMXRCHBNDS"/makelibguestfs
 cat >> "$TMXRCHBNDS"/makelibguestfs <<- EOM
+# builtin help string variables begin
+NMCMND="\$(uname -m)"
+XLCD00="\"\$SRPTNM f 'machine virtual'\""
+XLCD0L="\"\$SRPTNM find 'machine virtual'\""
+XLCD01="\"\$SRPTNM b libguestfs\""
+XLCD02="\"\$SRPTNM v libguestfs\""
+# builtin help string variables end
+HLPSTG="Help for command '\$SRPTNM', one letter arguments are good; i.e. Command \$XLCD00 is the equivalent of \$XLCD0L.  Command '\$SRPTNM' accepts these arguments:
+
+f[ind] packages★	finds AUR packages from search string,  EXAMPLE: \$XLCD00,
+
+h[elp]			show this help screen,
+
+help [building]		show this https://libguestfs.org/guestfs-building.1.html webpage,
+
+v[iew] package★		view libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
+
+★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
+[ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
+[ -n "\${1:-}" ] && [[ "\${1:-}" = [Hh][Ee]* ]] && { am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; }
+[ -n "\${1:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" ; exit ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+_SLCTRHPR_() {
+# libguestfs dependencies
 GTFSDPND="augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex jansson libvirt lua ocaml ocaml-findlib po4a qemu rpcsvc-proto supermin valgrind"
 NMCMND="\$(uname -m)"
 printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_RCSRPTNM_ 1 "cd"
+_RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:} || _RCSRPTA1_ "\${1:-}" "\${3:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${2:-}'." ; } ; }
+_RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${2:-}' in directory '\$PWD'...  " && { { \${2:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${2:-}	'." ; } ; }
+_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+_RCSRPTNM_ 1 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs"
-_RCSRPTNM_ 3 "cd libguestfs"
-_RCSRPTNM_ 4 "gpl"
-_RCSRPTNM_ 5 "git submodule update --init --recursive --remote"
+_RCSRPTNM_ 3 "cd libguestfs" "exit 69"
+_RCSRPTNM_ 4 "gpl" "echo Is the Internet connection disconnected?"
+_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo Is the Internet connection on?"
 { [ -x /usr/bin/gperf ] && [ -x /usr/bin/mkisofs ] ; } || { pc \$GTFSDPND || pci \$GTFSDPND ; }
 _RCSRPTNM_ 6 "make clean"
-_RCSRPTNM_ 7 "autoupdate -fv"
-_RCSRPTNM_ 8 "autoreconf -iv"
+_RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v"
+_RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -fiv" "autoreconf -iv"
 _RCSRPTNM_ 9 "./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 10 "make"
-_RCSRPTNM_ 11 "make quickcheck"
+_RCSRPTNM_ 11 "make check" "make quickcheck"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/12]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+}
+[ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makelibguestfs
@@ -765,9 +793,9 @@ ts[creensavers]		terminal screensavers builds all of the terminal screensavers f
 v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
-[ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
+[ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-}" ; exit ; }
 [ -n "\${1:-}" ] && [ -n "\${2:-}" ] && [[ "\${1:-}" = [Vv]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-}" ; exit ; }
-[ -n "\${1:-}" ] && { for ARG1 in '/' '?' Dd Hh Ii Jj Kk Oo Pp Qq Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 for DRHLPR in AURHLPR AURHLPRD AURHLPRDPG AURHLPRDRN AURHLPRS AURHLPRSM GHCUPAURPKG CANDY GAME LIBGUESTFSD LIBGUESTFSP MAKEPKGS MKRPKGDS SCREENSAVERS ; do declare -A \$DRHLPR ; done
 # depreciated aur helpers reason
 AURHLPRDRN=(
@@ -983,12 +1011,12 @@ SCREENSAVERS=(
 )
 _ARHCMD_() {
 { [ -x /usr/bin/make ] && [ -x /usr/bin/strip ] ; } || { { pc base base-devel binutils git && makeaurfakeroottcp ; } || { pci base base-devel binutils git && makeaurfakeroottcp ; } ; }
-# add dependancies for bash-pipes
+# add dependencies for bash-pipes
 if [ "\$AURHLPR" = bash-pipes ]
 then
 command -v "\$AURHLPR" >/dev/null || makeaurpipessh
 fi
-# add dependancies for bauerbill
+# add dependencies for bauerbill
 if [ "\$AURHLPR" = bauerbill ]
 then
 command -v "\$AURHLPR" >/dev/null || {
@@ -997,12 +1025,12 @@ makeaurpython3aur
 makeaurpython3colorsysplus
 }
 fi
-# add dependancies for ghcup
+# add dependencies for ghcup
 if [[ "\$AURHLPR" = ghcup* ]]
 then
 command -v "\$AURHLPR" >/dev/null || { [ -x /usr/bin/numactl ] || pc numactl || pci numactl ; }
 fi
-# add dependancies for pacaur and pacaur-git
+# add dependencies for pacaur and pacaur-git
 if [ "\$AURHLPR" = pacaur ] || [ "\$AURHLPR" = pacaur-git ]
 then
 command -v "\$AURHLPR" >/dev/null || {
@@ -1010,7 +1038,7 @@ command -v "\$AURHLPR" >/dev/null || {
 makeauraclegit
 }
 fi
-# add dependancies for pbget
+# add dependencies for pbget
 if [ "\$AURHLPR" = pbget ]
 then
 command -v "\$AURHLPR" >/dev/null || {
@@ -1022,12 +1050,12 @@ makeaurpython3aur
 makeaurpm2ml
 }
 fi
-# add dependancies for popular-packages
+# add dependencies for popular-packages
 if [ "\$AURHLPR" = popular-packages ]
 then
 command -v "\$AURHLPR" >/dev/null || makeaurpackagequery
 fi
-# add dependancies for powerpill
+# add dependencies for powerpill
 if [ "\$AURHLPR" = powerpill ]
 then
 command -v "\$AURHLPR" >/dev/null || {
@@ -1039,21 +1067,21 @@ makeaurpython3xcpf
 makeaurpm2ml
 }
 fi
-# add dependancies for stack-static
+# add dependencies for stack-static
 if [ "\$AURHLPR" = stack-static ]
 then	# import stack-static key
 command -v "\$AURHLPR" >/dev/null || {
 [ -f /run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ] || { printf '\\e[0m%s\\n' "Command '\$SRPTNM' is running command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442'..." && gpg --keyserver keyserver.ubuntu.com --recv-keys 575159689BEFB442 && :>/run/lock/${INSTALLDIR##*/}/gpg575159689BEFB442.lock ; }
 }
 fi
-# add dependancies for xaur
+# add dependencies for xaur
 if [ "\$AURHLPR" = xaur ]
 then
 command -v "\$AURHLPR" >/dev/null || {
 makeaurpyinstaller
 }
 fi
-# add dependancies for zur
+# add dependencies for zur
 if [ "\$AURHLPR" = zur ]
 then
 command -v "\$AURHLPR" >/dev/null || {
@@ -1088,7 +1116,7 @@ fi
 # make AUR package
 _MAKEAURHLPR_() {
 cd "\$HOME/\$AURHLPR" || exit 196
-{ [ ! -f PKGBUILD ] && exit 198 ; } || { PKGBUILDVL="\$(<"\$HOME/\$AURHLPR/"PKGBUILD)" && VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s\\e[0m  ' "Showing dependancies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'." ; }
+{ [ ! -f PKGBUILD ] && exit 198 ; } || { PKGBUILDVL="\$(<"\$HOME/\$AURHLPR/"PKGBUILD)" && VLGRPPBD="\$(awk 'BEGIN { found = 0; } ; /depends=\(/ { if (!found) { found = 1; \$0 = substr(\$0, index(\$0, "=\\(") + 2); }; } ; /\)/ { if (found) { found = 2; \$0 = substr(\$0, 0, index(\$0, "\\)") - 1); } ; } ; { if (found) { print; if (found == 2) found = 0; } ; }' <<< "\$PKGBUILDVL" 2>/dev/null)" && printf '\\e[0;32m%s\\e[0m  ' "Showing dependencies '\$(xargs <<< "\$VLGRPPBD")' for Arch Linux AUR package '\$AURHLPR'." ; }
 printf "%s\\n" "Attempting to build and install Arch Linux AUR package '\$AURHLPR' for architecture \$NMCMND with '\$SRPTNM':  Running command '\$NMKPKG' in directory '\$PWD':  Please be patient..."
 \$NMKPKG || _PRTERROR_
 }
