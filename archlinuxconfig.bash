@@ -694,9 +694,7 @@ XLCD0L="\"\$SRPTNM find 'machine virtual'\""
 XLCD01="\"\$SRPTNM b libguestfs\""
 XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
-HLPSTG="Help for \$SRPTNM:
-
-One and two letter letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  Command '\$SRPTNM' accepts these arguments:
+HLPSTG="Command \$SRPTNM accepts these arguments:
 
 f[ind packages]★	finds a default AUR packages search or finds AUR packages from search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
@@ -707,6 +705,8 @@ he[lp building]★	presents this https://libguestfs.org/guestfs-building.1.html 
 s[how PKGBUILD]★	show the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
 
 v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for option show.
+
+One and two letter letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
@@ -728,7 +728,7 @@ _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} S
 _RCSRPTNM_ 3 "cd libguestfs" "exit 163"
 _RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL: gpl (git pull)"
 _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL: git init update submodule"
-_RCSRPTNM_ 6 "make clean" "echo nothing to clean"
+_RCSRPTNM_ 6 "make clean" "echo \${SRPTNM^^} SIGNAL: make clean"
 _RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v" "exit 167"
 _RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -iv" "exit 168"
 _RCSRPTNM_ 9 "./configure CFLAGS=-fPIC" "exit 169"
@@ -763,9 +763,7 @@ XLCD0L="\"\$SRPTNM find 'digital rain'\""
 XLCD01="\"\$SRPTNM b greenrain\""
 XLCD02="\"\$SRPTNM v greenrain\""
 # builtin help string variables end
-HLPSTG="Help for \$SRPTNM:
-
-One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.  Command '\$SRPTNM' accepts these arguments:
+HLPSTG=" Command \$SRPTNM accepts these arguments:
 
 a[ll AUR helpers]	builds all the AUR helper packages with passing checksums in alphabetical order,
 
@@ -798,6 +796,8 @@ tm[akepkgs]		total makepkgs builds all the Arch Linux makepkg related package fr
 ts[creensavers]		terminal screensavers builds all of the terminal screensavers from AUR,
 
 v[iew] package★		view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.
+
+One and two letter arguments are good; i.e. Command \$XLCD00 is the equivalent of the \$XLCD0L command (quote multiple search words).  \${SRPTNM^^} NOTICE:  \$DFLTSG  Variables \$XNMPKC, \$XNMPKN and \$XNMPKR in file '\$SRPTNM' can be edited.
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-AUR helper}" ; exit ; }
