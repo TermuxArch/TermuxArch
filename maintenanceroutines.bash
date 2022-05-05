@@ -182,16 +182,16 @@ _SHFUNCWRAP_ () {
 if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]
 then
 _PREPPACMANCONF_
-FNDTMPROOT=($(ls "$TMPDIR"/))
+FNDTMPROOT=($(ls "$TMPDIR"/proot*))
 if [ ${#FNDTMPROOT[@]} = 0 ]
 then
 _SHFUNC_ "$@"
 else
 if [ ${#FNDTMPROOT[@]} = 1 ]
 then
-printf "\\n\\e[0;32mFound %s open Termux PRoot session;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU session;  Not checking for errors."
 else
-printf "\\n\\e[0;32mFound %s open Termux PRoot sessions;  Not checking for errors." "${#FNDTMPROOT[@]}"
+printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU sessions;  Not checking for errors."
 fi
 fi
 fi
