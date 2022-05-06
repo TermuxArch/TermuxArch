@@ -714,7 +714,7 @@ One and two letter letter arguments are good; i.e. Command \$XLCD00 is an equiva
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
-GTFSDPND=(augeas base base-devel bash-completion binutils cdrtools cpio gettext gperf hivex intltool jansson libconfig libvirt lua ocaml ocaml-findlib ocaml-bigarray-compat po4a qemu rpcsvc-proto supermin valgrind)
+GTFSDPND=(augeas base base-devel bash-completion binutils cdrtools cpio fuse file gettext gperf hivex intltool jansson libconfig libvirt libxml2 ocaml ocaml-findlib ocaml-bigarray-compat perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget)
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -x /usr/bin/mkisofs ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
