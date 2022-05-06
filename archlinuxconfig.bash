@@ -37,7 +37,7 @@ printf "%s\\n" "The $TMXRCHBNDR directory contains TermuxArch shortcut commands 
 * Command 'yt' is a youtube shortcut command that installs and runs the command 'youtube-dl',
 * Command 'v' is a 'vim' editor shortcut command that installs and runs the vim editor.
 
-This command 'ls $TMXRCHBNDR && cat ~/.bashrc' issued in the Termux PRoot QEMU environment will show installed TermuxArch commands.  This file can be expanded so the beginning user can get to know the Linux experience easier.  Would you like to create an issue along with a pull request to add information to this file so that the beginning user can get to know the Arch Linux in Termux PRoot experience easier?  If you would like to expand this file to enhance this experience, then please visit these links:
+This command 'ls $TMXRCHBNDR && cat ~/.bashrc' issued in a Termux PRoot QEMU environment will show installed TermuxArch commands.  This README.md file can be expanded so a beginning user can get to know the *nix experience easier.  Would you like to create an issue along with a pull request to add information to this file so that a beginning user can get to know the Arch Linux in Termux PRoot experience much easier?  If you would like to expand this README.md file to encapsulate and enhance the newbie *nix experience, then please visit these links:
 
 * Comments are welcome at https://github.com/TermuxArch/TermuxArch/issues ✍
 * Pull requests are welcome at https://github.com/TermuxArch/TermuxArch/pulls ✍
@@ -696,7 +696,7 @@ XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
 HLPSTG="Command \$SRPTNM accepts these arguments:
 
-f[ind packages]★	find a default AUR packages search or finds AUR packages from search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
+f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
 h[elp]			print this help screen,
 
@@ -714,7 +714,7 @@ One and two letter letter arguments are good; i.e. Command \$XLCD00 is an equiva
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
-GTFSDPND=(augeas base base-devel bash-completion binutils cpio fuse file gettext gperf hivex intltool jansson libconfig libisoburn libvirt libxml2 ocaml ocaml-findlib ocaml-bigarray-compat perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget)
+GTFSDPND=(augeas base base-devel bash-completion binutils cpio fuse file gettext gperf hivex intltool jansson lua lua-stdlib libconfig libisoburn libvirt libxml2 multilib-devel ocaml ocaml-findlib ocaml-bigarray-compat ocaml-stdlib-shims perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget)
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
@@ -732,7 +732,7 @@ _RCSRPTNM_ 6 "make clean" "echo \${SRPTNM^^} SIGNAL: make clean"
 _RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v" "exit 167"
 _RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -iv" "exit 168"
 _RCSRPTNM_ 9 "./configure CFLAGS=-fPIC" "exit 169"
-_RCSRPTNM_ 10 "make" "exit 170"
+_RCSRPTNM_ 10 "make" "make -k" "exit 170"
 _RCSRPTNM_ 11 "make -k check" "make quickcheck" "exit 171"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/12]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
@@ -1788,7 +1788,7 @@ sleep 4
 printf "\\n\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mcat $TMXRCHBNDR/README.md\\e[1;37m...\\n\\n"
 sleep 1
 cat $TMXRCHBNDR/README.md
-printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete; Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
+printf "\\e[1;32m\\n%s \\e[38;5;121m%s \\n\\n\\e[4;38;5;129m%s\\e[0m\\n\\n\\e[1;34m%s \\e[38;5;135m%s\\e[0m\\n\\n" "==>" "Short tour is complete. Scroll up if you wish to study the output.  Run this script again at a later time, and it might be surprising at how this environment changes over time. " "If you are new to *nix, http://tldp.org has documentation." "IRC: " "https://$MOTTECIRC"
 ## $INSTALLDIR$TMXRCHBNDR/tour FE
 EOM
 chmod 755 "$TMXRCHBNDS"/tour
