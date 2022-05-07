@@ -714,27 +714,29 @@ One and two letter letter arguments are good; i.e. Command \$XLCD00 is an equiva
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
-GTFSDPND=(augeas base base-devel bash-completion binutils cpio fuse file gettext gperf hivex intltool jansson lua lua-stdlib libconfig libisoburn libpipeline libvirt libxml2 ocaml ocaml-findlib ocaml-bigarray-compat ocaml-stdlib-shims perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget)
+GTFSDPND=(augeas base base-devel bash-completion binutils cpio fuse file gettext glibc gperf hivex intltool jansson lua lua-stdlib libconfig libisoburn libpipeline libvirt libxml2 ocaml ocaml-findlib ocaml-bigarray-compat ocaml-stdlib-shims perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget xorg-xdriinfo yara xz)
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -f /usr/include/pipeline.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-_RCSRPTA0_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
-_RCSRPTA1_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for command '\${2:-}'." ; } ; }
-_RCSRPTNM_() { NBRFCMDS=12 && printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
+NBRFCMDS=14
+_RCSRPTA0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
+_RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}''." ; } ; }
+_RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_ 1 "cd \$HOME" "exit 161"
-_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL: gcl (git clone)"
-
+_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 3 "cd libguestfs" "exit 163"
-_RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL: gpl (git pull)"
-_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL: git init update submodule"
-_RCSRPTNM_ 6 "make clean" "echo \${SRPTNM^^} SIGNAL: make clean"
-_RCSRPTNM_ 7 "autoupdate -fv" "autoupdate -v" "exit 167"
-_RCSRPTNM_ 8 "autoreconf -fimsv" "autoreconf -iv" "exit 168"
-_RCSRPTNM_ 9 "./configure CFLAGS=-fPIC" "exit 169"
-_RCSRPTNM_ 10 "make" "make -k" "exit 170"
-_RCSRPTNM_ 11 "make -k check" "make quickcheck" "exit 171"
-printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/12]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+_RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
+_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
+_RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
+_RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
+_RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "exit 167"
+_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "exit 168"
+_RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "exit 169"
+_RCSRPTNM_ 11 "make -s" "exit 170"
+_RCSRPTNM_ 12 "make -k check" "make quickcheck" "exit 171"
+_RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish" "exit 171"
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 [ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
@@ -1174,7 +1176,7 @@ printf "\\n\\e[1;31merror: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first line
 printf "%s\\n" "Preparing to build and install fakeroot-tcp with \${0##*/} version $VERSIONID: "
 if { [ ! "\$(command -v automake)" ] || [ ! "\$(command -v git)" ] || [ ! "\$(command -v gcc -v)" ] || [ ! "\$(command -v libtool)" ] || [ ! "\$(command -v po4a)" ] ; }
 then
-pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRNRG' again."
+pci automake base base-devel fakeroot git gcc libtool po4a || printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci automake base base-devel fakeroot git gcc go libtool po4a' as root user in a new Termux session.  You can do this without closing this session by running command \"$STARTBIN command 'pci automake base base-devel fakeroot git gcc go libtool po4a'\"in a new Termux session. Then return to this session and run '\$STRNRG' again."
 fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
@@ -1195,7 +1197,7 @@ _PRTRTHLP_ "$TMXRCHBNDS"/makeaurghcuphs
 _DPTCHHLP_ "$TMXRCHBNDS"/makeaurghcuphs
 cat >> "$TMXRCHBNDS"/makeaurghcuphs <<- EOM
 [ -x /usr/bin/ghcup ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'ghcup' is already installed!  Please use the command 'ghcup':  Exiting..." && exit
-[ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
+[ -f /usr/lib/libnuma.so ] || { pc numactl || pci numactl ; } || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci numactl' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci numactl' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 pikaur ghcup-hs --noconfirm || { [ -f /usr/bin/pikaur ] || makeaurpikaur && pikaur ghcup-hs --noconfirm ; }
 ## $INSTALLDIR$TMXRCHBNDR/makeaurghcuphs FE
 EOM
@@ -1232,7 +1234,7 @@ _PRTRTHLP_ "$TMXRCHBNDS"/makeauryay
 _DPTCHHLP_ "$TMXRCHBNDS"/makeauryay
 cat >> "$TMXRCHBNDS"/makeauryay <<- EOM
 _PRTERROR_() {
-printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct thiserror the error(s) and/or warning(s), and run '\${0##*/}' again."
+printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  \\e[1;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct thiserror the error(s) and/or warning(s), and run '\${0##*/}' again."
 exit 100
 }
 [ -x /usr/bin/yay ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit
@@ -1247,11 +1249,11 @@ else
 [ ! -f "/run/lock/${INSTALLDIR##*/}/patchmakepkg.lock" ] && patchmakepkg
 if { [ ! "\$(command -v fakeroot)" ] || [ ! "\$(command -v git)" ] ; }
 then
-pci base base-devel fakeroot gcc git || pci base base-devel fakeroot gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
+pci base base-devel fakeroot gcc git || pci base base-devel fakeroot gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s);  The command 'pci base base-devel fakeroot gcc git go' can be run as proot root user in a new Termux session and might resolve this issue.  You might be able to do this without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel fakeroot gcc git go' in a new Termux PRoot session.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 cd
 [ -d yay-bin ] || gcl https://aur.archlinux.org/yay-bin.git
-{ { cd yay-bin || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+{ { cd yay-bin || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more AUR installers which can also be used to download AUR repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE
@@ -1351,12 +1353,12 @@ then
 else
 if { [ ! -f /usr/bin/make ] || [ ! -f /usr/bin/git ] || [ ! -f /usr/bin/bison ] ; }
 then
-pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
+pc bison base base-devel gcc git || pci bison base base-devel gcc git || { printf "\\n\\e[1;31mＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  \\e[7;37m%s\\e[0m\\n\\n" "Please study the first lines of the error output and correct the error(s) and/or warning(s) by running command 'pci bison base base-devel gcc git' as proot root user.  You might be able to bring this about without closing this session.  Please try running command: $STARTBIN command 'pci base base-devel gcc git' in a new Termux PRoot session.  This should install the neccessary packages to make 'ksh'.  Then return to this session, and run '\${0##*/}' again." && exit 120 ; }
 fi
 cd
 [ -d ksh ] || gcl https://github.com/ksh-community/ksh
-{ { cd ksh || exit 169 ; } && nice -n 20 ./bin/package make ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mEXITING...\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
-find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\e[1;31m%s\\e[1;37m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL: " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
+{ { cd ksh || exit 169 ; } && nice -n 20 ./bin/package make ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mEXITING...\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
+find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\e[1;31m%s\\e[1;37m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeksh FE
 EOM
@@ -1529,6 +1531,12 @@ _PRINTTAIL_ "\$ARGS"
 _PRINTTAIL_() {
 printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
+}
+
+_TRPET_() {
+printf "\\e[?25h\\e[0m"
+set +Eeuo pipefail
+_PRINTTAIL_ "\$ARGS"
 }
 
 trap _TRPET_ EXIT
