@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.695
+VERSIONID=2.1.696
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -360,7 +360,7 @@ _REFRESHSYS_ "$@"
 _INSTLLDIRCHK_() {
 if [[ -f "$INSTALLDIR"/bin/we ]] && [[ -d "$INSTALLDIR"/usr/local/termuxarch/bin ]] && [[ -d "$INSTALLDIR"/root/bin ]] && [[ -d "$INSTALLDIR"/var/binds ]]
 then
-printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRNRG' to install Arch Linux in Termux PRoot!  Commands '${0##*/} h[e[lp]]' and '$STARTBIN h[elp]' have more information"
+printf "\\n\\e[0;33m%s\\e[1;33m%s\\e[0;33m.\\n\\n" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE!  " "The root directory structure of ~/${INSTALLDIR##*/} appears correct;  Cannot continue '$STRNRG' to install Arch Linux in TermuxArch PRoot QEMU!  Commands '${0##*/} h[e[lp]]' have more information"
 exit 205
 fi
 }
