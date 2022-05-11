@@ -713,7 +713,7 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
 GTFSDPND=(augeas base base-devel bash-completion binutils cpio fuse file gettext glibc gperf hivex intltool jansson lua lua-stdlib libconfig libisoburn libpipeline libvirt libxml2 ocaml ocaml-findlib ocaml-bigarray-compat ocaml-stdlib-shims perl perl-libintl-perl perl-module-build perl-string-shellquote perl-sys-virt pcre po4a python qemu-headless rpcsvc-proto supermin valgrind wget xorg-xdriinfo yara xz)
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -f /usr/include/pipeline.h ] && [ -f /usr/include/qemu-plugin.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
+{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -f /usr/include/pipeline.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
