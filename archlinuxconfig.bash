@@ -123,7 +123,7 @@ fi
 }
 function em() {
 [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }
-{ [ -x $TMXRCHBNDR/uemacs ] && $TMXRCHBNDR/uemacs "\$@" ; } || { { { cd || exit 169 ; } && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && { cd uemacs || exit 169 ; } ; } && printf '%s\\n' "making uemacs" && make && cp -f em $TMXRCHBNDR/uemacs && make clean && $TMXRCHBNDR/uemacs emacs.hlp ; }
+{ [ -x $TMXRCHBNDR/uemacs ] && $TMXRCHBNDR/uemacs "\$@" ; } || { { { cd || exit 69 ; } && [ -d uemacs ] || gcl https://github.com/torvalds/uemacs ; } && { [ -d uemacs ] && { cd uemacs || exit 69 ; } ; } && printf '%s\\n' "making uemacs" && make && cp -f em $TMXRCHBNDR/uemacs && make clean && $TMXRCHBNDR/uemacs emacs.hlp ; }
 }
 alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
@@ -335,7 +335,7 @@ CAMD="camid\$CAMID"
 [ -e "output/\$CAMD/\$CAMD\$TIMESTAMP" ] || { printf '\e[0;36m%s' "IM mkdir -p output/\$CAMD/\$CAMD\$TIMESTAMP: " && mkdir -p output/"\$CAMD/\$CAMD\$TIMESTAMP" && printf '\e[0;32m%s\n' "DONE"; }
 [ -e output/gifs/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/gifs/\$CAMD: " && mkdir -p output/gifs/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
 [ -e output/webms/"\$CAMD" ] || { printf '\e[0;36m%s' "IM mkdir -p output/webms/\$CAMD: " && mkdir -p output/webms/"\$CAMD" && printf '\e[0;32m%s\n' "DONE"; }
-printf '\e[0;36m%s' "IM cd output/\$CAMD/\$CAMD\$TIMESTAMP: " && { cd output/"\$CAMD/\$CAMD\$TIMESTAMP" || exit 169 ; } && printf '\e[0;32m%s\n' "DONE"
+printf '\e[0;36m%s' "IM cd output/\$CAMD/\$CAMD\$TIMESTAMP: " && { cd output/"\$CAMD/\$CAMD\$TIMESTAMP" || exit 69 ; } && printf '\e[0;32m%s\n' "DONE"
 }
 _MAGICKCK_ () {
 if [ -e "\$FRAMENAME" ]
@@ -412,7 +412,7 @@ chmod 755 "$TMXRCHBNDS"/cdth
 _ADDcdtmp_() {
 _CFLHD_ "$TMXRCHBNDS"/cdtmp "# Usage: \`. cdtmp\` the dot sources \`cdtmp\` which makes this shortcut script work."
 printf "%s\\n" "#!/usr/bin/env bash
-cd $TMPDIR && pwd || exit 169
+cd $TMPDIR && pwd || exit 69
 ## $INSTALLDIR$TMXRCHBNDR/cdtmp FE" > "$TMXRCHBNDS"/cdtmp
 chmod 755 "$TMXRCHBNDS"/cdtmp
 }
@@ -580,7 +580,7 @@ _GCLONEMAIN_() {
 BASENAME="\${@%/}" # strip trailing slash
 BASENAME="\${BASENAME#*//}" # strip before double slash
 REPONAME="\${BASENAME##*/}" # strip before last slash
-{ [ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 169 ; } ; } || { [ -e "\$REPONAME-main" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip"  ; } && { cd "\$REPONAME-main" || exit 169 ; } ; } || { [ -e "\$REPONAME-master" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ; } && { cd "\$REPONAME-master" || exit 169 ; } ; }
+{ [ -e "\$REPONAME-master" ] && { cd "\$REPONAME-master" || exit 69 ; } ; } || { [ -e "\$REPONAME-main" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/main.zip && unzip "\$REPONAME.zip"  ; } && { cd "\$REPONAME-main" || exit 69 ; } ; } || { [ -e "\$REPONAME-master" ] || { wget -c -O "\$REPONAME.zip" "\$*"/archive/master.zip && unzip "\$REPONAME.zip" ; } && { cd "\$REPONAME-master" || exit 69 ; } ; }
 git init
 git remote add origin "\$@" ||:
 git checkout -b main || git checkout main
@@ -702,11 +702,11 @@ h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
+s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02.  This option is a synonym for option view,
 
-v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for option show.
+v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option show.
 
-★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
+★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
@@ -721,19 +721,19 @@ NBRFCMDS=14
 _RCSRPTA0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}''." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_RCSRPTNM_ 1 "cd \$HOME" "exit 169"
+_RCSRPTNM_ 1 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
-_RCSRPTNM_ 3 "cd libguestfs" "exit 169"
+_RCSRPTNM_ 3 "cd libguestfs" "exit 69"
 _RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
 _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
 _RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
-_RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "exit 169"
-_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "exit 169"
-_RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "exit 169"
-_RCSRPTNM_ 11 "make -s" "exit 169"
-_RCSRPTNM_ 12 "make -k check" "make quickcheck" "exit 169"
-_RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish" "exit 169"
+_RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "exit 69"
+_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "exit 69"
+_RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "exit 69"
+_RCSRPTNM_ 11 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
+_RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
+_RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish" "exit 69"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 [ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
@@ -1251,7 +1251,7 @@ pci base base-devel fakeroot gcc git || pci base base-devel fakeroot gcc git || 
 fi
 cd
 [ -d yay-bin ] || gcl https://aur.archlinux.org/yay-bin.git
-{ { cd yay-bin || exit 169 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+{ { cd yay-bin || exit 69 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more AUR installers which can also be used to download AUR repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE
@@ -1259,13 +1259,13 @@ EOM
 chmod 755 "$TMXRCHBNDS"/makeauryay
 }
 
-_PREPFILEFCTN_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s.  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "[ -x /usr/bin/\"$1\" ] && { printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -ACcfis --check --needed --noconfirm && \"$1\" -h ||:" "## $INSTALLDIR/$3 FE" >> "$3" ; }
+_PREPFILEFCTN_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install command \\e[1;32m%s\\e[0;32m, %s.  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; }" "[ -x /usr/bin/\"$1\" ] && { printf '\\e[0;32m%s, command \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"${4^}\" \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 69 ; } && makepkg -ACcfis --check --needed --noconfirm && \"$1\" -h ||:" "## $INSTALLDIR/$3 FE" >> "$3" ; }
 
-_PREPFILEFCTN1_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in /${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install Arch Linux package \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$2'\"  \"$4\" ; }" "[ -e \"$1\" ] && { printf '\\e[0;32m%s, package \\e[1;32m%s\\e[0;32m is installed!  Nothing to do for command \\e[1;32m%s\\e[0;32m.  ' \"${4^}\" \"'$2'\" \"'\${0##*/}'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 169 ; } && makepkg -ACcfis --check --needed --noconfirm" "## $INSTALLDIR/$3 FE" >> "$3" ; }
+_PREPFILEFCTN1_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in /${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install Arch Linux package \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$2'\"  \"$4\" ; }" "[ -e \"$1\" ] && { printf '\\e[0;32m%s, package \\e[1;32m%s\\e[0;32m is installed!  Nothing to do for command \\e[1;32m%s\\e[0;32m.  ' \"${4^}\" \"'$2'\" \"'\${0##*/}'\" && exit ; }" "_PRNTWAIT_ && [ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "{ [ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg ; } && ${5:-} cd && { [ -x \"$2\" ] || { gcl https://aur.archlinux.org/\"$2\" && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is continuing to make and install command \\e[1;32m%s\\e[0;32m, %s;  Please be patient...\\n' \"'\${0##*/}'\" \"'$1'\"  \"$4\" ; } ; } && { cd \"$2\" || exit 69 ; } && makepkg -ACcfis --check --needed --noconfirm" "## $INSTALLDIR/$3 FE" >> "$3" ; }
 
 _PREPFILEFCTNS0_() { _PRTPATCHHELP_ "$3" && printf "%s\\n%s\\n%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf '\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n' \"Cannot run '\${0##*/}' as root user;\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/}; the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux; a default user account is created during setup; the default username 'user' can be used to access the PRoot system employing a user account; command '$STARTBIN help' has more information;  \" && exit 0" "{ [ -x /usr/bin/\"$1\" ] && printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is installed!  Please use the command \\e[1;32m%s\\e[0;32m to continue.  ' \"'$1'\" \"'$1'\" && exit ; }" "_PRNTWAIT_() { printf '\\e[0;32mCommand \\e[1;32m%s\\e[0;32m is attempting to make and install package \\e[1;32m%s\\e[0;32m;  Please be patient...\\n' \"'\${0##*/}'\" \"'$2'\" ; }" "[ -x /usr/bin/make ] || { pc base base-devel || pci base base-devel ; }" "[ -f /run/lock/\"${INSTALLDIR##*/}\"/patchmakepkg.lock ] || patchmakepkg" >> "$3" ; }
 
-_PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} cd && { [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && { cd \"$2\" || exit 169 ; } && _PRNTWAIT_ && makepkg -ACcfis --check --needed --noconfirm ; } ; }" >> "$3" ; }
+_PREPFILEFCTNS_() { printf "%s\\n" "{ { [ -e \"$1\" ] && printf '\\e[0;32mPackage \\e[1;32m%s\\e[0;32m is installed;  Continuing...  ' \"'$2'\"  ; } || { ${5:-} cd && { [ -e \"$1\" ] || gcl https://aur.archlinux.org/\"$2\" ; } && { cd \"$2\" || exit 69 ; } && _PRNTWAIT_ && makepkg -ACcfis --check --needed --noconfirm ; } ; }" >> "$3" ; }
 
 _PREPFILEFTN0_() { _CFLHDR_ "$TMXRCHBNDS"/makeaur"$3" "# Command '$3' attempts to make and install command '$1' $4" && _PREPFILEFCTN_ "$1" "$2" "$TMXRCHBNDS/makeaur$3" "$4" "${5:-}" && chmod 755 "$TMXRCHBNDS"/makeaur"$3" ; }
 
@@ -1355,7 +1355,7 @@ pc bison base base-devel gcc git || pci bison base base-devel gcc git || { print
 fi
 cd
 [ -d ksh ] || gcl https://github.com/ksh-community/ksh
-{ { cd ksh || exit 169 ; } && nice -n 20 ./bin/package make ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mEXITING...\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
+{ { cd ksh || exit 69 ; } && nice -n 20 ./bin/package make ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31mEXITING...\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The commands 'cd ksh && nice -n 20 ./bin/package make' did not run as expected; " && exit 124 ; }
 find "\$HOME"/ksh/arch/*/bin -type f -executable ||: # printf "\\e[1;31m%s\\e[1;37m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'find arch/*/bin -type f -executable' did not run as expected; CONTINUING..." && _PRTERROR_
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeksh FE
@@ -1667,7 +1667,7 @@ chmod 755 "$TMXRCHBNDS"/t
 _ADDtlmgrinstaller_() {
 _CFLHDR_ "$TMXRCHBNDS"/tlmgrinstaller "# install TexLive installer"
 printf "%s\\n" "[ -d /usr/local/texlive ] || mkdir -p /usr/local/texlive" >> "$TMXRCHBNDS"/tlmgrinstaller
-printf "%s\\n" "_GETINSTALLER_() { { [ -d /usr/local/texlive/install-tl ] || mkdir -p /usr/local/texlive/install-tl ; } && { { [ -f /usr/local/texlive/install-tl/install-tl.zip ] && [ -f /usr/local/texlive/install-tl/install-tl.zip.sha512 ] || wget -c -P /usr/local/texlive/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && { cd /usr/local/texlive/install-tl || exit 169 ; } && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...  \" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 169 ; } && printf '%s\\n' \"\$PWD\" && ls && printf '%s\\n' \"Please be patient.  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee dir.pth > dir.tmp ; } ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
+printf "%s\\n" "_GETINSTALLER_() { { [ -d /usr/local/texlive/install-tl ] || mkdir -p /usr/local/texlive/install-tl ; } && { { [ -f /usr/local/texlive/install-tl/install-tl.zip ] && [ -f /usr/local/texlive/install-tl/install-tl.zip.sha512 ] || wget -c -P /usr/local/texlive/install-tl https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip.sha512 https://mirror.math.princeton.edu/pub/CTAN/systems/texlive/tlnet/install-tl.zip ; } && { cd /usr/local/texlive/install-tl || exit 69 ; } && { sha512sum -c install-tl.zip.sha512 || { rm -f install-tl.zip* && printf '%s\\n' \"Files were corrupt and were deleted;  Please try again.  Exiting...  \" && exit 189 ; } ; } && unzip -n install-tl.zip ; } && { CDDIR=\"\$(find . -maxdepth 1 | tail -n 1)\" && { cd \"\$CDDIR\" || exit 69 ; } && printf '%s\\n' \"\$PWD\" && ls && printf '%s\\n' \"Please be patient.  Command '\${0##*/}' continuing...\" && perl install-tl && printf '%s\\n' \"\$PWD\" | tee dir.pth > dir.tmp ; } ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
 printf "%s\\n" "_PRINTHELP_() { printf '\\n%s\\n' \"The command '${0##*/} re' adds TEX environment variables automatically to BASH init files in the Arch Linux in Termux PRoot environment.  Please exit this shell and login again.  If logging in again does not add TEX environment variables, then please run command '${0##*/} re' in order to add TEX environment variables to the BASH init files in Termux PRoot.  Command '${0##*/} h' has more information.  \" ; }" >> "$TMXRCHBNDS"/tlmgrinstaller
 printf "%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n%s\\n" "printf '%s\\n' \"Command '\${0##*/}';  Begun...  \"" "{ command -v tlmgr && printf '%s\\n' \"The command 'tlmgr' is installed;  Continuing...  \" ; } || if [ -x /usr/bin/perl ] && [ -x /usr/bin/wget ] && [ -x /usr/bin/unzip ]" "then" "_GETINSTALLER_" "else" "{ { pc perl wget unzip || pci perl wget unzip ; } || { pkg i perl wget unzip || { pkg up && pkg i perl wget unzip ; } ; } ; } && _GETINSTALLER_" "fi" "_PRINTHELP_" >> "$TMXRCHBNDS"/tlmgrinstaller
 printf "%s\\n" "INSDIR=\"\$(find /usr/local/texlive/install-tl/ -maxdepth 1 -type d | tail -n 1)\"" >> "$TMXRCHBNDS"/tlmgrinstaller
