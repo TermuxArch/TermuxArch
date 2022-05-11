@@ -1803,12 +1803,13 @@ chmod 755 "$TMXRCHBNDS"/tour
 _ADDtrim_() {
 _CFLHDR_ "$TMXRCHBNDS"/trim
 cat >> "$TMXRCHBNDS"/trim <<- EOM
-printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m...\\n" "\${0##*/}"
+printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m…\\n" "\${0##*/}"
 _PMFSESTRING_() {
 printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1'; Cannot complete task; " "Continuing..."
 printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
 }
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
+printf "%s\\n\\n" "Triming installation files in directory '$INSTALLDIR' and populating cache in directory '$CACHEDIR'.  The '${0##*/} ref' command can be used to repopulate the cache in '$INSTALLDIR/var/cache/pacman/pkg/':"
 printf "%s\\n" "[1/4] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\n" "[2/4] rm -rf /usr/lib/modules"
@@ -1816,11 +1817,11 @@ rm -rf /usr/lib/modules
 if [ -d "$CACHEDIR" ]
 then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
-printf "%s\\n" "[3/4] Triming installation files and populating cache in dircectory '$CACHEDIR';  Running command 'find $CACHEDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $INSTALLDIR \;';  The '${0##*/} ref' command can be used to repopulate the cache."
+printf "%s\\n" "[3/4] find $INSTALLDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $CACHEDIR \;"
 find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
-printf "%s\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
+printf "%s\\n\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
-printf "The command '%s ref' will repopulate the installation package files from the cache directory and update the TermuxArch files to the newest published version.\\n" "${0##*/}"
+printf "%s\\n" "The command '${0##*/} ref' will repopulate the installation package files in directory '$INSTALLDIR' from the cache directory '$CACHEDIR' and update the TermuxArch files to the newest published version."
 fi
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM

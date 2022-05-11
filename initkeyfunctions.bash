@@ -10,7 +10,7 @@ _ADDADDS_() {
 _ADDREADME_
 _ADDae_
 _ADDauser_
-printf '\e[0;32mGenerating dot files;  \e[1;32mBEGUN\n'
+printf '\e[0;32mGenerating dot files:  \e[1;32mBEGUN…\n'
 _ADDbash_logout_
 _ADDbash_profile_
 _ADDbashrc_
