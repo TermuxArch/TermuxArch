@@ -694,7 +694,7 @@ XLCD0L="\"\$SRPTNM find 'machine virtual'\""
 XLCD01="\"\$SRPTNM b libguestfs\""
 XLCD02="\"\$SRPTNM v libguestfs\""
 # builtin help string variables end
-HLPSTG="Command \$SRPTNM accepts these arguments:
+HLPSTG="One and two letter arguments are good; i.e. Command \$XLCD00 is an equivalent of the \$XLCD0L command (quote multiple search words).  Command \$SRPTNM accepts these arguments:
 
 f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
@@ -705,8 +705,6 @@ he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html w
 s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02..  Synonym for option view,
 
 v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  Synonym for option show.
-
-One and two letter letter arguments are good; i.e. Command \$XLCD00 is an equivalent of the \$XLCD0L command (quote multiple search words).
 
 ★open and use an Android web browser either to find an Arch Linux AUR package matching search term(s) or view a package PKGBUILD file.  "
 [ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
