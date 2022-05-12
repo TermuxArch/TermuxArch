@@ -139,12 +139,12 @@ alias aiaviewd='am start -a android.intent.action.VIEW -d '
 alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && _PWD_'
 alias c='cd .. && _PWD_'
-alias CN='cat -n \$(command -v' # use a ) to complete this alias
-alias Cn='cat -n \$(command -v' # use a ) to complete this alias
-alias cn='cat -n \$(command -v' # use a ) to complete this alias
-alias CW='cat \$(command -v' # use a ) to complete this alias
-alias Cw='cat \$(command -v' # use a ) to complete this alias
-alias cw='cat \$(command -v' # use a ) to complete this alias
+alias CN='cat -n \$(command -v' # use a close parenthesis ) to complete this alias
+alias Cn='cat -n \$(command -v' # use a close parenthesis ) to complete this alias
+alias cn='cat -n \$(command -v' # use a close parenthesis ) to complete this alias
+alias CW='cat \$(command -v' # use a close parenthesis ) to complete this alias
+alias Cw='cat \$(command -v' # use a close parenthesis ) to complete this alias
+alias cw='cat \$(command -v' # use a close parenthesis ) to complete this alias
 alias CR='cp -r'
 alias Cr='cp -r'
 alias cr='cp -r'
@@ -179,9 +179,9 @@ alias Gcam='git commit -a -S -m'
 alias gcam='git commit -a -S -m'
 alias H='history >> \$HOME/.historyfile'
 alias h='history >> \$HOME/.historyfile'
-alias HW='head \$(command -v' # use a ) to complete this alias
-alias Hw='head \$(command -v' # use a ) to complete this alias
-alias hw='head \$(command -v' # use a ) to complete this alias
+alias HW='head \$(command -v' # use a close parenthesis ) to complete this alias
+alias Hw='head \$(command -v' # use a close parenthesis ) to complete this alias
+alias hw='head \$(command -v' # use a close parenthesis ) to complete this alias
 alias J='jobs'
 alias j='jobs'
 alias I='whoami'
@@ -232,9 +232,9 @@ alias rmd='rmdir -p'
 alias TO='termux-open'
 alias To='termux-open'
 alias to='termux-open'
-alias TW='tail \$(command -v' # use a ) to complete this alias
-alias Tw='tail \$(command -v' # use a ) to complete this alias
-alias tw='tail \$(command -v' # use a ) to complete this alias
+alias TW='tail \$(command -v' # use a close parenthesis ) to complete this alias
+alias Tw='tail \$(command -v' # use a close parenthesis ) to complete this alias
+alias tw='tail \$(command -v' # use a close parenthesis ) to complete this alias
 alias V='v'
 alias v='v'
 alias UM='uname -m'
@@ -713,40 +713,58 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
 GTFSDPND=(
+augeas
+autoconf
+automake
+base-devel
 binutils
+bison
 cdrkit
 cdrtools
 cryptsetup
 dhclient
 dhcpcd
-dnl
+gettext
+glibc
+gperf
 gptfdisk
-grub
+hivex
 iproute2
 iputils
+jansson
+libconfig
+libxml2
 linux
 lrzip
+make
 mtools
 multipath-tools
+netpbm
 nilfs-utils
 ntfs-3g
-ntfs-3g-system-compression
 ocaml
+ocaml-findlib
 perl
+perl-module-build
+pcre2
 python
+qemu
+qemu-img
 rpcsvc-proto
 supermin
 systemd
 reiserfsprogs
+valgrind
 vim
 wget
 which
+xorriso
 xz
 )
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -f /usr/include/pipeline.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
+printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
+{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
-printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
 NBRFCMDS=14
 _RCSRPTA0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}''." ; } ; }
@@ -759,7 +777,7 @@ _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^
 _RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
 _RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "exit 69"
-_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "exit 69"
+_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "autoreconf -fims"
 _RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "exit 69"
 _RCSRPTNM_ 11 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
 _RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
