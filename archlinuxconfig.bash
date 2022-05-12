@@ -749,7 +749,6 @@ perl-module-build
 pcre2
 python
 qemu
-qemu-img
 rpcsvc-proto
 supermin
 systemd
