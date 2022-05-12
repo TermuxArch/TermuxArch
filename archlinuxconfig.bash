@@ -712,7 +712,36 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
-GTFSDPND=(linux mtools rpcsvc-proto supermin systemd vim wget which xz)
+GTFSDPND=(
+cdrkit
+cdrtools
+cryptsetup
+dhclient
+dhcpcd
+dnl
+gptfdisk
+grub
+iproute2
+iputils
+linux
+lrzip
+mtools
+multipath-tools  dnl for kpartx
+nilfs-utils
+ntfs-3g
+ntfs-3g-system-compression
+ocaml
+perl
+python
+rpcsvc-proto
+supermin
+systemd
+reiserfsprogs
+vim
+wget
+which
+xz
+)
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/gperf ] && [ -f /usr/include/libconfig.h ] && [ -f /usr/include/pipeline.h ] && [ -x /usr/bin/xorriso ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
