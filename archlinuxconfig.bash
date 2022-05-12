@@ -713,6 +713,7 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
 GTFSDPND=(
+binutils
 cdrkit
 cdrtools
 cryptsetup
@@ -726,7 +727,7 @@ iputils
 linux
 lrzip
 mtools
-multipath-tools  dnl for kpartx
+multipath-tools
 nilfs-utils
 ntfs-3g
 ntfs-3g-system-compression
