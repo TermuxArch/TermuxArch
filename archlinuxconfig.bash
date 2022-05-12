@@ -1833,7 +1833,7 @@ printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1'; Cannot complet
 printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
 }
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
-printf "%s\\n\\n" "Triming installation files in directory '$INSTALLDIR' and populating cache in directory '$CACHEDIR'.  The '${0##*/} ref' command can be used to repopulate the cache in '$INSTALLDIR/var/cache/pacman/pkg/':"
+printf "%s\\n" "Triming installation files in directory '$INSTALLDIR' and populating cache in directory '$CACHEDIR'.  The command '${0##*/} ref' can be used to repopulate cache directory '$INSTALLDIR/var/cache/pacman/pkg/':"
 printf "%s\\n" "[1/4] rm -rf /usr/lib/firmware"
 rm -rf /usr/lib/firmware
 printf "%s\\n" "[2/4] rm -rf /usr/lib/modules"
@@ -1843,9 +1843,9 @@ then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
 printf "%s\\n" "[3/4] find $INSTALLDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $CACHEDIR \;"
 find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
-printf "%s\\n\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
+printf "%s\\n" "[4/4] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
-printf "%s\\n" "The command '${0##*/} ref' will repopulate the installation package files in directory '$INSTALLDIR' from the cache directory '$CACHEDIR' and update the TermuxArch files to the newest published version."
+printf "%s" "The command '${0##*/} ref' will repopulate the installation package files in directory '$INSTALLDIR' from cache directory '$CACHEDIR' and update the TermuxArch files to the newest published version.  "
 fi
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
