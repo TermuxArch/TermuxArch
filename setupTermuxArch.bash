@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.703
+VERSIONID=2.1.704
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -737,7 +737,7 @@ done
 }
 _RMARCHRM_() {
 _RMARCHCRRM_() {	# remove installation
-chmod -R 777 "$INSTALLDIR" ||:
+chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
 find "$INSTALLDIR" -type l -delete  || _PSGI1ESTRING_ "find INSTALLDIR _RMARCHRM_ ${0##*/}"
 rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf INSTALLDIR _RMARCHRM_ ${0##*/}"
 }
@@ -752,10 +752,6 @@ printf "\\e[1;30m"
 _SETROOT_EXCEPTION_
 declare -a EXONSTGE
 EXONSTGE=("$(find "$INSTALLDIR" -name storage -type d || printf "")")
-if [[ -n "${EXONSTGE:-}" ]]
-then
-chmod 777 "$EXONSTGE"
-fi
 if [[ -n "${EXONSTGE:-}" ]]
 then
 _DOEXONSTGE_
