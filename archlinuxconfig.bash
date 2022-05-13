@@ -737,6 +737,7 @@ libxml2
 linux
 lrzip
 make
+man
 mtools
 multipath-tools
 netpbm
