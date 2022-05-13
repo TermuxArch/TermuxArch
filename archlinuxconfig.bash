@@ -776,7 +776,7 @@ _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^
 _RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
 _RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
-_RCSRPTNM_ 9 "autoreconf -fims" "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
+_RCSRPTNM_ 9 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 _RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 11 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
 _RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
