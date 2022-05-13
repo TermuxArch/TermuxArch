@@ -781,7 +781,7 @@ _RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure
 _RCSRPTNM_ 11 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
 _RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
 _RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish"
-printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[12/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[14/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 [ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
