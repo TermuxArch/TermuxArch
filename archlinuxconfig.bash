@@ -759,7 +759,7 @@ which
 xorriso
 xz
 )
-printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for compter architecture '\$NMCMND'..."
+{ cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfs' in directory '\$PWD'..." && ./run guestfs && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for compter architecture '\$NMCMND'..."
 [ -x /usr/bin/qemu ] || { pc qemu || pci qemu || pc qemu-headless ; } || { printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for compter architecture '\$NMCMND'.  If you find an better and simpler resolution for Arch Linux in TermuxArch, please open an issue and pull request at GitHub...." && makeaurhelpers build qemu-git ; }
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
 NMCMND="\$(uname -m)"
@@ -771,7 +771,7 @@ _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSRPTNM_ 1 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 3 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 4 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
+_RCSRPTNM_ 4 "gpl" "git pull" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
 _RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
 _RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
