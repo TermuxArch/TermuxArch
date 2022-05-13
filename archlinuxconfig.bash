@@ -761,7 +761,7 @@ xorriso
 xz
 )
 printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install libguestfs for compter architecture '\$NMCMND'..."
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
+{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 NBRFCMDS=14
