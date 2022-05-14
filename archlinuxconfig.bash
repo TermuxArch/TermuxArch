@@ -761,8 +761,8 @@ xorriso
 xz
 )
 { cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfish' in directory '\$PWD'..." && ./run guestfish && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for compter architecture '\$NMCMND'..."
-[ -x /usr/bin/qemu ] || { pc qemu || pci qemu || pc qemu-headless ; } || { printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for compter architecture '\$NMCMND'.  If you find an better and simpler resolution for Arch Linux in TermuxArch, please open an issue and pull request at GitHub...." && makeaurhelpers build qemu-git ; }
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
+command -v qemu || { pc qemu || pci qemu ; } || { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && { pc ninja || pci ninja ; } && ../configure && make ; } || { printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for compter architecture '\$NMCMND'.  If you find an better and simpler resolution for Arch Linux in TermuxArch, please open an issue and pull request at GitHub...." && makeaurhelpers build qemu-git ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 NBRFCMDS=14
