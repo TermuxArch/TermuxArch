@@ -713,12 +713,30 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # libguestfs dependencies
 GTFSDPND=(
-augeas
 autoconf
 automake
-base-devel
 binutils
 bison
+file
+findutils
+flex
+gawk
+gcc
+gettext
+grep
+groff
+gzip
+libtool
+m4
+make
+pacman
+patch
+pkgconf
+sed
+sudo
+texinfo
+which
+augeas
 cdrkit
 cdrtools
 cryptsetup
@@ -736,7 +754,6 @@ libconfig
 libxml2
 linux
 lrzip
-make
 man
 mtools
 multipath-tools
@@ -761,8 +778,8 @@ xorriso
 xz
 )
 { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfish' in directory '\$PWD'..." && ./run guestfish && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for compter architecture '\$NMCMND'..."
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
-command -v qemu || { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for compter architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { pc acpica capstone librpcsecgss libslirp ninja pixman python-sphinx python-sphinx_rtd_theme || pci acpica capstone librpcsecgss libslirp ninja pixman python-sphinx python-sphinx_rtd_theme ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make ; } ; } || makeaurhelpers build qemu-git ; }
+{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
+command -v qemu || { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for compter architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make ; } ; } || makeaurhelpers build qemu-git ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 NBRFCMDS=14
