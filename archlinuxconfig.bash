@@ -707,10 +707,11 @@ s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for
 v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option show.
 
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
-[ -n "\${1:-}" ] && [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; }
-[ -n "\${1:-}" ] && [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; }
-[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
-[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Bb Cc Dd Ee Gg Hh Ii Jj Kk Ll Mm Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
+[ -n "\${1:-}" ] && { [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
+[ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; } ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Gg Hh Ii Jj Kk Ll Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+[ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfish' in directory '\$PWD'..." && ./run guestfish && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
 GTFSDPND=(
 autoconf
@@ -764,6 +765,7 @@ ocaml
 ocaml-findlib
 perl
 perl-module-build
+perl-pod-parser
 pcre2
 python
 rpcsvc-proto
@@ -777,9 +779,8 @@ which
 xorriso
 xz
 )
-{ [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfish' in directory '\$PWD'..." && ./run guestfish && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..."
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
-command -v qemu || { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make ; } ; } || makeaurhelpers build qemu-git ; }
+command -v qemu-io 1>/dev/null || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make ; } ; } || makeaurhelpers build qemu-git ; } ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 NBRFCMDS=14
@@ -801,7 +802,7 @@ _RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
 _RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[14/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
-[ -z "\${1:-}" ] && _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
+_SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makelibguestfs
