@@ -779,28 +779,29 @@ which
 xorriso
 xz
 )
-{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 0 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
-command -v qemu-io 1>/dev/null || { { pc qemu-user qemu-img || pci qemu-user qemu-img || pc qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make ; } ; } || makeaurhelpers build qemu-git ; } ; }
+{ [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 1 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
+cpan Pod::Man Pod::Simple || _RCSRPTNM_ 2 "echo \${SRPTNM^^} SIGNAL:  cpan Pod::Man Pod::Simple"
+command -v qemu-io 1>/dev/null || { { pc qemu-user qemu-img || pci qemu-user qemu-img || pc qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub...." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && make install ; } ; } || makeaurhelpers build qemu-git ; } ; }
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
-NBRFCMDS=14
+NBRFCMDS=16
 _RCSRPTA0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Running alternate command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A0" " Finished running alternate command '\${3:-}' for command '\${2:-}'." ; } ; }
 _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}' in directory '\$PWD'...  " && { { \${4:-:}  || : ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]A1" " Finished running alternate command '\${4:-}' for commands '\${2:-}' then '\${3:-}''." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_RCSRPTNM_ 1 "cd \$HOME" "exit 69"
-_RCSRPTNM_ 2 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
-_RCSRPTNM_ 3 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 4 "gpl" "git pull" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
-_RCSRPTNM_ 5 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
-_RCSRPTNM_ 6 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
-_RCSRPTNM_ 7 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
-_RCSRPTNM_ 8 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
-_RCSRPTNM_ 9 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
-_RCSRPTNM_ 10 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
-_RCSRPTNM_ 11 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
-_RCSRPTNM_ 12 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
-_RCSRPTNM_ 13 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish"
-printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[14/14]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+_RCSRPTNM_ 3 "cd \$HOME" "exit 69"
+_RCSRPTNM_ 4 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
+_RCSRPTNM_ 5 "cd libguestfs" "exit 69"
+_RCSRPTNM_ 6 "gpl" "git pull" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
+_RCSRPTNM_ 7 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
+_RCSRPTNM_ 8 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
+_RCSRPTNM_ 9 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
+_RCSRPTNM_ 10"autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
+_RCSRPTNM_ 11"autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
+_RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
+_RCSRPTNM_ 13 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
+_RCSRPTNM_ 14 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
+_RCSRPTNM_ 15 "./run guestfish" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish"
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
 ## $INSTALLDIR$TMXRCHBNDR/makelibguestfs FE
