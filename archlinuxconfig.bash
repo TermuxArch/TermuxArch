@@ -698,13 +698,13 @@ HLPSTG="One and two letter arguments are good; i.e. Command \$XLCD00 is an equiv
 
 f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00 (quote multiple search words),
 
-g[uestfish]		run guestfish shell if built,
+g[uestfish 'run cmd']	run guestfish shell or run command if built,
 
 h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-l[ibguestfish]		run guestfish shell if built,
+l[ibguestfs 'run cmd']	run guestfish shell or run command if built,
 
 s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02.  This option is a synonym for option view,
 
@@ -712,7 +712,7 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
-[ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Gg]* ]] || [[ "\${1:-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish' in directory '\$PWD'..." && \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
+[ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Gg]* ]] || [[ "\${1:-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish' in directory '\$PWD'..." && \$HOME/libguestfs/run "\${2:-\$HOME/libguestfs/fish/guestfish}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
 [ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
