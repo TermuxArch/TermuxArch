@@ -740,7 +740,6 @@ f2fs-tools
 file
 findutils
 flex
-fuse-exfat
 gawk
 gcc
 gdisk
