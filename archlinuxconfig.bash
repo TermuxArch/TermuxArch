@@ -711,7 +711,7 @@ v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
 [ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Ss]* ]] || [[ "\${1:-}" = [Vv]* ]] ; } && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Gg Hh Ii Jj Kk Ll Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
-[ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command './run guestfish --help' in directory '\$PWD'..." && ./run guestfish --help && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
+[ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help' in directory '\$PWD'..." && \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
 GTFSDPND=(
 acl
@@ -842,7 +842,7 @@ _RCSRPTNM_ 11"autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 13 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
 _RCSRPTNM_ 14 "make -k check" "echo \${SRPTNM^^} SIGNAL:  make -k check"
-_RCSRPTNM_ 15 "./run guestfish --help" "echo \${SRPTNM^^} SIGNAL:  ./run guestfish --help"
+_RCSRPTNM_ 15 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
