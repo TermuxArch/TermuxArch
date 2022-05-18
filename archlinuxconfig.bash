@@ -1288,8 +1288,8 @@ fi
 cd
 [ -d fakeroot-tcp ] || gcl https://aur.archlinux.org/fakeroot-tcp.git
 cd fakeroot-tcp || exit 196
-printf "%s\\n" "Running command 'nice -n 20 makepkg -Ccfis --check --needed';  Attempting to build and install Arch Linux AUR package 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
-{ nice -n 20 makepkg -Ccfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
+printf "%s\\n" "Running command 'nice -n 20 makepkg -ACcfis --check --needed';  Attempting to build and install Arch Linux AUR package 'fakeroot-tcp' with '\${0##*/}' version $VERSIONID.  Please be patient..."
+{ nice -n 20 makepkg -ACcfis --check --needed && libtool --finish /usr/lib/libfakeroot && :>"/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ; } || _PRTERROR_
 printf "%s\\n" "Building and installing fakeroot-tcp: DONE 🏁"
 }
 [ ! -f "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" ] && _DOMAKEFAKEROOTTCP_ || printf "%s\\n" "Please remove file "/run/lock/${INSTALLDIR##*/}/makeaurfakeroottcp.lock" in order to rebuild fakeroot-tcp with \${0##*/} version $VERSIONID."
@@ -1346,7 +1346,7 @@ exit 100
 }
 [ -x /usr/bin/yay ] && printf "\\e[0;32m%s\\e[0m\\n" "The command 'yay' is already installed!  Please use the command 'yay':  Exiting..." && exit
 _PRMAKE_() {
-printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mnice -n 20 makepkg -Ccfis --check --needed --noconfirm\\e[1;37m...\\n"
+printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32mnice -n 20 makepkg -ACcfis --check --needed --noconfirm\\e[1;37m...\\n"
 }
 printf "\\e[0;32m%s\\e[0m\\n" "Building and installing 'yay':"
 if [[ -n "\${PREFIX:-}" ]]
@@ -1360,7 +1360,7 @@ pci base base-devel fakeroot gcc git || pci base base-devel fakeroot gcc git || 
 fi
 cd
 [ -d yay-bin ] || gcl https://aur.archlinux.org/yay-bin.git
-{ { cd yay-bin || exit 69 ; } && _PRMAKE_ && nice -n 20 makepkg -Ccfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'nice -n 20 makepkg -Ccfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
+{ { cd yay-bin || exit 69 ; } && _PRMAKE_ && nice -n 20 makepkg -ACcfis --check --needed --noconfirm ; } || { printf "\\e[1;31m%s\\e[1;37m%s\\e[1;31m%s\\n" "ＴｅｒｍｕｘＡｒｃｈ \${SRPTNM^^} SIGNAL:  " "The command 'nice -n 20 makepkg -ACcfis --check --needed --noconfirm' did not run as expected; " "EXITING..." && exit 124 ; }
 printf "\\e[0;32m%s\\n%s\\n%s\\e[1;32m%s\\e[0m\\n" "Paths that can be followed after building 'yay' are 'yay cmatrix --noconfirm' which builds a matrix screensaver.  The commands 'yay pikaur|pikaur-git|tpac' build more AUR installers which can also be used to download AUR repositories and build packages like with 'yay' in your Android smartphone, tablet, wearable and more.  Did you know that 'android-studio' is available with the command 'yay android'?" "If you have trouble importing keys, this command 'gpg --keyserver keyserver.ubuntu.com --recv-keys 71A1D0EFCFEB6281FD0437C71A1D0EFCFEB6281F' might help.  Change the number to the number of the key being imported." "Building and installing yay: " "DONE 🏁"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/makeauryay FE
