@@ -635,10 +635,10 @@ _CFLHDR_ "$TMXRCHBNDS"/gpl
 cat >> "$TMXRCHBNDS"/gpl <<- EOM
 if [ -x "\$(command -v git)" ]
 then
-git pull
+git pull || git pull -v
 else
 { pc git || pci git ; }
-git pull
+git pull || git pull -v
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gpl FE
 EOM
@@ -846,7 +846,7 @@ _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSRPTNM_ 3 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 4 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 5 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 6 "gpl" "git pull" "echo \${SRPTNM^^} SIGNAL:  git pull"
+_RCSRPTNM_ 6 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl"
 _RCSRPTNM_ 7 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
 _RCSRPTNM_ 8 "make -sC appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -sC appliance clean-supermin-appliance"
 _RCSRPTNM_ 9 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
