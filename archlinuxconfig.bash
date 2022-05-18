@@ -717,8 +717,6 @@ s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for
 
 v[virt-inspector 'cmd cmd']  run either virt-inspector (default) or run command 'virt-inspector 'cmd cmd'' if they are built,
 
-v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option argument 'show'.
-
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
 [ -n "\${1:-}" ] && { { [[ "\${1:-}" = [Gg]* ]] || [[ "\${1:-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
