@@ -736,6 +736,7 @@ dhcpcd
 diffutils
 dosfstools
 e2fsprogs
+exfatprogs
 f2fs-tools
 file
 findutils
