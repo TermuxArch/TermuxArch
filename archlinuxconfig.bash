@@ -699,23 +699,23 @@ XLCD04="'\$SRPTNM l 'guestfish --help'' \$PSCMMT"
 # builtin help string variables end
 HLPSTG="One and two letter arguments are good; i.e. Command \$XLCD00 is an equivalent of \$XLCD0L.  Command \$SRPTNM accepts these arguments:
 
-b[uild]			build libguestfs.  This argument is a synonym for 'make',
+b[uild]			build libguestfs.  This argument is a synonym for option 'make',
 
 f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00,
 
-g[uestfish 'cmd cmd']	run either guestfish shell (default) or run command commands if they are built.  This argument is a synonym for 'libguestfs', EXAMPLE: \$XLCD03,
+g[uestfish 'cmd cmd']	run either guestfish shell (default) or run command commands if they are built.  This argument is a synonym for option 'libguestfs', EXAMPLE: \$XLCD03,
 
 h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for 'guestfish', EXAMPLE: \$XLCD04,
+l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for option 'guestfish', EXAMPLE: \$XLCD04,
 
-m[ake]			make libguestfs.  This argument is a synonym for 'build',
+m[ake]			make libguestfs.  This argument is a synonym for option 'build',
 
-s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02.  This option is a synonym for option view,
+s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02.  This option is a synonym for argument 'view',
 
-v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option show.
+v[iew PKGBUILD]★	view the libguestfs PKGBUILD file or view a PKGBUILD file for a particular package;  EXAMPLE: \$XLCD02.  This option is a synonym for option argument 'show'.
 
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && { [[ "\${1:-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
@@ -834,7 +834,7 @@ xz
 yara
 )
 { [ -x /usr/bin/autoupdate ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ] && [ -x /usr/bin/python ] ; } || { pc \${GTFSDPND[@]} && makeaurfakeroottcp || pci \${GTFSDPND[@]} && makeaurfakeroottcp ; } || _RCSRPTNM_ 1 "echo \${SRPTNM^^} SIGNAL:  pci \${GTFSDPND[@]}"
-[ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfscpan.lock ] || { cpan -i Locale::TextDomain Pod::Man Pod::Simple || _RCSRPTNM_ 2 "echo \${SRPTNM^^} SIGNAL:  cpan -i Locale::TextDomain Pod::Man Pod::Simple" && :>/run/lock/${INSTALLDIR##*/}/\$UID.libguestfscpan.lock ; }
+[ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] || { cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More || _RCSRPTNM_ 2 "echo \${SRPTNM^^} SIGNAL:  cpan -i Bundle::Expect Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" && :>/run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ; }
 command -v qemu-io 1>/dev/null || { { pc qemu-user qemu-img || pci qemu-user qemu-img || pc qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica capstone jack libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pixman python-sphinx python-sphinx_rtd_theme sdl2) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && sudo make install ; } ; } || makeaurhelpers build qemu-git ; } ; }
 command -v clang && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; }
 NMCMND="\$(uname -m)"
