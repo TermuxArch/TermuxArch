@@ -812,7 +812,6 @@ procps-ng
 psmisc
 python
 python-pycodestyle
-python-selinux
 reiserfsprogs
 rpcsvc-proto
 rpm-tools
@@ -853,7 +852,7 @@ _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [
 _INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 _RCSRPTNM_ 1 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  installing Arch Linux prerequisites FAILED"
 { [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 2 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 2 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
-_CHECKFORQEMU_() { command -v qemu 1>/dev/null || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica capstone jack libepoxy libiscsi libnfs libpulse librpcsecgss libslirp liburing libvirt ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && sudo make install ; } ; } || makeaurhelpers build qemu-git ; } ; } ; }
+_CHECKFORQEMU_() { command -v qemu 1>/dev/null || { { pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite with command 'makeaurhelpers build qemu-git' for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && { { QEMUPKGI=(acpica capstone jack libcacard libepoxy libiscsi libnfs libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; } && { gcl https://github.com/qemu/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && printf '%s\n' "Running command '../configure && make' in directory '\$PWD'..." && ../configure && make V=1 && sudo make install ; } ; } || makeaurhelpers build qemu-git ; } ; } ; }
 _RCSRPTNM_ 3 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  checking for qemu FAILED"
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
 _RCSRPTNM_ 4 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  preparing clang FAILED"
