@@ -756,6 +756,8 @@ file
 findutils
 flex
 gawk
+gcc
+gdb
 gdisk
 gettext
 glibc
@@ -1460,6 +1462,14 @@ _ADDmakeaurtpac_() { _PREPFILEFTN0_ tpac tpac tpac  "a trizen wrapper to mimic y
 _ADDmakeauryaah_() { _PREPFILEFTN0_ yaah yaah yaah "Yet Another AUR Helper" ; }
 _ADDmakeaurzigzag_() { _PREPFILEFTN0_ zig-zag zig-zag zig-zag "a programming language prioritizing robustness, optimality, and clarity" ; }
 
+_ADDmakefakeroottcp_() {
+_CFLHDR_ "$TMXRCHBNDS"/makefakeroottcp "# build and install fakeroot-tcp"
+_PRTRTHLP_ "$TMXRCHBNDS"/makefakeroottcp
+_DPTCHHLP_ "$TMXRCHBNDS"/makefakeroottcp
+printf "\\n%s\\n" "makeaurhelpers build fakeroot-tcp" "## $INSTALLDIR$TMXRCHBNDR/makefakeroottcp FE" >> "$TMXRCHBNDS"/makefakeroottcp
+chmod 755 "$TMXRCHBNDS"/makefakeroottcp
+}
+
 _ADDmakeksh_() {
 _CFLHDR_ "$TMXRCHBNDS"/makeksh "# build and install the ksh shell; Inspired by https://github.com/termux/termux-api/issues/436"
 _PRTRTHLP_ "$TMXRCHBNDS"/makeksh
@@ -1486,6 +1496,14 @@ fi
 ## $INSTALLDIR$TMXRCHBNDR/makeksh FE
 EOM
 chmod 755 "$TMXRCHBNDS"/makeksh
+}
+
+_ADDmakeyay_() {
+_CFLHDR_ "$TMXRCHBNDS"/makeyay "# build and install command yay"
+_PRTRTHLP_ "$TMXRCHBNDS"/makeyay
+_DPTCHHLP_ "$TMXRCHBNDS"/makeyay
+printf "\\n%s\\n" "makeaurhelpers build yay-bin" "## $INSTALLDIR$TMXRCHBNDR/makeyay FE" >> "$TMXRCHBNDS"/makeyay
+chmod 755 "$TMXRCHBNDS"/makeyay
 }
 
 _ADDmemav_() {
