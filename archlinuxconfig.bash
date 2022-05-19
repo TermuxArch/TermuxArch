@@ -827,6 +827,7 @@ texinfo
 udev
 util-linux
 valgrind
+virt-install
 vim
 wget
 which
