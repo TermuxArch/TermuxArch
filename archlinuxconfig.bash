@@ -5,7 +5,7 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 _DPTCHHLP_() {
-printf "%s\\n%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/makeyay ] || cp -f $INSTALLDIR$TMXRCHBNDR/makeauryay $INSTALLDIR$TMXRCHBNDR/makeyay" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
+printf "%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
 }
 _PRTPATCHHELP_() {
 printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
@@ -857,7 +857,8 @@ _RCSRPTNM_ 8 "make -sC appliance clean-supermin-appliance" "echo \${SRPTNM^^} SI
 _RCSRPTNM_ 9 "make -s clean" "echo \${SRPTNM^^} SIGNAL:  make -s clean"
 _RCSRPTNM_ 10 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
 _RCSRPTNM_ 11 "autoreconf -si" "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
-_RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
+{ [ -f ./localconfigure ] && _RCSRPTNM_ 12 "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
+; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 13 "make -s" "echo \${SRPTNM^^} SIGNAL:  make -s"
 _RCSRPTNM_ 14 "make -s quickcheck" "echo \${SRPTNM^^} SIGNAL:  make -s quickcheck"
 _RCSRPTNM_ 15 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
