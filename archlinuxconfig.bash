@@ -699,7 +699,7 @@ XLCD04="'\$SRPTNM l 'guestfish --help'' \$PSCMMT"
 # builtin help string variables end
 HLPSTG="One and two letter arguments are good; i.e. Command \$XLCD00 is an equivalent of \$XLCD0L.  Command \$SRPTNM accepts these arguments:
 
-b[uild]			build libguestfs.  This argument is a synonym for option 'make',
+b[uild]			build libguestfs.  Useful for building 'libguestfs' again.  This argument is a synonym for option 'make',
 
 f[ind packages]★	find default 'machine virtual' search or find AUR packages with search terms, EXAMPLE: \$XLCD00,
 
@@ -711,7 +711,7 @@ he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html w
 
 l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for option 'guestfish', EXAMPLE: \$XLCD04,
 
-m[ake]			make libguestfs.  This argument is a synonym for option 'build',
+m[ake]			make libguestfs.  Useful for making 'libguestfs' again.  This argument is a synonym for option 'build',
 
 s[how PKGBUILD]★	show the libguestfs PKGBUILD file or show a PKGBUILD file for a particular package, EXAMPLE: \$XLCD02,
 
