@@ -868,7 +868,7 @@ _RCSRPTNM_ 13 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 { [ -f ./localconfigure ] && _RCSRPTNM_ 12 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 _RCSRPTNM_ 14 "make" "echo \${SRPTNM^^} SIGNAL:  make"
 _RCSRPTNM_ 15 "make quickcheck" "echo \${SRPTNM^^} SIGNAL:  make quickcheck"
-_RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "echo \${SRPTNM^^} SIGNAL:  \$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help"
+_RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\$O help" "echo \${SRPTNM^^} SIGNAL:  \$O help"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 
