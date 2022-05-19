@@ -630,19 +630,19 @@ else
 fi
 }
 
-_ADDgpl_() {
-_CFLHDR_ "$TMXRCHBNDS"/gpl
-cat >> "$TMXRCHBNDS"/gpl <<- EOM
+_ADDgmu_() {
+_CFLHDR_ "$TMXRCHBNDS"/gmu
+cat >> "$TMXRCHBNDS"/gmu <<- EOM
 if [ -x "\$(command -v git)" ]
 then
-git pull || git pull --verbose
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
 else
 { pc git || pci git ; }
-git pull || git pull --verbose
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
 fi
-## $INSTALLDIR$TMXRCHBNDR/gpl FE
+## $INSTALLDIR$TMXRCHBNDR/gmu FE
 EOM
-chmod 755 "$TMXRCHBNDS"/gpl
+chmod 755 "$TMXRCHBNDS"/gmu
 }
 
 _ADDgp_() {
@@ -658,6 +658,21 @@ fi
 ## $INSTALLDIR$TMXRCHBNDR/gp FE
 EOM
 chmod 755 "$TMXRCHBNDS"/gp
+}
+
+_ADDgpl_() {
+_CFLHDR_ "$TMXRCHBNDS"/gpl
+cat >> "$TMXRCHBNDS"/gpl <<- EOM
+if [ -x "\$(command -v git)" ]
+then
+git pull || git pull --verbose
+else
+{ pc git || pci git ; }
+git pull || git pull --verbose
+fi
+## $INSTALLDIR$TMXRCHBNDR/gpl FE
+EOM
+chmod 755 "$TMXRCHBNDS"/gpl
 }
 
 _ADDgsu_() {
