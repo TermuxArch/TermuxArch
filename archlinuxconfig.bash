@@ -811,6 +811,7 @@ procps
 procps-ng
 psmisc
 python
+python-pycodestyle
 python-selinux
 reiserfsprogs
 rpcsvc-proto
@@ -848,7 +849,7 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "command \$2 FAILED" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
-_CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-selinux/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ]; }
+_CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gperf ] && [ -x /usr/bin/ocaml ] && [ -x /usr/bin/perl ]; }
 _INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
 _RCSRPTNM_ 1 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  installing Arch Linux prerequisites FAILED"
 { [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 2 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 2 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
