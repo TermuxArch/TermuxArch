@@ -635,10 +635,10 @@ _CFLHDR_ "$TMXRCHBNDS"/gpl
 cat >> "$TMXRCHBNDS"/gpl <<- EOM
 if [ -x "\$(command -v git)" ]
 then
-git pull || git pull -v
+git pull || git pull --verbose
 else
 { pc git || pci git ; }
-git pull || git pull -v
+git pull || git pull --verbose
 fi
 ## $INSTALLDIR$TMXRCHBNDR/gpl FE
 EOM
@@ -658,6 +658,21 @@ fi
 ## $INSTALLDIR$TMXRCHBNDR/gp FE
 EOM
 chmod 755 "$TMXRCHBNDS"/gp
+}
+
+_ADDgsu_() {
+_CFLHDR_ "$TMXRCHBNDS"/gsu
+cat >> "$TMXRCHBNDS"/gsu <<- EOM
+if [ -x "\$(command -v git)" ]
+then
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
+else
+{ pc git || pci git ; }
+git submodule update --init --recursive --remote || git submodule update --init --recursive --remote --verbose
+fi
+## $INSTALLDIR$TMXRCHBNDR/gsu FE
+EOM
+chmod 755 "$TMXRCHBNDS"/gsu
 }
 
 _ADDhunf_ () {
@@ -859,8 +874,8 @@ _RCSRPTNM_ 4 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  preparing clang FAILED"
 _RCSRPTNM_ 5 "cd \$HOME" "exit 69"
 _RCSRPTNM_ 6 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl (git pull)"
-_RCSRPTNM_ 9 "git submodule update --init --recursive --remote" "echo \${SRPTNM^^} SIGNAL:  git submodule update --init --recursive --remote"
+_RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl"
+_RCSRPTNM_ 9 "gsu" "echo \${SRPTNM^^} SIGNAL:  gsu"
 _RCSRPTNM_ 10 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
 _RCSRPTNM_ 11 "make clean" "echo \${SRPTNM^^} SIGNAL:  make clean"
 _RCSRPTNM_ 12 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
@@ -869,7 +884,7 @@ _RCSRPTNM_ 13 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
 _RCSRPTNM_ 14 "make" "echo \${SRPTNM^^} SIGNAL:  make"
 _RCSRPTNM_ 15 "make quickcheck" "echo \${SRPTNM^^} SIGNAL:  make quickcheck"
 _RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\$O help" "echo \${SRPTNM^^} SIGNAL:  \$O help"
-printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' as this will create conflicting versions.  Use the '\$HOME/libguestfs/run' command in directory '\$HOME/libguestfs' instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
+printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' in directory '\$HOME/libguestfs' as this may create conflicting versions.  Please use the '\$HOME/libguestfs/run' command instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 
 _SLCTRHPR_ \$@ || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; }
