@@ -1703,23 +1703,15 @@ _ADDpc_() {
 _CFLHDR_ "$TMXRCHBNDS"/pc "# pacman install packages wrapper without system update"
 cat >> "$TMXRCHBNDS"/pc <<- EOM
 declare -g ARGS="\$@"
-_TRPET_() {
-printf "\\e[?25h\\e[0m"
-set +Eeuo pipefail
-_PRINTTAIL_ "\$ARGS"
-}
-
 _PRINTTAIL_() {
 printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
 printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
 }
-
 _TRPET_() {
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
-
 trap _TRPET_ EXIT
 ## pc begin ####################################################################
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
@@ -1728,17 +1720,8 @@ printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s
 if [[ -z "\${1:-}" ]]
 then
 printf "\\e[1;31m%s \\e[0m\\n" "Run command '\${0##*/}' with at least one argument;  Exiting..."
-elif [[ "\$1" = "a" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel "\${@:2}"
-elif [[ "\$1" = "ae" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs "\${@:2}"
-elif [[ "\$1" = "a8" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S base base-devel emacs jdk8-openjdk "\${@:2}"
 else
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
+nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -S "\$@"
 fi
 ## $INSTALLDIR$TMXRCHBNDR/pc FE
 EOM
@@ -1749,36 +1732,21 @@ _ADDpci_() {
 _CFLHDR_ "$TMXRCHBNDS"/pci "# pacman install packages wrapper with system update"
 cat >> "$TMXRCHBNDS"/pci <<- EOM
 declare ARGS="\$@"
+_PRINTTAIL_() {
+printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
+printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
+}
 _TRPET_() {
 printf "\\e[?25h\\e[0m"
 set +Eeuo pipefail
 _PRINTTAIL_ "\$ARGS"
 }
-
-_PRINTTAIL_() {
-printf "\\e[0;32m%s \\e[1;32m%s \\e[0;32m%s\\e[1;34m: \\e[1;32m%s\\e[0m 🏁  \\n\\n\\e[0m" "TermuxArch command" "\$STRNRG" "version \$VERSIONID" "DONE 📱"
-printf '\033]2;  🔑 TermuxArch %s:DONE 📱 \007' "\$STRNRG"
-}
-
 trap _TRPET_ EXIT
 ## pci begin ###################################################################
-[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
+printf '\033]2;  🔑 TermuxArch %s 📲 \007' "\$STRNRG"
 printf "\\e[1;32m==> \\e[1;37mRunning TermuxArch command \\e[1;32m%s \\e[0;32m%s\\e[1;37m...\\n" "\$STRNRG" "version \$VERSIONID"
-if [[ -z "\${1:-}" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu
-elif [[ "\$1" = "e" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\${@:2}" || base base-devel emacs "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs "\${@:2}"
-elif [[ "\$1" = "e8" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk8-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk8-openjdk "\${@:2}"
-elif [[ "\$1" = "e11" ]]
-then
-nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu base base-devel emacs jdk11-openjdk "\${@:2}" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su base base-devel emacs jdk11-openjdk "\${@:2}"
-else
+[ "\$UID" -eq 0 ] && SUDOCONF="" || SUDOCONF="sudo"
 nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Syu "\$@" || nice -n 20 \$SUDOCONF pacman --needed --noconfirm --color=always -Su "\$@"
-fi
 ## $INSTALLDIR$TMXRCHBNDR/pci FE
 EOM
 chmod 755 "$TMXRCHBNDS"/pci
