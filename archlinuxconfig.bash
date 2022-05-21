@@ -767,7 +767,6 @@ binutils
 bison
 btrfs-progs
 bzip2
-cdrkit
 cdrtools
 clang
 coreutils
@@ -846,7 +845,6 @@ rpcsvc-proto
 rpm-tools
 rsync
 sed
-sleuthkit
 squashfs-tools
 strace
 sudo
