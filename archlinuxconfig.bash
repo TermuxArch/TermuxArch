@@ -878,10 +878,7 @@ _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
 _CHECKFORQEMU_() {
 _PACMANCKQEMU_() {
-if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]]
-then
-command -v qemu-system-arm && command -v qemu-img
-elif [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
+if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
 then
 command -v qemu-system-arm && command -v qemu-img
 elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
@@ -896,24 +893,21 @@ command -v qemu && command -v qemu-img
 fi
 }
 _PACMANINQEMU_() {
-if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]]
+if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
 then
-pc qemu-system-arm qemu-img || pci qemu-system-arm qemu-img
-elif [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
-then
-pc qemu-system-arm qemu-img || pci qemu-system-arm qemu-img
+pc qemu-system-arm qemu-img qemu-tools || pci qemu-system-arm qemu-img qemu-tools
 elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
 then
 pc qemu || pci qemu
 elif [[ "\$NMCMND" == "$CPUABIX8664" ]]
 then
-pc qemu qemu-img || pci qemu qemu-img || pc qemu-img
+pc qemu qemu-img qemu-tools || pci qemu qemu-img qemu-tools
 else
 pc qemu qemu-img || pci qemu qemu-img || pc qemu-img
 fi
 }
 _PACMANCKQEMU_ || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && _PACMANINQEMU_ ; }
-{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
+{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
 { command -v qemu-img ; } || makeaurhelpers build qemu-git
 }
 _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gdb ] && [ -x /usr/bin/libtool ] && [ -x /usr/bin/ocaml ] ; }
