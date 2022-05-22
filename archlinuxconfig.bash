@@ -874,6 +874,7 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "\${SRPTNM^^} SIGNAL:  \$2" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
+_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
 _CHECKFORQEMU_() {
 _PACMANCKQEMU_() {
 if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
@@ -905,7 +906,7 @@ pc qemu qemu-img || pci qemu qemu-img || pc qemu-img
 fi
 }
 _PACMANCKQEMU_ || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && _PACMANINQEMU_ ; }
-{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
+{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && _BULDQEMU_ ; }
 { command -v qemu-img ; } || makeaurhelpers build qemu-git
 }
 _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gdb ] && [ -x /usr/bin/libtool ] && [ -x /usr/bin/ocaml ] ; }
@@ -919,7 +920,7 @@ TMRCMDVL="gcl https://github.com/libguestfs/libguestfs" && _RCSRPTNM_ 6 "\$TMRCM
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
 TMRCMDVL="gpl" && _RCSRPTNM_ 8 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="gsu" && _RCSRPTNM_ 9 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
-_PHLIBGUESTFS_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep ID /etc/os-release | cut -d"=" -f 2)" && sed -i 's/ARCHLINUX/\${TMRCMDVL^^}/g' configure ; }
+_PHLIBGUESTFS_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep ID /etc/os-release | cut -d"=" -f 2)" && sed -i 's/\[ARCH\ \|\ MANJARO\ \|/\[\${TMRCMDVL^^}\ \|\ MANJARO/g' m4/guestfs-appliance.m4 ; }
 TMRCMDVL="_PHLIBGUESTFS_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
