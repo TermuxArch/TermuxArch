@@ -865,7 +865,7 @@ xorriso
 xz
 yara
 )
-NBRFCMDS=17
+NBRFCMDS=19
 NMCMND="\$(uname -m)"
 _SLCTRHPR_() {
 _RCSNPTC0_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]C0" " Running complementary command '\${3:-}' for command '\${2:-}' in directory '\$PWD'...  " && { { \${3:-:} || _RCSRPTA1_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]C0" " Finished running complementary command '\${3:-}' for command '\${2:-}'." ; } ; }
@@ -910,23 +910,27 @@ _PACMANCKQEMU_ || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting
 }
 _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gdb ] && [ -x /usr/bin/libtool ] && [ -x /usr/bin/ocaml ] ; }
 _INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
-_RCSRPTNM_ 1 "_PRPCLANG_" "echo \${SRPTNM^^} SIGNAL:  _PRPCLANG_"
-_RCSRPTNM_ 2 "_CHECKFORQEMU_" "echo \${SRPTNM^^} SIGNAL:  _CHECKFORQEMU_"
+TMRCMDVL="_PRPCLANG_" && _RCSRPTNM_ 1 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="_CHECKFORQEMU_" && _RCSRPTNM_ 2 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 _RCSRPTNM_ 3 "_CHCKFRPRREQUSTS_" "_INSTLLPRREQUSTS_" "echo \${SRPTNM^^} SIGNAL:  _CHCKFRPRREQUSTS_"
 { [ -f /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock ] && _RCSRPTNM_ 4 "echo file /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock exists" ; } || { _RCSNPTNM_ 4 "cpan -i Locale::TextDomain Module::Build Pod::Man Pod::Simple Test::More" "touch /run/lock/${INSTALLDIR##*/}/\$UID.libguestfs.cpan.lock" ; }
 _RCSRPTNM_ 5 "cd \$HOME" "exit 69"
-_RCSRPTNM_ 6 "gcl https://github.com/libguestfs/libguestfs" "echo \${SRPTNM^^} SIGNAL:  gcl (git clone)"
+TMRCMDVL="gcl https://github.com/libguestfs/libguestfs" && _RCSRPTNM_ 6 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
-_RCSRPTNM_ 8 "gpl" "echo \${SRPTNM^^} SIGNAL:  gpl"
-_RCSRPTNM_ 9 "gsu" "echo \${SRPTNM^^} SIGNAL:  gsu"
-_RCSRPTNM_ 10 "make -C appliance clean-supermin-appliance" "echo \${SRPTNM^^} SIGNAL:  make -C appliance clean-supermin-appliance"
-_RCSRPTNM_ 11 "make clean" "echo \${SRPTNM^^} SIGNAL:  make clean"
-_RCSRPTNM_ 12 "autoupdate -f" "autoupdate" "echo \${SRPTNM^^} SIGNAL:  autoupdate"
-_RCSRPTNM_ 13 "autoreconf -i" "echo \${SRPTNM^^} SIGNAL:  autoreconf -i"
-{ [ -f ./localconfigure ] && _RCSRPTNM_ 12 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
-_RCSRPTNM_ 14 "make" "echo \${SRPTNM^^} SIGNAL:  make"
-_RCSRPTNM_ 15 "make quickcheck" "echo \${SRPTNM^^} SIGNAL:  make quickcheck"
-_RCSRPTNM_ 16 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\${0##*/} h" "echo \${SRPTNM^^} SIGNAL:  \${0##*/} h"
+TMRCMDVL="gpl" && _RCSRPTNM_ 8 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="gsu" && _RCSRPTNM_ 9 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+_PHLIBGUESTFS_(){
+[ -f /etc/os-release ] &&  TMRCMDVL="\$(grep ID /etc/os-release | cut -d"=" -f 2)" && sed -i 's/ARCHKINUX/\${TMRCMDVL^^}/g' /etc/os-release
+}
+TMRCMDVL="_PHLIBGUESTFS_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="autoupdate -f" && _RCSRPTNM_ 13 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="autoreconf -i" && _RCSRPTNM_ 14 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+{ [ -f ./localconfigure ] && _RCSRPTNM_ 15 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
+TMRCMDVL="make" && _RCSRPTNM_ 16 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+TMRCMDVL="make quickcheck" && _RCSRPTNM_ 17 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+_RCSRPTNM_ 18 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\${0##*/} h" "echo \${SRPTNM^^} SIGNAL:  \${0##*/} h"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' in directory '\$HOME/libguestfs' as this may create conflicting versions.  Use the '\$HOME/libguestfs/run' command instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 
