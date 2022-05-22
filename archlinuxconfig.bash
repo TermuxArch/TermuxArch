@@ -2195,7 +2195,7 @@ chmod 755 usr/bin/we
 
 _ADDyt_() {
 _CFLHDR_ "$TMXRCHBNDS"/yt
-printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## $INSTALLDIR$TMXRCHBNDR/yt FE" >> "$TMXRCHBNDS"/yt
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "youtube-dl \"\${ARGS[@]}\" || { { pc youtube-dl  || pci youtube-dl ; } && youtube-dl \"\${ARGS[@]}\" ; }" "## $INSTALLDIR$TMXRCHBNDR/yt FE" >> "$TMXRCHBNDS"/yt
 chmod 755 "$TMXRCHBNDS"/yt
 }
 
