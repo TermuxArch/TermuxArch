@@ -919,9 +919,7 @@ TMRCMDVL="gcl https://github.com/libguestfs/libguestfs" && _RCSRPTNM_ 6 "\$TMRCM
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
 TMRCMDVL="gpl" && _RCSRPTNM_ 8 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="gsu" && _RCSRPTNM_ 9 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
-_PHLIBGUESTFS_(){
-[ -f /etc/os-release ] &&  TMRCMDVL="\$(grep ID /etc/os-release | cut -d"=" -f 2)" && sed -i 's/ARCHKINUX/\${TMRCMDVL^^}/g' /etc/os-release
-}
+_PHLIBGUESTFS_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep ID /etc/os-release | cut -d"=" -f 2)" && sed -i 's/ARCHLINUX/\${TMRCMDVL^^}/g' configure ; }
 TMRCMDVL="_PHLIBGUESTFS_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
