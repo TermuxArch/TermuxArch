@@ -4,12 +4,8 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_DPTCHHLP_() {
-printf "%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1"
-}
-_PRTPATCHHELP_() {
-printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1"
-}
+_DPTCHHLP_() { printf "%s\\n%s\\n" "[ -e $INSTALLDIR$TMXRCHBNDR/am ] || cp -f $PREFIX/bin/am $INSTALLDIR$TMXRCHBNDR/am" "[ -e $INSTALLDIR$TMXRCHBNDR/patch ] || cp -f $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch" >> "$1" ;  }
+_PRTPATCHHELP_() { printf "%s\\n" "[ -e $TMXRCHBNDR/patch ] || printf \"\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0;40m%s\\e[1;30m%s\\e[0m\\n\" \"This command \" \"'ln -s $PREFIX/bin/patch $INSTALLDIR$TMXRCHBNDR/patch'\" \" should resolve a \" \"'patch: setting attribute security.selinux for security.selinux: Permission denied'\" \" error.  This workaround seems to work equally well in Termux PRoot with QEMU architecture emulation as well.  Issues \" \"“Building xrdp from AUR fails mentioning selinux #293”\" \" at https://github.com/SDRausty/TermuxArch/issues/293 and \" \"“patch: setting attribute security.selinux for security.selinux: Permission denied #182”\" \" at https://github.com/termux/proot/issues/182 have more information about this error.\"" >> "$1" ; }
 _PRTRTHLP_() {
 printf "%s\\n" "if [ \"\$EUID\" = 0 ] || [ \"\$UID\" = 0 ]
 then
@@ -753,7 +749,7 @@ v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command '
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "Presenting this 'https://libguestfs.org/guestfs-building.1.html' webpage...  " && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
-[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Pp Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
+[ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # makelibguestfs begin
 [ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && TMRCMDVL="./run guestfish --help" && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
@@ -921,8 +917,10 @@ TMRCMDVL="gcl https://github.com/libguestfs/libguestfs" && _RCSRPTNM_ 6 "\$TMRCM
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
 TMRCMDVL="gpl" && _RCSRPTNM_ 8 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="gsu" && _RCSRPTNM_ 9 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
-_PHLIBGUESTFS_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep -w ID /etc/os-release | cut -d"=" -f 2)" && sed -Ei "s/ARCH\ \|\ MANJARO\ \|/\${TMRCMDVL^^}\ \|\ MANJARO\ \|/g" m4/guestfs-appliance.m4 ; }
-TMRCMDVL="_PHLIBGUESTFS_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+_PHLBGSTFS1_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep -w ID /etc/os-release | cut -d"=" -f 2)" && sed -Ei "s/ARCH\ \|\ MANJARO\ \|/\${TMRCMDVL^^}\ \|\ MANJARO\ \|/g" m4/guestfs-appliance.m4 ; }
+_PHLBGSTFS2_(){ [ -f "\$HOME"/libguestfs/m4/patchfile  ] && cd "\$HOME"/libguestfs/m4 && patch guestfs-appliance.m4 patchfile ; cd "\$HOME"/libguestfs ; }
+# [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] && { TMRCMDVL="_PHLBGSTFS0_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] &&  { TMRCMDVL="_PHLBGSTFS1_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[Ii][Dd]* ]] && { TMRCMDVL="_PHLBGSTFS2_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } ||:
 TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="autoupdate -f" && _RCSRPTNM_ 13 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
@@ -930,7 +928,7 @@ TMRCMDVL="autoreconf -i" && _RCSRPTNM_ 14 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL
 { [ -f ./localconfigure ] && _RCSRPTNM_ 15 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || _RCSRPTNM_ 12 "./configure CFLAGS=-fPIC" "echo \${SRPTNM^^} SIGNAL:  ./configure CFLAGS=-fPIC"
 TMRCMDVL="make" && _RCSRPTNM_ 16 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make quickcheck" && _RCSRPTNM_ 17 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
-_RCSRPTNM_ 18 "\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish --help" "\${0##*/} h" "echo \${SRPTNM^^} SIGNAL:  \${0##*/} h"
+_RCSRPTNM_ 18 "\$HOME/libguestfs/run guestfish --help" "\${0##*/} h" "echo \${SRPTNM^^} SIGNAL:  \${0##*/} h"
 printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$NBRFCMDS/\$NBRFCMDS]" " Please do NOT run 'make install' in directory '\$HOME/libguestfs' as this may create conflicting versions.  Use the '\$HOME/libguestfs/run' command instead.  Webpage https://libguestfs.org/guestfs-building.1.html#the-.-run-script has more information.  "
 }
 
