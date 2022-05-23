@@ -141,7 +141,7 @@ _HUSDIRC_() {
 if [ "\$UID" != 0 ]
 then
 WHOAMI="\$(whoami)"
-printf "\\\\e[1;31mUSAGE:\\\\e[1;37m %s\\\\e[1;32m: Exiting...\\\\e[0m\\\\n" "Script '\${0##*/}' should be run using the root account, not the '\$WHOAMI' account.  Alternatively '\${0##*/}' can be used with the 'sudo' command;  'sudo \${0##*/} user'."
+printf "\\\\e[1;31mUSAGE:\\\\e[1;37m  %s\\\\e[1;31m:  Exiting...\\\\e[0m\\\\n" "Script '\${0##*/}' should be run using the root account, not the '\$WHOAMI' account.  Alternatively '\${0##*/}' can be used with the 'sudo' command, 'sudo \${0##*/} user'"
 exit 202
 fi
 if [ \$# = 0 ]
