@@ -751,7 +751,7 @@ v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command '
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # makelibguestfs begin
-[ -z "\${1:-}" ] && { { [ -x "\$HOME"/libguestfs.works0/fish/guestfish ] && TMRCMDVL="./run guestfish --help" && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
+[ -z "\${1:-}" ] && { { [ -x "\$HOME"/libguestfs/fish/guestfish ] && TMRCMDVL="./run guestfish --help" && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
 GTFSDPND=(
 acl
