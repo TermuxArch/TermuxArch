@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.804
+VERSIONID=2.1.805
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -737,7 +737,7 @@ done
 }
 _RMARCHRM_() {
 _RMARCHCRRM_() {	# remove installation
-chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
+chmod -R 777 "$INSTALLDIR" || { printf "\\e[1;31m%s\\e[1;35m%s\\e[1;31m%s" "Exit signal recieved:" "  Attempting to 'rmdir ${EXONSTGEM##*/}' exception.  Please either remove directory '$EXONSTGEM' manually or use command 'chmod -R 777 ~/${INSTALLDIR##*/}' followed by 'rm -rf ~/${INSTALLDIR##*/}' in order to remove directory '~/${INSTALLDIR##*/}'.  " "Exiting...  " && exit 206 ; }
 find "$INSTALLDIR" -type l -delete  || _PSGI1ESTRING_ "find INSTALLDIR _RMARCHRM_ ${0##*/}"
 rm -rf "$INSTALLDIR" || _PSGI1ESTRING_ "rm -rf INSTALLDIR _RMARCHRM_ ${0##*/}"
 }
@@ -745,7 +745,7 @@ _DOEXONSTGE_() {	# remove empty storage directories
 printf "\\e[0;35m"
 for EXONSTGEM in ${EXONSTGE[@]:-}
 do
-{ find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" ; } || { printf "\\e[1;31m%s\\e[1;35m%s\\n" "Exit signal recieved:" " attempting to 'rmdir $EXONSTGEM' exception;  Please remove directory $EXONSTGEM manually;  Exiting..." && exit 206 ; }
+{ find "$EXONSTGEM" -type l -delete && rmdir "$EXONSTGEM" ; } || { printf "\\e[1;31m%s\\e[1;35m%s\\e[1;31m%s" "Exit signal recieved:" "  Attempting to 'rmdir ${EXONSTGEM##*/}' exception.  Please either remove directory '$EXONSTGEM' manually or use command 'chmod -R 777 ~/${INSTALLDIR##*/}' followed by 'rm -rf ~/${INSTALLDIR##*/}' in order to remove directory '~/${INSTALLDIR##*/}'.  " "Exiting...  " && exit 206 ; }
 done
 printf "\\e[1;30m"
 }
