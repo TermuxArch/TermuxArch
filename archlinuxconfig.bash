@@ -751,7 +751,7 @@ v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command '
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # makelibguestfs begin
-[ -z "\${1:-}" ] && { { [ -d "\$HOME"/libguestfs ] && TMRCMDVL="./run guestfish --help" && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
+[ -z "\${1:-}" ] && { { [ -x "\$HOME"/libguestfs.works0/fish/guestfish ] && TMRCMDVL="./run guestfish --help" && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
 GTFSDPND=(
 acl
@@ -879,8 +879,7 @@ then
 command -v qemu-system-arm && command -v qemu-img
 elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
 then
-command -v qemu-system-i368 && command -v qemu-img
-pc qemu || pci qemu
+command -v qemu-system-i386 && command -v qemu-img
 elif [[ "\$NMCMND" == "$CPUABIX8664" ]]
 then
 command -v qemu-system-x86_64 && command -v qemu-img
@@ -917,10 +916,18 @@ TMRCMDVL="gcl https://github.com/libguestfs/libguestfs" && _RCSRPTNM_ 6 "\$TMRCM
 _RCSRPTNM_ 7 "cd libguestfs" "exit 69"
 TMRCMDVL="gpl" && _RCSRPTNM_ 8 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="gsu" && _RCSRPTNM_ 9 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+# using patches is optional:
 _PHLBGSTFS1_(){ [ -f /etc/os-release ] && TMRCMDVL="\$(grep -w ID /etc/os-release | cut -d"=" -f 2)" && sed -Ei "s/ARCH\ \|\ MANJARO\ \|/\${TMRCMDVL^^}\ \|\ MANJARO\ \|/g" m4/guestfs-appliance.m4 ; }
-_PHLBGSTFS2_(){ [ -f "\$HOME"/libguestfs/m4/patchfile  ] && cd "\$HOME"/libguestfs/m4 && patch guestfs-appliance.m4 patchfile ; cd "\$HOME"/libguestfs ; }
-# [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] && { TMRCMDVL="_PHLBGSTFS0_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] &&  { TMRCMDVL="_PHLBGSTFS1_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[Ii][Dd]* ]] && { TMRCMDVL="_PHLBGSTFS2_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } ||:
+_PHLBGSTFS2_(){
+if [ -f "\$HOME"/libguestfs/m4/patchfile  ]
+then
+cd "\$HOME"/libguestfs/m4 && patch guestfs-appliance.m4 patchfile ; cd "\$HOME"/libguestfs
+else
+printf '%s\n' "Patch file \$HOME/libguestfs/m4/patchfile is available at this https://listman.redhat.com/archives/libguestfs/2022-May/028941.html webpage.  No patch file found.  Exiting..."  && exit 101
+fi
+}
+[ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] &&  { TMRCMDVL="_PHLBGSTFS1_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[Ii][Dd]* ]] && { TMRCMDVL="_PHLBGSTFS2_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || { TMRCMDVL="echo \${SRPTNM^^} SIGNAL:  no patch" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
+# using patches end
 TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="autoupdate -f" && _RCSRPTNM_ 13 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
