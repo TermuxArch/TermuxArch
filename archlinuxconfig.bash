@@ -926,7 +926,15 @@ else
 printf '%s\n' "Patch file \$HOME/libguestfs/m4/patchfile is available at this https://listman.redhat.com/archives/libguestfs/2022-May/028941.html webpage.  No patch file found.  Exiting..."  && exit 101
 fi
 }
-[ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]] &&  { TMRCMDVL="_PHLBGSTFS1_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[Ii][Dd]* ]] && { TMRCMDVL="_PHLBGSTFS2_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; } || { TMRCMDVL="echo \${SRPTNM^^} SIGNAL:  no patch" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
+if [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[1]* ]]
+then
+TMRCMDVL="_PHLBGSTFS1_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+elif [ -n "\${1:-}" ] && [[ "\${1//-}" = [Pp]*[Ii][Dd]* ]]
+then
+TMRCMDVL="_PHLBGSTFS2_" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+else
+TMRCMDVL="echo \${SRPTNM^^} SIGNAL:  no patch" && _RCSRPTNM_ 10 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
+fi
 # using patches end
 TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
