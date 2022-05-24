@@ -333,48 +333,23 @@ _PRINTTAIL_ "\${KEYRINGS[@]}"
 trap _TRPET_ EXIT
 
 ## keys begin ##################################################################
-# [ -z "\${TALUSER:-}" ] && TALUSER=root
-# if [ -x /system/bin/toybox ] && [ ! -f /var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock ]
-# then
-# cd "\$TALUSER"/bin || cd bin || exit 196
-# {
-# printf 'Creating symlinks in '%s' to '/system/bin/toybox';  Please wait a moment...  \n' "\$PWD"
-# for TOYBOXTOOL in \$(/system/bin/toybox)
-# do
-# if [ "\$TOYBOXTOOL" != cat ] || [ "\$TOYBOXTOOL" != uname ] || [ "\$TOYBOXTOOL" != vi ]
-# then
-# ln -fs /system/bin/toybox "\$TOYBOXTOOL" || _PRTERROR_
-# fi
-# done && :>/var/run/lock/"${INSTALLDIR##*/}"/toyboxln."\$TALUSER".lock && printf 'Creating symlinks in '%s' to '/system/bin/toybox';  DONE  \n' "\$PWD" ; } || _PRTERROR_
-# cd "$INSTALLDIR" || exit 196
-# fi
 KEYSUNAM_="\$(uname -m)"
 if [[ -z "\${1:-}" ]] || [[ "\$KEYSUNAM_" = aarch64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinuxarm-keyring"
 KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$1" = x86 ]]
+elif [[ "\$1" = x86 ]] || [[ "\$KEYSUNAM_" = x86 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="archlinux32-keyring"
 KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$1" = x86_64 ]]
+elif [[ "\$1" = x86_64 ]] || [[ "\$KEYSUNAM_" = x86_64 ]]
 then
 KEYRINGS[0]="archlinux-keyring"
 KEYRINGS[1]="ca-certificates-utils"
 else
 KEYRINGS=""
-fi
-if [[ "\$KEYSUNAM_" = x86 ]]
-then
-KEYRINGS[0]="archlinux-keyring"
-KEYRINGS[1]="archlinux32-keyring"
-KEYRINGS[2]="ca-certificates-utils"
-elif [[ "\$KEYSUNAM_" = x86_64 ]]
-then
-KEYRINGS[0]="archlinux-keyring"
-KEYRINGS[1]="ca-certificates-utils"
 fi
 ARGS="\${KEYRINGS[@]}"
 printf '\033]2;  🔑 TermuxArch %s 📲 \007' "'\$STRNRG'"
