@@ -2012,7 +2012,7 @@ printf "%s\\n" "[1/2] find $INSTALLDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -
 find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
 printf "%s\\n" "[2/2] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \;"
-printf "%s" "The command '${0##*/} ref' will repopulate the installation package files in directory '$INSTALLDIR' from cache directory '$CACHEDIR' and update the TermuxArch files to the newest published version.  "
+printf "%s" "The command '${0##*/} ref' will repopulate the installation package files in directory '$INSTALLDIR' from cache directory '$CACHEDIR' and update the TermuxArch files to the newest published version.  The 'paccache' command can be used to remove old packages from the pacman cache directory and the '--cachedir' argument can be used to specify the '$CACHEDIR$CACHEDIRSUFIX' directory.  "
 fi
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
