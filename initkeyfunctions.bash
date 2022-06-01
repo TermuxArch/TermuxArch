@@ -27,7 +27,6 @@ _ADDcolorizebashrc_
 _ADDes_
 _ADDexd_
 _ADDfibs_
-_ADDfbindsinit_
 _ADDga_
 _ADDgcl_
 _ADDgclone_
@@ -40,6 +39,7 @@ _ADDgmu_
 _ADDhunf_
 _ADDhunw_
 _ADDinfo_
+_ADDinitfbinds_
 _ADDinitrc_
 _ADDinputrc_
 _ADDkeys_

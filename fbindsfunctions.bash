@@ -4,7 +4,7 @@
 ## https://sdrausty.github.io/TermuxArch/README has info about this project.
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
-_ADDfbindsinit_() {
+_ADDinitfbinds_() {
 FBINDFUNCS=(
 _ADDfbindkvm_
 _ADDfbindprocpcidevices_
