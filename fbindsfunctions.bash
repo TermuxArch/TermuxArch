@@ -259,8 +259,25 @@ balloon_migrate 0
 swap_ra 9661
 swap_ra_hit 7872" > var/binds/fbindprocvmstat
 }
+
+_ADDfbindsysdevices_() {
+:>var/binds/fbindsysdevices
+chmod 666 var/binds/fbindsysdevices
+}
+
 _ADDfbinds_() {
-FBINDFUNCS=(_ADDfbindkvm_ _ADDfbindprocpcidevices_ _ADDfbindprocshmem_ _ADDfbindprocuptime_ _ADDfbindprocstat_ _ADDfbindprocversion_ _ADDbindprocloadavg_ _ADDbindprocvmstat_)
+FBINDFUNCS=(
+_ADDfbinds_
+_ADDfbindkvm_
+_ADDfbindprocpcidevices_
+_ADDfbindprocshmem_
+_ADDfbindprocuptime_
+_ADDfbindprocstat_
+_ADDfbindprocversion_
+_ADDbindprocloadavg_
+_ADDbindprocvmstat_
+_ADDfbindsysdevices_
+)
 for FBINDFUNC in "${FBINDFUNCS[@]}"
 do
 "$FBINDFUNC"

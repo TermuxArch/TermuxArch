@@ -27,7 +27,6 @@ _ADDcolorizebashrc_
 _ADDes_
 _ADDexd_
 _ADDfibs_
-_ADDfbinds_
 _ADDga_
 _ADDgcl_
 _ADDgclone_

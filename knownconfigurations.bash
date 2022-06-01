@@ -111,7 +111,7 @@ fi
 done
 [[ "$SYSVER" -ge 10 ]] && PROOTSTMNT+="-b /apex -b /storage -b /sys -b /system -b /vendor "
 # populate NOT readable binds
-PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/kvm]="$INSTALLDIR/var/binds/fbindkvm" [/dev/shm]="$INSTALLDIR/tmp" [/proc/loadavg]="$INSTALLDIR/var/binds/fbindprocloadavg" [/proc/pcidevices]="$INSTALLDIR/var/binds/fbindprocpcidevices" [/proc/shmem]="$INSTALLDIR/var/binds/fbindprocshmem" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime" [/proc/vmstat]="$INSTALLDIR/var/binds/fbindprocvmstat" [/proc/version]="$INSTALLDIR/var/binds/fbindprocversion")
+PRSTARR=([/dev/]=/dev/ [/dev/ashmem]="$INSTALLDIR/tmp" [/dev/kvm]="$INSTALLDIR/var/binds/fbindkvm" [/dev/shm]="$INSTALLDIR/tmp" [/proc/loadavg]="$INSTALLDIR/var/binds/fbindprocloadavg" [/proc/pcidevices]="$INSTALLDIR/var/binds/fbindprocpcidevices" [/proc/shmem]="$INSTALLDIR/var/binds/fbindprocshmem" [/proc/stat]="$INSTALLDIR/var/binds/fbindprocstat" [/proc/uptime]="$INSTALLDIR/var/binds/fbindprocuptime" [/proc/vmstat]="$INSTALLDIR/var/binds/fbindprocvmstat" [/proc/version]="$INSTALLDIR/var/binds/fbindprocversion" [/sys/devices]="$INSTALLDIR/var/binds/fbindsysdevices")
 for PRBIND in ${!PRSTARR[@]}
 do
 if [[ ! -r "$PRBIND" ]]	# is not readable
