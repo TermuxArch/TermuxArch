@@ -1999,14 +1999,9 @@ _ADDtrim_() {
 _CFLHDR_ "$TMXRCHBNDS"/trim
 cat >> "$TMXRCHBNDS"/trim <<- EOM
 printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m…\\n" "\${0##*/}"
-_PMFSESTRING_() {
-printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1'; Cannot complete task; " "Continuing..."
-printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
-}
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
+_DTRM_() {
 printf "%s\\n" "Triming installation files in directory '$INSTALLDIR' and populating cache in directory '$CACHEDIR'.  The command '${0##*/} ref' can be used to repopulate cache directory '$INSTALLDIR/var/cache/pacman/pkg/':"
-if [ -d "$CACHEDIR" ]
-then
 [ -d "$CACHEDIR$CACHEDIRSUFIX" ] || { mkdir -p "$CACHEDIR$CACHEDIRSUFIX" && printf '%s' "mkdir -p $CACHEDIR$CACHEDIRSUFIX && " ; }
 printf "%s\\n" "[1/3] find $INSTALLDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -exec mv {} $CACHEDIR \;"
 find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -exec mv {} "$CACHEDIR" \; || _PMFSESTRING_ "find $INSTALLDIR -maxdepth 1 -type f -exec mv {} $CACHEDIR \;"
@@ -2014,7 +2009,42 @@ printf "%s\\n" "[2/3] find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {
 find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} "$CACHEDIR$CACHEDIRSUFIX" \; || _PMFSESTRING_ "find /var/cache/pacman/pkg/ -maxdepth 1 -type f -exec mv {} $CACHEDIR$CACHEDIRSUFIX \;"
 printf "%s" "[3/3] paccache -r --keep 1 -c $CACHEDIR$CACHEDIRSUFIX"
 paccache -r --keep 1 -c "$CACHEDIR$CACHEDIRSUFIX" || _PMFSESTRING_ "paccache -r --keep 1 -c $CACHEDIR$CACHEDIRSUFIX"
-printf "%s\\n" "The command '${0##*/} ref' repopulates the installation package files in directory '$INSTALLDIR' from cache directory '$CACHEDIR' and updates the TermuxArch files to the newest published version.  "
+printf "%s\\n\\n" "The command '${0##*/} ref' repopulates the installation package files in directory '$INSTALLDIR' from cache directory '$CACHEDIR' and updates the TermuxArch files to the newest published version.  "
+}
+_PMFSESTRING_() {
+printf "\\e[1;31m%s\\e[1;37m%s\\n\\n" "Signal generated in '\$1'; Cannot complete task; " "Continuing..."
+printf "\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0;34m%s\\e[1;34m%s\\e[0m\\n\\n" "  If you find improvements for " "${0##*/}" " and " "\$0" " please open an issue and accompanying pull request."
+}
+_SUTRIM_() {
+nice -n 19 \$SUTRIM pacman -Scc --noconfirm --color=always || _PMFSESTRING_ "\${SUTRIM}pacman -Scc \${0##*/}"
+}
+[ -d "$CACHEDIR" ] || mkdir -p "$CACHEDIR"
+if [ -f "$CACHEDIR"DLTCCH ]
+then
+if grep 0 "$CACHEDIR"DLTCCH
+then
+_DPRGLL_() {
+printf "%s\\\\n" "[1/6] rm -rf /boot/"
+rm -rf /boot/
+printf "%s\\\\n" "[2/6] rm -rf /usr/lib/firmware"
+rm -rf /usr/lib/firmware
+printf "%s\\\\n" "[3/6] rm -rf /usr/lib/modules"
+rm -rf /usr/lib/modules
+printf "%s\\\\n" "[4/6] \$SUTRIM"
+_SUTRIM_
+printf "%s\\\\n" "[5/6] rm -f /var/cache/pacman/pkg/*pkg*"
+rm -f /var/cache/pacman/pkg/*pkg* || _PMFSESTRING_ "\${0##*/} rm -f /var/cache/pacman/pkg/*pkg*"
+printf "%s\\n" "[6/6] find $INSTALLDIR -maxdepth 1 -type f -name \"*.tar.gz*\" -delete"
+find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -delete || _PMFSESTRING_ "\${0##*/} find $INSTALLDIR -maxdepth 1 -type f -delete"
+}
+printf '%s\n' "Found 0 in file ${CACHEDIR}DLTCCH" && _DPRGLL_
+else
+_DTRM_
+printf '%s' "Found 0 NOT found in file ${CACHEDIR}DLTCCH.  "
+fi
+else
+_DTRM_
+printf '%s' "No ${CACHEDIR}DLTCCH file found.  If file ${CACHEDIR}DLTCCH is present with 0, all the pkg cache files will be removed and trimming steps 1-6 will be used.  The command 'cw \${0##*/})' has more information.  "
 fi
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
