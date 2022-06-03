@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.820
+VERSIONID=2.1.822
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -1160,6 +1160,6 @@ fi
 ## USAGE[1]: 'setupTermuxArch curl sysinfo' will use curl as the download manager and produce a system information file in the working directory.  This can be abbreviated to 'setupTermuxArch cs' and 'setupTermuxArch c s'.
 ## USAGE[2]: 'setupTermuxArch curl manual customdir' will install the installation in customdir with curl and use manual mode during installation.
 ## USAGE[3]: 'setupTermuxArch curl refresh customdir' will refresh the installation using curl as the download manager.
-## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.
+## Should any of these options fail to work as expected, please open an issue at GitHub with the command line used and output.  This product is being designed for both the sighted, and also the visually impaired;  Comments are welcome at discussions and issues webportals.
 ## After installing TermuxArch on device, file 'INSTALLDIR/usr/local/termuxarch/bin/README.md' has more information.  The TermuxArch files in directory 'INSTALLDIR/usr/local/termuxarch/bin' have more information.
 ## Very many hardy thank yous to contributors who are helping and have worked very hard for many long years, some for more, and to those who took mere minutes from their valuable effort with time in order to make this open source resource much better for all of us!  Please enjoy using TermuxArch in PRoot QEMU in Android, Chromebook, Amazon Fire OS and Windows on smartphone, tablet, wearable and similar:  setupTermuxArch FE
