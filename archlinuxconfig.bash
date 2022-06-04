@@ -940,7 +940,7 @@ TMRCMDVL="make -C appliance clean-supermin-appliance" && _RCSRPTNM_ 11 "\$TMRCMD
 TMRCMDVL="make clean" && _RCSRPTNM_ 12 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="autoupdate -f" && _RCSRPTNM_ 13 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="autoreconf -i" && _RCSRPTNM_ 14 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
-{ [ -f ./localconfigure ] && _RCSRPTNM_ 15 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || { TMRCMDVL="./configure CFLAGS=-fPIC --disable-daemon" && "_RCSRPTNM_ 15 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
+{ [ -f ./localconfigure ] && _RCSRPTNM_ 15 "cat ./localconfigure" "./localconfigure" "echo \${SRPTNM^^} SIGNAL:  ./localconfigure" ; } || { TMRCMDVL="./configure CFLAGS=-fPIC --disable-daemon" && _RCSRPTNM_ 15 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL" ; }
 TMRCMDVL="make"
 _RCSRPTNM_ 16 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
 TMRCMDVL="make quickcheck" && _RCSRPTNM_ 17 "\$TMRCMDVL" "echo \${SRPTNM^^} SIGNAL:  \$TMRCMDVL"
