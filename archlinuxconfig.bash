@@ -735,6 +735,8 @@ h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
+hel[p building]★	present this https://libguestfs.org/guestfs-faq.1.html webpage,
+
 l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for option 'guestfish', EXAMPLE: \$XLCD04,
 
 m[ake]			make libguestfs.  Useful for making 'libguestfs' again.  This argument is a synonym for option 'build',
@@ -746,6 +748,7 @@ v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command '
 ★open and use an Android web browser to find Arch Linux AUR packages matching search term(s) or view a particular PKGBUILD package file.  "
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ff]* ]] && { printf '\\e[0;32m%s' "Finding '\${2:-machine virtual}' AUR packages...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-machine virtual}" ; exit ; } ; }
 [ -n "\${1:-}" ] && { { [[ "\${1//-}" = [Gg]* ]] || [[ "\${1//-}" = [Ll]* ]] ; } && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/guestfish \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; } ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Hh][Ee][Ll]* ]] && { printf '\\e[0;32m%s' "Presenting this 'https://libguestfs.org/guestfs-faq.1.html' webpage...  " && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-faq.1.html" ; exit ; } ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Hh][Ee]* ]] && { printf '\\e[0;32m%s' "Presenting this 'https://libguestfs.org/guestfs-building.1.html' webpage...  " && am start -a android.intent.action.VIEW -d "https://libguestfs.org/guestfs-building.1.html" ; exit ; } ; }
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Ss]* ]] && { printf '\\e[0;32m%s' "Showing PKGBUILD file for '\${2:-libguestfs}'...  " && am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=\${2:-libguestfs}" && exit ; }
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
