@@ -559,14 +559,7 @@ git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --sin
 }
 BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
-if [ -d \"\$BASENAME\" ]
-then
-printf 'Directory %s exists;  Running command gpl in directory %s...\\n' \"\$BASENAME\" \"\$BASENAME\"
-cd \"\$BASENAME\"
-gpl
-printf 'Directory '%s' exists;  EXITING...\\n' \"\$BASENAME\"
-exit
-fi
+[ -d \"\$BASENAME\" ] || { printf 'Directory '%s' exists;  EXITING...\\n' \"\$BASENAME\"&& exit ; }
 [ -x \"\$(command -v git)\" ] || pc git || pci git
 _GITCLONE_ \"\$@\"
 ## $INSTALLDIR$TMXRCHBNDR/gcl FE" >> "$TMXRCHBNDS"/gcl
@@ -882,7 +875,7 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "\${SRPTNM^^} SIGNAL:  \$2" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
-_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="gpl && gsu && ../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
+_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && TMRCMDVL="make V=1" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && TMRCMDVL="sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } ; }
 _CHECKFORQEMU_() {
 _PACMANCKQEMU_() {
 if [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
