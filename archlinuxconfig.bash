@@ -559,7 +559,11 @@ git clone --depth 1 \"\$@\" --single-branch || git clone --depth 1 \"\$@\" --sin
 }
 BASENAME=\"\${@#*//}\" # strip before double slash
 BASENAME=\"\${BASENAME##*/}\" # strip before last slash
-[ -d \"\$BASENAME\" ] || { printf 'Directory '%s' exists;  EXITING...\\n' \"\$BASENAME\"&& exit ; }
+if [ -d \"\$BASENAME\" ]
+then
+printf 'Directory '%s' exists;  EXITING...\\n' \"\$BASENAME\"
+exit
+fi
 [ -x \"\$(command -v git)\" ] || pc git || pci git
 _GITCLONE_ \"\$@\"
 ## $INSTALLDIR$TMXRCHBNDR/gcl FE" >> "$TMXRCHBNDS"/gcl
