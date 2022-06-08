@@ -697,7 +697,6 @@ printf "%s\\n%s\\n" "{ [ -x \"/usr/bin/hunspell\" ] || { pc hunspell hunspell-en
 chmod 755 "$TMXRCHBNDS"/hunf
 }
 
-
 _ADDhunw_ () {
 _CFLHDR_ "$TMXRCHBNDS"/hunw
 _PRTRTHLP_ "$TMXRCHBNDS"/hunw
@@ -897,9 +896,7 @@ mkdir -p build && { cd build || exit 69 ; }
 fi
 for TMRCMD in "../configure" "make" "sudo make install"
 do
-TMRCMDVL="\$TMRCMD"
-printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..."
-\$TMRCMDVL || { gpl && exit 169 ; }
+{ TMRCMDVL="\$TMRCMD" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } || { TMRCMDVL="\$TMRCMD" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD' and exiting..." && gpl ; exit 169 ; }
 done
 }
 _CHECKFORQEMU_() {
