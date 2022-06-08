@@ -999,7 +999,7 @@ n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by defaul
 
 r[everse build all]	build all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
-s[earch] packages★	search for AUR packages.  This option is a synonym fir find,
+s[earch] packages★	search for AUR packages.  This option is a synonym for find,
 
 sc[reensavers build]	build a terminal screensavers from AUR,
 
