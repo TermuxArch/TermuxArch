@@ -897,7 +897,7 @@ mkdir -p build && { cd build || exit 69 ; }
 fi
 for TMRCMD in "../configure" "make" "sudo make install"
 do
-{ TMRCMDVL="\$TMRCMD" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } || { TMRCMDVL="\$TMRCMD" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD' and exiting..." && git pull --depth 1 ; exit 169 ; }
+{ TMRCMDVL="\$TMRCMD" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL ; } || { TMRCMDVL="git pull --depth 1" && printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD' and exiting..." && \$TMRCMDVL ; exit 169 ; }
 done
 }
 _CHECKFORQEMU_() {
