@@ -735,7 +735,7 @@ h[elp]			print this help screen,
 
 he[lp building]★	present this https://libguestfs.org/guestfs-building.1.html webpage,
 
-hel[p building]★	present this https://libguestfs.org/guestfs-faq.1.html webpage,
+hel[p faq]★		present this https://libguestfs.org/guestfs-faq.1.html webpage,
 
 l[ibguestfs 'cmd cmd']	run either guestfish shell (default) or run commands if they are built.  This argument is a synonym for option 'guestfish', EXAMPLE: \$XLCD04,
 
@@ -754,6 +754,7 @@ v[irt-inspector 'cmd cmd']  run either virt-inspector (default) or run command '
 [ -n "\${1:-}" ] && [[ "\${1//-}" = [Vv]* ]] && { [ -d "\$HOME"/libguestfs ] && cd "\$HOME"/libguestfs && printf '%s\n' "Running command '\$HOME/libguestfs/run \$HOME/libguestfs/fish/virt-inspector \${2:-}' in directory '\$PWD'..." && \$HOME/libguestfs/run "\$HOME/libguestfs/fish/guestfish \${2:-}" && exit || { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; }
 [ -n "\${1:-}" ] && { for ARG1 in '/' '?' {0..9} Aa Cc Dd Ee Hh Ii Jj Kk Oo Qq Rr Tt Uu Ww Xx Yy Zz ; do [[ "\${1//-}" = ["\$ARG1"]* ]] && { printf '\\e[0;32m%s' "\$HLPSTG" ; exit ; } ; done ; }
 # makelibguestfs begin
+[ -x /usr/bin/man ] || { pc man || pci man ; }
 [ -z "\${1:-}" ] && { { [ -f "\$HOME"/libguestfs/fish/guestfish.1 ] && TMRCMDVL="man \$HOME/libguestfs/fish/guestfish.1" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..." && \$TMRCMDVL && exit ; } || printf "\\e[48;5;22m%s\\n" "Command \$SRPTNM is attempting to build and install 'libguestfs' for computer architecture '\$NMCMND'..." ; }
 # libguestfs dependencies
 GTFSDPND=(
@@ -877,10 +878,10 @@ _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang |
 _BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon ninja pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { { cd || exit 69 ; } && gcl https://gitlab.com/qemu-project/qemu && mkdir -p qemu/build && { cd qemu/build || exit 69 ; } && TMRCMDVL="../configure && make V=1 && sudo make install" && printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD':" && \$TMRCMDVL ; } ; }
 _CHECKFORQEMU_() {
 _PACMANCKQEMU_() {
-if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]]
+if [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
 then
 command -v qemu-system-aarch64 && command -v qemu-img
-elif [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
+elif [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]]
 then
 command -v qemu-system-arm && command -v qemu-img
 elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
