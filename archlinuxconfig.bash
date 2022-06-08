@@ -895,22 +895,17 @@ command -v qemu && command -v qemu-img
 fi
 }
 _PACMANINQEMU_() {
-if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]]
+if [[ "\$NMCMND" == "$CPUABI7" ]] || [[ "\$NMCMND" == "armv7" ]] || [[ "\$NMCMND" = "$CPUABI8" ]] || [[ "\$NMCMND" = "aarch64" ]] || [[ "\$NMCMND" == "$CPUABIX8664" ]]
 then
-pc qemu-system-arm qemu-img qemu-tools || pci qemu-system-arm qemu-img qemu-tools
+{ pc qemu qemu-img qemu-tools || pci qemu qemu-img qemu-tools ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && _BULDQEMU_ ; } || makeaurhelpers build qemu-git
 elif [[ "\$NMCMND" == "$CPUABIX86" ]] || [[ "\$NMCMND" == i686 ]]
 then
-pc qemu || pci qemu
-elif [[ "\$NMCMND" == "$CPUABIX8664" ]]
-then
-pc qemu qemu-img qemu-tools || pci qemu qemu-img qemu-tools
+{ pc qemu || pci qemu ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && _BULDQEMU_ ; } || makeaurhelpers build qemu-git
 else
-pc qemu qemu-img || pci qemu qemu-img || pc qemu-img
+{ pc qemu qemu-img || pci qemu qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && _BULDQEMU_ ; } || makeaurhelpers build qemu-git
 fi
 }
 _PACMANCKQEMU_ || { printf "\\e[48;5;22m%s\\n" "Command '\$SRPTNM' is attempting to install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub..." && _PACMANINQEMU_ ; }
-{ command -v qemu-img ; } || { printf "\\e[48;5;22m%s\\n" "\${SRPTNM^^} SIGNAL:  Missing qemu command(s) found:  Command '\$SRPTNM' is attempting to build and install 'qemu' a 'libguestfs' prerequisite for computer architecture '\$NMCMND'.  If you find a better and simpler resolution for command '\$SRPTNM', please open an issue and pull request at GitHub." && _BULDQEMU_ ; }
-{ command -v qemu-img ; } || makeaurhelpers build qemu-git
 }
 _CHCKFRPRREQUSTS_() { [ -f /usr/share/licenses/python-pycodestyle/LICENSE ] && [ -x /usr/bin/bison ] && [ -x /usr/bin/gdb ] && [ -x /usr/bin/libtool ] && [ -x /usr/bin/ocaml ] ; }
 _INSTLLPRREQUSTS_() { pc \${GTFSDPND[@]} || pci \${GTFSDPND[@]} ; }
