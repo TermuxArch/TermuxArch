@@ -879,8 +879,8 @@ _BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libep
 for TMRCMD in "../configure" "make" "sudo make install"
 do
 TMRCMDVL="\$TMRCMD"
-printf '%s\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..."
-"\$TMRCMDVL" || break
+printf '\\e[48;5;22m%s\\e[0m\n' "Running command '\$TMRCMDVL' in directory '\$PWD'..."
+"\$TMRCMDVL" || { gpl && exit 169 ; }
 done
 }
 _CHECKFORQEMU_() {
