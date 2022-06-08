@@ -999,7 +999,9 @@ n[oconfirm install]	do not confirm install (\$SRPTNM installs packages by defaul
 
 r[everse build all]	build all the AUR helper packages with passing checksums in reverse alphabetical order, this option is like option 'a',
 
-s[creensavers build]	build a terminal screensavers from AUR,
+s[earch] packages★	search for AUR packages.  This option is a synonym fir find,
+
+sc[reensavers build]	build a terminal screensavers from AUR,
 
 sb[uild] 		small build builds some of the smaller AUR helper packages,
 
@@ -1320,7 +1322,7 @@ then
 RCHLXPKG="\$(pacman -Ql "\$CHKRHLPR" | head -n 1 | cut -d" " -f 1)"
 printf '%s' "Found command and/or file '\$CHKRHLPR'.  The '\$CHKRHLPR' command and/or file belongs to Arch Linux package '\${RCHLXPKG:-UNKNOWN}'.  "
 [ -z "\${TALL:-}" ] || \$CHKRHLPR
-[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Cc]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
+[[ "\$DALL" = [Aa]* ]] || [[ "\$DALL" = [Rr]* ]] || [[ "\$DALL" = [Ss][Bb]* ]] || [[ "\$DALL" = [Ss][Cc]* ]] || [[ "\$DALL" = [Tt][Mm]* ]] || [[ "\$DALL" = [Tt][Cc]* ]] || [[ "\$DALL" = [Tt][Ss]* ]] || exit 0
 else
 _CLONEAURHLPR_
 fi
@@ -1364,7 +1366,8 @@ exit
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="make makepkgs" && _SLCTRHPR_ \$ARGS ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Rr]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -nr) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss][Bb]* ]] && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRSM[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
-[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensavers build" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && { [[ "\${1//-}" = [Ss][Cc]* ]] && TALL=0 && AURHLPRSTG=\$(declare -p SCREENSAVERS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="screensavers build" && _SLCTRHPR_ \$ARGS ; }
+[ -n "\${1:-}" ] && [[ "\${1:-}" = [Ss]* ]] && { am start -a android.intent.action.VIEW -d "https://aur.archlinux.org/packages?O=0&K=\${2:-AUR helper}" ; exit ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Cc]* ]] && AURHLPRSTG=\$(declare -p CANDY) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="candy" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Hh]* ]] && for TSTHRNSS in h b c e f g l m n s sb a r tc tm ts ; do "\$0" "\$TSTHRNSS" ||: ; done ; }
 [ -n "\${1:-}" ] && { [[ "\${1//-}" = [Tt][Mm]* ]] && AURHLPRSTG=\$(declare -p MAKEPKGS) && eval AURHLPRS="\${AURHLPRSTG#*=}" && SLCTSYRNG="makepkg" && { for AURHLPR in \$(for AURHLP in "\${!AURHLPRS[@]}"; do printf '%s\n' "\$AURHLP" ; done | sort -n) ; do printf '%s\\n' "Attempting to build \$SLCTSYRNG '\$AURHLPR'..." && { _ARHCMD_ ||: ; } ; done ; } && exit ; }
