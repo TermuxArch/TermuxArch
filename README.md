@@ -20,6 +20,10 @@ Thank you for making this project work better and please contribute 🔆  [Cont
 
 ![Screenshot of Arch On Termux](https://raw.githubusercontent.com/TermuxArch/imgsTermuxArch/master/IMG_20171019_190414.jpg)
 
+[Where can I find Termux app in order to use TermuxArch?](https://github.com/termux/termux-app/releases)
+
+You can find Termux app at this https://github.com/termux/termux-app/releases webpage.
+
 [PRoot](https://termuxarch.github.io/docsTermuxArch/PRoot) has more information about Linux on device with Termux.
 
 Please share https://wiki.termux.com/wiki/Development everwhere🌎🌍🌏🌐!
