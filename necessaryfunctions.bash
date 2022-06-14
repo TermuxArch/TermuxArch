@@ -195,7 +195,7 @@ then
 _PPLCACHEDIR_
 else
 cd "$PREFIXDATAFILES" && { [ -d "$PREFIXDATAFILESUFIX" ] || mkdir -p "$PREFIXDATAFILESUFIX" ; } && printf '%s' "cd $PREFIXDATAFILES && mkdir -p $PREFIXDATAFILESUFIX && cd $CACHEDIR && " || printf '%s\n' "Please create cache directory '$CACHEDIR' in order to use the cache directory feature;  Continuing..."
-CMMDVL="$INSTALLDIR" && { cd "$CMMDVL" && printf '%s\n' "cd $CMMDVL" ; } || exit 69
+CMMDVL="$INSTALLDIR" && { cd "$CMMDVL" && printf '%s\n\n' "cd $CMMDVL" ; } || exit 69
 fi
 fi
 _CALLSYSTEM_
