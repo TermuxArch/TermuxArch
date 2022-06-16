@@ -877,7 +877,7 @@ _RCSRPTA1_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFC
 _RCSNPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { { \$2  && _RCSNPTC0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } || printf '%s\n' "\${SRPTNM^^} SIGNAL:  \$2" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _RCSRPTNM_() { printf "\\e[48;5;112m%s\\e[48;5;28m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Running command '\$2' in directory '\$PWD'...  " && { { \$2  || _RCSRPTA0_ "\${1:-}" "\${2:-}" "\${3:-}" "\${4:-}" ; } ; printf "\\e[48;5;119m%s\\e[48;5;34m%s\\e[0;0;0m\\n" "[\$1/\$NBRFCMDS]" " Finished running command '\$2'." ; } ; }
 _PRPCLANG_() { command -v clang 1>/dev/null && export CC=clang || { { pc clang || pci clang ; } && export CC=clang ; } ; }
-_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs jack libcacard libepoxy libiscsi libnfs liblouis libpulse librpcsecgss libslirp libusb libusb-debug liburing libvirt libxkbcommon make ninja pkgconf pcsc-tools pixman python-sphinx python-sphinx_rtd_theme qemu-tools spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; }
+_BULDQEMU_() { { QEMUPKGI=(acpica brltty capstone glusterfs libcacard libepoxy libiscsi libnfs liblouis libpulse libslirp libusb liburing libvirt libxkbcommon make ninja pkgconf pcsc-tools pixman python-sphinx python-sphinx_rtd_theme spice spice-protocol virglrenderer sdl2 sdl2_image) && pc "\${QEMUPKGI[@]}" || pci "\${QEMUPKGI[@]}" ; } && { cd || exit 69 ; }
 if [ -d qemu ]
 then
 cd qemu || exit 69
