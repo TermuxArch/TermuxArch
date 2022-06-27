@@ -2326,8 +2326,6 @@ fi
 
 _PREPPACMANCONF_() {
 [ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || {
-CCHDRX="$CACHEDIR$CACHEDIRSUFIX"
-touch "$CCHDRX" && sed -Ei 's/.*#CacheDir.*/CacheDir    = ${CCHDRX//\//\\\/}/g' "$INSTALLDIR"/etc/pacman.conf
 [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
 }
 # archlinuxconfig.bash FE
