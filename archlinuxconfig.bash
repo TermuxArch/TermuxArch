@@ -2028,7 +2028,6 @@ CCHDRX="$CACHEDIR$CACHEDIRSUFIX"
 _ADDtrim_() {
 _CFLHDR_ "$TMXRCHBNDS"/trim
 cat >> "$TMXRCHBNDS"/trim <<- EOM
-touch "$CCHDRX" && sed -Ei 's/.*#CacheDir.*/CacheDir    = ${CCHDRX//\//\\\/}/g' /etc/pacman.conf
 printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m…\\n" "\${0##*/}"
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
 _DTRM_() {
