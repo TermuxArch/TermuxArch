@@ -2027,6 +2027,8 @@ chmod 755 "$TMXRCHBNDS"/tour
 _ADDtrim_() {
 _CFLHDR_ "$TMXRCHBNDS"/trim
 cat >> "$TMXRCHBNDS"/trim <<- EOM
+CCHDRX="$CACHEDIR$CACHEDIRSUFIX"
+touch "$CCHDRX" && sed -Ei 's/.*#CacheDir.*/CacheDir    = ${CCHDRX//\//\\\/}/g' "$INSTALLDIR"/etc/pacman.conf
 printf "\\e[1;32m==> \\e[1;37mRunning command \\e[1;32m%s\\e[1;37m…\\n" "\${0##*/}"
 [ "\$UID" -eq 0 ] && SUTRIM="" || SUTRIM="sudo"
 _DTRM_() {
@@ -2325,6 +2327,9 @@ fi
 }
 
 _PREPPACMANCONF_() {
-[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || { [ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
+[ -f "$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ] || {
+CCHDRX="$CACHEDIR$CACHEDIRSUFIX"
+touch "$CCHDRX" && sed -Ei 's/.*#CacheDir.*/CacheDir    = ${CCHDRX//\//\\\/}/g' "$INSTALLDIR"/etc/pacman.conf
+[ -f "$INSTALLDIR"/etc/pacman.conf ] && { sed -i 's/^CheckSpace/\#CheckSpace/g' "$INSTALLDIR/etc/pacman.conf" && sed -i 's/^#Color/Color/g' "$INSTALLDIR/etc/pacman.conf" && :>"$INSTALLDIR"/run/lock/"${INSTALLDIR##*/}"/pacman.conf.lock ; } ; }
 }
 # archlinuxconfig.bash FE
