@@ -109,7 +109,7 @@ _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
 function _AM_() {
-command -v am || cp "$PREFIX"/bin/am "$TMXRCHBNDR"
+command -v am 1>/dev/null || cp "$PREFIX"/bin/am "$TMXRCHBNDR"
 }
 function _PWD_() {
 printf '%s\n' "\$PWD"
