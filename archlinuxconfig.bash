@@ -108,6 +108,9 @@ printf "%s\\n" "export TZ=\"$(getprop persist.sys.timezone)\"
 _ADDbashrc_() {
 [ -e root/.bashrc ] && _DOTHRF_ "root/.bashrc"
 cat > root/.bashrc <<- EOM
+function _AM_() {
+command -v am || cp "$PREFIX"/bin/am "$TMXRCHBNDR"
+}
 function _PWD_() {
 printf '%s\n' "\$PWD"
 }
@@ -125,14 +128,14 @@ alias ..='cd ../.. && _PWD_'
 alias ...='cd ../../.. && _PWD_'
 alias ....='cd ../../../.. && _PWD_'
 alias .....='cd ../../../../.. && _PWD_'
-alias aiabrowser='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
-alias aiachrome='am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
-alias aiadial='am start -a android.intent.action.DIAL'
-alias aiafilemanager='am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
-alias aiasearch='am start -a android.intent.action.SEARCH'
-alias aiaview='am start -a android.intent.action.VIEW'
-alias aiaviewd='am start -a android.intent.action.VIEW -d '
-alias aiawebsearch='am start -a android.intent.action.WEB_SEARCH'
+alias aiabrowser='_AM_ && am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'	## Reference [Android 11 (with Termux storage permission denied) question; What's the source for the shortcut to the file manager of the settings app?](https://www.reddit.com/r/termux/comments/msq7lm/android_11_with_termux_storage_permission_denied/) Contributors u/DutchOfBurdock u/xeffyr
+alias aiachrome='_AM_ && am start --user 0 -n com.android.chrome/com.google.android.apps.chrome.Main'	## Reference [Can I start an app from Termux's command line? How?](https://www.reddit.com/r/termux/comments/62zi71/can_i_start_an_app_from_termuxs_command_line_how/) Contributors u/u/fornwall u/Kramshet
+alias aiadial='_AM_ && am start -a android.intent.action.DIAL'
+alias aiafilemanager='_AM_ && am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"'
+alias aiasearch='_AM_ && am start -a android.intent.action.SEARCH'
+alias aiaview='_AM_ && am start -a android.intent.action.VIEW'
+alias aiaviewd='_AM_ && am start -a android.intent.action.VIEW -d '
+alias aiawebsearch='_AM_ && am start -a android.intent.action.WEB_SEARCH'
 alias C='cd .. && _PWD_'
 alias c='cd .. && _PWD_'
 alias CN='cat -n \$(command -v' # use a close parenthesis ) to complete this alias
