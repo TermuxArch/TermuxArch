@@ -9,6 +9,10 @@ This BASH setup shell script will attempt to set Arch Linux up in a Termux PRoot
 
 Please see [install](https://TermuxArch.github.io/docsTermuxArch/install) for options how to run [`setupTermuxArch`](https://raw.githubusercontent.com/TermuxArch/TermuxArch/master/setupTermuxArch) on device, or simply run `bash setupTermuxArch` once this BASH script is downloaded to install [Arch Linux](https://github.com/archlinux) in [Termux](https://github.com/termux).  When successfully completed, the  pleasure of experiencing the Linux command prompt in Arch Linux [Termux ](https://github.com/termux)[PRoot](https://github.com/termux/proot) QEMU in Android, Chromebook, Fire OS and Windows on smartphone, tablet, wearable and similar will be in power your hand.
 
+[Where can I find Termux app in order to use TermuxArch?](https://github.com/termux/termux-app/releases)
+
+You can find Termux app at this https://github.com/termux/termux-app/releases webpage.
+
 #### Screenshot from an Android smartphone 2018
 [![screenshot_20180413-172406](https://user-images.githubusercontent.com/27742457/38758637-ec0ff0dc-3f3f-11e8-802c-82bc511cde88.png)](https://TermuxArch.github.io/docsTermuxArch/install)
 
@@ -19,10 +23,6 @@ Please see [install](https://TermuxArch.github.io/docsTermuxArch/install) for op
 Thank you for making this project work better and please contribute 🔆  [Contributors](CONTRIBUTORS.md) and [Notice to Contributors](NOTICE.md) have more information about this project.
 
 ![Screenshot of Arch On Termux](https://raw.githubusercontent.com/TermuxArch/imgsTermuxArch/master/IMG_20171019_190414.jpg)
-
-[Where can I find Termux app in order to use TermuxArch?](https://github.com/termux/termux-app/releases)
-
-You can find Termux app at this https://github.com/termux/termux-app/releases webpage.
 
 [PRoot](https://termuxarch.github.io/docsTermuxArch/PRoot) has more information about Linux on device with Termux.
 
