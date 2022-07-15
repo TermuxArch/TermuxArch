@@ -2074,12 +2074,12 @@ find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -delete || _PMFSESTRING_ 
 printf '%s\n' "Found 0 in file ${CACHEDIR}DLTCCH" && _DPRGLL_
 else
 _DTRM_
-printf '%s' "Found 0 NOT found in file ${CACHEDIR}DLTCCH.  "
+printf '%s' "0 NOT found in file ${CACHEDIR}DLTCCH.  "
 fi
 else
 _DTRM_
-printf '%s' "File ${CACHEDIR}DLTCCH not found.  If file ${CACHEDIR}DLTCCH is present with a 0, all the pkg cache files will be removed and trimming steps [1/6]-[6/6] will be used instead of steps [1/3]-[3/3].  Command 'cw \${0##*/})' has more information.  "
 fi
+printf '%s' "File ${CACHEDIR}DLTCCH not found.  If file ${CACHEDIR}DLTCCH is present with a 0, all the pkg cache files will be removed and trimming steps [1/6]-[6/6] will be used instead of steps [1/3]-[3/3].  Command 'cw \${0##*/})' has more information.  "
 ## $INSTALLDIR$TMXRCHBNDR/trim FE
 EOM
 chmod 755 "$TMXRCHBNDS"/trim
