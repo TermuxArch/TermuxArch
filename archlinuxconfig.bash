@@ -2073,8 +2073,7 @@ find $INSTALLDIR -maxdepth 1 -type f -name "*.tar.gz*" -delete || _PMFSESTRING_ 
 }
 printf '%s\n' "Found 0 in file ${CACHEDIR}DLTCCH" && _DPRGLL_
 else
-_DTRM_
-printf '%s' "0 NOT found in file ${CACHEDIR}DLTCCH.  "
+printf '%s' "0 NOT found in file ${CACHEDIR}DLTCCH.  " && _DTRM_
 fi
 else
 _DTRM_
