@@ -131,6 +131,7 @@ _ADDtour_
 _ADDtrim_
 _ADDv_
 _ADDwe_
+_ADDya_
 _ADDyt_
 _ADDzshrc_
 }

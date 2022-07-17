@@ -2273,6 +2273,20 @@ EOM
 chmod 755 usr/bin/we
 }
 
+_ADDya_() {
+_CFLHDR_ "$TMXRCHBNDS"/ya
+printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "
+if [ -x /usr/bin/youtube-dl ]
+then
+youtube-dl -cwix --download-archive downloaded.txt --no-post-overwrites --extract-audio \"\${ARGS[@]}\"
+else
+pc youtube-dl  || pci youtube-dl
+youtube-dl -cwix --download-archive downloaded.txt --no-post-overwrites --extract-audio \"\${ARGS[@]}\"
+fi
+" "## $INSTALLDIR$TMXRCHBNDR/ya FE" >> "$TMXRCHBNDS"/ya
+chmod 755 "$TMXRCHBNDS"/ya
+}
+
 _ADDyt_() {
 _CFLHDR_ "$TMXRCHBNDS"/yt
 printf "%s\\n%s\\n%s\\n" "[ \"\$UID\" = 0 ] && printf \"\\e[1;31m%s\\e[1;37m%s\\e[1;31mExiting...\\n\" \"Cannot run '\$STRNRG' as root user :\" \" the command 'addauser username' creates user accounts in ~/${INSTALLDIR##*/} : the command '$STARTBIN command addauser username' can create user accounts in ~/${INSTALLDIR##*/} from Termux : a default user account is created during setup : the default username 'user' can be used to access the PRoot system employing a user account : command '$STARTBIN help' has more information :  \" && exit" "
