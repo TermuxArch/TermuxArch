@@ -6,7 +6,7 @@
 set -Eeuo pipefail
 shopt -s  extglob nullglob globstar
 unset LD_PRELOAD
-VERSIONID=2.1.878
+VERSIONID=2.1.879
 _STRPEROR_() { # run on script error
 local RV="$?"
 printf "\\e[1;48;5;138m %s" "ＴｅｒｍｕｘＡｒｃｈ ${PGNM^^} NOTICE:  Generated script signal received ${RV:-UNKNOWN} near or at line number ${1:-UNKNOWN} by '${2:-UNKNOWNCOMMAND}'!  "
@@ -849,7 +849,7 @@ if [[ -z "${1:-}" ]]
 then
 _OPT1_ "$@"
 _INTRO_ "$@"
-## [./path/systemimage.tar.gz [customdir]]  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  The install directory argument is optional.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch festure.  Download and configuration is not presently implemented, and hopefully will be in the future.  Create an issue and pull request at GitHub to implement these features.
+## [./path/systemimage.tar.gz [customdir]]  Network install can be substituted by copying systemimage.tar.gz and systemimage.tar.gz.md5 files with 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'.  Both '*.tar.gz' and '*.tar.gz.md5' files are required for this process to complete successfully.  The install directory argument is optional.  Installation for many versions of Linux that publish a root file sysytem is supported with this TermuxArch feature.  Download and configuration is not presently implemented, and hopefully will be in the future.  Please create an issue and pull request at GitHub to implement these features.
 elif [[ "${ARGS:0:1}" = . ]]
 then
 printf "\\n%s\\n" "Setting mode to copy system image."
