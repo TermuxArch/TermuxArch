@@ -290,7 +290,7 @@ printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[1;32m%s\e[0;32m%s\n\e[0;32m%s' "IT " "\
 :>"\$PWD/\$FRAMENAME"
 sleep 0.42 # Adjust for device being used; This sleep may be unnecessary.
 "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "\$CAMID" --es file "\$PWD/\$FRAMENAME"
-_CAM1_ () { FRAMENAME1="camid\$(printf '%s.%04d.jpg' "1" "\$FRAMECOUNT")" && "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "1" --es file "\$PWD/\$FRAMENAME1" ; } && _CAM1_
+_CAM1_ () { FRAMENAME1="camid\$(printf '%s.%04d.jpg' "1" "\$FRAMECOUNT")" && [ -e "\$PWD/\$FRAMENAME1" ] || "\${PREFIX:-/data/data/com.termux/files/usr}"/libexec/termux-api CameraPhoto --es camera "1" --es file "\$PWD/\$FRAMENAME1" ; } && _CAM1_
 printf '\e[0;32m%s\n' "DONE"
 _ISZERO_ "\$@"
 }
