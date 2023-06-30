@@ -5,17 +5,20 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
+. ./commons.bash
+
+
 _COPYIMAGE_() {
     # A systemimage.tar.gz file can be used: 'setupTermuxArch ./[path/]systemimage.tar.gz' and 'setupTermuxArch /absolutepath/systemimage.tar.gz'
     if [[ "$LCP" = "0" ]]; then
-        printf "%s\\n" "Copying $GFILE.md5 to $INSTALLDIR..."
+        printf '%s\n' "Copying $GFILE.md5 to $INSTALLDIR..."
         cp "$GFILE".md5 "$INSTALLDIR"
-        printf "%s\\n" "Copying $GFILE to $INSTALLDIR..."
+        printf '%s\n' "Copying $GFILE to $INSTALLDIR..."
         cp "$GFILE" "$INSTALLDIR"
     elif [[ "$LCP" = "1" ]]; then
-        printf "%s\\n" "Copying $GFILE.md5 to $INSTALLDIR..."
+        printf '%s\n' "Copying $GFILE.md5 to $INSTALLDIR..."
         cp "$WDIR$GFILE".md5 "$INSTALLDIR"
-        printf "%s\\n" "Copying $GFILE to $INSTALLDIR..."
+        printf '%s\n' "Copying $GFILE to $INSTALLDIR..."
         cp "$WDIR$GFILE" "$INSTALLDIR"
     fi
     GFILE="${GFILE##/*/}"
@@ -38,7 +41,7 @@ _DOFUNLCR2_() {
     if [ "$TALUSER" != alarm ]; then
         DOFLIST_=(.bash_logout .bash_profile .bashrc .cshrc .emacs .gitconfig .initrc .inputrc .vimrc .profile .zshrc)
         for DOFLNAME in "${DOFLIST_[@]}"; do
-            printf "\\n\\e[0;32mProcessing user \\e[1;32m%s\\e[0;32m file \\e[1;32m%s\\e[0;32m.  " "$TALUSER" "$DOFLNAME"
+            printf '\n\e[0;32mProcessing user \e[1;32m%s\e[0;32m file \e[1;32m%s\e[0;32m.  ' "$TALUSER" "$DOFLNAME"
             if [ -f "$INSTALLDIR/root/$DOFLNAME" ] && [ -f "$INSTALLDIR/home/$TALUSER/$DOFLNAME" ]; then
                 diff "$INSTALLDIR/root/$DOFLNAME" "$INSTALLDIR/home/$TALUSER/$DOFLNAME" 1> /dev/null || { _BKPTHF_ && _CPYFRT_; }
             elif [ -f "$INSTALLDIR/root/$DOFLNAME" ] && [ ! -f "$INSTALLDIR/home/$TALUSER/$DOFLNAME" ]; then
@@ -50,12 +53,13 @@ _DOFUNLCR2_() {
 
 _DOTHRF_() {
     # do the root user files
-    [ -f $1 ] && { printf "\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp"; } || printf "%s" "copy file '$1' if found; file not found; continuing; "
+    [ -f "$1" ] && { printf '\e[1;32m%s\e[0;32m%s\e[0m\n' "==>" " cp $1 /var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp" && cp "$1" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/$1.$SDATE.bkp"; } || printf '%s' "copy file '$1' if found; file not found; continuing; "
 }
 
 _FUNLCR2_() {
     # copy from root to home
-    export FLCRVAR=($(ls home/))
+    mapfile -t FLCRVAR < <(ls home/)
+    export FLCRVAR
     for TALUSER in "${FLCRVAR[@]}"; do
         _DOFUNLCR2_
     done
@@ -69,7 +73,7 @@ _PPLCACHEDIR_() {
     find "$CACHEDIR" -type f -name "*tar.gz*" -exec ln -s {} \; 2> /dev/null
     [ -d "$INSTALLDIR"/var/cache/pacman/pkg ] || { mkdir -p "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s' "mkdir -p $INSTALLDIR/var/cache/pacman/pkg && "; }
     cd "$INSTALLDIR"/var/cache/pacman/pkg && printf '%s\n' "cd $INSTALLDIR/var/cache/pacman/pkg" || exit 196
-    printf '%s\n' "find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \;" && find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \; 2> /dev/null
+    printf '%s\n' "find \"$CACHEDIR$CACHEDIRSUFIX\" -type f -exec ln -s {} \;" && find "$CACHEDIR$CACHEDIRSUFIX" -type f -exec ln -s {} \; 2> /dev/null
     cd "$INSTALLDIR" && printf '%s\n' "cd $INSTALLDIR" || exit 196
     printf '\e[0;32mPopulating from cache files:  \e[1;32mDONE\n\n'
 }
@@ -83,7 +87,7 @@ _DOUSECACHEDIR_() {
 _LOADIMAGE_() {
     _NAMESTARTARCH_
     _SPACEINFO_
-    printf "\\n"
+    printf '\n'
     _PREPINSTALLDIR_
     _COPYIMAGE_
     _MD5CHECK_
@@ -92,7 +96,7 @@ _LOADIMAGE_() {
     _PRINTDONE_
     _PRINTCONFIGUP_
     _TOUCHUPSYS_
-    printf "\\n"
+    printf '\n'
     _PRINTFOOTER_
     set +Eeuo pipefail
     "$INSTALLDIR/$STARTBIN" || _PRINTPROOTERROR_
@@ -104,17 +108,18 @@ _LOADIMAGE_() {
 
 _FIXOWNER_() {
     # fix owner of INSTALLDIR/home/USER, PR by @petkar
-    _DOFIXOWNER_() {
-        printf "\\e[0;32m%s" "Adjusting ownership and permissions: BEGUN"
-        FXARR="$(ls "$INSTALLDIR/home")"
-        for TALUSER in ${FXARR[@]}; do
-            if [[ "$TALUSER" != alarm ]]; then
-                $STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER"
-                $STARTBIN c "chown -R $TALUSER:$TALUSER $INSTALLDIR/home/$TALUSER"
-            fi
-        done
-        printf "\\e[0;32m%s\\e[0m\\n" ": DONE"
-    }
+    :
+    # _DOFIXOWNER_() {
+    #     printf '\e[0;32m%s' "Adjusting ownership and permissions: BEGUN"
+    #     FXARR="$(ls "$INSTALLDIR/home")"
+    #     for TALUSER in "${FXARR[@]}"; do
+    #         if [[ "$TALUSER" != alarm ]]; then
+    #             $STARTBIN c "chmod 777 $INSTALLDIR/home/$TALUSER"
+    #             $STARTBIN c "chown -R $TALUSER:$TALUSER $INSTALLDIR/home/$TALUSER"
+    #         fi
+    #     done
+    #     printf '\e[0;32m%s\e[0m\n' ": DONE"
+    # }
     # _DOFIXOWNER_ || _PSGI1ESTRING_ "_DOFIXOWNER_ maintenanceroutines.bash ${0##*/}"
 }
 
@@ -126,19 +131,19 @@ _REFRESHSYS_() {
     _PREPINSTALLDIR_
     _DOUSECACHEDIR_
     _SETLOCALE_
-    printf "\\n"
-    printf "\\e[1;32m==> \\e[1;37m%s \\e[1;32m%s %s...\\n" "Running" "${0##*/}" "$ARGS"
+    printf '\n'
+    printf '\e[1;32m==> \e[1;37m%s \e[1;32m%s %s...\n' "Running" "${0##*/}" "$ARGS"
     "$INSTALLDIR"/root/bin/setupbin.bash || _PRINTPROOTERROR_
     rm -f root/bin/finishsetup.bash
     rm -f root/bin/setupbin.bash
-    printf "\\n\\e[1;32mFiles updated to the newest version %s:\\n\\e[0;32m" "$VERSIONID"
-    ls "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
-    ls "$INSTALLDIR"/bin/we | cut -f7- -d /
-    ls "$INSTALLDIR"/root/.bashrc | cut -f7- -d /
-    ls "$INSTALLDIR"/root/.bash_profile | cut -f7- -d /
-    ls "$INSTALLDIR"/root/.vimrc | cut -f7- -d /
-    ls "$INSTALLDIR"/root/.gitconfig | cut -f7- -d /
-    printf "\\n\\e[1;32m%s\\n\\e[0;32m" "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}$TMXRCHBNDR/:"
+    printf '\n\e[1;32mFiles updated to the newest version %s:\n\e[0;32m' "$VERSIONID"
+    _FIND_LS_ "$INSTALLDIR/$STARTBIN" | cut -f7- -d /
+    _FIND_LS_ "$INSTALLDIR/bin/we" | cut -f7- -d /
+    _FIND_LS_ "$INSTALLDIR/root/.bashrc" | cut -f7- -d /
+    _FIND_LS_ "$INSTALLDIR/root/.bash_profile" | cut -f7- -d /
+    _FIND_LS_ "$INSTALLDIR/root/.vimrc" | cut -f7- -d /
+    _FIND_LS_ "$INSTALLDIR/root/.gitconfig" | cut -f7- -d /
+    printf '\n\e[1;32m%s\n\e[0;32m' "Files updated to the newest version $VERSIONID in directory ~/${INSTALLDIR##*/}$TMXRCHBNDR/:"
     ls "$INSTALLDIR$TMXRCHBNDR/"
     if [[ "${LCR:-}" = 2 ]] || [[ "${LCR:-}" = 3 ]] || [[ "${LCR:-}" = 4 ]] || [[ "${LCR:-}" = 5 ]]; then
         _FUNLCR2_
@@ -146,7 +151,7 @@ _REFRESHSYS_() {
     else
         printf "\\n\\e[0;32mIn order to refresh user directories, please use '\\e[1;32m%s re[fresh]\\e[0;32m'.  " "${0##*/}"
     fi
-    printf "\\n"
+    printf '\n'
     _PRINTFOOTER_
     set +Eeuo pipefail
     $STARTBIN || _PRINTPROOTERROR_
@@ -160,49 +165,51 @@ _SHFUNC_() {
     _SHFDFUNC_() {
         SHFD="$(find "$RMDIR" -type d -printf '%03d %p\n' | sort -r -n -k 1 | cut -d" " -f 2)"
         for SHF1D in $SHFD; do
-            rmdir "$SHF1D" || printf "%s" "Cannot 'rmdir $SHF1D': Continuing..."
+            rmdir "$SHF1D" || printf '%s' "Cannot 'rmdir $SHF1D': Continuing..."
         done
     }
-    printf "\n%s\n" "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
+    printf '\n%s\n' "Script '${0##*/}' checking and fixing permissions in directory '$PWD': STARTED..."
     SDIRS="apex data host-rootfs sdcard storage system vendor"
     for SDIR in $SDIRS; do
         RMDIR="$INSTALLDIR/$SDIR"
         [ -d "$RMDIR" ] && {
             chmod 755 "$RMDIR"
-            printf "%s" "Deleting superfluous '$RMDIR' directory: " && { rmdir "$RMDIR" || _SHFDFUNC_; } && printf "%s\n" "Continuing..."
+            printf '%s' "Deleting superfluous '$RMDIR' directory: " && { rmdir "$RMDIR" || _SHFDFUNC_; } && printf '%s\n' "Continuing..."
         }
     done
     PERRS="$(du "$INSTALLDIR" 2>&1 > /dev/null || :)"
-    PERRS="$(sed "s/du: cannot read directory '//g" <<< "$PERRS" | sed "s/': Permission denied//g")"
-    [ -z "$PERRS" ] || { printf "%s" "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS; do chmod 777 "$PERR"; done && printf "%s\n" "DONE"; } || printf "%s" "Fixing  permissions signal PERRS: Continuing..."
-    printf "%s\n" "Script '${0##*/}' checking and fixing permissions: DONE"
+    PERRS="${PERRS/"du: cannot read directory '"/}"
+    PERRS="${PERRS/"': Permission denied"/}"
+    [ -z "$PERRS" ] || { printf '%s' "Fixing  permissions in '$INSTALLDIR': " && for PERR in $PERRS; do chmod 777 "$PERR"; done && printf '%s\n' "DONE"; } || printf '%s' "Fixing  permissions signal PERRS: Continuing..."
+    printf '%s\n' "Script '${0##*/}' checking and fixing permissions: DONE"
 }
 
 _SHFUNCWRAP_() {
     if [[ "${LCR:-}" -eq 3 ]] || [[ "${LCR:-}" -eq 4 ]] || [[ "${LCR:-}" -eq 5 ]]; then
         _PREPPACMANCONF_
-        FNDTMPROOT=($(find "$TMPDIR" -maxdepth 1 -type d -name "proot*"))
+        mapfile -t FNDTMPROOT < <(find "$TMPDIR" -maxdepth 1 -type d -name "proot*")
         if [ ${#FNDTMPROOT[@]} = 0 ]; then
             _SHFUNC_ "$@"
         else
             if [ ${#FNDTMPROOT[@]} = 1 ]; then
-                printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU session;  Not checking for errors."
+                printf '\n\e[0;34m%s' "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU session;  Not checking for errors."
             else
-                printf "\\n\\e[0;34m%s" "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU sessions;  Not checking for errors."
+                printf '\n\e[0;34m%s' "Found ${#FNDTMPROOT[@]} open Termux PRoot QEMU sessions;  Not checking for errors."
             fi
         fi
     fi
 }
+_dummy_SHFUNCWRAP_() { _SHFUNCWRAP_ ""; }
 
 _SPACEINFO_() {
     declare SPACEMESSAGE=""
     units="$(df "$INSTALLDIR" | awk 'FNR == 1 {print $2}')"
     if [[ "$units" = Size ]]; then
         _SPACEINFOGSIZE_
-        printf "$SPACEMESSAGE"
+        printf '%b' "$SPACEMESSAGE"
     elif [[ "$units" = 1K-blocks ]]; then
         _SPACEINFOKSIZE_
-        printf "$SPACEMESSAGE"
+        printf '%b' "$SPACEMESSAGE"
     fi
 }
 
@@ -223,12 +230,14 @@ _SPACEINFOGSIZE_() {
     elif [[ "$USRSPACE" = *G ]]; then
         USSPACE="${USRSPACE::-1}"
         if [[ "$CPUABI" = "$CPUABI8" ]]; then
+            # FIXME: decimals are not supported
             if [[ "$USSPACE" -le "1.5" ]]; then
                 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE NOTICE!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for aarch64 architecture is 1.5G of free user space.\\e[0m\\n"
             else
                 SPACEMESSAGE=""
             fi
         elif [[ "$CPUABI" = "$CPUABI7" ]]; then
+            # FIXME: decimals are not supported
             if [[ "$USSPACE" -le "1.23" ]]; then
                 SPACEMESSAGE="\\e[0;33mＴｅｒｍｕｘＡｒｃｈ: \\e[1;33mFREE SPACE NOTICE!  \\e[1;30mStart thinking about cleaning out some stuff please.  \\e[33mThere is only $USRSPACE of free user space is available on this device.  \\e[1;30mThe recommended minimum to install Arch Linux in Termux PRoot for armv7 architecture is 1.23G of free user space.\\e[0m\\n"
             else
@@ -274,8 +283,8 @@ _SPACEINFOKSIZE_() {
 _SYSINFO_() {
     _NAMESTARTARCH_
     _SPACEINFO_
-    printf "\\e[38;5;76m"
-    printf "%s\\n" "Generating TermuxArch version $VERSIONID system information;  Please wait..."
+    printf '\e[38;5;76m'
+    printf '%s\n' "Generating TermuxArch version $VERSIONID system information;  Please wait..."
     _TASPINNER_ clock &
     _SYSTEMINFO_
     kill $! || _PRINTERRORMSG_ "_SYSINFO_ _SYSTEMINFO_ ${0##*/} maintenanceroutines.bash"
@@ -284,66 +293,73 @@ _SYSINFO_() {
     exit
 }
 
-_SYSTEMINFO_() {
-    printf "%s\\n" "dpkg --print-architecture result:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    dpkg --print-architecture >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "uname -a results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    uname -a >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+_SYSTEMINFO_() { {
+    printf '%s\n' "dpkg --print-architecture result:"
+    dpkg --print-architecture
+    printf '\n%s\n' "uname -a results:"
+    uname -a
+    printf '\n'
     for n in 0 1 2 3 4 5; do
-        printf "%s\\n" "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
+        printf '%s\n' "BASH_VERSINFO[$n] = ${BASH_VERSINFO[$n]}"
     done
-    printf "\\n%s\\n" "cat /proc/cpuinfo results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    cat /proc/cpuinfo >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "getprop | grep product.cpu results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    getprop | grep product.cpu >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "getprop | grep net. results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    getprop | grep net\\. >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\nFurther getprop results:\\n" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop gsm.sim.operator.iso-country]:" "[$(getprop gsm.sim.operator.iso-country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop persist.sys.locale]:" "[$(getprop persist.sys.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.build.target_country]:" "[$(getprop ro.build.target_country)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.build.version.release]:" "[$SYSVER]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.build.version.preview_sdk]:" "[$(getprop ro.build.version.preview_sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.build.version.sdk]:" "[$(getprop ro.build.version.sdk)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.com.google.clientidbase]:" "[$(getprop ro.com.google.clientidbase)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.com.google.clientidbase.am]:" "[$(getprop ro.com.google.clientidbase.am)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.com.google.clientidbase.ms]:" "[$(getprop ro.com.google.clientidbase.ms)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.product.device]:" "[$(getprop ro.product.device)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.product.first_api_level]:" "[$(getprop ro.product.first_api_level)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.product.locale]:" "[$(getprop ro.product.locale)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.product.manufacturer]:" "[$(getprop ro.product.manufacturer)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "%s %s\\n" "[getprop ro.product.model]:" "[$(getprop ro.product.model)]" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "Download directory information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /sdcard/Download ]] && printf "%s\\n" "/sdcard/Download exists" || printf "%s\\n" "/sdcard/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /storage/emulated/0/Download ]] && printf "%s\\n" "/storage/emulated/0/Download exists" || printf "%s\\n" "/storage/emulated/0/Download not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e "$HOME"/downloads ]] && printf "%s\\n" "$HOME/downloads exists" || printf "%s\\n" "~/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e "$HOME"/storage/downloads ]] && printf "%s\\n" "$HOME/storage/downloads exists" || printf "%s\\n" "$HOME/storage/downloads not found" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "Device information results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem exists" || printf "%s\\n" "/dev/ashmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -r /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem is readable" || printf "%s\\n" "/dev/ashmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -w /dev/ashmem ]] && printf "%s\\n" "/dev/ashmem is writable" || printf "%s\\n" "/dev/ashmem is not writable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s" "Ascertaining system information;  Please wait a moment  "
-    [[ -e /dev/shm ]] && printf "%s\\n" "/dev/shm exists" || printf "%s\\n" "/dev/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -r /dev/shm ]] && printf "%s\\n" "/dev/shm is readable" || printf "%s\\n" "/dev/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /proc/stat ]] && printf "%s\\n" "/proc/stat exits" || printf "%s\\n" "/proc/stat does not exit" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -r /proc/stat ]] && printf "%s\\n" "/proc/stat is readable" || printf "%s\\n" "/proc/stat is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /sys/ashmem ]] && printf "%s\\n" "/sys/ashmmem exists" || printf "%s\\n" "/sys/ashmmem does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -r /sys/ashmmem ]] && printf "%s\\n" "/sys/ashmmem is readable" || printf "%s\\n" "/sys/ashmmem is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -e /sys/shm ]] && printf "%s\\n" "/sys/shm exists" || printf "%s\\n" "/sys/shm does not exist" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    [[ -r /sys/shm ]] && printf "%s\\n" "/sys/shm is readable" || printf "%s\\n" "/sys/shm is not readable" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "Disk report $USRSPACE on /data $(date)" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\n" "df $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    df "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log || :
-    printf "\\n%s\\n" "df results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    df >> "${WDIR}setupTermuxArchSysInfo$STIME".log || :
-    printf "\\n%s\\n" "du -hs $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    du -hs "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log || :
-    printf "\\n%s\\n" "ls -al $INSTALLDIR results:" >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    ls -al "$INSTALLDIR" >> "${WDIR}setupTermuxArchSysInfo$STIME".log || :
-    printf "\\n%s\\n" "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-    printf "\\n%s\\e[0m\\n" "End 'setupTermuxArchSysInfo$STIME.log' version $VERSIONID system information." >> "${WDIR}setupTermuxArchSysInfo$STIME".log
-}
+    printf '\n%s\n' "cat /proc/cpuinfo results:"
+    cat /proc/cpuinfo
+    printf '\n%s\n' "getprop | grep product.cpu results:"
+    getprop | grep product.cpu
+    printf '\n%s\n' "getprop | grep net. results:"
+    getprop | grep net\\.
+    printf '\nFurther getprop results:\n'
+    local props=(
+        gsm.sim.operator.iso-country
+        persist.sys.locale
+        ro.build.target_country
+        ro.build.version.release
+        ro.build.version.preview_sdk
+        ro.build.version.sdk
+        ro.com.google.clientidbase
+        ro.com.google.clientidbase.am
+        ro.com.google.clientidbase.ms
+        ro.product.device
+        ro.product.first_api_level
+        ro.product.locale
+        ro.product.manufacturer
+        ro.product.model
+    )
+    for p in "${props[@]}"; do
+        local v
+        [[ "$p" == "ro.build.version.release" ]] && v="$SYSVER" || v="$(getprop "$p")"
+        printf '%s %s\n'  "[getprop $p]:"  "[$v]"
+    done
+    printf '\n%s\n' "Download directory information results:"
+    [[ -e /sdcard/Download ]] && printf '%s\n' "/sdcard/Download exists" || printf '%s\n' "/sdcard/Download not found"
+    [[ -e /storage/emulated/0/Download ]] && printf '%s\n' "/storage/emulated/0/Download exists" || printf '%s\n' "/storage/emulated/0/Download not found"
+    [[ -e "$HOME"/downloads ]] && printf '%s\n' "$HOME/downloads exists" || printf '%s\n' "\$HOME/downloads not found"
+    [[ -e "$HOME"/storage/downloads ]] && printf '%s\n' "$HOME/storage/downloads exists" || printf '%s\n' "$HOME/storage/downloads not found"
+    printf '\n%s\n' "Device information results:"
+    [[ -e /dev/ashmem ]] && printf '%s\n' "/dev/ashmem exists" || printf '%s\n' "/dev/ashmem does not exist"
+    [[ -r /dev/ashmem ]] && printf '%s\n' "/dev/ashmem is readable" || printf '%s\n' "/dev/ashmem is not readable"
+    [[ -w /dev/ashmem ]] && printf '%s\n' "/dev/ashmem is writable" || printf '%s\n' "/dev/ashmem is not writable"
+    printf '\n%s' "Ascertaining system information;  Please wait a moment  "
+    [[ -e /dev/shm ]] && printf '%s\n' "/dev/shm exists" || printf '%s\n' "/dev/shm does not exist"
+    [[ -r /dev/shm ]] && printf '%s\n' "/dev/shm is readable" || printf '%s\n' "/dev/shm is not readable"
+    [[ -e /proc/stat ]] && printf '%s\n' "/proc/stat exits" || printf '%s\n' "/proc/stat does not exit"
+    [[ -r /proc/stat ]] && printf '%s\n' "/proc/stat is readable" || printf '%s\n' "/proc/stat is not readable"
+    [[ -e /sys/ashmem ]] && printf '%s\n' "/sys/ashmmem exists" || printf '%s\n' "/sys/ashmmem does not exist"
+    [[ -r /sys/ashmmem ]] && printf '%s\n' "/sys/ashmmem is readable" || printf '%s\n' "/sys/ashmmem is not readable"
+    [[ -e /sys/shm ]] && printf '%s\n' "/sys/shm exists" || printf '%s\n' "/sys/shm does not exist"
+    [[ -r /sys/shm ]] && printf '%s\n' "/sys/shm is readable" || printf '%s\n' "/sys/shm is not readable"
+    printf '\n%s\n' "Disk report $USRSPACE on /data $(date)"
+    printf '\n%s\n' "df $INSTALLDIR results:"
+    df "$INSTALLDIR" || :
+    printf '\n%s\n' "df results:"
+    df || :
+    printf '\n%s\n' "du -hs $INSTALLDIR results:"
+    du -hs "$INSTALLDIR" || :
+    printf '\n%s\n' "ls -al $INSTALLDIR results:"
+    ls -al "$INSTALLDIR" || :
+    printf '\n%s\n' "This file is found at '${WDIR}setupTermuxArchSysInfo$STIME.log'."
+    printf '\n%s\e[0m\n' "End 'setupTermuxArchSysInfo$STIME.log' version $VERSIONID system information."
+} >> "${WDIR}setupTermuxArchSysInfo$STIME.log"; }
 
 _USERSPACE_() {
     USRSPACE="$(df "$INSTALLDIR" | awk 'FNR == 2 {print $4}')"

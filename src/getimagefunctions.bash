@@ -16,7 +16,7 @@ _FTCHIT_() {
     elif [[ "$DM" = wget ]]; then
         wget "$DMVERBOSE" --continue --show-progress -N http://"$CMIRROR/$RPATH/$IFILE".md5 http://"$CMIRROR/$RPATH/$IFILE"
     else
-        curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"http://$CMIRROR/$RPATH/$IFILE.md5,http://$CMIRROR/$RPATH/$IFILE"}
+        curl "$DMVERBOSE" -C - --fail --retry 4 -OL "{http://$CMIRROR/$RPATH/$IFILE.md5,http://$CMIRROR/$RPATH/$IFILE}"
     fi
 }
 
@@ -25,13 +25,13 @@ _FTCHSTND_() {
     _PRINTCONTACTING_
     if [[ "$DM" = aria2 ]]; then
         aria2c http://"$CMIRROR" 1> "$TMPDIR/global2localmirror"
-        NLCMIRROR="$(grep Redirecting "$TMPDIR/global2localmirror" | awk {'print $8'})"
+        NLCMIRROR="$(grep Redirecting "$TMPDIR/global2localmirror" | awk '{print $8}')"
         _PRINTDONE_
         _PRINTDOWNLOADINGFTCH_
         aria2c --continue -m 4 -Z "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
     elif [[ "$DM" = axel ]]; then
         axel -vv http://"$CMIRROR" 1 > "$TMPDIR/global2localmirror"
-        NLCMIRR="$(grep downloading "$TMPDIR/global2localmirror" | awk {'print $5'})"
+        NLCMIRR="$(grep downloading "$TMPDIR/global2localmirror" | awk '{print $5}')"
         NLCMIRROR="${NLCMIRR::-3}"
         _PRINTDONE_
         _PRINTDOWNLOADINGFTCH_
@@ -39,7 +39,7 @@ _FTCHSTND_() {
         axel -a --no-clobber http://"$NLCMIRROR/$RPATH/$IFILE" || :
     elif [[ "$DM" = lftp ]]; then
         lftp -e get http://"$CMIRROR" 2>&1 | tee > "$TMPDIR/global2localmirror"
-        NLCMI="$(grep direct "$TMPDIR/global2localmirror" | awk {'print $5'})"
+        NLCMI="$(grep direct "$TMPDIR/global2localmirror" | awk '{print $5}')"
         NLCMIRR="${NLCMI//\`/}"
         NLCMIRROR="${NLCMIRR//\'/}"
         _PRINTDONE_
@@ -47,17 +47,17 @@ _FTCHSTND_() {
         lftpget -c "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
     elif [[ "$DM" = wget ]]; then
         wget -v -O/dev/null "$CMIRROR" 2> "$TMPDIR/global2localmirror"
-        NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk {'print $2'})"
+        NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk '{print $2}')"
         _PRINTDONE_
         _PRINTDOWNLOADINGFTCH_
         wget "$DMVERBOSE" --continue --show-progress "$NLCMIRROR/$RPATH/$IFILE".md5 "$NLCMIRROR/$RPATH/$IFILE"
     else
         curl -v "$CMIRROR" &> "$TMPDIR/global2localmirror"
-        NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk {'print $3'})"
+        NLCMIRROR="$(grep Location "$TMPDIR/global2localmirror" | awk '{print $3}')"
         NLCMIRROR="${NLCMIRROR%$'\r'}" # remove trailing carrage return: strip bash variable of non printing characters
         _PRINTDONE_
         _PRINTDOWNLOADINGFTCH_
-        curl "$DMVERBOSE" -C - --fail --retry 4 -OL {"$NLCMIRROR/$RPATH/$IFILE.md5,$NLCMIRROR/$RPATH/$IFILE"}
+        curl "$DMVERBOSE" -C - --fail --retry 4 -OL "{$NLCMIRROR/$RPATH/$IFILE.md5,$NLCMIRROR/$RPATH/$IFILE}"
     fi
     rm -f "$TMPDIR/global2localmirror"
 }
@@ -89,9 +89,9 @@ _GETIMAGE_() {
 
 _ISX86_() {
     if [[ "$CPUABI" = "$CPUABIX86" ]]; then
-        IFILE="$(grep i686 md5sums.txt | awk {'print $2'} || :)"
+        IFILE="$(grep i686 md5sums.txt | awk '{print $2}' || :)"
     else
-        IFILE="$(grep boot md5sums.txt | awk {'print $2'} || :)"
+        IFILE="$(grep boot md5sums.txt | awk '{print $2}' || :)"
     fi
     sed '2q;d' md5sums.txt > "$IFILE".md5 2> /dev/null || :
     rm -f md5sums.txt

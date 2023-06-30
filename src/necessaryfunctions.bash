@@ -5,30 +5,27 @@
 ## https://sdrausty.github.io/TermuxArch/CONTRIBUTORS Thank you for your help.
 ################################################################################
 
-_PRNT_() {
-    printf "%s\\n" "$1"
-} # print message with one trialing newline
+. ./commons.bash
 
-_PRT_() {
-    printf "%s" "$1"
-} # print message with no trialing newline
+
 _QEMUCFCK_() {
     if [[ -f "$INSTALLDIR/$STARTBIN" ]] && grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu 1> /dev/null; then # set installed qemu architecture
         ARCTEVAR="$(grep proot "$INSTALLDIR/$STARTBIN" | grep -m1 qemu)"
-        ARCTEVAR="$(cut -d" " -f1 <<< ${ARCTEVAR#*qemu-})"
+        ARCTEVAR="$(cut -d" " -f1 <<< "${ARCTEVAR#*qemu-}")"
         [ "${ARCTEVAR:-}" = x86 ] && ARCTEVAR="i386"
-        for RCTFVR in ${ALLRCTFVR[@]}; do
+        for RCTFVR in "${ALLRCTFVR[@]}"; do
             if [ "$RCTFVR" = "${ARCTEVAR:-}" ]; then
                 INCOMM="qemu-user-${ARCTEVAR:-}" && QEMUCR=0
                 break
             fi
         done
     fi
-    [ -z ${ARCTEVAR:-} ] && ARCTEVAR="$CPUABI"
+    [ -z "${ARCTEVAR:-}" ] && ARCTEVAR="$CPUABI"
     CPUABIDD="$(getprop ro.product.cpu.abi)"
-    printf "Detected architecture is %s;  Install architecture is set to %s.\\n" "$CPUABIDD" "$ARCTEVAR"
+    printf 'Detected architecture is %s;  Install architecture is set to %s.\n' "$CPUABIDD" "$ARCTEVAR"
 }
 _QEMUCFCK_
+
 BINFNSTP="finishsetup.bash"
 CACHEDIRSUFIX="var/cache/pacman/pkg/"
 LC_TYPE=("LANG" "LANGUAGE" "LC_ADDRESS" "LC_COLLATE" "LC_CTYPE" "LC_IDENTIFICATION" "LC_MEASUREMENT" "LC_MESSAGES" "LC_MONETARY" "LC_NAME" "LC_NUMERIC" "LC_PAPER" "LC_TELEPHONE" "LC_TIME")
@@ -46,7 +43,7 @@ _CALLSYSTEM_() {
             until _FTCHSTND_ || :; do
                 _FTCHSTND_
                 sleep 2
-                printf "\\n"
+                printf '\n'
                 COUNTER=$((COUNTER + 1))
                 if [[ "$COUNTER" = 9 ]]; then
                     _PRINTMAX_
@@ -66,7 +63,7 @@ _COPYSTARTBIN2PATH_() {
         BPATH="$PREFIX"/bin
     fi
     cp "$INSTALLDIR/$STARTBIN" "$BPATH"
-    printf "\\n\\e[0;34m%s\\e[1;34m%s\\e[1;32m%s\\e[1;34m%s\\e[1;37m%s\\e[1;34m.\\e[0m\\n\\n" " 🕛 > 🕐 " "File " "$STARTBIN " "copied to " "$BPATH"
+    printf '\n\e[0;34m%s\e[1;34m%s\e[1;32m%s\e[1;34m%s\e[1;37m%s\e[1;34m.\e[0m\n\n' " 🕛 > 🕐 " "File " "$STARTBIN " "copied to " "$BPATH"
 }
 
 _DETECTSYSTEM_() {
@@ -115,12 +112,12 @@ _DOMIRROR_() {
         fi
         printf "Copying file '%s' to file '%s';  " "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
         cp "$INSTALLDIR/etc/pacman.d/mirrorlist" "$INSTALLDIR/etc/pacman.d/mirrorlist.$STIME.termuxarchnew"
-        printf "DONE\\n"
+        printf 'DONE\n'
         if [[ $USERCOUNTRYCODE == us ]]; then
             USERCOUNTRYCODE="edu\/"
         fi
         CHSENMIR="$(grep -w http "$INSTALLDIR/etc/pacman.d/mirrorlist" | grep ^#S | grep "$USERCOUNTRYCODE" | awk 'sub(/^.{1}/,"")' | head -n 1)"
-        printf "%s\\n" "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
+        printf '%s\n' "$CHSENMIR" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
         printf "Choosing mirror '%s' in file '%s';  Continuing...\\n" "$CHSENMIR" "$INSTALLDIR/etc/pacman.d/mirrorlist"
         DOMIRLCR=0
     }
@@ -195,14 +192,14 @@ _MAKESYSTEM_() {
 _MD5CHECK_() {
     if md5sum -c --quiet "$IFILE".md5 2> /dev/null; then
         _PRINTMD5SUCCESS_
-        printf "\\e[0;32m"
+        printf '\e[0;32m'
         _TASPINNER_ clock &
         _PREPROOT_
         kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
     else
-        if md5sum -c --quiet *.md5 2> /dev/null; then
+        if md5sum -c --quiet ./*.md5 2> /dev/null; then
             _PRINTMD5SUCCESS_
-            printf "\\e[0;32m"
+            printf '\e[0;32m'
             _TASPINNER_ clock &
             _PREPROOT_
             kill $! || _PRINTERRORMSG_ "_PREPROOT_ _MD5CHECK_ ${0##*/} necessaryfunctions.bash"
@@ -223,8 +220,8 @@ TMXRCHBNDL="usr/local/termuxarch/lib"
 TMXRCHBNDS="usr/local/termuxarch/bin"
 _PREPROOTDIR_() {
     local DRARRLST=("etc" "home" "root/bin" "usr/bin" "$TMXRCHBNDL" "$TMXRCHBNDS" "usr/local/bin" "var/backups/${INSTALLDIR##*/}/etc" "var/backups/${INSTALLDIR##*/}/root" "var/binds")
-    for ISDIR in ${DRARRLST[@]}; do
-        { [ -d "$ISDIR" ] || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR"; } || printf "\\e[0;32m%s\\e[1;32m%s\\e[0;32m%s\\e[0m\\n" "Directory " "/$ISDIR" " exists.  "
+    for ISDIR in "${DRARRLST[@]}"; do
+        { [ -d "$ISDIR" ] || printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[0m\n' "Creating directory " "'/$ISDIR'" "." && mkdir -p "$ISDIR"; } || printf '\e[0;32m%s\e[1;32m%s\e[0;32m%s\e[0m\n' "Directory " "/$ISDIR" " exists.  "
     done
 } # create directories from local varables plus an array of directory names
 
@@ -259,26 +256,26 @@ _RUNFINISHSETUP_() {
     cp "$ALMLLOCN" "$INSTALLDIR/var/backups/${INSTALLDIR##*/}/etc/mirrorlist.$SDATE.bkp" || _PSGI1ESTRING_ "cp _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
     if [[ "$CPUABI" = "$CPUABIX86" ]]; then
         AL32MRLT="https://git.archlinux32.org/packages/plain/core/pacman-mirrorlist/mirrorlist"
-        printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL32MRLT."
+        printf '\e[0m\n%s\n' "Updating ${ALMLLOCN##*/} from $AL32MRLT."
         curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN" || curl --retry 4 "$AL32MRLT" -o "$ALMLLOCN"
         _DOMIRROR_
     elif [[ "$CPUABI" = "$CPUABIX8664" ]]; then
         AL64MRLT="https://www.archlinux.org/mirrorlist/all/"
-        printf "\\e[0m\\n%s\\n" "Updating ${ALMLLOCN##*/} from $AL64MRLT."
+        printf '\e[0m\n%s\n' "Updating ${ALMLLOCN##*/} from $AL64MRLT."
         curl -L --retry 4 "$AL64MRLT" -o "$ALMLLOCN"
         _DOMIRROR_
     fi
-    printf "\\e[0m"
+    printf '\e[0m'
     if [[ "$FSTND" ]]; then
         NMIR="$(awk -F'/' '{print $3}' <<< "$NLCMIRROR")"
         sed -i '/http\:\/\/mir/ s/^#*/# /' "$INSTALLDIR/etc/pacman.d/mirrorlist"
         # test if NMIR is in mirrorlist file
         if grep "$NMIR" "$INSTALLDIR/etc/pacman.d/mirrorlist"; then
-            printf "%s\\n" "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
+            printf '%s\n' "Found server $NMIR in /etc/pacman.d/mirrorlist; Uncommenting $NMIR."
             sed -i "/$NMIR/ s/^# *//" "$INSTALLDIR/etc/pacman.d/mirrorlist" || _SEDUNCOM_ || _PSGI1ESTRING_ "sed -i _RUNFINISHSETUP_ necessaryfunctions.bash ${0##*/}"
         else
-            printf "%s\\n" "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR to file /etc/pacman.d/mirrorlist."
-            printf "%s\\n" "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
+            printf '%s\n' "Did not find server $NMIR in /etc/pacman.d/mirrorlist; Adding $NMIR to file /etc/pacman.d/mirrorlist."
+            printf '%s\n' "Server = $NLCMIRROR/\$arch/\$repo" >> "$INSTALLDIR/etc/pacman.d/mirrorlist"
         fi
     else
         if [[ -z "${DOMIRLCR:-}" ]]; then
@@ -303,7 +300,7 @@ _TOUCHUPSYS_() {
     _RUNFINISHSETUP_
     [ -f root/bin/"$BINFNSTP" ] && rm -f root/bin/"$BINFNSTP"
     [ -f root/bin/setupbin.bash ] && rm -f root/bin/setupbin.bash
-    printf "\\n\\e[1;34m%s  \\e[0m\\n\\n" "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
-    printf "\\e]2;%s\\007" " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
+    printf '\n\e[1;34m%s  \e[0m\n\n' "🕛 > 🕤 Arch Linux in Termux is installed and configured 📲  "
+    printf '\e]2;%s\007' " 🕛 > 🕤 Arch Linux in Termux is installed and configured 📲"
 }
 # necessaryfunctions.bash FE
