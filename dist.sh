@@ -52,7 +52,8 @@ main() {
     (
         mkdir -p "$distdir"
         local gz="$distdir/setupTermuxArch.tar.gz"
-        tar -czvf "$gz"  -C "$srcdir" .  ../LICENSE
+        # exclude hidden paths that are not current dir ("./my_file")
+        tar --anchored --exclude='.[^/]*' --exclude='*/.*' -czvf "$gz"  -C "$srcdir" .  ../LICENSE
     )
 }
 
